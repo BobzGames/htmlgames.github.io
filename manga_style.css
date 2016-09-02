@@ -1,0 +1,53 @@
+body {
+    color: white;
+    background-color: blue;
+    text-align: center;
+    font-family: 'Shadows Into Light', normal;
+}
+
+h1 {
+	color :gold; padding-top: 70px;
+}
+
+div {
+	text-align; center;
+}
+
+#Menu {
+	width: 50%;
+}
+
+a {
+	text-decoration: none;
+
+}
+
+/* unvisited link */
+a:link {
+    color: gold;
+}
+
+/* visited link */
+a:visited {
+    color: gold;
+}
+
+/* mouse over link */
+a:hover {
+    color: gold;
+}
+
+/* selected link */
+a:active {
+    color: blue;
+}
+
+li {
+	list-style: none;
+	float: right;
+	padding: 10px;
+}
+
+p {
+	clear: both;
+}
