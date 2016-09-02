@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>HTML Pool Table</title>
+	<!--[if IE]><script src="js/excanvas.js"></script><![endif]-->
+        <script type="text/javascript" src="js/canvas_pool.js"></script>
+    </head>
+    <body onload='init_pool_table( "pool_table")'>
+        <H2>HTML Pool Table</H2>
+		This page contains the results of some experimentation with excanvas.js for MSIE.
+        <p>
+        <form onclick='init_pool_table( "pool_table")'>
+	    Please select a game:
+            <input type='radio' name='pool_table_game' value='9 Ball'>9 Ball</input>
+            <input type='radio' name='pool_table_game' value='8 Ball' checked=1>Pool</input>
+            <input type='radio' name='pool_table_game' value='1 Ball'>Practice</input>
+            <input type='radio' name='pool_table_game' value='0 Ball'>Empty Table</input>
+        </form>
+        <div id="pool_table">Select a game to begin</div>
+        <p>
+        <hr>
+        <div id="msg"></div>
+    </body>
+</html>

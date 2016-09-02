@@ -1,0 +1,55 @@
+<html>
+	<title>CW-CREATOR</title>
+	<head>
+		<style>
+			body {overflow-x:none; overflow-y:none;}
+			td {line-height:1; width:20px ;height:20px; float:left; background-Color:black; color:white; font-Size:xx-small; text-Align:right; vertical-align:bottom;}
+			input {padding-left:3px; text-transform:capitalize; width:18px; border:0;}
+			p {background-color:#eee;}
+			#s {position:relative; top:0px;left: 0px; font-size:x-small;}
+		</style>
+
+		<script>
+			function c(that){
+				if(that.innerHTML.match("&nbsp;")){
+					h='hint="false"';
+					v=prompt("Value or NUM? (Prefix's are # for number answer or @ for prefilled hint)","");
+					if(v && v.match("@")){v=v.replace("@","");h='hint="true"'}
+					if(v)that.innerHTML = isNaN(v) ? "<input type=\"text\" maxlength=\"1\" onkeyup='k(this,\""+v.replace("#","").toUpperCase()+"\")' "+h+" value=\""+v.replace("#","").toUpperCase()+"\" />" : "<br>"+v;
+					return
+				}
+				that.innerHTML = "&nbsp;";
+			}
+
+			function d(){
+				var ot = document.getElementsByTagName("TEXTAREA")[0];
+				var of = document.getElementsByTagName("IFRAME")[0].contentWindow.document.body;
+				var tpl=(document.all)?of.innerText:of.textContent;
+
+				var cwd = document.getElementsByTagName("TABLE")[0].innerHTML.replace(/tbody/gi,"table").replace(/tr/gi,"tr").replace(/td/gi,"td").replace(/br/gi,"br").replace(/input/gi,"input").replace(/hint="true" /gi,"").replace(/hint="false" /gi,"_");
+				cwd+= "<a href='#' id='s' onclick='h(true)'>Solve</a> <a href='#' id='s' onclick='h()'>Hint</a>";
+				cwd+= "<div id='_q'>" + document.getElementsByTagName("P")[0].innerHTML.replace(/p/gi,"p") + "</div>";
+				for(lp=0;lp<(s*s);lp++)cwd=cwd.replace(" onclick=c(this)","");
+
+				var cwg = tpl.replace("%cwd%",cwd.replace("Add title and questions here...",""));
+				ot.value = cwg;
+				ot.focus();
+				ot.select();
+
+				nw=window.open('','test','height=600,width=1024');tmp = nw.document;tmp.write(ot.value);tmp.close();
+			}
+		</script>
+	</head>
+	<body>
+		<script>
+			s=prompt("Size?",t=r="");
+			t="<tr>";for(x=0;x<s;x++) t+="<td onclick='c(this)'>&nbsp;</td>";t+="</tr>";
+			r="<table>";for(y=0;y<s;y++) r+=t;r+="</table>";
+			r+="<p onclick='this.contentEditable=true;if(this.innerHTML==\"Add title and questions here...\"){this.innerHTML=\"\";this.focus()}' title='Click to edit'>Add title and questions here...</p>";
+			r+="<br><br><span onclick='d()' title='Generate Code and Play'>$</span>";
+			r+="<br><br><textarea title='Save as html, for hints add ?&green on URL'>Click $ to generate source code here...</textarea>";
+			r+="<br><br><iframe src='default.txt' style='display:none'><//iframe>";
+			document.write(r);
+		</script>
+	</body>
+</html>

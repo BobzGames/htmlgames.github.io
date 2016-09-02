@@ -1,0 +1,150 @@
+<html>
+	<head>
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bonus.css" />
+
+		<style>
+			.hint {border:0;color:yellow}
+			.rise{
+				position:absolute;
+				top:-15px;
+				left:-10px;
+			}
+			.landscape {
+
+				width: 347px;
+				height: 231px;
+			}
+
+			#ff1{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:38px;
+				top:27px;
+			}
+			#ff2{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:73px;
+				top:78px;
+			}
+			#ff3{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:24px;
+				top:142px;
+			}
+			#ff4{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:66px;
+				top:168px;
+			}
+			#ff5{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:150px;
+				top:129px;
+			}
+			#ff6{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:137px;
+				top:13px;
+			}
+			#ff7{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:230px;
+				top:150px;
+			}
+			#ff8{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:298px;
+				top:129px;
+			}
+			#ff9{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:300px;
+				top:69px;
+			}
+
+		</style>
+		<script type="text/javascript" src="../js/code.js"></script>
+
+		<script>
+			TIMEUP = "#";
+			USE_FADE = 1;
+			HINTS_LEFT = 0;
+			FOUND_RISE = false;
+			BONUS_MSG = "<img src='images/bang.gif' class='rise' />"
+			WRONG_MSG = "";
+
+			function CORRECT_ORDER()
+			{
+				shuffle();
+				return true;
+			}
+			function INCORRECT_ORDER()
+			{
+				shuffle();
+				return true;
+			}
+
+			function WRONG_GUESS()
+			{
+				//shuffle(true);
+			}
+
+			function ZEROHINTS()
+			{
+				newdiv(80, 115, 120, 20, "hint", "<i><b>No Hints Here !!!<b><i>", "sd");
+				setTimeout("removeDiv();eval('ZEROHINTS = function(){}')",987);
+			}
+		</script>
+	</head>
+	<body onload="init('index.html','')" onkeypress="keyhint(event,0,0,1)" onunload="reset_bg_music()" onclick="point(event)">
+		<div id="content" align="center">
+			<img name="normal" id="normal" class="landscape" src="images/background.jpg" ondragstart="return false" onselectstart="return false" >
+
+			<div id="ff1"><img src="images/lba.gif" /></div>
+			<div id="ff2"><img src="images/lba.gif" /></div>
+			<div id="ff3"><img src="images/lba.gif" /></div>
+			<div id="ff4"><img src="images/lba.gif" /></div>
+			<div id="ff5"><img src="images/lba.gif" /></div>
+			<div id="ff6"><img src="images/lba.gif" /></div>
+			<div id="ff7"><img src="images/lba.gif" /></div>
+			<div id="ff8"><img src="images/lba.gif" /></div>
+			<div id="ff9"><img src="images/lba.gif" /></div>
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("off","")</script>
+
+			<map name="zoom">
+				<area shape ="circle" coords ="137,104,32" nohref id="m1" onclick="chkscore(1,this,event,true)" />
+				<area shape ="circle" coords ="239,264,32" nohref id="m2" onclick="chkscore(2,this,event,true)" />
+				<area shape ="circle" coords ="90,452,32" nohref id="m3" onclick="chkscore(3,this,event,true)" />
+				<area shape ="circle" coords ="219,537,32" nohref id="m4" onclick="chkscore(4,this,event,true)" />
+				<area shape ="circle" coords ="472,415,32" nohref id="m5" onclick="chkscore(5,this,event,true)" />
+				<area shape ="circle" coords ="438,61,32" nohref id="m6" onclick="chkscore(6,this,event,true)" />
+				<area shape ="circle" coords ="721,483,32" nohref id="m7" onclick="chkscore(7,this,event,true)" />
+				<area shape ="circle" coords ="921,416,32" nohref id="m8" onclick="chkscore(8,this,event,true)" />
+				<area shape ="circle" coords ="928,237,32" nohref id="m9" onclick="chkscore(9,this,event,true)" />
+			</map>
+
+		</div>
+
+	</body>
+</html>

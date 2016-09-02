@@ -1,0 +1,585 @@
+<html>
+<head>
+<title>Cheesy Jackpot!</title>
+<script>
+
+var fruits = new Array(
+	"images/banana.gif",
+	"images/apple.gif",
+	"images/bell.gif",
+	"images/cherry.gif",
+	"images/jackpot.gif",
+	"images/orange.gif",
+	"images/pear.gif",
+	"images/strawberry.gif",
+	"images/bonus.gif"
+	);
+
+var actuals 	= new Array(0,0,0,0,0,0,0,0,0);
+var inudges  	= 0;
+var ibank    	= 40;
+var iwinnings	= 0;
+var iwin	= 0;
+var igamble	= 0;
+var holdbuts	= new Array(0, 0, 0);
+var acthold	= 0;
+var actnudge	= 0;
+var lockbuttons = 0;
+
+function Initialise()
+{
+	// amounts
+	ibank = 40;
+	document.fruity.bank.value = ibank;
+	iwinnings = 0;
+	document.fruity.winnings.value = " ";
+	iwin = 0;
+	document.fruity.prize.value = " ";
+	inudges = 0;
+	document.fruity.nudges.value = " ";
+	igamble = 0;
+	document.fruity.gamble.value = " ";
+
+	// preload images
+	window.status = "Loading Images.....";
+	for (i=0; i<9; i++)
+	eval("document.reel1i1.src = fruits[" + i + "]" );
+	window.status = "Loading complete";
+
+	// update buttons
+	holdbuts[1] = holdbuts[2] = holdbuts[3] = 0;
+	lockbuttons = 60;
+	SpinReels();
+}
+
+function SpinReel(Reel)
+{
+var	ivalue;
+	eval("document.reel" + Reel + "i3.src = document.reel" + Reel + "i2.src" );
+	eval("document.reel" + Reel + "i2.src = document.reel" + Reel + "i1.src" );
+	picked = Math.floor(Math.random()*9);
+	eval("document.reel" + Reel + "i1.src = fruits[" + picked + "]" );
+	actuals[Reel + 6] = actuals[Reel + 3];
+	actuals[Reel + 3] = actuals[Reel];
+	actuals[Reel    ] = picked;
+	//window.refresh;
+}
+
+function CheckWin()
+{
+ var	winamount = 0;
+ var	newnudges = 0;
+
+	// check for winning line
+	if ((actuals[4] == actuals[5]) &&
+    (actuals[5] == actuals[6]))
+	{
+		if      (actuals[4] == 0) winamount = 8;
+		else if (actuals[4] == 1) winamount = 9;
+		else if (actuals[4] == 2) winamount = 15;
+		else if (actuals[4] == 3) winamount = 5;
+		else if (actuals[4] == 4) winamount = 50;
+		else if (actuals[4] == 5) winamount = 6;
+		else if (actuals[4] == 6) winamount = 7;
+		else if (actuals[4] == 7) winamount = 10;
+		else if (actuals[4] == 8) winamount = 20;
+	}
+
+	// check for 2 or 1 cherries
+	if (winamount == 0)
+	{
+		if     ((actuals[4] == 3) && (actuals[5] == 3))
+		{
+			winamount = 3;
+		}
+		else if (actuals[4] == 3)
+			winamount = 1;
+
+	};
+	// check for bonuses in view to give nudges
+	for (i = 1; i < 10; i++)
+		if (actuals[i] == 8)
+			newnudges++;
+	if (newnudges > 2)
+	{
+		inudges 			= inudges + newnudges - 2;
+		document.fruity.nudges.value 	= inudges;
+	}
+
+	// display winnings
+	document.fruity.prize.value = " ";
+	if (winamount > 0)
+	{
+		document.fruity.prize.value = winamount;
+		iwin = winamount;
+
+		// Randon Gamble
+		if (Math.floor(Math.random()*10) < 5)
+		{
+			igamble	= Math.floor(Math.random()*11 + 1);
+			document.fruity.gamble.value = igamble;
+		}
+		else
+		{
+				igamble	= 0;
+				document.fruity.gamble.value = " ";
+		}
+	}
+	else
+	{
+		document.fruity.prize.value = " ";
+		iwin    = 0;
+		igamble = 0;
+		document.fruity.gamble.value = " ";
+	}
+
+	// activate hold and nudges
+	if (Math.floor(Math.random()*10) < 1)
+	{
+		acthold = 1;
+		holdbuts[1] = 1; holdbuts[2] = 1; holdbuts[3] = 1;
+	}
+	else
+	{
+		acthold = 0;
+		holdbuts[1] = 0; holdbuts[2] = 0; holdbuts[3] = 0;
+	}
+	if (Math.floor(Math.random()*10) < 8)
+		actnudge = 1;
+	else
+		actnudge = 0;
+
+	// check buttons
+		CheckButtons();
+}
+
+function CheckButtons()
+{
+
+	// check bank
+	if ((ibank < 1) && (iwinnings < 1) && (iwin < 1))
+	{
+		alert("I am afraid you are bust. Hit the refresh button for another game.");
+		Initialise();
+	}
+
+	// hold buttons
+	if (holdbuts[1] == 0)
+		document.fruity.hold1.src = "images/hold_off.gif";
+	else if (holdbuts[1] == 1)
+		document.fruity.hold1.src = "images/hold_on.gif";
+	else
+		document.fruity.hold1.src = "images/hold_set.gif";
+	if (holdbuts[2] == 0)
+		document.fruity.hold2.src = "images/hold_off.gif";
+	else if (holdbuts[2] == 1)
+		document.fruity.hold2.src = "images/hold_on.gif";
+	else
+		document.fruity.hold2.src = "images/hold_set.gif";
+	if (holdbuts[3] == 0)
+		document.fruity.hold3.src = "images/hold_off.gif";
+	else if (holdbuts[3] == 1)
+		document.fruity.hold3.src = "images/hold_on.gif";
+	else
+		document.fruity.hold3.src = "images/hold_set.gif";
+
+
+	// nudge buttons
+	if ((inudges > 0) && (actnudge == 1))
+	{
+		document.fruity.nudge1.src = "images/nudge_on.gif";
+		document.fruity.nudge2.src = "images/nudge_on.gif";
+		document.fruity.nudge3.src = "images/nudge_on.gif";
+	}
+	else
+	{
+		document.fruity.nudge1.src = "images/nudge_off.gif";
+		document.fruity.nudge2.src = "images/nudge_off.gif";
+		document.fruity.nudge3.src = "images/nudge_off.gif";
+	}
+
+	// collect
+	if (iwin > 0)
+		document.fruity.collect.src = "images/button_on.gif";
+	else
+		document.fruity.collect.src = "images/button_off.gif";
+
+	// lo and hi
+	if (igamble > 0)
+	{
+		document.fruity.hi.src = "images/button_on.gif";
+		document.fruity.lo.src = "images/button_on.gif";
+	}
+	else
+	{
+		document.fruity.hi.src = "images/button_off.gif";
+		document.fruity.lo.src = "images/button_off.gif";
+	}
+
+	// use winnings
+	if (iwinnings > 0)
+		document.fruity.use.src = "images/button_on.gif";
+	else
+		document.fruity.use.src = "images/button_off.gif";
+
+	// start
+	if ((ibank == 0) || (iwin > 0))
+		document.fruity.start.src = "images/button_off.gif";
+	else
+		document.fruity.start.src = "images/button_on.gif";
+}
+
+function DoHold(Reel)
+{
+	if (holdbuts[Reel] == 0) return;
+	if (lockbuttons > 0)	return;
+	holdbuts[Reel] = 3 - holdbuts[Reel];
+	if (holdbuts[Reel] == 1)
+		if (Reel == 1)
+			document.fruity.hold1.src = "images/hold_on.gif";
+		else if (Reel == 2)
+			document.fruity.hold2.src = "images/hold_on.gif";
+		else if (Reel == 3)
+			document.fruity.hold3.src = "images/hold_on.gif";
+	if (holdbuts[Reel] == 2)
+		if (Reel == 1)
+			document.fruity.hold1.src = "images/hold_set.gif";
+		else if (Reel == 2)
+			document.fruity.hold2.src = "images/hold_set.gif";
+		else if (Reel == 3)
+			document.fruity.hold3.src = "images/hold_set.gif";
+}
+
+function DoNudge(Reel)
+{
+	// check nudges active
+	if (lockbuttons > 0)	return;
+	if (inudges < 1) 	return;
+	if (iwin > 0) 		return;
+	if (actnudge == 0) 	return;
+
+	// decrement nudges
+	inudges--;
+	document.fruity.nudges.value = inudges;
+
+	// nudge reel
+	SpinReel(Reel);
+	CheckWin();
+}
+
+function SpinReels()
+{
+	// which reels to spin
+	if ( (lockbuttons > 40) && (holdbuts[1] < 2) )
+		SpinReel(1);
+	if ( (lockbuttons > 20) && (holdbuts[2] < 2) )
+		SpinReel(2);
+	if ( (lockbuttons > 0)  && (holdbuts[3] < 2) )
+		SpinReel(3);
+
+	// done or not
+	lockbuttons--;
+	if (lockbuttons < 1)
+	{
+		lockbuttons = 0;
+		CheckWin();
+		this.t=1;
+	}
+	else
+	{
+		if(!this.t)this.t=1;
+		setTimeout('SpinReels()', this.t++);
+	}
+
+}
+
+function DoStart()
+{
+	// don't start if no money or outstanding win
+	if (lockbuttons > 0)		return;
+	if ((iwin > 0) || (ibank == 0)) return;
+
+	// decrement bank
+	ibank--;
+	document.fruity.bank.value = ibank;
+
+	// disable start
+	document.fruity.start.src = "images/button_off.gif";
+
+	// spin reels
+	lockbuttons=60;
+	SpinReels();
+}
+
+function Collect()
+{
+	// nothing to collect
+	if (lockbuttons > 0)	return;
+	if (iwin == 0) 		return;
+
+	// else collect winnings!
+	iwinnings += iwin;
+	document.fruity.winnings.value = iwinnings;
+	iwin = 0;
+	document.fruity.prize.value = " ";
+	igamble = 0;
+	document.fruity.gamble.value = " ";
+
+	// update buttons
+	CheckButtons();
+
+}
+
+function UseWinnings()
+{
+	// check winning exist
+	if (lockbuttons > 0)	return;
+	if (iwinnings == 0)	return;
+
+	// update bank and winnings
+	ibank 		+= iwinnings;
+	iwinnings 	= 0;
+	document.fruity.bank.value 	= ibank;
+	document.fruity.winnings.value 	= " ";
+
+	CheckButtons();
+
+}
+
+function DoGamble(HigherLower)
+{
+//var	igamble2;
+
+	// check gamble active
+	if (lockbuttons > 0)	return;
+	if (igamble == 0) return;
+
+	// new random number
+	igamble2	= Math.floor(Math.random()*11 + 1);
+	document.fruity.gamble.value = igamble2;
+
+	// win gamble
+	if (((HigherLower == 1) && (igamble2 > igamble)) ||
+	    ((HigherLower == 2) && (igamble2 < igamble)))
+	{
+		igamble = igamble2;
+		iwin = iwin * 2;
+		document.fruity.prize.value = iwin;
+	}
+
+	// lose gamble
+	else
+	{
+		iwin				= 0;
+		igamble 			= 0;
+		document.fruity.prize.value 	= " ";
+		document.fruity.gamble.value 	= " ";
+		document.fruity.collect.src 	= "images/button_off.gif";
+		document.fruity.hi.src 		= "images/button_off.gif";
+		document.fruity.lo.src 		= "images/button_off.gif";
+		//alert ("You Lose!");
+		CheckButtons();
+	}
+
+}
+
+</script>
+</head>
+<body onload="Javascript:Initialise()">
+
+<form name="fruity">
+
+<table bgcolor="#aaaaaa" width=500>
+<tr><td>
+<table bgcolor="#cccccc" border=1 width=100%>
+<tr><td>
+
+<table width=100% bgcolor="#0000FF">
+	<tr><td bgcolor="#000080"><center><b style="color:white">
+		<b>Cheesy Jackpot!</b>
+	</center></td></tr>
+</table>
+
+</table></table>
+
+<br>
+
+<table bgcolor="#aaaaaa" width=500>
+<tr><td>
+<table bgcolor="#cccccc" border=1 width=100%>
+<tr><td>
+
+<table width=100% bgcolor="#c0c0c0">
+
+	<! -- first row -- !>
+
+	<tr><td width=15%>
+
+		<b>Bank</b>
+
+	<td width=14%>
+
+		<input type="text" name="bank" size=5 maxlength=5 readonly>
+
+	<td width=6%>
+	<td width=10% align="center">
+
+		<img src="images/banana.gif" name="reel1i1" width="40" height="40" border=1>
+
+	<td width=10% align="center">
+
+		<img src="images/banana.gif" name="reel2i1" width="40" height="40" border=1>
+
+	<td width=10% align="center">
+
+		<img src="images/banana.gif" name="reel3i1" width="40" height="40" border=1>
+
+	<td width=6%>
+	<td width=15%>
+
+		<b>Nudges</b>
+
+	<td width=14%>
+
+		<input type="text" name="nudges" size=5 maxlength=5 readonly>
+
+	<td width=14%>
+
+	<! -- 2nd row -- !>
+
+	<tr><td>
+		<b>Win</b>
+
+	<td>
+		<input type="text" name="winnings" size=5 maxlength=5 readonly>
+
+	<td>
+	<td align="center" bgcolor="#0000ff">
+		<img src="images/banana.gif" name="reel1i2" width="40" height="40" border=1>
+
+	<td align="center" bgcolor="#0000ff">
+		<img src="images/banana.gif" name="reel2i2" width="40" height="40" border=1>
+
+	<td align="center" bgcolor="#0000ff">
+		<img src="images/banana.gif" name="reel3i2" width="40" height="40" border=1>
+
+	<td>
+	<td>
+	<td>
+	<td>
+
+	<! -- 3rd row -- !>
+
+	<tr><td>
+		<b>Prize</b>
+
+	<td>
+		<input type="text" name="prize" size=5 maxlength=5 readonly>
+
+	<td>
+	<td align="center">
+		<img src="images/banana.gif" name="reel1i3" width="40" height="40" border=1>
+
+	<td align="center">
+		<img src="images/banana.gif" name="reel2i3" width="40" height="40" border=1>
+
+	<td align="center">
+		<img src="images/banana.gif" name="reel3i3" width="40" height="40" border=1>
+
+	<td>
+
+	<td>
+		<b>Gamble</b>
+
+	<td>
+		<input type="text" name="gamble" size=5 maxlength=5 readonly>
+
+	<td>
+
+	<! -- 4th row -- !>
+
+	<tr><td>
+
+	<td>
+
+	<td>
+	<td align="center">
+		<a href="Javascript:DoHold(1)"><img name="hold1" width=60 src="images/hold_off.gif"></a>
+	<td align="center">
+		<a href="Javascript:DoHold(2)"><img name="hold2" width=60 src="images/hold_off.gif"></a>
+
+	<td align="center">
+		<a href="Javascript:DoHold(3)"><img name="hold3" width=60 src="images/hold_off.gif"></a>
+
+	<td>
+
+	<td>
+
+	<td>
+
+	<td>
+
+	<! -- 5th row -- !>
+
+	<tr><td>
+
+	<td>
+
+	<td>
+	<td align="center">
+		<a href="Javascript:DoNudge(1)"><img name="nudge1" width=60 src="images/nudge_off.gif"></a>
+
+	<td align="center">
+		<a href="Javascript:DoNudge(2)"><img name="nudge2" width=60 src="images/nudge_off.gif"></a>
+
+	<td align="center">
+		<a href="Javascript:DoNudge(3)"><img name="nudge3" width=60 src="images/nudge_off.gif"></a>
+
+	<td>
+
+	<td>
+
+	<td>
+
+	<td>
+
+	<! -- blank row -- !>
+
+	<tr><td><br>
+
+	<! -- 6th row -- !>
+
+	<tr><td align="center">
+		<a href="Javascript:Collect()"><img name="collect" width=30 src="images/button_off.gif"></a>
+		<br><b><font size=2>Collect
+
+	<td align="right">
+		<a href="Javascript:DoGamble(2)"><img name="hi" width=30 src="images/button_off.gif"></a>
+		<br><b><font size=2>Lo
+
+	<td align="left">
+		<a href="Javascript:DoGamble(1)"><img name="lo" width=30 src="images/button_off.gif"></a>
+		<b><font size=2>Hi
+
+	<td>
+
+
+	<td align="center">
+	<td align="center">
+	<td>
+
+	<td align="center">
+		<a href="Javascript:UseWinnings()"><img name="use" width=30 src="images/button_off.gif"></a>
+		<br><b><font size=2>Bank
+
+	<td align="center">
+		<a href="Javascript:DoStart()"><img name="start" width=30 src="images/button_on.gif"></a>
+		<br><b><font size=2>Start
+	<td>
+
+</table>
+
+</form>
+
+</html>
+

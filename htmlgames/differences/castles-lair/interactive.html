@@ -1,0 +1,42 @@
+<html>
+	<head><title>Castles Lair (Demo)</title>
+		<style>
+			body {
+					background-color:#101010;
+					text-align:center;
+			}
+
+			span {		color:gray;
+					cursor:pointer;
+			}
+
+			.flash {
+					border:3px solid yellow;
+			}
+		</style>
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+
+			// note: data array starts at -1 (not 0!)
+			data=['0i0.jpg','0i0.jpg','1i1.jpg','0i2.jpg','0i3.jpg','0i4.jpg','0i5.jpg','0i6.jpg','0i7.jpg','0i8.jpg','0i9.jpg','0i10.jpg','0i11.jpg','0i12.jpg','0i13.jpg','0i14.jpg','-28i15.jpg','0i16.jpg','-28i17.jpg','0i18.jpg','0i19.jpg','0i20.jpg','0i21.jpg','0i22.jpg','0i23.jpg','0i24.jpg','3i25.jpg','0i26.jpg','-26ei27.jpg','0i28.jpg','0i29.jpg','2i30.jpg','0i31.jpg','0i32.jpg','0i33.jpg','0i34.jpg','0i35.jpg','0i36.jpg','0i37.jpg','0i38.jpg','0i39.jpg','0i40.jpg','1i41.jpg','0i42.jpg','0i43.jpg','0i44.jpg','0i45.jpg','0i46.jpg','0i47.jpg','0i48.jpg','0i49.jpg','0i50.jpg','0i51.jpg','-65i52.jpg','0i53.jpg','-65i54.jpg','0i55.jpg','0i56.jpg','0i57.jpg','0i58.jpg','0i59.jpg','3i60.jpg','0i61.jpg','0i62.jpg','0i63.jpg','-63ei64.jpg','2i65.jpg','0i66.jpg','0i67.jpg','0i68.jpg','0i69.jpg','0i70.jpg','0i71.jpg','0i72.jpg','0i73.jpg','0i74.jpg','0i75.jpg','0i76.jpg','0i77.jpg','4i78.jpg','0i79.jpg','0i80.jpg','0i81.jpg','0i82.jpg','0i83.jpg','0i84.jpg','0i85.jpg','0i86.jpg','0i87.jpg','0i88.jpg','0i89.jpg','0i90.jpg','0i91.jpg','0i92.jpg','0i93.jpg','0i94.jpg','0i95.jpg','0i96.jpg','0i97.jpg','0i98.jpg','0i99.jpg','0i100.jpg','0i101.jpg','0i102.jpg','0i103.jpg','0i104.jpg','0i105.jpg','0i106.jpg','0i107.jpg','0i108.jpg','-120i109.jpg','0i110.jpg','-120i111.jpg','0i112.jpg','0i113.jpg','0i114.jpg','0i115.jpg','0i116.jpg','3i117.jpg','0i118.jpg','-118ei119.jpg','2i120.jpg','0i121.jpg','0i122.jpg','0i123.jpg','0i124.jpg','0i125.jpg','0i126.jpg','0i127.jpg','0i128.jpg','0i129.jpg','0i130.jpg','0i131.jpg','0i132.jpg','0i133.jpg','0i134.jpg','0i135.jpg'];
+
+			function END(){
+				alert("End of demo - well done for getting this far!");
+				document.location.href="index.html";
+			}
+
+			function AT(b){
+				if(typeof CONTINUE=="undefined")CONTINUE=0;
+				if(data[FRAME].match("e"))CONTINUE=FRAME+13;
+				if(b && FRAME)$$("GAME_OVER").style.display="block";
+			}
+
+		</script>
+	</head>
+    <body onload="INIT(true)">
+        <div>
+            <img src="" alt="" id="normal" onclick="bClickedImage = true" ontouchstart="bClickedImage = true" />
+        </div>
+	<p id="GAME_OVER" style="display:none;"><span onclick="location.reload()">GAME OVER! - RESTART, </span><span onclick="FRAME=CONTINUE;$$('GAME_OVER').style.display='none';">or CONTINUE</span></p>
+    </body>
+</html>

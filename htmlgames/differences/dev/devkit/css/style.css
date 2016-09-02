@@ -1,0 +1,280 @@
+
+	a {
+	
+		text-decoration: none;
+		font-size: 22px;
+		background-color: F0F0F0;
+	
+	}
+
+	area {
+
+		cursor: crosshair;
+		cursor: default;
+
+	}
+
+	.hint {
+	
+		position: absolute;
+		/* overflow: auto; */
+		border: 2px solid green;
+		/* background-image: url(../images/okG.gif); */
+		background-repeat: no-repeat;
+	
+	}
+	
+	.found {
+	
+		position: absolute;
+		/* overflow: auto; */
+		border: 2px solid red;
+		/* background-image: url(../images/okR.gif); */
+		background-repeat: no-repeat;
+	
+	}
+	
+	
+	#ip1 {
+	
+		border: 0 solid white;
+		text-transform: capitalize;
+	
+	}
+	
+	#ip2 {
+	
+		border: 0 solid white;
+		text-transform: capitalize;
+	
+	}
+
+	#remaining {
+		
+		margin-left: 90px;
+		padding: 2px;
+		padding-right: 3px;
+		border: 1px solid black;
+	
+	}
+	
+	.completed {
+			
+		margin-left: 40px;
+		padding: 2px;
+		padding-right: 3px;
+		
+	}
+	
+	
+	.timerOuter {
+	
+		position: absolute;
+		top: 32px;
+		left: 25px;
+		border: 1px solid #FF7733;
+		width: 1px;
+		height: 1px;
+		background-color: white;
+		font-size: 1px;
+		margin-bottom: 15px;
+	
+	}
+
+	.timerInner {
+	
+		position: relative;
+		height: 1px;
+		width: 0;
+		background-color: red;
+	
+	}
+	
+	.fade {
+		
+		position: absolute;
+			
+		
+	}
+	
+	.findlist {
+	
+		background: green;
+		border: 1px solid black;
+		padding: 2px;
+		height: 310px;
+		width: 300px;
+		margin-bottom: 15px;
+	}
+	
+	
+	.sdb {
+	
+		/* position:relative; */
+		/* left:-20px; */
+		
+	}
+	
+	h2 {
+	
+		background: green;
+	
+	}
+	
+	.hintContent {
+	
+		position:absolute;
+		top: 55px;
+		left: 8px;
+	
+	}
+	
+	.hintleft {
+	
+		border: 2px solid green;
+		cursor: default;
+		/* display: block; */
+		
+	}
+	
+	.usedhint {
+	
+		display: none;
+	
+	}
+
+	#btnH {
+	
+		display: none;
+		float: right;
+		width: 50px;
+		height: 20px;
+		border:0;
+	
+	}
+	
+	.landscape {
+	
+		width: 423px;
+		height: 338px;
+		cursor: crosshair;
+		cursor: default;
+		border: 0px;
+	
+	}
+	
+	.portrait {
+
+		width: 338px;
+		height: 423px;
+		cursor: crosshair;
+		cursor: default;
+		border: 0px;
+	
+	}
+
+	.listdiv {
+	
+		position:absolute;
+		left: 500px;
+	
+	}
+	
+	body {
+
+		overflow-x: hidden;
+		overflow-y: hidden;
+		margin-top: 20px
+
+	}
+	
+	.player1 {
+		
+		float: left;
+		border: 1px dashed red;
+		padding: 2px;
+		margin-left: 30%;
+		
+	}
+	
+	.player2 {
+		
+		float: right;
+		border: 1px dashed orange ;
+		padding: 2px;
+		margin-right: 30%;
+		
+	}
+	
+	.twoPlayerStyle {
+	
+		display: none;
+	
+	}
+	
+	.twoPlayerDisplay {
+	
+		display: block;
+	
+	}
+	
+	.player {
+
+		padding: 0px;
+
+	}
+
+	.onePlayerStyle {
+	
+		display: none;
+	
+	}
+	
+	.onePlayerDisplay {
+	
+		display: block;
+	
+	}
+
+	.cheating {
+		
+		background-color: red;
+	
+	}
+	
+	.wrong1 {
+	
+		font-size: 100%;
+		
+	}
+	
+	.wrong2 {
+	
+		font-size: x-large;
+		
+	}
+	
+	.wait {
+
+		padding-left: 5px;
+		padding-right: 5px;
+
+	}
+	
+	#content {
+
+		display:none;
+
+	}	
+
+	.hide {
+
+		display: none;
+
+	}
+	
+	.reset {
+
+		
+
+	}

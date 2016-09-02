@@ -1,0 +1,7 @@
+[InternetShortcut]
+URL=javascript:e0=document.getElementById("bTxt_NutKeyList").value.split("; ").length;e1=document.getElementById("bTxt_NutRDAChildList").value.split("; ").length;e2=document.getElementById("bTxt_NutWOHList").value.split("; ").length;if(e0==e1 && e0==e2){alert("OK")}else{if(confirm("Fix Array Length Error?:\n"+e0+"\n"+e1+"\n"+e2)){s="; -";if(e1<e0){for(l=0;l<(e0-e1);l++){document.getElementById("bTxt_NutRDAChildList").value=document.getElementById("bTxt_NutRDAChildList").value+s}}else{for(l=0;l<(e1-e0);l++){document.getElementById("bTxt_NutRDAChildList").value=document.getElementById("bTxt_NutRDAChildList").value.replace(/; -$/,"");}} if(e2<e0){for(l=0;l<(e0-e2);l++){document.getElementById("bTxt_NutWOHList").value=document.getElementById("bTxt_NutWOHList").value+s}}else{for(l=0;l<(e2-e0);l++){document.getElementById("bTxt_NutWOHList").value=document.getElementById("bTxt_NutWOHList").value.replace(/; -$/,"");}} alert("FIXED (I hope!)\nre-run to check")}else{alert("* NOT FIXED *")}}
+Modified=D06E2490407EC40175
+HotKey=0
+IDList=
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,15

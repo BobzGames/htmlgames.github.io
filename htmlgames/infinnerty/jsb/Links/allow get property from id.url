@@ -1,0 +1,8 @@
+[InternetShortcut]
+URL=javascript:var r=prompt("getElementById.property (outputs to clipboard as well)","");if(r){if(r.indexOf(".") != -1){var s=r.split(".");m=eval("document.getElementById(s[0])" + "." + s[1]);window.clipboardData.setData('Text',m);alert(m);}else{alert( "Please . seperate property from id (eg. bTxt_Name.innerHTML)" );}}
+IDList=
+HotKey=0
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,15
+[Branding]
+IEAKCreated=3

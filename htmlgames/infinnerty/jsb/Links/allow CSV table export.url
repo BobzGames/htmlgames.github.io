@@ -1,0 +1,7 @@
+[InternetShortcut]
+URL=javascript:if(document.URL.match(/OpenDocument/i)){s=confirm("Press OK for standards csv format\n\nor Cancel for non-standard format")?",":"\t";t=prompt("Which Table ID? (blank for AR)","datatableRecipe");o=(t=="")?document.getElementsByTagName("table")[document.getElementsByTagName("table").length-1]:document.getElementById(t);if(o){r=o.getElementsByTagName("TR")[0].getElementsByTagName("TD").length;td=o.getElementsByTagName("TD");c=r+1;var csv=[];for(i in td){tmp=(td[i].innerText)?td[i].innerText.replace(/"/g,"'"):"";csv.push('"'+tmp+'"');c--;if(c!=r)csv.push(s);if(!(c)){c=r;csv[csv.length-1]="\n";}}out=csv.join("");t=t.length && document.documentElement.innerHTML.split("SPECIFICATION NUMBER:")[1]?t+" - "+document.documentElement.innerHTML.split("SPECIFICATION NUMBER:")[1].split("</TD>")[1].split(">")[1]:"AR - "+document.title;with(window.open()){document.write("<pre>"+out.replace('""""','"-"').replace('""','')+"<\pre>");if(navigator.userAgent.match("MSIE")){document.execCommand('SaveAs',false,t.replace(/[^A-Za-z0-9 -]/g,"_")+'.txt');}else{alert("After clicking OK - Right click on the data, choose View Source and from Notepad choose File Save As (using a csv file extension)");}}}}else{alert("Table must be in READ MODE");}void 0
+Modified=D06E2490407EC40175
+HotKey=0
+IDList=
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,15

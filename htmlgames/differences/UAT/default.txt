@@ -1,0 +1,147 @@
+<html>
+	<title>CW</title>
+	<head>
+		<style>
+			body {overflow-x:none; overflow-y:none;}
+			td {line-height:1; width:20px ;height:20px; float:left; background-Color:black; color:white; font-Size:xx-small; text-Align:right; vertical-align:bottom;}
+			input {padding-left:3px; text-transform:capitalize; width:18px; border:0; color:white;}
+			#q {position:relative; top:-405px;left: 420px; font-size:small; width:777px;}
+			#s {position:relative; top:0px;left: 0px; font-size:x-small;}
+		</style>
+
+		<style type="text/css" media="print">
+			td {line-height:1; width:20px ;height:20px; float:left; background-Color:black; color:white; font-Size:xx-small; text-Align:right; vertical-align:bottom;}
+			input {width:18px; height:18px;}
+			#q {position:relative; top:10px;left: 0px; font-size:xx-small;}
+			#s {display:none;}
+			table {border: 1px solid blue;}
+		</style>
+
+		<script>
+
+			function DONE() // OVERRIDE
+			{
+				alert("Well Done!\n\nLooks like you've completed it!");
+			}		
+		
+			function c(){} // dummy
+
+			function p()
+			{
+				bHC = document.location.search.split("&")[1];
+				var cw = document.getElementsByTagName("TABLE")[0];
+				o = cw.getElementsByTagName("INPUT");
+				todo = o.length;
+				if(cw){
+					m = cw.getElementsByTagName("TD");
+					mH = cw.getElementsByTagName("TR").length;
+					if(mH){
+						mW = cw.getElementsByTagName("TR")[0].getElementsByTagName("TD").length;
+						for (lp=0;lp<m.length;lp++)
+						{
+							m[lp].id="#"+lp;
+							if(m[lp].innerHTML.replace(/(<([^>]+)>)/ig,"") == "1") move = lp;
+						}
+
+						for(i in o)
+						{
+							if(o[i].value && o[i].value.length == 1){
+								if(bHC){
+									k(o[i],o[i].value);
+								} else {
+									o[i].value="";
+									k(o[i],"?");
+								}
+							}
+						}
+
+						enterAsTab(document);
+						document.body.focus();
+
+						try{ // to the left side...
+							m[++move].getElementsByTagName("INPUT")[0].focus();
+						}catch(e){
+							try{ // to the under side...
+								move+=mW;m[--move].getElementsByTagName("INPUT")[0].focus();
+							}catch(e){} // question number 1 not found!
+						}
+					}
+				}
+			}
+
+			function k(c,val)
+			{
+				c.style.color="black";
+				if(c.value.toUpperCase()==val){
+					c.style.backgroundColor=(bHC)?bHC:"#fff";
+					if(!c.parentElement.value) todo--;
+					c.parentElement.value=true;
+				}else{
+					c.style.backgroundColor="white";
+					if(val != "?" && c.parentElement.value) todo++;
+					c.parentElement.value=false;
+				}
+
+				pos = parseInt(c.parentElement.id.replace("#",""),10);
+				try{pos += move;}catch(e){}
+
+				o1=document.getElementById("#"+pos);
+
+				if(o1){
+					o2=o1.getElementsByTagName("INPUT")[0];
+					if(o2){
+						o2.select();
+						o2.focus();
+					}
+				}
+
+				if (!todo && !this.value) {this.value = true; setTimeout("DONE()",777);}
+			}
+
+			function h(bAll)
+			{
+				if(!bHC && !bAll) return
+				for(i in o)
+				{
+					if(o[i] && o[i].onkeyup){
+						f=o[i].onkeyup.toString();
+						l=f.split('"')[1].split('"')[0];
+						if(bAll || Math.random() > 0.9){
+							o[i].value = l;
+							k(o[i],l);
+						}
+					}
+				}
+			}
+
+			addEvent = function(o, e, f, s){
+			    var r = o[r = "_" + (e = "on" + e)] = o[r] || (o[e] ? [[o[e], o]] : []), a, c, d;
+			    r[r.length] = [f, s || o], o[e] = function(e){
+				try{
+				    (e = e || event).preventDefault || (e.preventDefault = function(){e.returnValue = false;});
+				    e.stopPropagation || (e.stopPropagation = function(){e.cancelBubble = true;});
+				    e.target || (e.target = e.srcElement || null);
+				    e.key = (e.which + 1 || e.keyCode + 1) - 1 || 0;
+				}catch(f){}
+				for(d = 1, f = r.length; f; r[--f] && (a = r[f][0], o = r[f][1], a.call ? c = a.call(o, e) : (o._ = a, c = o._(e), o._ = null), d &= c !== false));
+				return e = null, !!d;
+			    }
+			};
+
+			enterAsTab = function(f, a){
+			    addEvent(f, "keydown", function(e){
+					move = 0;
+				if(e.key == 38) move = -mW;// up
+				if(e.key == 40) move = +mW;// down
+				if(e.key == 37) move = -1; // left
+				if(e.key == 39 || e.key == 13) move = +1; // right
+
+			    });
+			};
+
+		</script>
+	</head>
+	<body onload="p()">
+		%cwd%
+	</body>
+</html>

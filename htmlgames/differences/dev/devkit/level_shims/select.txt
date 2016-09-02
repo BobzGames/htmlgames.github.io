@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/bonus.css" />
+		<style>
+
+		</style>
+		<script type="text/javascript" src="js/code.js"></script>
+		<script>
+
+			TIMEUP = "#";
+
+		</script>
+	<head>
+	<body onload="inits('(Add initial message here)')">
+		<div align="center">
+			<img name="normal" id="normal" class="landscape" src="images/background.jpg" ondragstart="return false" onselectstart="return false">
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("off","display:none")</script>
+
+		<map name="zoom">
+			<area shape="circle" coords="1,1,32" href="#" id="L1" /><div id="l1"><img id="ll1" src="images/i1.gif" /></div>
+		</map>
+
+	</div>
+
+	</body>
+</html>

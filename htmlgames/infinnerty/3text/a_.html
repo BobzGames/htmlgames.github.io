@@ -1,0 +1,61 @@
+<html>
+<head>
+<script src='http://a.padfly.com/s/padframe.js?timer=10&width=200&height=59&pad=9hUtWQ8hUt6fWu9%2bwILMwA=='></script>
+<script>
+
+function p()
+{
+	setTimeout('document.getElementById("b1").disabled=false;document.getElementById("b1").title=":)"',15000);
+	document.getElementById('n1').value = (parent.user)?parent.user:"anon";
+	document.getElementById('t1').focus();
+}
+
+function s()
+{
+	document.getElementById("b1").disabled=true;
+	var n=document.getElementById('n1').value + ': ';
+	var t=document.getElementById('t1').value ;
+	var sdata=n+t;
+	post_to_url('http://padfly.com/zI6A', {'padstr':sdata,'extra1':'2PADFLY09'});
+	setTimeout("document.location.reload()",100);
+}
+
+function post_to_url(path, params, method)
+{
+	method = method || "post";
+	var t = document.getElementById("f1");
+	var form = document.createElement("form");
+	form.setAttribute("method", method);
+	form.setAttribute("action", path);
+	form.setAttribute("target", t.id);
+	for(var key in params)
+	{
+		var hiddenField = document.createElement("input");
+		hiddenField.setAttribute("type", "hidden");
+		hiddenField.setAttribute("name", key);
+		hiddenField.setAttribute("value", params[key]);
+		form.appendChild(hiddenField);
+	}
+	document.body.appendChild(form);
+	form.submit();
+}
+
+</script>
+</head>
+<body style="background-color:#ccc;color:gray;" onload="p()">
+Name: <input type="text" value="" size="4" maxlength="8" id="n1" onblur="parent.user=this.value" />
+<br/>
+<div>
+<input type="text" value="" size="27" maxlength="32" id="t1" />
+<input type="button" id="b1" value="Send >>>" onclick="s()" title="Please wait..." disabled />
+</div>
+<script>
+if(navigator.userAgent.match("MSIE")){
+	document.write('<iframe id="h1" name="h1" src="javascript:void(0)" width="200px" height="21px" scrolling="no" frameborder="none" style="position:absolute;top:60px;left:10px;z-index:99999;background-color:#CECECE;border:0"></iframe>');
+}else{
+	document.write('<iframe id="h1" name="h1" src="javascript:void(0)" width="88px" height="21px" scrolling="no" frameborder="none" style="position:absolute;top:52px;left:120px;z-index:99999;background-color:#CECECE;border:0"></iframe>');
+}
+</script>
+<iframe id="f1" name="f1" src="http://padfly.com/zI6A" width="0" height="0" scrolling="no" frameborder="none" style="border:0"></iframe>
+</body>
+</html>

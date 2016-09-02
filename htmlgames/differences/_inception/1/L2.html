@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<title>Warehouse - Train [E]</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/bonus.css" />
+		<script type="text/javascript" src="js/code.js"></script>
+		<script>
+
+			MAXCLICKS = 10;
+			CHEATING = 100;
+			//function CHEAT(){levelQUIT(2)}
+			TIMEUP = "#"; // override timer
+
+			function CLEARED(l,p){if(parent.parent.$$("s4"))parent.parent.$$("s4").style.display = "inline";}
+
+		</script>
+		<style>
+			body{background-color:#CFCFCF}
+
+			a{font-size: 10px;}
+
+			.listdiv{left: 1px;top: 1px;z-index: 9999}
+
+			#ff1{
+				position:absolute;
+				cursor:default;
+				color:4E4E4E;
+				left:135px;
+				top:133px;
+				display:none
+			}
+
+			#content{display:block}
+
+		</style>
+
+	</head>
+	<body onload="init('#2','')" onkeypress="keyhint(event,0,0,1)" onunload="reset_bg_music()" onclick="point(event)">
+	<div class="listdiv">
+		<a href="#" onclick="levelQUIT(2)" id="quit">QUIT</a>
+	</div>
+		<div id="content" align="center">
+			<img name="normal" id="normal" class="landscape" src="images/inception_train.jpg" ondragstart="return false" onselectstart="return false">
+
+			<div id="ff1"><img src="images/E4.gif" /></div>
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("off",'display:none')</script>
+
+			<map name="zoom">
+			  	   <area coords="427,435,32" id="m1" nohref onclick="chkscore(1,this,event)" shape=circle>
+			</map>
+		</div>
+	</body>
+</html>
+

@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<title>%title%</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/bonus.css" />
+		%link%
+		<style>
+			%style%
+		</style>
+		<script type="text/javascript" src="js/code.js"></script>
+		%include%
+		<script>
+			%script%
+		</script>
+		<style>
+			%overlayStyle%
+		</style>
+
+	</head>
+	<body onload="init('%next%','')" onkeypress="keyhint(event,0,0,1)" onunload="reset_bg_music()" onclick="point(event)">
+		<div class="listdiv">
+			<div align="center" id="header">
+				<div class="findlist">
+					<h1>%header%</h1>
+					%list%
+				</div>
+			</div>
+			<div align="center" id="footer">
+				<div id="timerborder" class="timerOuter" %pause%><div id="timer" class="timerInner"></div></div>
+
+				<div id="onePlayerContent" class="onePlayerStyle">
+					<span id="P" class="player">0</span>
+				</div>
+
+			</div>
+		</div>
+		<div id="content" align="center">
+			<img name="normal" id="normal" class="%class%" src="%image%" ondragstart="return false" onselectstart="return false" >
+
+			%overlay%
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("%shape%","%shapeStyle%" %shapeUrl%)</script>
+
+			<map name="zoom">
+				%map%
+			</map>
+
+		</div>
+
+		<span class="hintContent" />
+		%hint%
+		
+	</body>
+</html>

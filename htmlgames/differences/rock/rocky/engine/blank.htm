@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<META HTTP-EQUIV="Expires" CONTENT="0">
+<META HTTP-EQUIV="imagetoolbar" CONTENT="no">
+<script language="Javascript">
+function checkOpener()//allows saving levels if this file is opened from editor
+{
+  if(window.opener)
+  {var c_level=parseInt(window.opener.mainScreen.document.getElementById('current_level').innerHTML);if(!c_level){c_level="level_number";}
+  alert("To SAVE:\nSelect ALL the following text (CTRL+a) followed by (CTRL+c)\nOpen a text-editor, paste this in (CTRL+v) and save as '"+c_level+".htm' in the 'levels' directory.");
+      window.document.body.innerHTML="";
+      window.document.body.style.backgroundColor="#FFFFFF";
+      window.document.body.textContent=""+window.opener.temp_save_str;
+      window.document.body.style.color="#000000";
+      window.document.body.style.fontFamily="Courier New,Arial";
+      window.document.body.style.fontSize="8pt";
+   }
+}
+</script>
+<title>Night Rock</title>
+</head>
+<body id="bodymain" topmargin="0" leftmargin="0" rightmargin="0" bgcolor="#000000" onLoad="checkOpener()">
+
+<div id="blankmainspan" align="center" width="100%" height="100%" style="word-wrap:break-word;border:0px solid red; width:100%; height:100%; z-index:2;color: #FFFFFF;  background-color:#000000;"></div>
+
+
+  </body>
+</html>

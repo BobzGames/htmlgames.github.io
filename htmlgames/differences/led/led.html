@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<title>LED scroller</title>
+		<style type="text/css">
+			body {
+				margin:0;
+				background-color:#000;
+				font-family: sans-serif;
+				color:#fff;
+			}
+
+			#led {
+				background-color:#000;
+			}
+		</style>
+		<!--[if IE]><script src="js/excanvas.js"></script><![endif]-->
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/led.js"></script>
+		<script>
+		var isIE = navigator.userAgent.match("MSIE");
+
+		function p()
+		{
+			arr_s = document.location.search.replace("?","").split("&");
+
+			if(arr_s[0] && arr_s[0].length > 0){ // MESSAGE
+				led.setText( arr_s[0].replace(/%20/g," ").replace(/£/g,"$").replace(/%A3/g,"$").replace(/%C2/g,"") );
+			}else{
+				led.setText('Click to Configure...');
+			}
+
+			if(arr_s[1] && arr_s[1].length > 0){ // COLOUR
+				if( arr_s[1].match(/^R/i) ){
+					led.colourOn = "#F22";
+					led.colourOff = "#311";
+				}
+				if( arr_s[1].match(/^G/i) ){
+					led.colourOn = "#2F2";
+					led.colourOff = "#131";
+				}
+				if( arr_s[1].match(/^B/i) ){
+					led.colourOn = "#22F";
+					led.colourOff = "#113";
+				}
+				if( arr_s[1].match(/^Y/i) ){
+					led.colourOn = "#FF2";
+					led.colourOff = "#331";
+				}
+				if( arr_s[1].match(/^P/i) ){
+					led.colourOn = "#F2F";
+					led.colourOff = "#313";
+				}
+			}
+
+			if(arr_s[2] && arr_s[2].length > 0){ // SPEED
+				if(arr_s[2] > 0){
+					for(lp=parseInt(arr_s[2],10);lp--;)
+					{
+						led.fastScroll();
+					}
+				}else{
+					for(lp=Math.abs(parseInt(arr_s[2],10));lp--;)
+					{
+						led.slowScroll();
+					}
+
+				}
+			}
+
+		}
+
+		function config()
+		{
+			r = prompt("Please enter Message","");
+			if(r)led.setText(r.replace(/£/g,"$"));
+		}
+		</script>
+	</head>
+	<body onload="p()">
+		<script>b=document.location.search.split("&blocks=")[1];w=(isIE)?100:800;if(b)w=b*100;document.write('<canvas id="led" width="'+w+'" height="175" onclick="config()"></canvas>');</script>
+	</body>
+</html>

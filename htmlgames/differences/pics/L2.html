@@ -1,0 +1,54 @@
+<html>
+<title>...</title>
+<head>
+<script>
+
+x=0;
+
+function fade(o,obj)
+{
+	if(!obj)obj = document.getElementsByTagName("body")[0].style;
+	obj.style.opacity = (o / 100);
+	obj.style.filter = "alpha(opacity=" + o + ")";
+	//obj.style.width = x/3 + "%";
+
+}
+
+function p()
+{
+	fade(100-x,document.getElementById("i1"));
+	fade(x,document.getElementById("i2"));
+	x++;
+	if(x>100)x=-x;
+	if(x<0)x=0;
+	t=setTimeout("p()",1);
+}
+
+function start(s)
+{
+	if(t)clearTimeout(t);
+	if(s){x=s;document.getElementById("sl").style.display="none";}
+	document.getElementById("i1").style.width = x/4 + "%";
+	document.getElementById("i2").style.width = x/4 + "%";
+	x--;
+	if(x){setTimeout("start()",1);}else{document.location.href="L1.html";}
+
+}
+function wait(s,u)
+{
+	setTimeout("document.location.href='"+u+"'",s*1000);
+}
+
+</script>
+</head>
+<body onload="wait(60,'L3.html')" style="background-color:#0e0e0e">
+
+
+<img style="position:absolute;top:30px;left:25%;" src="bridge_over_troubled_water.jpg" id="i2" onclick="document.location.href='L3.html'" galleryimg="no"></img>
+<div style="position:absolute;top:410px;left:46%;color:white" title="... that parties on into the night ...">bridge over troubled water</div>
+<img style="position:absolute;top:440px;left:49%;cursor:pointer" onclick="top.document.location.href='http://goo.gl/zI6A'" title="Click to visit website" src="dapi2.gif" />
+
+		<bgsound src="m2.wav"></bgsound>
+		<audio src="m2.wav" autoplay></audio>
+</body>
+</html>

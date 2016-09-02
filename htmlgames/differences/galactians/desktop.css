@@ -1,0 +1,23 @@
+body {
+	background-color: #000;
+	color: #222;
+	font-family: Helvetica, sans-serif;
+	font-size: 12px;
+	margin: 0px;
+	padding: 0px;
+}
+
+#container {
+	width: 320px;
+	height: 480px;
+	margin: 0px auto;
+	padding: 0px;
+	position: relative;
+}
+
+.canvas {
+	background-color: #000;
+	z-index: -1;
+	width: 320px;
+}
+

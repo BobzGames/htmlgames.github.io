@@ -1,0 +1,282 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html>
+<head>
+<style type="text/css">
+body{cursor: none;overflow: hidden;}
+#bg{position:absolute; top:0px; left:0px; z-index:1;}
+#canvas{position:absolute; top:0px; left:0px; z-index:2;}
+</style>
+<!--[if IE]><script src="js/excanvas.js"></script><![endif]-->
+</head>
+<body onload="" onmousemove="move(event);" ontouchmove="move(event);" onmousedown="point(event);" ontouchstart="point(event);" onselectstart="return false">
+
+		<img id="bg" src="images/background.png" width="100%" height="100%"/>
+
+		<canvas id="canvas" width="640" height="480"></canvas>
+
+<script>
+
+var score = 0;
+var mousex=0;
+var mousey=0;
+var clickx;
+var clicky;
+var currentBubble;
+var x;
+var y;
+var size;
+var r;
+var distance;
+var level=1;
+var broken;
+var allbroken=0;
+var loadComplete;
+
+var canvas=document.getElementById("canvas");
+if(navigator.userAgent.match("MSIE"))G_vmlCanvasManager.initElement(canvas);
+var context=canvas.getContext("2d");
+
+var currentNewWindowWidth;
+var currentNewWindowHeight;
+
+screenWidth=document.body.clientWidth;
+screenHeight=document.body.clientHeight;
+
+var width=640;
+var height=480;
+canvas.width=screenWidth;
+canvas.height=screenHeight;
+
+var cloud=new Image();
+var cloudx=new Array;
+var cloudy=new Array;
+var cloudspeed=new Array;
+var currentCloud;
+
+var gameInterval;
+var bubble0=new Image();
+var bubble1=new Image();
+var bubble2=new Image();
+var bubble3=new Image();
+
+var cursor=new Image();
+var cursor1=new Image();
+var cursor2=new Image();
+var bubble=new Array();
+bubble[0]=20;
+var bar=new Image();
+var wind=new Image();
+var button=new Image();
+
+bubble[1]=new Object();
+bubble[2]=new Object();
+bubble[3]=new Object();
+bubble[4]=new Object();
+bubble[5]=new Object();
+bubble[6]=new Object();
+bubble[7]=new Object();
+bubble[8]=new Object();
+bubble[9]=new Object();
+bubble[10]=new Object();
+bubble[11]=new Object();
+bubble[12]=new Object();
+bubble[13]=new Object();
+bubble[14]=new Object();
+bubble[15]=new Object();
+bubble[16]=new Object();
+bubble[17]=new Object();
+bubble[18]=new Object();
+bubble[19]=new Object();
+bubble[20]=new Object();
+
+newBubble(1,0,screenWidth,16,128);
+newBubble(2,0, screenWidth ,16,128);
+newBubble(3,0, screenWidth ,16,128);
+newBubble(4,0, screenWidth ,16,128);
+newBubble(5,0, screenWidth ,16,128);
+newBubble(6,0, screenWidth ,16,128);
+newBubble(7,0, screenWidth ,16,128);
+newBubble(8,0, screenWidth ,16,128);
+newBubble(9,0, screenWidth ,16,128);
+newBubble(10,0, screenWidth ,16,128);
+newBubble(11,0, screenWidth ,16,128);
+newBubble(12,0, screenWidth ,16,128);
+newBubble(13,0, screenWidth ,16,128);
+newBubble(14,0, screenWidth ,16,128);
+newBubble(15,0, screenWidth ,16,128);
+newBubble(16,0, screenWidth ,16,128);
+newBubble(17,0, screenWidth ,16,128);
+newBubble(18,0, screenWidth ,16,128);
+newBubble(19,0, screenWidth ,16,128);
+newBubble(20,0, screenWidth ,16,128);
+
+function init()
+{
+bubble0.src="images/bubble.png";
+bubble1.src="images/1.png";
+bubble2.src="images/2.png";
+bubble3.src="images/3.png";
+
+cursor.src="images/cursor.png";
+cursor1.src="images/cursor.png";
+cursor2.src="images/cursor2.png";
+bar.src="images/bar.png";
+wind.src="images/window.png";
+button.src="images/button.png";
+cloud.src="images/cloud.png";
+
+//setTimeout(function(){window.scrollTo(0, 1);}, 20);
+}
+
+function clouds(nofc)
+{
+	if(nofc > 20)nofc=20;
+	for(currentCloud=1;currentCloud<=nofc;currentCloud++)
+	{
+	if(cloudx[currentCloud]==undefined) {cloudx[currentCloud]=-(Math.random()*(900-500+1)+500);};
+	if(cloudx[currentCloud]<-490) {cloudx[currentCloud]=screenWidth+10;cloudy[currentCloud]=Math.random()*(screenHeight-10+300+1)-300;cloudspeed[currentCloud]=Math.random()*(3-1+1)+1};
+	cloudx[currentCloud]-=cloudspeed[currentCloud];
+	context.drawImage(cloud,cloudx[currentCloud],cloudy[currentCloud],480,320);
+	}
+}
+
+function newBubble(num,minx,maxx,minsize,maxsize)
+{
+bubble[num].size=Math.random()*(maxsize-minsize+1)+minsize;
+bubble[num].x=Math.random()*(maxx-minx+1)+minx;
+bubble[num].xx=Math.random()*(2-0+1)+0;
+bubble[num].y=screenHeight+bubble[num].size/2;
+}
+
+function breakBubble(num,bb)
+{
+if(bb && currentBubble==1)gameOver()
+context.drawImage(bubble1,bubble[currentBubble].x-bubble[currentBubble].size/2,bubble[currentBubble].y-bubble[currentBubble].size/2,bubble[currentBubble].size,bubble[currentBubble].size);
+context.drawImage(bubble2,bubble[currentBubble].x-bubble[currentBubble].size/2,bubble[currentBubble].y-bubble[currentBubble].size/2,bubble[currentBubble].size,bubble[currentBubble].size);
+context.drawImage(bubble3,bubble[currentBubble].x-bubble[currentBubble].size/2,bubble[currentBubble].y-bubble[currentBubble].size/2,bubble[currentBubble].size,bubble[currentBubble].size);
+
+delete bubble[num].size;
+score++;
+}
+
+function move(event)
+{
+	if(document.all){
+		mousex=event.x;
+		mousey=event.y;
+	}else{
+		mousex=event.pageX;
+		mousey=event.pageY;
+	}
+
+}
+
+function point(event)
+{
+
+	if(document.all){
+		clickx=event.x;
+		clicky=event.y;
+	}else{
+		clickx=event.pageX;
+		clicky=event.pageY;
+	}
+
+	cursor = cursor2;
+	setTimeout("cursor = cursor1;",250);
+}
+
+function ifcollision(x,y,size)
+{
+r=size/2;
+distance=Math.sqrt((clickx-x)*(clickx-x)+(clicky-y)*(clicky-y));
+if(distance<=r) {clickx=1280;clicky=960;return true;};
+}
+
+function winGame()
+{
+window.clearInterval(gameInterval);
+level++;
+nw=window.setInterval("newWindow('You Win! Score:'+score,'Now Start Level ('+level+')!','Go Pop!');","500");
+}
+
+function gameOver()
+{
+window.clearInterval(gameInterval);
+nw=window.setInterval("newWindow('Game Over! Score:'+score,'You got to level '+level+'!','New Game!',true);","500");
+}
+
+
+function newWindow(text,stext,ok,b)
+{
+context.clearRect(0,0,screenWidth,screenHeight);
+clouds(4+(level*2));
+
+context.fillStyle="#eeeeee";
+context.font="normal 30px comic sans ms";
+context.textAlign="center";
+context.textBaseline="top";
+
+context.drawImage(wind,screenWidth/10,screenHeight/10,screenWidth-screenWidth/5,screenHeight-screenHeight/5);
+context.drawImage(button,screenWidth/2-64,screenHeight/2-64+screenHeight/10,128,128);
+context.drawImage(cursor,mousex-32,mousey-32,64,64);
+
+context.fillText(text,screenWidth/2,screenHeight/10+screenHeight/50,400);
+context.font="normal 20px comic sans ms";
+context.fillText(stext,screenWidth/2,screenHeight/10+screenHeight/8+screenHeight/50,400);
+context.font="normal 17px comic sans ms";
+context.fillText(ok,screenWidth/2,screenHeight/2-10+screenHeight/10,128);
+
+	if(b){
+		if(ifcollision(screenWidth/2,screenHeight/2+screenHeight/10,128)==true) {context.drawImage(bubble1,screenWidth/2-64,screenHeight/2-64+screenHeight/10,128,128);context.drawImage(bubble2,screenWidth/2-64,screenHeight/2-64+screenHeight/10,128,128);context.drawImage(bubble3,screenWidth/2-64,screenHeight/2-64 +screenHeight/10 ,128,128);window.clearInterval(nw);clickx=0;clicky=0;resetGame();};
+	}else{
+		if(ifcollision(screenWidth/2,screenHeight/2+screenHeight/10,128)==true) {context.drawImage(bubble1,screenWidth/2-64,screenHeight/2-64+screenHeight/10,128,128);context.drawImage(bubble2,screenWidth/2-64,screenHeight/2-64+screenHeight/10,128,128);context.drawImage(bubble3,screenWidth/2-64,screenHeight/2-64 +screenHeight/10 ,128,128);window.clearInterval(nw);clickx=0;clicky=0;startGame();};
+	}
+}
+
+function main()
+{
+context.clearRect(0,0,screenWidth,screenHeight);
+clouds(4+(level*2));
+for(currentBubble=1;currentBubble<=bubble[0];currentBubble++)
+	{if(bubble[currentBubble].size) {
+		if(ifcollision(bubble[currentBubble].x,bubble[currentBubble].y,bubble[currentBubble].size)==true) {breakBubble(currentBubble,true);newBubble(currentBubble,100, screenWidth -100,32,128);broken++;allbroken++;};
+		if(bubble[currentBubble].y<-bubble[currentBubble].size/2) {breakBubble(currentBubble);newBubble(currentBubble,100,screenWidth-100,32,128);};
+		if(bubble[currentBubble].x<-bubble[currentBubble].size/2) {breakBubble(currentBubble);newBubble(currentBubble,100,screenWidth-100,32,128);};
+		if(bubble[currentBubble].x>screenWidth+bubble[currentBubble].size/2) {breakBubble(currentBubble);newBubble(currentBubble,100,screenWidth-100,32,128);};
+		bubble[currentBubble].x+=bubble[currentBubble].xx;
+		bubble[currentBubble].y-=3;
+		if(currentBubble==1){
+			context.drawImage(bubble2,bubble[currentBubble].x-bubble[currentBubble].size/2,bubble[currentBubble].y-bubble[currentBubble].size/2,bubble[currentBubble].size,bubble[currentBubble].size);
+		}else{
+			context.drawImage(bubble0,bubble[currentBubble].x-bubble[currentBubble].size/2,bubble[currentBubble].y-bubble[currentBubble].size/2,bubble[currentBubble].size,bubble[currentBubble].size);
+		}
+
+	}
+}
+context.drawImage(cursor,mousex,mousey,64,64);
+context.drawImage(bar,0,0,broken/level/10*screenWidth,16)
+if(broken>=level*10) {winGame();};
+}
+
+function startGame()
+{
+broken=0;
+bubble[0]=level+4;
+gameInterval=window.setInterval("main();","15");
+}
+
+function resetGame()
+{
+	level = 1;
+	score = 0;
+	startGame();
+}
+
+init();
+
+startGame();
+
+</script>
+</body>
+</html>

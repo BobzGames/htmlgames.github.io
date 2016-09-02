@@ -1,0 +1,51 @@
+<html>
+	<title>Level 3</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+			A_PATH = "../" + A_PATH;
+		</script>
+	</head>
+	<body onload="init('level4.html')" onunload="reset_bg_music()" onkeypress="keyhint(event)" onclick="point(event)">
+		<div align="center" id="header">
+			<h2>Level 3: Mirror Mirror <i><b><span id="remaining">0</span></b> Difference<span id="s">s</span> Left</i> <input type="button" value="Hint" id ="btnH" onclick="hint()" /></h2>
+		</div>
+		<div id="timerborder" class="timerOuter"><div id="timer" class="timerInner"></div></div>
+		<div id="content" align="center">
+			<img src ="images/L3mod.jpg" id = "il" class="portrait" usemap="#TBmap" onclick="bClickedImage=true;" />
+
+			<map name="TBmap">
+				<area shape ="circle" coords ="30,144,20"
+				nohref id="m1" onclick="chkscore(1,this,event)" />
+
+				<area shape ="circle" coords ="305,144,20"
+				nohref id="m1" onclick="chkscore(1,this,event)" />
+
+				<area shape ="circle" coords ="180,124,20"
+				nohref id="m2" onclick="chkscore(2,this,event)" />
+
+				<area shape ="circle" coords ="150,124,20"
+				nohref id="m2" onclick="chkscore(2,this,event)" />
+
+				<area shape ="circle" coords ="227,197,10"
+				nohref id="m3" onclick="chkscore(3,this,event)" />
+
+				<area shape ="circle" coords ="107,197,10"
+				nohref id="m3" onclick="chkscore(3,this,event)" />
+			</map>
+
+			<img src ="images/L3.jpg" id="ir" class="portrait" usemap="#TBmap" onclick="bClickedImage=true;" />
+
+			<div id="twoPlayerContent" class="twoPlayerStyle">
+				<span id="P1" class="player1">0</span>
+				<span id="P2" class="player2">0</span>
+			</div>
+
+			<div id="onePlayerContent" class="onePlayerStyle">
+				<span id="P" class="player">0</span>
+			</div>
+
+		</div>
+	</body>
+</html>

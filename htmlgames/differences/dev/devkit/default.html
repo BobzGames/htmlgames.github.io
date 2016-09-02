@@ -1,0 +1,59 @@
+<html>
+	<head><title>Control movie via url example</title>
+		<style>
+			body {
+					background-color:#101010;
+					text-align:center;
+			}
+
+			.flash {
+
+			}
+		</style>
+		<script type="text/javascript" src="js/code.js"></script>
+		<script>
+			// DATA array structure : x[i]y.jpg
+			// 			: if x = 1 - 6 then play that sound (consider x = 0 as a NOP)
+			//			: if x = -ve then jump to that frame in data array IF the image was clicked when at -ve frame
+			//			: if x = NaN e.g 0e then jump to that frame regardless if image was clicked
+			//			: [i] is the split with the image name on the right
+
+			// note: data array starts at -1 (dummy frame) not 0! eg  -1         0         1         2         3
+			// set data via URL parameter e.g: default.html?&DATA=['0i0.jpg','0i0.jpg','0i1.jpg','0i2.jpg','0i3.jpg']
+			// other url parameters are: TICK=&LOOP=&A_PATH=&I_PATH=
+
+			var arr_s = DLS.substring(1).split("&"); // or get override from url search :)
+			for (i in arr_s)
+			{
+			    if ( arr_s[i].split("DATA=")[1] ) DATA = arr_s[i].split("DATA=")[1];
+			    if ( arr_s[i].split("TICK=")[1] ) TICK = arr_s[i].split("TICK=")[1];
+			    if ( arr_s[i].split("LOOP=")[1] ) LOOP = arr_s[i].split("LOOP=")[1];
+
+			    if ( arr_s[i].split("A_PATH=")[1] ) A_PATH = arr_s[i].split("A_PATH=")[1];
+			    if ( arr_s[i].split("I_PATH=")[1] ) I_PATH = arr_s[i].split("I_PATH=")[1];
+
+			    if (DATA) {
+			        eval("data=" + DATA); // :(
+			    }
+			}
+
+			// override wav's
+			A_MUSIC = "1.wav";
+			A_CORRECT = "2.wav";
+			A_WRONG = "3.wav";
+			A_HINT = "4.wav"
+			A_COMPLETED = "5.wav";
+			A_BONUS = "6.wav";
+
+			TIMEUP = "#";
+
+		</script>
+	</head>
+    <body onload="init()">
+	<center><span onclick="FRAME = FRAME_START" style="color:gray" > RESET </span></center>
+        <div>
+            <img src="" alt="" id="normal" onclick="bClickedImage = true" />
+        </div>
+	<p><center><span onclick="FRAME_DIR = -1" style="color:gray" > <<< </span><span onclick="pause()  " style="color:gray" > PAUSE </span><span onclick="FRAME_DIR = 1" style="color:gray" > >>> </span></center></p>
+    </body>
+</html>

@@ -1,0 +1,147 @@
+<html>
+	<title>CW</title>
+	<head>
+		<style>
+			body {overflow-x:none; overflow-y:none;}
+			td {line-height:1; width:20px ;height:20px; float:left; background-Color:black; color:white; font-Size:xx-small; text-Align:right; vertical-align:bottom;}
+			input {padding-left:3px; text-transform:capitalize; width:18px; border:0; color:white;}
+			#q {position:relative; top:-405px;left: 420px; font-size:small; width:777px;}
+			#s {position:relative; top:0px;left: 0px; font-size:x-small; display: none;}
+		</style>
+
+		<style type="text/css" media="print">
+			td {line-height:1; width:20px ;height:20px; float:left; background-Color:black; color:white; font-Size:xx-small; text-Align:right; vertical-align:bottom;}
+			input {width:18px; height:18px;}
+			#q {position:relative; top:10px;left: 0px; font-size:xx-small;}
+			#s {display:none;}
+			table {border: 1px solid blue;}
+		</style>
+
+		<script>
+
+			function DONE() // OVERRIDE
+			{
+				alert("Well Done!\n\nLooks like you've completed it!");
+			}
+
+			function c(){} // dummy
+
+			function p()
+			{
+				bHC = document.location.search.split("&")[1];
+				var cw = document.getElementsByTagName("TABLE")[0];
+				o = cw.getElementsByTagName("INPUT");
+				todo = o.length;
+				if(cw){
+					m = cw.getElementsByTagName("TD");
+					mH = cw.getElementsByTagName("TR").length;
+					if(mH){
+						mW = cw.getElementsByTagName("TR")[0].getElementsByTagName("TD").length;
+						for (lp=0;lp<m.length;lp++)
+						{
+							m[lp].id="#"+lp;
+							if(m[lp].innerHTML.replace(/(<([^>]+)>)/ig,"") == "1") move = lp;
+						}
+
+						for(i in o)
+						{
+							if(o[i].value && o[i].value.length == 1){
+								if(bHC){
+									k(o[i],o[i].value);
+								} else {
+									o[i].value="";
+									k(o[i],"?");
+								}
+							}
+						}
+
+						enterAsTab(document);
+						document.body.focus();
+
+						try{ // to the left side...
+							m[++move].getElementsByTagName("INPUT")[0].focus();
+						}catch(e){
+							try{ // to the under side...
+								move+=mW;m[--move].getElementsByTagName("INPUT")[0].focus();
+							}catch(e){} // question number 1 not found!
+						}
+					}
+				}
+			}
+
+			function k(c,val)
+			{
+				c.style.color="black";
+				if(c.value.toUpperCase()==val){
+					c.style.backgroundColor=(bHC)?bHC:"#fff";
+					if(!c.parentElement.value) todo--;
+					c.parentElement.value=true;
+				}else{
+					c.style.backgroundColor="white";
+					if(val != "?" && c.parentElement.value) todo++;
+					c.parentElement.value=false;
+				}
+
+				pos = parseInt(c.parentElement.id.replace("#",""),10);
+				try{pos += move;}catch(e){}
+
+				o1=document.getElementById("#"+pos);
+
+				if(o1){
+					o2=o1.getElementsByTagName("INPUT")[0];
+					if(o2){
+						o2.select();
+						o2.focus();
+					}
+				}
+
+				if (!todo && !this.value) {this.value = true; setTimeout("DONE()",777);}
+			}
+
+			function h(bAll)
+			{
+				if(!bHC && !bAll) return
+				for(i in o)
+				{
+					if(o[i] && o[i].onkeyup){
+						f=o[i].onkeyup.toString();
+						l=f.split('"')[1].split('"')[0];
+						if(bAll || Math.random() > 0.9){
+							o[i].value = l;
+							k(o[i],l);
+						}
+					}
+				}
+			}
+
+			addEvent = function(o, e, f, s){
+			    var r = o[r = "_" + (e = "on" + e)] = o[r] || (o[e] ? [[o[e], o]] : []), a, c, d;
+			    r[r.length] = [f, s || o], o[e] = function(e){
+				try{
+				    (e = e || event).preventDefault || (e.preventDefault = function(){e.returnValue = false;});
+				    e.stopPropagation || (e.stopPropagation = function(){e.cancelBubble = true;});
+				    e.target || (e.target = e.srcElement || null);
+				    e.key = (e.which + 1 || e.keyCode + 1) - 1 || 0;
+				}catch(f){}
+				for(d = 1, f = r.length; f; r[--f] && (a = r[f][0], o = r[f][1], a.call ? c = a.call(o, e) : (o._ = a, c = o._(e), o._ = null), d &= c !== false));
+				return e = null, !!d;
+			    }
+			};
+
+			enterAsTab = function(f, a){
+			    addEvent(f, "keydown", function(e){
+					move = 0;
+				if(e.key == 38) move = -mW;// up
+				if(e.key == 40) move = +mW;// down
+				if(e.key == 37) move = -1; // left
+				if(e.key == 39 || e.key == 13) move = +1; // right
+
+			    });
+			};
+
+		</script>
+	</head>
+	<body onload="p()">
+		<table><tr><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><br>10</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><br>2</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><br>7</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;T&quot;)" _value="T"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><br>14</td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><br>1</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;M&quot;)" _value="M"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;I&quot;)" _value="I"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;N&quot;)" value="N"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;C&quot;)" _value="C"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;R&quot;)" _value="R"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;A&quot;)" _value="A"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;F&quot;)" _value="F"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;T&quot;)" _value="T"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;A&quot;)" _value="A"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;H&quot;)" _value="H"></td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;R&quot;)" _value="R"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;R&quot;)" _value="R"></td><td onclick="c(this)"><br>12</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;I&quot;)" _value="I"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;C&quot;)" _value="C"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><br>5</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;S&quot;)" _value="S"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;T&quot;)" value="T"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;V&quot;)" _value="V"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;A&quot;)" _value="A"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;G&quot;)" value="G"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;L&quot;)" _value="L"></td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;H&quot;)" _value="H"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" value="E"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><br>4</td><td onclick="c(this)"><br>8</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;P&quot;)" value="P"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;A&quot;)" _value="A"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;R&quot;)" value="R"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;L&quot;)" _value="L"></td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)"><br>11</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;D&quot;)" _value="D"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;V&quot;)" _value="V"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;P&quot;)" _value="P"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;S&quot;)" _value="S"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><br>13</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><br>16</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;N&quot;)" value="N"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;B&quot;)" _value="B"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)"><br>15</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;P&quot;)" _value="P"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;I&quot;)" _value="I"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;C&quot;)" _value="C"></td><td onclick="c(this)"><br>3</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;R&quot;)" _value="R"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;D&quot;)" _value="D"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;S&quot;)" value="S"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;T&quot;)" _value="T"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;O&quot;)" _value="O"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;N&quot;)" _value="N"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><br>18</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;O&quot;)" _value="O"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;A&quot;)" _value="A"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)"><br>17</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;S&quot;)" _value="S"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;N&quot;)" _value="N"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;O&quot;)" value="O"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;W&quot;)" _value="W"></td><td onclick="c(this)"><br>9</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;H&quot;)" _value="H"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;O&quot;)" _value="O"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;R&quot;)" _value="R"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;S&quot;)" _value="S"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;S&quot;)" _value="S"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;C&quot;)" _value="C"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;P&quot;)" _value="P"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;M&quot;)" _value="M"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;H&quot;)" _value="H"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;C&quot;)" _value="C"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;A&quot;)" _value="A"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)"><br>6</td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;T&quot;)" _value="T"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;H&quot;)" value="H"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;N&quot;)" _value="N"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;T&quot;)" _value="T"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;H&quot;)" _value="H"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;E&quot;)" _value="E"></td><td onclick="c(this)"><input type="text" maxlength="1" onkeyup="k(this,&quot;R&quot;)" _value="R"></td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td></tr><tr><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td><td onclick="c(this)">&nbsp;</td></tr></table><a href='#' id='s' onclick='h(true)'>Solve</a> <a href='#' id='s' onclick='h()'>Hint</a><div id='_q'><div><br></div><div>&nbsp; Across &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Down</div><div>&nbsp; 1. Well known block game &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2. Hiiiisssssss. Watch out!</div><div>&nbsp; 3. Build circuits with this &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;4. Killer legs</div><div>&nbsp; 5. Default character &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 5. Three help make a bed</div><div>&nbsp; 6. Another name for 14 down &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;7. Make these to survive</div><div>&nbsp; 8. Ender _____ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 10. Type of Biome</div><div>&nbsp; 9. Relatively new to 1 across &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;13. When H2O meets SiO2&nbsp;</div><div>11. Outside the world &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 14. Oooh it's hot in here!</div><div>12. Both block and Biome &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;16. Good source of meat and leather</div><div>15. ____ Adventure! &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;18. ___ Villager</div><div>17. You can make ____balls from this block</div><div><br></div></div>
+	</body>
+</html>

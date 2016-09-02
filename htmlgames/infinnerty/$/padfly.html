@@ -1,0 +1,59 @@
+<html>
+<head>
+
+<script>
+var sdata="";
+function p()
+{
+	// get text...
+	url="http://d.padfly.com/zI6A?download";
+	var xml = (window.XMLHttpRequest)?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
+	xml.open("GET", url, false);
+	xml.send();
+	if(xml.status == 200){
+		document.getElementById("t").innerHTML = xml.responseText;
+	}
+}
+
+function s()
+{
+	// send text...
+	//alert("Use Ctrl + y for now");
+	sdata=document.getElementById("t").innerText;
+	post_to_url('http://padfly.com/zI6A', {'padstr':sdata,'extra1':'2PADFLY09'});
+
+}
+
+function post_to_url(path, params, method) {
+    method = method || "post"; // Set method to post by default, if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var t = document.getElementById("f");
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+    form.setAttribute("target", t.id);
+
+    for(var key in params) {
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", key);
+        hiddenField.setAttribute("value", params[key]);
+
+        form.appendChild(hiddenField);
+    }
+
+    document.body.appendChild(form); 
+    form.submit();
+}
+</script>
+</head>
+<body onload="p()">
+<iframe id="f" name="f" src="http://padfly.com/zI6A" width="0" height="0" scrolling="no"></iframe>
+<p>
+<textarea id="t"></textarea>
+<input type="button" value="send" onclick="s()" />
+</p>
+</body>
+</html>

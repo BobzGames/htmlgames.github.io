@@ -1,0 +1,34 @@
+<html>
+	<body style="color:white;background-color:#CFCFCF;background-position:center top;background-image: url('images/win.jpg');background-repeat: no-repeat" onload="document.getElementById('data').innerHTML = '<center><p>' + 'WIN! Congratulations ' + document.location.search.substr(1).split('&')[0] + ' : ' + document.location.search.substr(1).split('&')[1] + '</p></center>'">
+		<span id='data'></span>
+		<center>
+		<p>
+			<a href="#" onclick="try{itest = parent.ua;parent.document.location.href='index.html'+document.location.search;}catch(e){document.location.href='index.html'+document.location.search;}">
+				<b style="color:yellow;font-size:x-small">RESTART</b>
+			</a>
+		</p>
+		</center>
+		<script>
+			if(document.location.search.length > 0 && document.location.search.substr(1).split('&')[2].match(/true/i)){
+				try{
+					itest = parent.ua;
+					if(parent.audio_bonus){
+						try{parent.audio_bonus.stop();}catch(e){parent.audio_bonus.pause();}
+					}
+				}catch(e){
+					try{
+						if(audio_bonus){
+							try{audio_bonus.stop();}catch(e){audio_bonus.pause();}
+						}
+					}catch(e){}
+				}
+
+				if(navigator.userAgent.match("MSIE")){
+					document.write('<bgsound src="../_audio/completed.wav" />');
+				}else{
+					document.write('<audio src="../_audio/completed.wav" autoplay />');
+				}
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,108 @@
+<html>
+	<head>
+		<title>iThankYou - Birthday Party</title>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/bonus.css" />
+		<style>
+			.message{font-size: 13px}
+			.portrait{
+				width: 128px;
+				height: 188px;
+			}
+			#party{
+				position:absolute;
+				top: 32px;
+				left: 150px;
+			}
+			#footer{
+				position:absolute;
+				top: 190px;
+				left: 5px;
+				font-size: small;
+				border: 1px dashed orange;
+				padding: 5px;
+			}
+			h5{color: black;padding:0;margin:0;top:0}
+			#ff1{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:58px;
+				top:23px;
+				display:none
+			}
+			#ff2{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:15px;
+				top:78px;
+				display:none
+			}
+			#ff3{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:92px;
+				top:120px;
+				display:none
+			}
+
+		</style>
+		<script type="text/javascript" src="../../js/code.js"></script>
+		<script>
+			A_PATH = "../" + A_PATH;
+			TIMEUP = "#";
+			GAP = "<br/><a href='http://goo.gl/zI6A' target='_blank' title='Website link (opens in a new window)' style='font-size:xx-small;color:#c0c0c0;padding-top:3px'>iThankYou</a><span style='display:none'>"; // hide score!
+			USE_FADE = 1;
+
+			function CORRECT_ORDER()
+			{
+				shuffle(false,S,true);
+				return true;
+			}
+			function INCORRECT_ORDER()
+			{
+				shuffle(false,S,true);
+				return true;
+			}
+			function END_LEVEL()
+			{
+				var m;
+				if(ORDER){
+					m = "Excellent! (Correct Order Bonus)";
+				}else{
+					m = "Great Star Hunting! - try again?";
+				}
+				document.getElementById('P2').innerHTML = m;
+
+			}
+			function got_bonus(i){$$(FOUND_ID2 + i).style.display = "block"} // example of making items appear (rather than disappear)
+		</script>
+	</head>
+	<body onload="init('index.html','')" onkeypress="keyhint(event,0,0,1)" onunload="reset_bg_music()" onclick="point(event)">
+		<div id="party" align="center">
+		<h5>Find the Stars!</h5>
+			<h2 id="f1" ><image src="images/star.gif" /></h2>
+			<h2 id="f2" ><image src="images/star.gif" /></h2>
+			<h2 id="f3" ><image src="images/star.gif" /></h2>
+		</div>
+		<div id="footer">
+			<div id="twoPlayerContent" class="twoPlayerStyle">
+				<span id="P2" class="message">0</span>
+			</div>
+		</div>
+		<div id="content">
+			<img name="normal" id="normal" class="portrait" src="images/balloons.jpg" ondragstart="return false" onselectstart="return false" >
+			<div id="ff1">1</div>
+			<div id="ff2">2</div>
+			<div id="ff3">3</div>
+			<script>createLoupe("off","")</script>
+			<map name="zoom">
+				<area shape ="circle" coords ="189,192,32" nohref id="m1" onclick="chkscore(1,this,event,true)" />
+				<area shape ="circle" coords ="79,331,32" nohref id="m2" onclick="chkscore(2,this,event,true)" />
+				<area shape ="circle" coords ="262,455,32" nohref id="m3" onclick="chkscore(3,this,event,true)" />
+			</map>
+		</div>
+	</body>
+</html>

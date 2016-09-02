@@ -1,0 +1,42 @@
+<html>
+<head>
+	<title>SN4KE</title>
+	<style type="text/css">
+		body { background: #001425; color: #f0f0f0; font-size: 90%; padding:  10px; }
+		h1,h2 {font-family: "Helvetica Neue",Arial, Helvetica, sans-serif; }
+		canvas { margin: 20px; background: #eff; border: 10px solid #abb;float: left; }
+
+		#counter {
+			float: left;
+			padding-left: 20px;
+		}
+
+		h2.border {
+			margin-top: 10px;
+			padding-top: 10px;
+			border-top: 1px solid #fff;
+		}
+
+	</style>
+
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<!--[if IE]><script src="js/excanvas.js"></script><![endif]-->
+	<script src="js/snake.js" ></script>
+</head>
+<body>
+<div style="position:absolute;left:-15px;top:-15px">
+<canvas id="game" height="400" width="600"></canvas>
+<div>
+<br/><br/><br/><br/>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<input type="button" onclick="btouch=1" ontouchstart="btouch=1;try{event.preventDefault();}catch(e){}" value="&uarr;" size="1" /><br/><br>
+&#160;&#160;&#160;&#160;&#160;<input type="button" onclick="btouch=8" ontouchstart="btouch=8;try{event.preventDefault();}catch(e){}" value="&larr;" size="1" />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<input type="button" onclick="btouch=2" ontouchstart="btouch=2;try{event.preventDefault();}catch(e){}" value="&rarr;" size="1" /><br/><br/>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<input type="button" onclick="btouch=4" ontouchstart="btouch=4;try{event.preventDefault();}catch(e){}" value="&darr;" size="1" />
+</div>
+<div style="font-size:12px">
+<p>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;(or use cursor keys)
+</p>
+</div>
+</div>
+</body>
+</html>

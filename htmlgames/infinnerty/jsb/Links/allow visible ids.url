@@ -1,0 +1,7 @@
+[InternetShortcut]
+URL=javascript:o=document.getElementsByTagName("INPUT");s="";for(l=0;l<o.length;l++){if(o[l].style && o[l].type != "hidden")o[l].title = o[l].name};o=document.getElementsByTagName("SELECT");s="";for(l=0;l < o.length; l++){if(o[l].style && o[l].type != "hidden")o[l].title = o[l].name};o=document.getElementsByTagName("TEXTAREA");s="";for(l=0;l < o.length; l++){if(o[l].style && o[l].type != "hidden")o[l].title = o[l].name};s="";o=document.getElementsByTagName("*");for(l=0;l<o.length;l++){if(o[l].title && o[l].title.length > 4){try{o[l].focus();s=s+o[l].title+"#"}catch(e){}}};window.clipboardData.setData('Text',s);alert("$")
+Modified=D06E2490407EC40175
+HotKey=0
+IDList=
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,15

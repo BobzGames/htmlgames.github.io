@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr">
+<head>
+<meta name="_viewport" content="width=device-width, initial-scale=0.75, maximum-scale=0.75">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<link href="css/styles_common.css" rel="stylesheet" type="text/css">
+<link href="css/styles_labs.css" rel="stylesheet" type="text/css">
+<link href='css/SyntaxHighlighter.css' rel='stylesheet' type='text/css'/>
+
+<script type='text/javascript' src='js/syntax.js'></script>
+<script type="text/javascript" src="js/xhr.js"></script>
+<script type="text/javascript" src="js/flickr.js"></script>
+<script type="text/javascript" src="js/excanvas.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/wolfenflickr.css">
+
+<title>3D Art Gallery</title>
+
+</head><body>
+
+<div id="outer-wrapper">
+  <div class="post hentry uncustomized-post-template">
+	<h3 class="post-title entry-title">3D Art Gallery</h3>
+	<div class="post-body entry-content">
+		<div id="wolfenflickr" style="position:relative;width:524px;height:200px;">
+			<div id="container">
+			  <div id="floor"></div>
+			  <div id="ceiling"></div>
+			</div>
+			<div id="getpsyched"></div>
+			<div id="description"></div>
+			<div id="map">
+			  <canvas id="topmap" style="width:200px;height:200px;position:absolute;" width=200 height=200></canvas>
+			  <canvas id="topmapplayer" style="width:200px;height:200px;position:absolute;z-index:10;" width=200 height=200></canvas>
+			</div>
+		</div>
+
+		<br/><br/>
+
+		<div style="font-size:10px;"><b>Use arrow keys (or WASD) to move, press Space (or Enter) when looking at a picture to view it larger.</b></div>
+
+
+		<div style="font-size:11px;padding-bottom:10px">Enter a Flickr username or a search query and click "Go!" to load Flickr images to the 3D Art Gallery!</div>
+
+
+
+		Flickr username: <input id="flickrusername" value=""><input style="height:21px" type=button value="Go!" id="flickrusernamebtn"><br/>
+		<i>OR</i><br/>
+		try search query: <input id="flickrsearchquery" value=""><input style="height:21px" type=button value="Go!" id="flickrsearchbtn"><span style="padding-left:50px">Low res walls (faster): <input id="lowreswalls" type="checkbox"></span><br/>
+
+		<div id="mobile"></div>
+
+		<br/>
+		
+		<script type="text/javascript" src="js/wolfenflickr.js"></script>
+
+	</div>
+  </div>
+</div>
+
+</body></html>

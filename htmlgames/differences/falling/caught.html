@@ -1,0 +1,285 @@
+
+<html>
+<head>
+
+<style type="text/css" media="screen">
+body {overflow-x:none; overflow-y:none;}
+td {line-height:1; width:20px ;height:20px; float:left; background-Color:black; color:white; font-Size:xx-small; text-Align:right; vertical-align:bottom;}
+input {padding-left:3px; text-transform:capitalize; width:18px; border:0; color:white;}
+#q {position:relative; top:-405px;left: 420px; font-size:small; width:777px;}
+#s {position:relative; top:0px;left: 0px; font-size:x-small;}
+</style>
+
+<style type="text/css" media="print">
+td {line-height:1; width:20px ;height:20px; float:left; background-Color:black; color:white; font-Size:xx-small; text-Align:right; vertical-align:bottom;}
+input {width:18px; height:18px;}
+#q {position:relative; top:10px;left: 0px; font-size:xx-small;}
+#s {display:none}
+table {border: 1px solid blue}
+</style>
+
+<script>
+var todo=move=m=mH=mW=0;
+var hint=true;
+var bLC = false;
+
+function p(bHint)
+{
+	bLC = bHint;
+	var cw = document.getElementsByTagName("TABLE")[0];
+	var o = cw.getElementsByTagName("INPUT");
+	if(o && cw){
+		m = cw.getElementsByTagName("TD");
+		mH = cw.getElementsByTagName("TR").length;
+		mW = cw.getElementsByTagName("TR")[0].getElementsByTagName("TD").length;
+		if(m){
+			for (lp=0;lp<m.length;lp++)
+			{
+				m[lp].id="#"+lp;
+			}
+		}
+	}
+
+	enterAsTab(document);
+
+	todo = cw.getElementsByTagName("INPUT").length;
+
+	if(bHint){
+		if(hint){ 
+			for(i in o)
+			{
+				if(o[i] && o[i].value && o[i].value.length == 1){
+					k(o[i],o[i].value);
+				}
+			}
+		}
+
+	}else{
+		for(i in o)
+		{
+			if(o[i] && o[i].value && o[i].value.length == 1){
+				o[i].value="";
+				k(o[i],"?");
+			}
+		}
+	}
+
+	if(o && cw && m){
+		for (lp=0;lp<m.length;lp++)
+		{
+			if (document.getElementById("#"+lp).innerHTML.replace(/(<([^>]+)>)/ig,"") == "1") {
+				try{lp++;document.getElementById("#"+lp).getElementsByTagName("INPUT")[0].focus();}catch(e){o[0].focus()}
+			}
+		}
+	}
+}
+
+function k(c,val)
+{
+	var pos,o1,o2,sc=0;
+	if(c.value.toUpperCase()==val){
+		//if(c.style.backgroundColor != "green"){
+			c.style.backgroundColor=(bLC)?"green":"#fff";
+			c.style.color="black";
+			if(!c.parentElement.value) todo--;
+			c.parentElement.value=true;
+		//}
+		// emulate Tab ?
+	}else{
+		if (c.style.backgroundColor != "white"){
+			c.style.backgroundColor="white";
+			c.style.color="black";
+			if(val != "?" && c.parentElement.value) todo++;
+			c.parentElement.value=false;
+		}
+	}
+	if(m){
+		pos = ( parseInt(c.parentElement.id.replace("#",""),10) );
+		pos += move;
+
+		o1=document.getElementById("#"+pos);
+		if(o1){
+			o2=o1.getElementsByTagName("INPUT")[0];
+			if(o2){
+				o2.select();
+				o2.focus();
+			}
+		}
+		// window.status = todo;
+		if (!todo) setTimeout("done()",777);
+	}
+}
+
+function done()
+{
+	if(!this.value)	alert("Well Done!\n\nLooks like you've completed it!");
+	this.value = true;
+}
+
+function h(bAll)
+{
+	if(hint || bAll){
+		o=document.getElementsByTagName("INPUT");
+		for(i in o)
+		{
+			if(o[i] && o[i].onkeyup){
+				f=o[i].onkeyup.toString();
+				l=f.split('"')[1].split('"')[0];
+				if(bAll || Math.random() > 0.9){
+					o[i].value = l;
+					k(o[i],l);
+				}
+			}
+		}
+		hint = false;
+	}
+}
+
+addEvent = function(o, e, f, s){
+    var r = o[r = "_" + (e = "on" + e)] = o[r] || (o[e] ? [[o[e], o]] : []), a, c, d;
+    r[r.length] = [f, s || o], o[e] = function(e){
+        try{
+            (e = e || event).preventDefault || (e.preventDefault = function(){e.returnValue = false;});
+            e.stopPropagation || (e.stopPropagation = function(){e.cancelBubble = true;});
+            e.target || (e.target = e.srcElement || null);
+            e.key = (e.which + 1 || e.keyCode + 1) - 1 || 0;
+        }catch(f){}
+        for(d = 1, f = r.length; f; r[--f] && (a = r[f][0], o = r[f][1], a.call ? c = a.call(o, e) : (o._ = a, c = o._(e), o._ = null), d &= c !== false));
+        return e = null, !!d;
+    }
+};
+
+removeEvent = function(o, e, f, s){
+    for(var i = (e = o["_on" + e] || []).length; i;)
+        if(e[--i] && e[i][0] == f && (s || o) == e[i][1])
+            return delete e[i];
+    return false;
+};
+
+enterAsTab = function(f, a){
+    addEvent(f, "keydown", function(e){try{
+        var l, i, f, j, o = e.target;
+        if(e.key == 13 && (a || !/textarea|select/i.test(o.type))){
+            for(i = l = (f = o.form.elements).length; f[--i] != o;);
+            for(j = i; (j = (j + 1) % l) != i && (!f[j].type || f[j].disabled || f[j].readOnly || f[j].type.toLowerCase() == "hidden"););
+            e.preventDefault(), j != i && f[j].focus();
+        }}catch(e){}
+
+		move=0;
+
+        if(mH && e.key == 38){ // up
+			move = -mW;
+        }
+        if(mH && e.key == 40){ // down
+			move = +mW;
+        }
+        if(mW && e.key == 37){ // left
+			move = -1;
+        }
+        if(mW && e.key == 39){ // right
+			move = +1;
+        }
+
+    });
+};
+
+// <input type='text' maxlength='1' onkeyup='k(this,"?")'>
+
+</script>
+</head>
+	<body onload="p(document.location.search.match(/hint/i))">
+	<form>
+		<h1>&#160;&#160;<a href="caught.html?hints" title="Click to reload puzzle with prefilled hints">CROSSWORD PUZZLE</a></h1>
+		<table cellspacing=0 cellpadding=0>
+			<tr>
+				<td> </td><td> </td><td> </td><td><br>11</td><td> </td><td> </td><td> </td><td> </td><td><br>13</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td><br>15</td><td> </td><td> </td><td> </td>
+			</tr><!-- 1  -->
+			<tr>
+				<td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"M")'></td><td> </td><td> </td><td><br>12</td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"J")'></td><td> </td><td> </td><td><br>9</td><td><input type='text' maxlength='1' onkeyup='k(this,"B")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"I")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"B")' value='B'></td><td><input type='text' maxlength='1' onkeyup='k(this,"L")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td> </td><td> </td>
+			</tr><!-- 2  -->
+			<tr>
+				<td> </td><td><br>1</td><td><input type='text' maxlength='1' onkeyup='k(this,"W")' value='W'></td><td><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"M")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"E")' value='E'></td><td><input type='text' maxlength='1' onkeyup='k(this,"N")'></td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td> </td><td> </td><td><br>14</td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td> </td><td> </td><td> </td>
+			</tr><!-- 3  -->
+			<tr>
+				<td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"T")'></td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"S")' value='S'></td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"C")' value='C'></td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"V")' value='V'></td><td><br>16</td><td> </td><td> </td>
+			</tr><!-- 4  -->
+			<tr>
+				<td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"H")' value='H'></td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"M")'></td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"U")'></td><td> </td><td><br>8</td><td><input type='text' maxlength='1' onkeyup='k(this,"H")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"A")' value='A'></td><td><input type='text' maxlength='1' onkeyup='k(this,"V")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"N")'></td><td> </td><td> </td>
+			</tr><!-- 5  -->
+			<tr>
+				<td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td> </td><td><br>6</td><td><input type='text' maxlength='1' onkeyup='k(this,"E")' value='E'></td><td><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"S")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"T")' value='T'></td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"R")'></td><td> </td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td> </td><td> </td>
+			</tr><!-- 6  -->
+			<tr>
+				<td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"R")'></td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"I")'></td><td> </td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"A")' value='A'></td><td> </td><td> </td>
+			</tr><!-- 7  -->
+			<tr>
+				<td> </td><td> </td><td> </td><td> </td><td> </td><td><br>19</td><td> </td><td> </td><td><br>7</td><td><input type='text' maxlength='1' onkeyup='k(this,"M")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"S")' value='S'></td><td><input type='text' maxlength='1' onkeyup='k(this,"S")'></td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"H")'></td><td> </td><td> </td>
+			</tr><!-- 8  -->
+			<tr>
+				<td> </td><td><br>17</td><td><br>2</td><td><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"N")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"G")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"L")' value='L'></td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"T")'></td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td>
+			</tr><!-- 9  -->
+			<tr>
+				<td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"M")' value='M'></td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"M")' value='M'></td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"R")' value='R'></td><td> </td><td> </td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"M")'></td><td> </td><td><br>21</td><td> </td><td> </td><td> </td><td> </td><td> </td>
+			</tr><!-- 10 -->
+			<tr>
+				<td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td> </td><td> </td><td><br>20</td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"J")' value='J'></td><td> </td><td> </td><td><br>18</td><td> </td><td> </td>
+			</tr><!-- 11 -->
+			<tr>
+				<td><br>3</td><td><input type='text' maxlength='1' onkeyup='k(this,"S")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"N")'></td><td><br>4</td><td><input type='text' maxlength='1' onkeyup='k(this,"C")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"N")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"F")' value='F'></td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"S")' value='S'></td><td><input type='text' maxlength='1' onkeyup='k(this,"S")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"I")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"N")'></td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"H")' value='H'></td><td> </td><td> </td>
+			</tr><!-- 12 -->
+			<tr>
+				<td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td> </td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"S")'></td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td> </td><td> </td>
+			</tr><!-- 13 -->
+			<tr>
+				<td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"S")' value='S'></td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"T")'></td><td> </td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"E")' value='E'></td><td> </td><td><br>22</td><td><input type='text' maxlength='1' onkeyup='k(this,"P")'></td><td> </td><td> </td>
+			</tr><!-- 14 -->
+			<tr>
+				<td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"H")' value='H'></td><td> </td><td> </td><td> </td><td><br>10</td><td><input type='text' maxlength='1' onkeyup='k(this,"P")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"T")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"R")' value='R'></td><td> </td>
+			</tr><!-- 15 -->
+			<tr>
+				<td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td> </td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"H")'></td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td> </td><td> </td><td> </td>
+			</tr><!-- 16 -->
+			<tr>
+				<td> </td><td> </td><td> </td><td> </td><td><br>5</td><td><input type='text' maxlength='1' onkeyup='k(this,"G")' value='G'></td><td><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"B")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"R")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"I")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td><input type='text' maxlength='1' onkeyup='k(this,"L")' value='L'></td><td> </td><td> </td><td> </td><td><input type='text' maxlength='1' onkeyup='k(this,"N")'></td><td> </td><td> </td><td> </td>
+			</tr><!-- 17 -->
+			<tr>
+				<td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td>
+			</tr><!-- 18 -->
+		</table>
+
+		<a href="#" id="s" onclick="h(true)">Solve</a> <a href="#" id="s" onclick="h()">Hint</a>
+		<div id="q">
+			<b>ACROSS:</b><br>
+			1. Fill in the blank from the Hail Mary prayer "the Lord is with you, Blessed are you among ___ and blessed is the fruit of thy womb".<br>
+			2. Everyone has a guardian ___ watching over us and protecting us.<br>
+			3. God sent his only ___, Jesus, to save us.<br>
+			4. When we sin, we must go for ___ to ask for forgiveness.<br>
+			5. What was the name of the angel that told Mary that she would have a son name Jesus?<br>
+			6. When do we celebrate Jesus's Resurrection?<br>
+			7. We go to church for ___ every Sunday.<br>
+			8. Saint Peter holds the key to ___.<br>
+			9. We must read our ___ everyday to know what God is trying to tell us.<br>
+			10. Which apostle did Jesus call the 'ROCK'?<br>
+			<br>
+			<b>DOWN:</b><br>
+			2. When we recieve communion, we must say "___".<br>
+			11. Mary is the ___ of God.<br>
+			12. Our Father in heaven, Holy be your ___.<br>
+			13. ___ is our saviour.<br>
+			14. When do we celebrate Jesus's birthday?<br>
+			15. Jesus said "___ one another as I have loved you."<br>
+			16. Who did God ask to build an ark to save the animals from the flood?<br>
+			17. Who lead the Israelites out of Egypt and parted the Red Sea to escape from the Egyptians?<br>
+			18. Faith, ___ and charity<br>
+			19. Hail Mary, full of ___, the Lord is with you.<br>
+			20. In the name of the ___, the son and the Holy Spirit.<br>
+			21. What is the name of Jesus's earthly father?<br>
+			22. We were given ___ commandments by God and we must obey every one of them.<br>
+		</div>
+
+		<bgsound src="audio/_shimmer.wav"></bgsound>
+		<audio src="audio/_shimmer.wav" autoplay></audio>
+
+	</form>
+	</body>
+</html>

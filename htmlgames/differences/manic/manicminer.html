@@ -1,0 +1,2588 @@
+<!--
+	Original game copyright 1983 Bug-Byte Ltd. Work on this version started at
+	the beginning of 2002. Commercial use is not allowed.
+-->
+<html>
+	<head>
+		<title>Manic Miner in JavaScript</title>
+		<script type="text/javascript" src="js/joystick.js"></script>
+		<script type="text/javascript" src="js/preloader.js"></script>
+		<script type="text/javascript" src="js/audio.js"></script>
+		<script type="text/javascript">
+
+// mobile stuff here... by Paul - http://goo.gl/zI6A
+
+var ua = navigator.userAgent;
+var isIE = ua.match("MSIE");
+var bTouch = (ua.indexOf("(iP")==-1 && ua.indexOf("Android")==-1 && ua.indexOf("BlackBerry")==-1 && ua.indexOf("HTC")==-1 && ua.indexOf("PlayBook")==-1 && ua.indexOf("webOS")==-1 && ua.indexOf("IEMobile")==-1 && ua.indexOf("Silk")==-1)?false:true;
+var bT = 0; // emulate keys pressed
+var bTlast = 0;
+
+function mobile(id){ // TODO: pass keys as arrays (as could change)
+	var o = document.getElementById(id);
+	if(o){
+		if(bTouch){
+			//o.innerHTML="<p><input type='button' value='&larr;' tabindex='0' style='margin-left:50px' ontouchend='tKeys(0)' ontouchstart='tKeys(1)' onclick='tKeys(1,1)' /><input type='button' value='&rarr;' tabindex='0' style='margin-left:50px' ontouchend='tKeys(0)' ontouchstart='tKeys(2)' onclick='tKeys(2,1)' /><input type='button' value='&uarr;' tabindex='0' style='margin-left:50px' ontouchend='tKeys(0)' ontouchstart='tKeys(3)' onclick='tKeys(3,1)' /><input type='button' value='&darr;' tabindex='0' style='margin-left:50px' ontouchend='tKeys(0)' ontouchstart='tKeys(4)' onclick='tKeys(4,1)' /><input type='button' value='A' tabindex='0' style='margin-left:50px' ontouchend='tKeys(0)' ontouchstart='tKeys(5)' onclick='tKeys(5,1)' /><input type='button' value='B' tabindex='0' style='margin-left:50px' ontouchend='tKeys(0)' ontouchstart='tKeys(6)' onclick='tKeys(6,1)' /></p>";
+			tks="";
+			tks+="<p>";
+			tks+="<div style='border:1px solid gray;width:50px;float:left;margin-left:1px;font-size:xx-large;-webkit-user-select:none;' ontouchend='Key._processUp(37,1);' ontouchstart='Key._processDown(37,1);'>&#160;&larr;</div>";
+			tks+="<div style='border:1px solid gray;width:50px;float:left;margin-left:40px;font-size:xx-large;-webkit-user-select:none;' ontouchend='Key._processUp(39,1);' ontouchstart='Key._processDown(39,1);'>&#160;&rarr;</div>";
+			tks+="<div style='border:1px solid gray;width:50px;float:left;margin-left:40px;font-size:xx-large;-webkit-user-select:none;' ontouchend='Key._processUp(38,1);' ontouchstart='Key._processDown(38,1);'>&#160;&#160;&uarr;</div>";
+			tks+="<div style='border:1px solid gray;width:50px;float:left;margin-left:40px;font-size:xx-large;-webkit-user-select:none;' ontouchend='Key._processUp(40,1);' ontouchstart='Key._processDown(40,1);'>&#160;&#160;&darr;</div>";
+			tks+="<div style='border:1px solid gray;width:50px;float:left;margin-left:40px;font-size:xx-large;-webkit-user-select:none;' ontouchend='Key._processUp(13,1);' ontouchstart='Key._processDown(13,1);'>&#160;&#160;A</div>";
+			tks+="<div style='border:1px solid gray;width:50px;float:left;margin-left:40px;font-size:xx-large;-webkit-user-select:none;' ontouchend='Key._processUp(32,1);' ontouchstart='Key._processDown(32,1);'>&#160;&#160;S</div>";
+			tks+="</p>";
+
+			o.innerHTML = tks;
+
+			soundOn = false; // temp until fix
+			document.body.addEventListener('touchmove',function(event){event.preventDefault();});
+			document.body.addEventListener('touchstart',function(event){event.preventDefault();});
+			setTimeout(function(){window.scrollTo(0, 1);}, 1);
+		}
+	}
+}
+
+function tKeys(k,bClick){ // TODO: pass keys as arrays (as could change)
+
+	if(bClick){
+		Key._processUp("+bTlast+",1);
+		tKeys(0);
+		Key.state=[];
+	}
+
+	switch(k)
+	{
+
+		case 0:
+			Key._processUp(bTlast,1);
+			Key._processUp(37,1);
+			Key._processUp(39,1);
+			Key._processUp(38,1);
+			Key._processUp(40,1);
+			setTimeout("Key._processUp(65,1);",250);
+			setTimeout("Key._processUp(83,1);",250);
+			break;
+		case 1:
+			Key._processDown(37,1)
+			bTlast = 37;
+			break;
+		case 2:
+			Key._processDown(39,1)
+			bTlast = 39;
+			break;
+		case 3:
+			Key._processDown(38,1)
+			bTlast = 38;
+			break;
+		case 4:
+			Key._processDown(40,1)
+			bTlast = 40;
+			break;
+		case 5:
+			Key._processDown(32,1)
+			bTlast = 65;
+			break;
+		case 6:
+			Key._processDown(13,1)
+			bTlast = 83;
+			break;
+
+		if(bClick){
+			Key._processUp("+bTlast+",1);
+			tKeys(0);
+			Key.state=[];
+		}
+	}
+}
+
+/*
+ *	Mac IE lacks in Array methods, this adds the useful push().
+ */
+if (typeof Array.prototype.push != "function") {
+	Array.prototype.push = function(value) {
+		this[this.length] = value;
+		return this.length;
+	};
+}
+
+/****************************************************************************/
+
+/*
+ *	Game constants.
+ */
+var TILE_WIDTH = 16;
+var TILE_HEIGHT = 16;
+var ROOM_WIDTH = 32;
+var ROOM_HEIGHT = 16;
+var JUMP_HEIGHT = [-8, -8, -6, -6, -4, -4, -2, -2, 0,
+	0, 2, 2, 4, 4, 6, 6, 8, 8];
+var STEP_SIZE = 4;
+var FALL_HEIGHT = 70;
+
+var INFINITE_LIVES  = false;
+var START_LEVEL = 0;
+
+var sfx;
+
+/****************************************************************************/
+
+/**
+ *	Holds an image containing one or more frames.
+ */
+function Sheet(src, states, frames, width, height) {
+	this.src = src;
+	this.states = states;
+	this.frames = frames;
+	this.width = width;
+	this.height = height;
+}
+
+Sheet.BLANK = new Sheet(null, 0, 0, 0, 0);
+
+/**
+ *	Creates a HTML node of the Sheet.
+ */
+Sheet.prototype.getElement = function() {
+	var image = document.createElement("IMG");
+	image.src = this.src;
+	image.width = this.width * this.states;
+	image.height = this.height * this.frames;
+	image.style.position = "absolute";
+	image.style.overflow = "hidden";
+	image.border = "0";
+	return image;
+};
+
+Sheet.prototype.toString = function() {
+	return "Sheet [src: " + this.src + "]";
+};
+
+/****************************************************************************/
+
+/**
+ *	Base class for all sprites.
+ */
+function Sprite(sheet, x, y) {
+	this._sheet = sheet;
+	this._image = null;
+
+	this.x = x;
+	this.y = y;
+	this.state = 0;
+	this.frame = 0;
+}
+
+/**
+ *	Add this sprite to a parent element.
+ */
+Sprite.prototype.add = function(element) {
+	if (null == this._image) {
+		this._image = this._sheet.getElement();
+		this.update();
+	}
+	element.appendChild(this._image);
+};
+
+Sprite.prototype.remove = function(element) {
+	if (this._image) {
+		element.removeChild(this._image);
+	}
+	this._image = null;
+};
+
+/**
+ *	Resets the sprite to its default values.
+ */
+Sprite.prototype.reset = function() {};
+
+/**
+ *	Called by update() before performing the real update. Any aditional
+ *	calculations or operations done by classes extending Sprite are done here.
+ */
+Sprite.prototype._update = function() {}
+
+/**
+ *	Updates the sprite's position within its parent. Calculates the offsets
+ *	and clip region for the current frame.
+ */
+Sprite.prototype.update = function() {
+	this._update();
+	if (this._image) {
+		var stateByWidth = this.state * this._sheet.width;
+		var frameByHeight = this.frame * this._sheet.height;
+		this._image.style.left = (Math.floor(this.x / TILE_WIDTH)
+			* TILE_WIDTH - stateByWidth) + "px";
+		this._image.style.top = (this.y - frameByHeight) + "px";
+		this._image.style.clip = "rect(" + frameByHeight + "px "
+			+ (stateByWidth + this._sheet.width) + "px "
+			+ (frameByHeight + this._sheet.height) + "px "
+			+ stateByWidth + "px)";
+	}
+};
+
+/**
+ *	Makes the sprite invisible.
+ */
+Sprite.prototype.hide = function() {
+	if (this._image) {
+		this._image.style.visibility = "hidden";
+	}
+};
+
+/**
+ *	Makes the sprite visible.
+ */
+Sprite.prototype.show = function() {
+	if (this._image) {
+		this._image.style.visibility = "visible";
+	}
+};
+
+/**
+ *	Steps to the next animation frame, looping round if neccessary. The
+ *	sprite's state is not altered.
+ */
+Sprite.prototype.cycle = function() {
+	if (this.frame < this._sheet.frames - 1) {
+		this.frame++;
+	} else {
+		this.frame = 0;
+	}
+	this.update();
+};
+
+/**
+ *	Checks whether the sprite's bounding box intersects with another.
+ */
+Sprite.prototype.intersects = function(sprite) {
+	return this.isTouching(sprite.x, sprite.y,
+		sprite._sheet.width, sprite._sheet.height);
+};
+
+/**
+ *	Checks if the supplied coordinates fall within the sprite's bounding box.
+ */
+Sprite.prototype.isTouching = function(x, y, width, height) {
+	return x + width > this.x && x < this.x + this._sheet.width
+		&& y + height > this.y && y < this.y + this._sheet.height;
+};
+
+Sprite.prototype.toString = function() {
+	return "Sprite [x: " + this.x + ", y: " + this.y + "]";
+};
+
+/****************************************************************************/
+
+/**
+ *	A Tile represents the basic building blocks of a game.
+ *
+ *	@see Strip
+ */
+function Tile(sheet) {
+	this.sheet = sheet;
+	this.strip = null;
+}
+
+Tile.ATTR_DECOR = 1;
+Tile.ATTR_PLATFORM = 2;
+Tile.ATTR_SOLID = 4;
+Tile.ATTR_MOVING = 8;
+Tile.ATTR_DAMAGE = 16;
+
+Tile.OUT_OF_BOUNDS = new Tile(Sheet.BLANK);
+
+/**
+ *	Each new tile within the map will be created by calling _clone().
+ */
+Tile.prototype._clone = function() {
+	return this;
+};
+
+/**
+ *	Does this tile equal some other tile? Other tiles types should override
+ *	this adding in some specific tests.
+ */
+Tile.prototype.equals = function(tile) {
+	return this.sheet == tile.sheet;
+};
+
+Tile.prototype._getAttributes = function() {
+	return 0;
+};
+
+/**
+ *	Tests if the tile has one of the defined attributes Tile.ATTR_*.
+ */
+Tile.prototype.hasAttr = function(attribute) {
+	return (this._getAttributes() & attribute) == attribute;
+};
+
+Tile.prototype.touch = function(room) {};
+
+/**
+ *	Action performed when a switch is thrown.
+ */
+Tile.prototype.trigger = function() {};
+
+/**
+ *	Called when the tile is stepped upon.
+ */
+Tile.prototype.step = function() {};
+
+/**
+ *	Can tiles of this type use any drawing optimisations or do they have to
+ *	be drawn individually? If, for example, the tile image needs to be updated
+ *	then the affected on-screen element needs to be of a single tile rather
+ *	than tiles of the same type grouped together.
+ */
+Tile.prototype._isSpecialDrawCase = function() {
+	return false;
+};
+
+/**
+ *	Resets the tile to its defaults.
+ */
+Tile.prototype.reset = function() {};
+
+Tile.prototype.toString = function() {
+	return "Tile []";
+};
+
+/****************************************************************************/
+
+/**
+ *	To save resources the HTML nodes are grouped together in strips, with each
+ *	strip displaying a continuous run of the same tile graphic as its
+ *	background. Due to the frames running vertically in the tile image
+ *	animated tiles should only be repeated horizontally.
+ *
+ *	It's not possible to know the size of the strip until the tiles are
+ *	checked so a new strip doesn't have size or position.
+ */
+function Strip(tile) {
+	this.frames = tile.sheet.frames;
+
+	this._image = document.createElement("SPAN");
+	this._image.style.position = "absolute";
+	/*
+	 *	Windows IE has a problem where hidden portions of an element are
+	 *	reloaded from the cache once they come into view. The work around is
+	 *	to wrap each SPAN element containing multiple frames in a parent
+	 *	element.
+	 */
+	if (this.frames > 1) {
+		this._inner = document.createElement("SPAN");
+		this._inner.style.position = "absolute";
+		this._inner.style.backgroundImage = "url(" + tile.sheet.src + ")";
+
+		this._image.appendChild(this._inner);
+	} else {
+		this._image.style.backgroundImage = "url(" + tile.sheet.src + ")";
+	}
+
+	this._frame = 0;
+}
+
+Strip.prototype.position = function(x, y, width, height) {
+	this.y = y;
+	this._image.style.left = x + "px";
+	this._image.style.top = y + "px";
+	this._image.style.width = width + "px";
+	this._image.style.height = height * this.frames + "px";
+	this._image.style.clip = "rect(0px " + width + "px " + height + "px 0px)";
+
+	if (this.frames > 1) {
+		this._inner.style.width = width + "px";
+		this._inner.style.height = height * this.frames + "px";
+	}
+
+	this.width = width;
+	this.height = height;
+};
+
+Strip.prototype.add = function(element) {
+	element.appendChild(this._image);
+};
+
+Strip.prototype.remove = function(element) {
+	if (this._inner) {
+		this._image.removeChild(this._inner);
+	}
+	this._inner = null;
+	if (this._image) {
+		element.removeChild(this._image);
+	}
+	this._image = null;
+};
+
+Strip.prototype.hide = function() {
+	if (this._image) {
+		this._image.style.visibility = "hidden";
+	}
+};
+
+Strip.prototype.show = function() {
+	if (this._image) {
+		this._image.style.visibility = "visible";
+	}
+};
+
+Strip.prototype.reset = function() {
+	this.setFrame(0);
+	this.show();
+}
+
+/**
+ *	Changes the displayed frame by moving both the container and its clip
+ *	region. This only works for horizontally tiled strips.
+ */
+Strip.prototype.setFrame = function(frame) {
+	if (this.frames > 1) {
+		this._image.style.top = (this.y - frame * this.height) + "px";
+		this._image.style.clip = "rect(" + frame * this.height + "px "
+			+ this.width + "px " + (frame + 1) * this.height + "px 0px)";
+		this._frame = frame;
+	}
+};
+
+/**
+ *	Advances the displayed frame. Animations can only run forwards.
+ */
+Strip.prototype.cycle = function() {
+	var frame = this._frame + 1;
+	if (frame >= this.frames) {
+		frame = 0;
+	}
+	this.setFrame(frame);
+};
+
+/****************************************************************************/
+
+/**
+ *	Represents a graphical font.
+ *
+ *	@param src an image containing all of the font's characters
+ *	@param states number of different faces for the font on the same sheet
+ *	@param width the width of each character
+ *	@param height the height of each character
+ *	@param offset ascii value of the first character
+ */
+function Charset(src, states, frames, width, height, offset) {
+	this._super = Sheet;
+	this._super(src, states, frames, width, height);
+
+	this.offset = offset;
+}
+
+Charset.prototype = new Sheet;
+
+Charset.prototype.getIndex = function(c) {
+	var frame = c.charCodeAt(0);
+	if (this.offset < frame) {
+		return  frame - this.offset;
+	} else {
+		return 0;
+	}
+};
+
+/**
+ *	A single on-screen character from a graphical font.
+ */
+function Character(charset, state, c, x, y) {
+	this._super = Sprite;
+	this._super(charset, x, y);
+
+	this.state = state;
+	this.set(c);
+}
+
+Character.prototype = new Sprite;
+
+Character.prototype.set = function(c) {
+	this.frame = this._sheet.getIndex(c);
+	this.update();
+};
+
+/**
+ *	A string of displayed characters.
+ */
+function Line(charset, state, x, y, length) {
+	this.character = new Array();
+	for (var n = 0; n < length; n++) {
+		this.character.push(new Character(charset, state, " ",
+			x + n * charset.width, y));
+	}
+	this._last = "";
+}
+
+Line.ALIGN_LEFT = 0;
+Line.ALIGN_RIGHT = 1;
+Line.ALIGN_CENTRE = 2;
+
+/**
+ *	Changes the displayed characters to the specified string.
+ *
+ *	@param align the chosen alignment for the text (left, centre or right)
+ */
+Line.prototype.set = function(string, align) {
+	if (string == this._last) {
+		// no changes were made so there's no point in proceeding
+		return;
+	}
+
+	var length;
+	if (string.length < this.character.length) {
+		length = string.length;
+	} else {
+		length = this.character.length;
+	}
+
+	switch (align) {
+	case Line.ALIGN_LEFT:
+		for (var n = 0; n < length; n++) {
+			this.character[n].set(string.charAt(n));
+		}
+		break;
+	case Line.ALIGN_RIGHT:
+		for (var n = 0; n < length; n++) {
+			this.character[this.character.length - n - 1].set(
+				string.charAt(string.length - n - 1));
+		}
+		break;
+	case Line.ALIGN_CENTRE:
+		var offset = Math.round((this.character.length - string.length) / 2);
+		for (var n = 0; n < length; n++) {
+			if (offset > 0) {
+				this.character[n + offset].set(string.charAt(n));
+			} else {
+				this.character[n].set(string.charAt(n - offset));
+			}
+		}
+		break;
+	}
+
+	this._last = string;
+};
+
+/**
+ *	Blanks whatever is currently displayed.
+ */
+Line.prototype.clear = function() {
+	for (var n = 0; n < this.character.length; n++) {
+		this.character[n].set(" ");
+	}
+	this._last = "";
+};
+
+Line.prototype.add = function(element) {
+	for (var n = 0; n < this.character.length; n++) {
+		this.character[n].add(element);
+	}
+};
+
+/****************************************************************************/
+
+/**
+ *	Guardians are the automatrons that patrol each of the rooms.
+ */
+function Guardian(sheet, x, y) {
+	this._super = Sprite;
+	this._super(sheet, x, y);
+
+	this.startX = x;
+	this.startY = y;
+}
+
+Guardian.prototype = new Sprite;
+
+Guardian.prototype.reset = function() {
+	this.x = this.startX;
+	this.y = this.startY;
+	this.update();
+};
+
+Guardian.prototype.isTouching = function(x, y, width, height) {
+	if (this.x < x + width && this.x + 20 > x
+		&& this.y < y + height && this.y + 30 > y) {
+		return true;
+	} else {
+		return false;
+	}
+};
+
+Guardian.prototype.guard = function() {};
+
+/**
+ *	Guardians that travel along a horizontal path. If a solid block is
+ *	encountered the guardian will turn around without completing its path.
+ */
+function Horizontal(sheet, x, y, velocity, left, right) {
+	this._super = Guardian;
+	this._super(sheet, x, y);
+
+	this.startVelocity = velocity;
+	this.velocity = velocity;
+	this.left = left;
+	this.right = right;
+	this._pixelsPerFrame = TILE_WIDTH / sheet.frames;
+}
+
+Horizontal.prototype = new Guardian;
+
+Horizontal.prototype.reset = function() {
+	this.x = this.startX;
+	this.y = this.startY;
+	this.velocity = this.startVelocity;
+	this.update();
+};
+
+Horizontal.prototype.cycle = function(room) {
+	this.x += this.velocity;
+	var col = Math.floor((this.x + this._sheet.width) / TILE_WIDTH) - 1;
+	var row = Math.floor(this.y / TILE_HEIGHT);
+	if (this.velocity > 0) {
+		if (room.getBlock(col, row).hasAttr(Tile.ATTR_SOLID)
+		 || this.x > this.right) {
+			this.x -= this.velocity;
+			this.velocity = -this.velocity;
+		}
+	} else if (this.velocity < 0) {
+		if (this.x < this.left) {
+			this.x -= this.velocity;
+			this.velocity = -this.velocity;
+		}
+	}
+	this.update();
+};
+
+Horizontal.prototype._update = function() {
+	if (this._sheet.states > 1) {
+		if (this.velocity > 0) {
+			this.state = 0;
+		} else {
+			this.state = 1;
+		}
+	}
+	this.frame = Math.floor(
+		(Math.abs(this.x) % TILE_WIDTH) / this._pixelsPerFrame);
+};
+
+function Vertical(sheet, x, y, startFrame, velocity, top, bottom) {
+	this._super = Guardian;
+	this._super(sheet, x, y);
+
+	this.startFrame = startFrame;
+	this.velocity = velocity;
+	this.top = top;
+	this.bottom = bottom;
+}
+
+Vertical.prototype = new Guardian;
+
+Vertical.prototype.reset = function() {
+	this.x = this.startX;
+	this.y = this.startY;
+	this.frame = this.startFrame;
+	this.update();
+};
+
+Vertical.prototype.cycle = function() {
+	this.y += this.velocity;
+	if (this.velocity > 0) {
+		if (this.y > this.bottom) {
+			this.velocity = -this.velocity;
+			this.y = this.bottom;
+		}
+	} else if (this.velocity < 0) {
+		if (this.y < this.top) {
+			this.velocity = -this.velocity;
+			this.y = this.top;
+		}
+	}
+	if (this.frame < this._sheet.frames - 1) {
+		this.frame++;
+	} else {
+		this.frame = 0;
+	}
+	this.update();
+};
+
+/**
+ *	Eugene guardians act similarly to a vertical guardians until all of the
+ *	items have been collected, at which point they travel to the rest position
+ *	(above the portal, for example) and stay there.
+ */
+function Eugene(sheet, x, y, velocity, top, bottom, rest) {
+	this._super = Vertical;
+	this._super(sheet, x, y, 0, velocity, top, bottom);
+
+	this.rest = rest;
+	this.action = Eugene.ACTION_NORMAL;
+}
+
+Eugene.prototype = new Vertical;
+
+Eugene.ACTION_NORMAL = 0;
+Eugene.ACTION_GUARDING = 1;
+Eugene.ACTION_STATIC = 2;
+
+Eugene.prototype.reset = function() {
+	this.x = this.startX;
+	this.y = this.startY;
+	this.frame = 0;
+	this.action = Eugene.ACTION_NORMAL;
+	this.update();
+};
+
+Eugene.prototype.guard = function() {
+	if (this.action == Eugene.ACTION_NORMAL) {
+		this.action = Eugene.ACTION_GUARDING;
+		if ((this.velocity > 0 && this.y > this.rest)
+			|| (this.velocity < 0  && this.y < this.rest)) {
+			this.velocity = -this.velocity;
+		}
+	}
+};
+
+Eugene.prototype.cycle = function() {
+	if (this.action == Eugene.ACTION_NORMAL) {
+		this.y += this.velocity;
+		if (this.velocity > 0) {
+			if (this.y > this.bottom) {
+				this.velocity = -this.velocity;
+				this.y = this.bottom;
+			}
+		} else if (this.velocity < 0) {
+			if (this.y < this.top) {
+				this.velocity = -this.velocity;
+				this.y = this.top;
+			}
+		}
+	} else if (this.action == Eugene.ACTION_GUARDING) {
+		if (this.y == this.rest) {
+			this.action = Eugene.ACTION_STATIC;
+		} else {
+			this.y += this.velocity;
+		}
+	}
+
+	if (this.action != Eugene.ACTION_NORMAL) {
+		if (this.frame < this._sheet.frames - 1) {
+			this.frame++;
+		} else {
+			this.frame = 0;
+		}
+	}
+
+	this.update();
+};
+
+
+/**
+ *	Kong guardians stay in one position cycling their animation. If the floor
+ *	disappears from under them they fall to the bottom of the screen.
+ */
+function Kong(sheet, x, y) {
+	this._super = Guardian;
+	this._super(sheet, x, y);
+
+	this.subframe = 0;
+	this.falling = false;
+}
+
+Kong.prototype = new Guardian;
+
+Kong.prototype.reset = function() {
+	this.x = this.startX;
+	this.y = this.startY;
+	this.state = 0;
+	this.frame = 0;
+	this.falling = false;
+	this.update();
+};
+
+Kong.prototype.cycle = function(room) {
+	this.subframe++;
+	if (this.subframe > 6) {
+		if (this.frame < this._sheet.frames - 1) {
+			this.frame++;
+		} else {
+			this.frame = 0;
+		}
+		this.subframe = 0;
+	}
+
+	if (!this.falling) {
+		var col = Math.floor(this.x / TILE_WIDTH);
+		var row = Math.floor((this.y + this._sheet.height) / TILE_HEIGHT);
+		if (!room.getBlock(col, row).hasAttr(Tile.ATTR_PLATFORM)) {
+			this.falling = true;
+			this.state = 1;
+		}
+	} else {
+		if (this.y < ROOM_HEIGHT * TILE_HEIGHT) {
+			this.y += TILE_HEIGHT / 2;
+		}
+	}
+
+	this.update();
+};
+
+function Skylab(sheet, x, y, velocity, shift, wrap) {
+	this._super = Guardian;
+	this._super(sheet, x, y);
+
+	this.velocity = velocity;
+	this.shift = shift;
+	this.wrap = wrap;
+
+	this.exploding = false;
+}
+
+Skylab.prototype = new Guardian;
+
+Skylab.prototype.reset = function() {
+	this.x = this.startX;
+	this.y = this.startY;
+	this.frame = 0;
+	this.exploding = false;
+	this.update();
+};
+
+Skylab.prototype.cycle = function(room) {
+	if (!this.exploding) {
+		this.y += this.velocity;
+		var col = Math.floor(this.x / TILE_WIDTH);
+		var row = Math.floor((this.y + this._sheet.height) / TILE_HEIGHT);
+		if (this.y % TILE_HEIGHT == 0
+			&& room.getBlock(col, row).hasAttr(Tile.ATTR_PLATFORM)) {
+			this.exploding = true;
+		}
+	} else {
+		this.frame++;
+		if (this.frame >= this._sheet.frames) {
+			var newX = (this.x + this.shift) % this.wrap;
+			this.reset();
+			this.x = newX;
+		}
+	}
+	this.update();
+};
+
+/****************************************************************************/
+
+/**
+ *	Willy, our hero in this tale!
+ */
+function Willy(sheet, col, row, direction) {
+	this._super = Sprite;
+	this._super(sheet, col * TILE_WIDTH, row * TILE_HEIGHT);
+	this.startX = col * TILE_WIDTH;
+	this.startY = row * TILE_HEIGHT;
+	this.startDirection = direction;
+	this._pixelsPerFrame = TILE_WIDTH / sheet.frames;
+
+	this.direction = direction;
+	this.jump = 0;
+	this.fall = 0;
+	this.action = Willy.ACTION_WALKING;
+}
+
+Willy.prototype = new Sprite;
+
+Willy.ACTION_WALKING = 0;
+Willy.ACTION_JUMPING_UP = 1;
+Willy.ACTION_JUMPING_LEFT = 2;
+Willy.ACTION_JUMPING_RIGHT = 3;
+Willy.ACTION_FALLING = 4;
+Willy.ACTION_DYING = 5;
+
+Willy.FACING_RIGHT = 0;
+Willy.FACING_LEFT = 1;
+
+Willy.prototype.reset = function() {
+	this.x = this.startX;
+	this.y = this.startY;
+	this.direction = this.startDirection;
+	this.jump = 0;
+	this.fall = 0;
+	this.action = Willy.ACTION_WALKING;
+	this.update()
+};
+
+Willy.prototype._update = function() {
+	this.state = this.direction;
+	this.frame = Math.floor(
+		(Math.abs(this.x) % TILE_WIDTH) / this._pixelsPerFrame);
+};
+
+/****************************************************************************/
+
+/**
+ *	The object, be it a key or anything else, to be collected during gameplay.
+ */
+function Item(sheet, col, row) {
+	this._super = Sprite;
+	this._super(sheet, col * TILE_WIDTH, row * TILE_HEIGHT);
+
+	this.collected = false;
+}
+
+Item.prototype = new Sprite;
+
+Item.prototype.collect = function() {
+	this.collected = true;
+	this.hide();
+	playRight();
+};
+
+Item.prototype.reset = function() {
+	this.collected = false;
+	this.show();
+	this.update();
+};
+
+/****************************************************************************/
+
+/**
+ *	Where Willy goes to exit the room.
+ */
+function Portal(sheet, col, row) {
+	this._super = Sprite;
+	this._super(sheet, col * TILE_WIDTH, row * TILE_HEIGHT);
+
+	this.open = false;
+	this._subFrame = 0;
+}
+
+Portal.prototype = new Sprite;
+
+Portal.prototype.reset = function() {
+	this.open = false;
+	this.frame = 0;
+	this.update();
+};
+
+Portal.prototype.cycle = function() {
+	if (this.open) {
+		if (this._subFrame < 5) {
+			this._subFrame++;
+		} else {
+			if (this.frame < this._sheet.frames - 1) {
+				this.frame++;
+			} else {
+				this.frame = 0;
+			}
+			this._subFrame = 0;
+
+			this.update();
+		}
+	}
+};
+
+/****************************************************************************/
+
+/**
+ *	Empty space within the map.
+ */
+function Blank() {
+	this._super = Tile;
+	this._super(Sheet.BLANK);
+}
+
+Blank.prototype = new Tile;
+
+Blank.prototype._isSpecialDrawCase = function() {
+	return true;
+};
+
+/**
+ *	A block Willy can walk upon.
+ */
+function Floor(sheet) {
+	this._super = Tile;
+	this._super(sheet);
+
+	this._visible = true;
+}
+
+Floor.prototype = new Tile;
+
+Floor.prototype._clone = function() {
+	return new Floor(this.sheet);
+};
+
+Floor.prototype._getAttributes = function() {
+	if (this._visible) {
+		return Tile.ATTR_PLATFORM;
+	} else {
+		return 0;
+	}
+};
+
+Floor.prototype.trigger = function() {
+	this._visible = false;
+	if (this.strip) {
+		this.strip.hide();
+	}
+};
+
+Floor.prototype.reset = function() {
+	this._visible = true;
+};
+
+/**
+ *	Like a floor block but Willy can't pass through it.
+ */
+function Wall(sheet) {
+	this._super = Floor;
+	this._super(sheet);
+}
+
+Wall.prototype = new Floor;
+
+Wall.prototype._clone = function() {
+	return new Wall(this.sheet);
+};
+
+Wall.prototype._getAttributes = function() {
+	if (this._visible) {
+		return Tile.ATTR_PLATFORM | Tile.ATTR_SOLID;
+	} else {
+		return 0;
+	}
+};
+
+/**
+ *	A tile that can only be stepped on a limited ammount of time before
+ *	disappearing. The limit is defined by the number of frames in its sheet.
+ */
+function Crumble(sheet) {
+	this._super = Tile;
+	this._super(sheet);
+
+	this.value = 0;
+}
+
+Crumble.prototype = new Tile;
+
+Crumble.prototype._clone = function() {
+	return new Crumble(this.sheet);
+};
+
+Crumble.prototype._getAttributes = function() {
+	if (this.value < this.sheet.frames) {
+		return Tile.ATTR_PLATFORM;
+	} else {
+		return 0;
+	}
+};
+
+Crumble.prototype._isSpecialDrawCase = function() {
+	return true;
+};
+
+Crumble.prototype.step = function() {
+	if (this.value < this.sheet.frames) {
+		this.value++;
+		if (this.strip) {
+			this.strip.setFrame(this.value);
+		}
+	}
+};
+
+Crumble.prototype.reset = function() {
+	this.value = 0;
+};
+
+/**
+ *	Conveyors carry Willy in the direction they're travelling in.
+ */
+function Conveyor(sheet, direction) {
+	this._super = Tile;
+	this._super(sheet);
+
+	this.direction = direction;
+}
+
+Conveyor.prototype = new Tile;
+
+Conveyor.prototype._clone = function() {
+	return new Conveyor(this.sheet, this.direction);
+};
+
+Conveyor.prototype._getAttributes = function() {
+	return Tile.ATTR_PLATFORM | Tile.ATTR_MOVING;
+};
+
+/**
+ *	Causes Willy to loose a life on collision.
+ */
+function Damage(sheet) {
+	this._super = Tile;
+	this._super(sheet);
+}
+
+Damage.prototype = new Tile;
+
+Damage.prototype._clone = function() {
+	return new Damage(this.sheet);
+};
+
+Damage.prototype._getAttributes = function() {
+	return Tile.ATTR_DAMAGE;
+};
+
+/**
+ *	Holds the position of a tile to be affected by another tile.
+ */
+function Affected(col, row) {
+	this.col = col;
+	this.row = row;
+}
+
+Affected.prototype.trigger = function(room) {
+	room.getBlock(this.col, this.row).trigger();
+};
+
+Affected.prototype.toString = function() {
+	return "Affected [col: " + this.col + ", row: " + this.row + "]";
+};
+
+/**
+ *	A switch is a tile that affects another tile. Switches should have two
+ *	frames of animation to represent the on and off states.
+ */
+function Switch(sheet, affected) {
+	this._super = Tile;
+	this._super(sheet);
+
+	this.affected = affected;
+}
+
+Switch.prototype = new Tile;
+
+Switch.prototype._clone = function() {
+	return new Switch(this.sheet, this.affected);
+};
+
+Switch.prototype._getAttributes = function() {
+	return Tile.ATTR_DECOR;
+};
+
+Switch.prototype.touch = function(room) {
+	this.strip.setFrame(1);
+	for (var n = 0; n < this.affected.length; n++) {
+		this.affected[n].trigger(room);
+	}
+};
+
+Switch.prototype._isSpecialDrawCase = function() {
+	return true;
+};
+
+/****************************************************************************/
+
+function Game(element, joystick) {
+	this.element = element;
+	this.joystick = joystick;
+
+	this.state = Game.STATE_ATTRACT;
+
+	this.room = new Array();
+	this.playing = START_LEVEL - 1;
+	this.air = 28 * 8 * 8;	// 28 Speccy characters
+
+	this.strip = new Array();
+	this.watching = new Array();
+
+	this.sprite = new Array();
+
+	this.score = 0;
+	this.lives = 2;
+};
+
+Game.STATE_ATTRACT = 0;
+Game.STATE_DRAWING = 1;
+Game.STATE_PLAYING = 2;
+Game.STATE_RESETTING = 3;
+Game.STATE_EMPTYING = 4;
+Game.STATE_LOADING = 5;
+Game.STATE_GAME_OVER = 6;
+
+Game.prototype.layout = function() {
+	this._createStripsV();
+	this._createStripsH();
+	this._createSingles();
+	this._createSprites();
+	this.reset();
+
+	this.element.style.background = this.room[this.playing].background;
+
+	for (n = 0; n < this.strip.length; n++) {
+		this.strip[n].add(this.element);
+	}
+
+	for (n = 0; n < this.sprite.length; n++) {
+		this.sprite[n].add(this.element);
+	}
+
+	this.state = Game.STATE_PLAYING;
+};
+
+Game.prototype.flush = function() {
+	var room = this.room[this.playing];
+	for (var n = 0; n < this.strip.length; n++) {
+		this.strip[n].remove(this.element);
+	}
+	this.strip = new Array();
+	this.watching = new Array();
+
+	for (var n = 0; n < room.item.length; n++) {
+		room.item[n].remove(this.element);
+	}
+	for (var n = 0; n < room.guardian.length; n++) {
+		room.guardian[n].remove(this.element);
+	}
+	room.willy.remove(this.element);
+	room.portal.remove(this.element);
+	this.sprite = new Array();
+
+	room.flush();
+	room.reset();
+}
+
+/**
+ *	Creates the vertical strips from each tile.
+ */
+Game.prototype._createStripsV = function() {
+	var current, workingStrip;
+	var repeat = 0;
+	for (var col = 0; col < ROOM_WIDTH; col++) {
+		for (var row = 0; row < ROOM_HEIGHT; row++) {
+			current = this.room[this.playing].map[row][col];
+			if (row + 1 < ROOM_HEIGHT && current.strip == null
+				&& current.equals(this.room[this.playing].map[row + 1][col])) {
+				if (!current._isSpecialDrawCase()) {
+					if (repeat == 0) {
+						workingStrip = new Strip(current);
+					}
+					current.strip = workingStrip;
+				}
+				repeat++;
+			} else {
+				if (repeat > 0 && !current._isSpecialDrawCase()) {
+					workingStrip.position(col * TILE_WIDTH,
+						(row - repeat) * TILE_HEIGHT,
+						TILE_WIDTH, (repeat + 1) * TILE_HEIGHT);
+					this.strip.push(workingStrip);
+					current.strip = workingStrip;
+				}
+				repeat = 0;
+			}
+		}
+	}
+};
+
+Game.prototype._createStripsH = function() {
+	var current, workingStrip;
+	var repeat = 0;
+	for (var row = 0; row < ROOM_HEIGHT; row++) {
+		for (var col = 0; col < ROOM_WIDTH; col++) {
+			current = this.room[this.playing].map[row][col];
+			if (col + 1 < ROOM_WIDTH && current.strip == null
+				&& current.equals(this.room[this.playing].map[row][col + 1])) {
+				if (!current._isSpecialDrawCase()) {
+					if (repeat == 0) {
+						workingStrip = new Strip(current);
+					}
+					current.strip = workingStrip;
+				}
+				repeat++;
+			} else {
+				if (repeat > 0 && !current._isSpecialDrawCase()) {
+					workingStrip.position((col - repeat) * TILE_WIDTH,
+						row * TILE_HEIGHT,
+						(repeat + 1) * TILE_WIDTH, TILE_HEIGHT);
+					this.strip.push(workingStrip);
+					current.strip = workingStrip;
+					if (current.hasAttr(Tile.ATTR_MOVING)) {
+						this.watching.push(workingStrip);
+					}
+				}
+				repeat = 0;
+			}
+		}
+	}
+};
+
+Game.prototype._createSingles = function() {
+	var current;
+	for (var row = 0; row < ROOM_HEIGHT; row++) {
+		for (var col = 0; col < ROOM_WIDTH; col++) {
+			current = this.room[this.playing].map[row][col];
+			if (current.strip == null && current._getAttributes() != 0) {
+				current.strip = new Strip(current);
+				current.strip.position(col * TILE_WIDTH, row * TILE_HEIGHT,
+					TILE_WIDTH, TILE_HEIGHT);
+				this.strip.push(current.strip);
+			}
+		}
+	}
+};
+
+Game.prototype._createSprites = function() {
+	var room = this.room[this.playing];
+
+	for (var n = 0; n < room.item.length; n++) {
+		var sprite = room.item[n];
+		sprite.frame = n % sprite._sheet.frames;
+		this.sprite.push(sprite);
+		this.watching.push(sprite);
+	}
+
+	for (var n = 0; n < room.guardian.length; n++) {
+		this.sprite.push(room.guardian[n]);
+	}
+	this.sprite.push(room.willy);
+	this.sprite.push(room.portal);
+};
+
+Game.prototype.update = function() {
+	this.room[this.playing].willy.update();
+	for (var n = 0; n < this.watching.length; n++) {
+		this.watching[n].cycle();
+	}
+	for (var n = 0; n < this.room[this.playing].guardian.length; n++) {
+		this.room[this.playing].guardian[n].cycle(this.room[this.playing]);
+	}
+	this.room[this.playing].portal.cycle();
+};
+
+Game.prototype.reset = function() {
+	this.room[this.playing].reset();
+	for (var n = 0; n < this.strip.length; n++) {
+		this.strip[n].reset();
+	}
+	this.air = 28 * 8 * 8;
+};
+
+Game.prototype.process = function() {
+	switch (this.state) {
+	case Game.STATE_ATTRACT:
+		this.attract();
+		break;
+	case Game.STATE_DRAWING:
+		break;
+	case Game.STATE_PLAYING:
+		this._process();
+		this.update();
+		break;
+	case Game.STATE_RESETTING:
+		this.reset();
+		this.state = Game.STATE_PLAYING;
+		break;
+	case Game.STATE_EMPTYING:
+		if (this.air > 0) {
+			this.air -= 21;
+			if (this.air >= 0) {
+				this.score += 21;
+			} else {
+				this.air = 0;
+			}
+		} else {
+			this.state = Game.STATE_LOADING;
+		}
+		break;
+	case Game.STATE_LOADING:
+		if (this.playing >= 0) {
+			this.flush();
+		}
+
+		this.playing++;
+		if (this.playing >= this.room.length) {
+			this.playing = 0;
+		}
+
+		this.element.style.background = "black";
+		this.state = Game.STATE_DRAWING;
+
+		var _this = this;
+		this.room[this.playing].preloader.start(function() {
+			_this.layout();
+		});
+		break;
+	case Game.STATE_GAME_OVER:
+		this.flush();
+		this.lives = 2;
+		this.score = 0;
+		this.playing = START_LEVEL - 1;
+		this.element.style.background = "black url(images/mm_attract.gif)";
+		this.state = Game.STATE_ATTRACT;
+		break;
+	}
+};
+
+Game.prototype.attract = function() {
+	this.joystick.poll();
+	if (this.joystick.a) {
+		this.state = Game.STATE_LOADING;
+	}
+};
+
+Game.prototype._process = function() {
+	this.joystick.poll();
+
+	var room = this.room[this.playing];
+	var willy = room.willy;
+	var col = Math.floor(willy.x / TILE_WIDTH);
+	var row = Math.floor(willy.y / TILE_HEIGHT);
+
+	if (this._touchBlocks(col, row)) {
+		willy.action = Willy.ACTION_DYING;
+		playWrong();
+	}
+
+	for (var n = 0; n < room.guardian.length; n++) {
+		if (room.guardian[n].isTouching(willy.x, willy.y, 16, 32)) {
+			willy.action = Willy.ACTION_DYING;
+		}
+	}
+
+	if (willy.action == Willy.ACTION_WALKING && this._isWillyFalling()) {
+		willy.action = Willy.ACTION_FALLING;
+		playBonus();
+	}
+
+	/*
+	 *	This section borrows ideas from Andy Noble's Blit Basic version of MM,
+	 *	most notably the three states for jumping (left, up and right).
+	 */
+	switch (willy.action) {
+	case Willy.ACTION_WALKING:
+		var bl = room.getBlock(col, row + 2);
+		var br = room.getBlock(col + 1, row + 2);
+		if (bl.hasAttr(Tile.ATTR_MOVING)
+			|| br.hasAttr(Tile.ATTR_MOVING)) {
+			var direction = bl.direction | br.direction;
+			if (willy.direction == direction || this.joystick.x == 0) {
+				if (direction == Willy.FACING_LEFT) {
+					this.joystick.x = -1;
+				} else {
+					this.joystick.x = 1;
+				}
+			}
+		}
+		bl.step();
+		br.step();
+
+		if (this.joystick.x < 0) {
+			if (this.joystick.a) {
+				willy.jump = 0;
+				if (willy.direction == Willy.FACING_RIGHT) {
+					willy.direction = Willy.FACING_LEFT;
+					willy.action = Willy.ACTION_JUMPING_UP;
+					this._makeWillyJump();
+				} else {
+					willy.action = Willy.ACTION_JUMPING_LEFT;
+					this._moveWillyLeft();
+				}
+			} else {
+				this._moveWillyLeft();
+			}
+		} else if (this.joystick.x > 0) {
+			if (this.joystick.a) {
+				willy.jump = 0;
+				if (willy.direction == Willy.FACING_LEFT) {
+					willy.direction = Willy.FACING_RIGHT;
+					willy.action = Willy.ACTION_JUMPING_UP;
+					this._makeWillyJump();
+				} else {
+					willy.action = Willy.ACTION_JUMPING_RIGHT;
+					this._moveWillyRight();
+				}
+			} else {
+				this._moveWillyRight();
+			}
+		} else {
+			if (this.joystick.a) {
+				willy.jump = 0;
+				willy.action = Willy.ACTION_JUMPING_UP;
+				this._makeWillyJump();
+			}
+		}
+		willy.fall = 0;
+		break;
+	case Willy.ACTION_JUMPING_UP:
+		this._makeWillyJump();
+		break;
+	case Willy.ACTION_JUMPING_LEFT:
+		this._makeWillyJump();
+		//if (willy.action == Willy.ACTION_JUMPING_LEFT) {
+			this._moveWillyLeft();
+		//}
+		break;
+	case Willy.ACTION_JUMPING_RIGHT:
+		this._makeWillyJump();
+		//if (willy.action == Willy.ACTION_JUMPING_RIGHT) {
+			this._moveWillyRight();
+		//}
+		break;
+	case Willy.ACTION_FALLING:
+		this._makeWillyFall();
+		break;
+	case Willy.ACTION_DYING:
+		if (!INFINITE_LIVES) {
+			this.lives--;
+		}
+		if (this.lives >= 0) {
+			this.state = Game.STATE_RESETTING;
+		} else {
+			this.state = Game.STATE_GAME_OVER;
+		}
+		break;
+	default:
+		window.status = willy.action;
+	}
+
+	var remaining = 0;
+	for (var n = 0; n < room.item.length; n++) {
+		current = room.item[n];
+		if (!current.collected) {
+			remaining++;
+			if (current.y < willy.y + 32
+				&& current.y + 14 > willy.y
+				&& current.x + 14 > willy.x
+				&& current.x < willy.x + 20) {
+				current.collect();
+				this.score += 100;
+			}
+		}
+	}
+
+	if (remaining == 0) {
+		room.portal.open = true;
+		for (var n = 0; n < room.guardian.length; n++) {
+			room.guardian[n].guard();
+		}
+		if (room.portal.isTouching(willy.x + TILE_WIDTH / 2,
+			willy.y + TILE_HEIGHT, 1, 1)) {
+			game.state = Game.STATE_EMPTYING;
+			playLevel();
+		}
+	}
+
+	this.air--;
+	if (this.air < 0) {
+		willy.action = Willy.ACTION_DYING;
+	}
+};
+
+/**
+ *	If no solid blocks are in the way, moves Willy left. Wraps round if he
+ *	goes off the egde of the screen.
+ */
+Game.prototype._moveWillyLeft = function() {
+	var room = this.room[this.playing];
+	var willy = room.willy;
+	if (willy.direction == Willy.FACING_RIGHT) {
+		willy.direction = Willy.FACING_LEFT;
+	} else {
+		var col = Math.floor((willy.x - STEP_SIZE) / TILE_WIDTH);
+		var lowerRow = Math.ceil(willy.y / TILE_HEIGHT);
+		if (!(room.getBlock(col, Math.floor(willy.y /
+			TILE_HEIGHT)).hasAttr(Tile.ATTR_SOLID)
+			|| room.getBlock(col, lowerRow).hasAttr(Tile.ATTR_SOLID)
+			|| room.getBlock(col, lowerRow + 1).hasAttr(Tile.ATTR_SOLID))) {
+			willy.x -= STEP_SIZE;
+			if (willy.x < 0) {
+				willy.x += ROOM_WIDTH * TILE_WIDTH;
+			}
+		}
+	}
+};
+
+/**
+ *	If no solid blocks are in the way, moves Willy right. Wraps round if he
+ *	goes off the egde of the screen.
+ */
+Game.prototype._moveWillyRight = function() {
+	var room = this.room[this.playing];
+	var willy = room.willy;
+	if (willy.direction == Willy.FACING_LEFT) {
+		willy.direction = Willy.FACING_RIGHT;
+	} else {
+		var col = Math.floor((willy.x + STEP_SIZE) / TILE_WIDTH) + 1;
+		var lowerRow = Math.ceil(willy.y / TILE_HEIGHT);
+		if ((willy.x % TILE_WIDTH != TILE_WIDTH - STEP_SIZE)
+			|| !(room.getBlock(col, Math.floor(willy.y /
+				TILE_HEIGHT)).hasAttr(Tile.ATTR_SOLID)
+			|| room.getBlock(col, lowerRow).hasAttr(Tile.ATTR_SOLID)
+			|| room.getBlock(col, lowerRow + 1).hasAttr(Tile.ATTR_SOLID))) {
+			willy.x += STEP_SIZE;
+			if (willy.x >= ROOM_WIDTH * TILE_WIDTH) {
+				willy.x -= ROOM_WIDTH * TILE_WIDTH;
+			}
+		}
+	}
+};
+
+Game.prototype._makeWillyJump = function() {
+	var room = this.room[this.playing];
+	var willy = room.willy;
+	willy.y += JUMP_HEIGHT[willy.jump];
+
+	if (willy.jump == 0) {
+		playHints();
+	} else if (willy.jump == 9) {
+		// is back on floor
+	}
+
+	var col = Math.floor(willy.x / TILE_WIDTH);
+	var row = Math.floor(willy.y / TILE_HEIGHT);
+
+	if (willy.jump < 9) {
+		if (room.getBlock(col, row).hasAttr(Tile.ATTR_SOLID)
+			|| room.getBlock(col + 1, row).hasAttr(Tile.ATTR_SOLID)) {
+			willy.action = Willy.ACTION_FALLING;
+			willy.y = Math.floor((willy.y + TILE_HEIGHT) / TILE_HEIGHT)
+				* TILE_HEIGHT;
+		}
+	} else {
+		if (willy.y % TILE_HEIGHT == 0) {
+			if (room.getBlock(col, row + 2).hasAttr(Tile.ATTR_PLATFORM)
+				|| room.getBlock(col + 1, row + 2).hasAttr(Tile.ATTR_PLATFORM)) {
+				willy.action = Willy.ACTION_WALKING;
+				willy.jump = 0;
+				willy.y = Math.floor(willy.y / TILE_HEIGHT) * TILE_HEIGHT;
+			}
+		}
+		willy.fall += JUMP_HEIGHT[willy.jump];
+	}
+
+	willy.jump++;
+	if (willy.jump == JUMP_HEIGHT.length) {
+		willy.jump = 0;
+		if (this._isWillyFalling()) {
+			willy.action = Willy.ACTION_FALLING;
+		} else {
+			willy.action = Willy.ACTION_WALKING;
+		}
+	}
+};
+
+Game.prototype._isWillyFalling = function() {
+	var room = this.room[this.playing];
+	var willy = room.willy;
+	var col = Math.floor(willy.x / TILE_WIDTH);
+	var row = Math.floor(willy.y / TILE_HEIGHT) + 2;
+	if (room.getBlock(col, row).hasAttr(Tile.ATTR_PLATFORM)
+		|| room.getBlock(col + 1, row).hasAttr(Tile.ATTR_PLATFORM)) {
+		return false;
+	} else {
+		return true;
+	}
+};
+
+Game.prototype._makeWillyFall = function() {
+	var room = this.room[this.playing];
+	var willy = room.willy;
+	willy.y += JUMP_HEIGHT[JUMP_HEIGHT.length - 1];
+
+	var col = Math.floor(willy.x / TILE_WIDTH);
+	var row = Math.floor(willy.y / TILE_HEIGHT) + 2;
+	if (room.getBlock(col, row).hasAttr(Tile.ATTR_PLATFORM)
+		|| room.getBlock(col + 1, row).hasAttr(Tile.ATTR_PLATFORM)) {
+		willy.action = Willy.ACTION_WALKING;
+		willy.y = Math.floor(willy.y / TILE_HEIGHT) * TILE_HEIGHT;
+		if (willy.fall >= FALL_HEIGHT) {
+			willy.action = Willy.ACTION_DYING;
+		} else {
+			willy.fall = 0;
+		}
+	} else {
+		willy.fall += JUMP_HEIGHT[JUMP_HEIGHT.length - 1];
+	}
+};
+
+Game.prototype._touchBlocks = function(col, row) {
+	var room = this.room[this.playing];
+
+	for (var y = row + 2; y >= row; y--) {
+		for (var x = col + 1; x >= col; x--) {
+			var current = room.getBlock(x, y);
+			current.touch(room);
+			if (current.hasAttr(Tile.ATTR_DAMAGE)) {
+				return true;
+			}
+		}
+	}
+	return false;
+};
+
+/****************************************************************************/
+
+function Room(name, background) {
+	this.name = name;
+	this.background = background;
+	this.tile = new Array();
+	this.map = new Array(ROOM_HEIGHT);
+	for (var row = 0; row < ROOM_HEIGHT; row++) {
+		this.map[row] = new Array(ROOM_WIDTH);
+		for (var col = 0; col < ROOM_WIDTH; col++) {
+			this.map[row][col] = Tile.OUT_OF_BOUNDS;
+		}
+	}
+	this.item = new Array();
+	this.portal = null;
+	this.guardian = new Array();
+	this.willy = null;
+	this.preloader = new Preloader();
+}
+
+Room.prototype.setTile = function(index, tile) {
+	if (tile.sheet != Sheet.BLANK) {
+		this.preloader.add(tile.sheet.src);
+	}
+	this.tile[index] = tile;
+};
+
+Room.prototype.addItem = function(sheet, col, row) {
+	this.preloader.add(sheet.src);
+	this.item.push(new Item(sheet, col, row));
+};
+
+Room.prototype.setPortal = function(sheet, col, row) {
+	this.preloader.add(sheet.src);
+	this.portal = new Portal(sheet, col, row);
+};
+
+Room.prototype.addGuardian = function(guardian) {
+	this.preloader.add(guardian._sheet.src);
+	this.guardian.push(guardian);
+};
+
+Room.prototype.setWilly = function(sheet, col, row, direction) {
+	this.preloader.add(sheet.src);
+	this.willy = new Willy(sheet, col, row, direction);
+};
+
+Room.prototype._setBlock = function(n, value) {
+	var row = Math.floor(n / ROOM_WIDTH);
+	var col = n % ROOM_WIDTH;
+	if (col < ROOM_WIDTH && row < ROOM_HEIGHT) {
+		this.map[row][col] = this.tile[parseInt(value, 36)]._clone();
+	}
+};
+
+Room.prototype.getBlock = function(col, row) {
+	if (col >= 0 && col < ROOM_WIDTH && row >= 0 && row < ROOM_HEIGHT) {
+		return this.map[row][col];
+	} else {
+		while (col < 0) {
+			col += ROOM_WIDTH;
+		}
+		while (row < 0) {
+			row += ROOM_HEIGHT;
+		}
+		return this.map[row % ROOM_HEIGHT][col % ROOM_WIDTH];
+	}
+};
+
+Room.prototype.decode = function(encoded) {
+	var count = 0;
+	var decoded = 0;
+	while (count < encoded.length) {
+		var current = encoded.charAt(count);
+		if (current != "+") {
+			this._setBlock(decoded, current);
+			decoded++;
+			count++;
+		} else {
+			current = encoded.charAt(count + 2);
+			for (var n = 0; n < parseInt(encoded.charAt(count + 1), 36); n++) {
+				this._setBlock(decoded, current);
+				decoded++;
+			}
+			count += 3;
+		}
+	}
+};
+
+
+Room.prototype.flush = function() {
+	for (var row = 0; row < ROOM_HEIGHT; row++) {
+		for (var col = 0; col < ROOM_WIDTH; col++) {
+			this.map[row][col].strip = null;
+		}
+	}
+};
+
+Room.prototype.reset = function() {
+	for (var row = 0; row < ROOM_HEIGHT; row++) {
+		for (var col = 0; col < ROOM_WIDTH; col++) {
+			this.map[row][col].reset();
+		}
+	}
+	for (var n = 0; n < this.item.length; n++) {
+		this.item[n].reset();
+	}
+	for (var n = 0; n < this.guardian.length; n++) {
+		this.guardian[n].reset();
+	}
+	this.willy.reset();
+	this.portal.reset();
+};
+
+/****************************************************************************/
+
+var game;
+
+function init() {
+
+	var preloader = new Preloader();
+	preloader.add("images/willy_life.gif");
+	preloader.add("images/charset.gif");
+
+	Key.init();
+
+	if (window.location.search.length > 1) {
+		var i = parseInt(window.location.search.substring(1));
+		if (!isNaN(i)) {
+			if(i<1)i=1;
+			if(i>20)i=20;
+			START_LEVEL = i-1;
+		}
+	}
+	game = new Game(document.getElementById("field"),
+		new Joystick(document.getElementById("stick"), Controller.DEFAULT));
+	var room = game.room;
+
+	/************************************************************************/
+
+var sheet = new Array();
+sheet.push(new Sheet("sheets/0.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/1.gif", 1, 8, 16, 16));
+sheet.push(new Sheet("sheets/2.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/3.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/4.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/5.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/6.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/7.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/8.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/9.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/10.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/11.gif", 1, 8, 16, 16));
+sheet.push(new Sheet("sheets/12.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/13.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/14.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/15.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/16.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/17.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/18.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/19.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/20.gif", 1, 8, 16, 16));
+sheet.push(new Sheet("sheets/21.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/22.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/23.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/24.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/25.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/26.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/27.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/28.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/29.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/30.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/31.gif", 1, 8, 16, 16));
+sheet.push(new Sheet("sheets/32.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/33.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/34.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/35.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/36.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/37.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/38.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/39.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/40.gif", 1, 8, 16, 16));
+sheet.push(new Sheet("sheets/41.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/42.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/43.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/44.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/45.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/46.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/47.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/48.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/49.gif", 1, 8, 32, 32));
+sheet.push(new Sheet("sheets/50.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/51.gif", 1, 8, 16, 16));
+sheet.push(new Sheet("sheets/52.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/53.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/54.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/55.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/56.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/57.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/58.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/59.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/60.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/61.gif", 1, 8, 16, 16));
+sheet.push(new Sheet("sheets/62.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/63.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/64.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/65.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/66.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/67.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/68.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/69.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/70.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/71.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/72.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/73.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/74.gif", 1, 2, 16, 16));
+sheet.push(new Sheet("sheets/75.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/76.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/77.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/78.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/79.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/80.gif", 2, 2, 32, 32));
+sheet.push(new Sheet("sheets/81.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/82.gif", 1, 8, 16, 16));
+sheet.push(new Sheet("sheets/83.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/84.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/85.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/86.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/87.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/88.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/89.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/90.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/91.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/92.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/93.gif", 1, 8, 16, 16));
+sheet.push(new Sheet("sheets/94.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/95.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/96.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/97.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/98.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/99.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/100.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/101.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/102.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/103.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/104.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/105.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/106.gif", 1, 8, 16, 16));
+sheet.push(new Sheet("sheets/107.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/108.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/109.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/110.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/111.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/112.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/113.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/114.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/115.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/116.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/117.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/118.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/119.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/120.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/121.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/122.gif", 1, 8, 16, 16));
+sheet.push(new Sheet("sheets/123.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/124.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/125.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/126.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/127.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/128.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/129.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/130.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/131.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/132.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/133.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/134.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/135.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/136.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/137.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/138.gif", 1, 8, 16, 16));
+sheet.push(new Sheet("sheets/139.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/140.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/141.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/142.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/143.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/144.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/145.gif", 1, 8, 32, 32));
+sheet.push(new Sheet("sheets/146.gif", 1, 8, 32, 32));
+sheet.push(new Sheet("sheets/147.gif", 1, 8, 32, 32));
+sheet.push(new Sheet("sheets/148.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/149.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/150.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/151.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/152.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/153.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/154.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/155.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/156.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/157.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/158.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/159.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/160.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/161.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/162.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/163.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/164.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/165.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/166.gif", 2, 4, 32, 32));
+sheet.push(new Sheet("sheets/167.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/168.gif", 1, 8, 16, 16));
+sheet.push(new Sheet("sheets/169.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/170.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/171.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/172.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/173.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/174.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/175.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/176.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/177.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/178.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/179.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/180.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/181.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/182.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/183.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/184.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/185.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/186.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/187.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/188.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/189.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/190.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/191.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/192.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/193.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/194.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/195.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/196.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/197.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/198.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/199.gif", 1, 4, 16, 16));
+sheet.push(new Sheet("sheets/200.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/201.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/202.gif", 1, 2, 32, 32));
+sheet.push(new Sheet("sheets/203.gif", 1, 4, 32, 32));
+sheet.push(new Sheet("sheets/204.gif", 1, 4, 32, 32));
+
+// hand tweaked... must fix!
+sheet.push(new Sheet("sheets/71.gif", 1, 1, 16, 16));
+sheet.push(new Sheet("sheets/123.gif", 1, 1, 16, 16));
+
+//Total unique bitmaps: 205
+//Total bitmaps processed: 337
+room[0] = new Room("Central Cavern", "#000000 none");
+room[0].setTile(0, new Blank());
+room[0].setTile(1, new Floor(sheet[0]));
+room[0].setTile(2, new Crumble(sheet[1]));
+room[0].setTile(3, new Wall(sheet[2]));
+room[0].setTile(4, new Conveyor(sheet[3], Willy.FACING_LEFT));
+room[0].setTile(5, new Damage(sheet[4]));
+room[0].setTile(6, new Damage(sheet[5]));
+room[0].decode("3+A06+406+E033+U033+U033+U033+M05000500033+D1+421+42+8133+U033111+R033+G033305+9033+41000+K400033+S01133+U033+B05+70333+5211133+40+F1+B033+U033+U13");
+room[0].addItem(sheet[6], 9, 0);
+room[0].addItem(sheet[6], 29, 0);
+room[0].addItem(sheet[6], 16, 1);
+room[0].addItem(sheet[6], 24, 4);
+room[0].addItem(sheet[6], 30, 6);
+room[0].setPortal(sheet[7], 29, 13);
+room[0].addGuardian(new Horizontal(sheet[8], 128, 112, 4, 128, 252));
+room[0].setWilly(sheet[9], 2, 13, Willy.FACING_RIGHT);
+room[1] = new Room("The Cold Room", "#0000CC");
+room[1].setTile(0, new Blank());
+room[1].setTile(1, new Floor(sheet[10]));
+room[1].setTile(2, new Crumble(sheet[11]));
+room[1].setTile(3, new Wall(sheet[2]));
+room[1].setTile(4, new Conveyor(sheet[12], Willy.FACING_RIGHT));
+room[1].setTile(5, new Damage(sheet[13]));
+room[1].setTile(6, new Damage(sheet[14]));
+room[1].decode("3+I0+E3+T0633+U033+K02221+6033+U033+J1+8030033+K0+41322300331+52+I030030033+O032230033+80+71+9032230033+I0+42003223003300+44+I032230033+D0+41+7032230033+70+42+J033+U033+U13");
+room[1].addItem(sheet[15], 7, 1);
+room[1].addItem(sheet[15], 24, 1);
+room[1].addItem(sheet[15], 26, 7);
+room[1].addItem(sheet[15], 3, 9);
+room[1].addItem(sheet[15], 19, 12);
+room[1].setPortal(sheet[16], 29, 13);
+room[1].addGuardian(new Horizontal(sheet[17], 288, 48, -4, 16, 300));
+room[1].addGuardian(new Horizontal(sheet[18], 464, 208, -4, 192, 476));
+room[1].setWilly(sheet[9], 2, 13, Willy.FACING_RIGHT);
+room[2] = new Room("The Menagerie", "#000000");
+room[2].setTile(0, new Blank());
+room[2].setTile(1, new Floor(sheet[19]));
+room[2].setTile(2, new Crumble(sheet[20]));
+room[2].setTile(3, new Wall(sheet[21]));
+room[2].setTile(4, new Conveyor(sheet[22], Willy.FACING_LEFT));
+room[2].setTile(5, new Damage(sheet[23]));
+room[2].setTile(6, new Damage(sheet[24]));
+room[2].setTile(7, new Floor(sheet[25]));
+room[2].decode("3+906+707+80600033+H06+C033+U033+U033+U033+41+Q233+U033+61+K0+41337+T0337+40+64+J0337+N0+61336+C0+51+C033+40+61+K033+K0+A133+U033+U13");
+room[2].addItem(sheet[6], 6, 0);
+room[2].addItem(sheet[6], 15, 0);
+room[2].addItem(sheet[6], 23, 0);
+room[2].addItem(sheet[6], 30, 6);
+room[2].addItem(sheet[6], 21, 6);
+room[2].setPortal(sheet[26], 29, 11);
+room[2].addGuardian(new Horizontal(sheet[27], 304, 208, -4, 16, 316));
+room[2].addGuardian(new Horizontal(sheet[28], 256, 48, -4, 16, 268));
+room[2].addGuardian(new Horizontal(sheet[29], 288, 48, 4, 288, 476));
+room[2].setWilly(sheet[9], 2, 13, Willy.FACING_RIGHT);
+room[3] = new Room("Abandoned Uranium Workings", "#000000");
+room[3].setTile(0, new Blank());
+room[3].setTile(1, new Floor(sheet[30]));
+room[3].setTile(2, new Crumble(sheet[31]));
+room[3].setTile(3, new Wall(sheet[32]));
+room[3].setTile(4, new Conveyor(sheet[33], Willy.FACING_RIGHT));
+room[3].setTile(5, new Damage(sheet[34]));
+room[3].setTile(6, new Damage(sheet[35]));
+room[3].decode("3+606+60+J3+U033+U033+I0+61+6033+Q0+41331+501+901+D033+B011+70111+7033222+R033+6011+H01110033+H0111+A033444+Q0133+B0111+70111+6033+5011+F06+4011133+H011+B033+U033+U13");
+room[3].addItem(sheet[6], 1, 0);
+room[3].addItem(sheet[6], 12, 1);
+room[3].addItem(sheet[6], 25, 1);
+room[3].addItem(sheet[6], 16, 6);
+room[3].addItem(sheet[6], 30, 6);
+room[3].setPortal(sheet[36], 29, 1);
+room[3].addGuardian(new Horizontal(sheet[37], 16, 208, 4, 16, 172));
+room[3].addGuardian(new Horizontal(sheet[38], 112, 208, 4, 96, 252));
+room[3].setWilly(sheet[9], 29, 13, Willy.FACING_LEFT);
+room[4] = new Room("Eugene's Lair", "#CC0000");
+room[4].setTile(0, new Blank());
+room[4].setTile(1, new Floor(sheet[39]));
+room[4].setTile(2, new Crumble(sheet[40]));
+room[4].setTile(3, new Wall(sheet[41]));
+room[4].setTile(4, new Conveyor(sheet[42], Willy.FACING_LEFT));
+room[4].setTile(5, new Damage(sheet[43]));
+room[4].setTile(6, new Damage(sheet[44]));
+room[4].decode("3+J06+A033+U033+U033+U033+N05+6033+D1+40+42+6100033+S01133+K05+9033+H0+A400033000+A1+H033+U03322+B1+40+71+50133+703+M03311+503+503003+D033+405003+50300+7355+5033+71+G3+713");
+room[4].addItem(sheet[45], 30, 1);
+room[4].addItem(sheet[45], 10, 6);
+room[4].addItem(sheet[45], 29, 7);
+room[4].addItem(sheet[45], 7, 12);
+room[4].addItem(sheet[45], 9, 12);
+room[4].setPortal(sheet[46], 15, 13);
+room[4].addGuardian(new Horizontal(sheet[47], 192, 48, -4, 16, 204));
+room[4].addGuardian(new Horizontal(sheet[48], 64, 112, 4, 64, 204));
+room[4].addGuardian(new Eugene(sheet[49], 240, 0, 2, 0, 176, 176));
+room[4].setWilly(sheet[9], 1, 3, Willy.FACING_RIGHT);
+room[5] = new Room("Processing Plant", "#000000");
+room[5].setTile(0, new Blank());
+room[5].setTile(1, new Floor(sheet[50]));
+room[5].setTile(2, new Crumble(sheet[51]));
+room[5].setTile(3, new Wall(sheet[52]));
+room[5].setTile(4, new Conveyor(sheet[53], Willy.FACING_LEFT));
+room[5].setTile(5, new Damage(sheet[54]));
+room[5].setTile(6, new Damage(sheet[55]));
+room[5].decode("3+U033+U033+U033+U033+K06+9033+70111+4011+40+51+50330011+B03+B011133+F03+E033+M0+510003311+S033+60+913+91+5033+F036+D033005+C03+B01113300+44+F011+7033+U033+U13");
+room[5].addItem(sheet[6], 15, 6);
+room[5].addItem(sheet[6], 17, 6);
+room[5].addItem(sheet[6], 30, 7);
+room[5].addItem(sheet[6], 1, 10);
+room[5].addItem(sheet[6], 13, 11);
+room[5].setPortal(sheet[56], 29, 0);
+room[5].addGuardian(new Horizontal(sheet[57], 96, 128, 4, 96, 220));
+room[5].addGuardian(new Horizontal(sheet[58], 224, 128, -4, 224, 348));
+room[5].addGuardian(new Horizontal(sheet[59], 128, 208, -4, 128, 332));
+room[5].addGuardian(new Horizontal(sheet[60], 384, 208, -4, 384, 476));
+room[5].setWilly(sheet[9], 15, 3, Willy.FACING_LEFT);
+room[6] = new Room("The Vat", "#000000");
+room[6].setTile(0, new Blank());
+room[6].setTile(1, new Floor(sheet[30]));
+room[6].setTile(2, new Crumble(sheet[61]));
+room[6].setTile(3, new Wall(sheet[62]));
+room[6].setTile(4, new Conveyor(sheet[63], Willy.FACING_LEFT));
+room[6].setTile(5, new Damage(sheet[64]));
+room[6].setTile(6, new Damage(sheet[65]));
+room[6].decode("3+D0+J3+U033+U033+E0113+C2033+G03+D233+60+54001113+A262233111+D03220+A233+G03+920222331+F03+526+7233+D01113+D233+B1+50320+8262233+G03+C2033+D0+43+526+7233+80111003+G033+D03+G033+D1+I3");
+room[6].addItem(sheet[66], 30, 3);
+room[6].addItem(sheet[66], 20, 6);
+room[6].addItem(sheet[66], 27, 7);
+room[6].addItem(sheet[66], 19, 10);
+room[6].addItem(sheet[66], 30, 11);
+room[6].setPortal(sheet[67], 15, 13);
+room[6].addGuardian(new Horizontal(sheet[68], 240, 16, 4, 240, 476));
+room[6].addGuardian(new Horizontal(sheet[69], 160, 128, -4, 32, 172));
+room[6].addGuardian(new Horizontal(sheet[70], 272, 208, 4, 272, 476));
+room[6].setWilly(sheet[9], 2, 13, Willy.FACING_RIGHT);
+room[7] = new Room("Miner Willy meets the Kong Beast", "#000000");
+room[7].setTile(0, new Blank());
+room[7].setTile(1, new Floor(sheet[0]));
+room[7].setTile(2, new Crumble(sheet[1]));
+room[7].setTile(3, new Wall(sheet[71]));
+room[7].setTile(4, new Conveyor(sheet[72], Willy.FACING_RIGHT));
+room[7].setTile(5, new Damage(sheet[34]));
+room[7].setTile(6, new Damage(sheet[73]));
+room[7].setTile(7, new Switch(sheet[74], [new Affected(17, 11), new Affected(17, 12)]));
+room[7].setTile(8, new Switch(sheet[74], [new Affected(15, 2), new Affected(16, 2)]));
+room[7].setTile(9, new Wall(sheet[205]));
+room[7].decode("30600070006+603803+A033+G03003+A033+E0113+B01133+G03+D033+G03+D033111+50+6100311+B033+G03000+41+501330111+C03+90100033+70111+603+D033+G03+51+80331+A0111003+90+4133+8011+609+D03300011+B09+40+51+4033+A0444300311+B033+D03003+505+7033+U13");
+room[7].addItem(sheet[75], 13, 2);
+room[7].addItem(sheet[75], 14, 6);
+room[7].addItem(sheet[75], 2, 8);
+room[7].addItem(sheet[75], 29, 13);
+room[7].setPortal(sheet[76], 15, 13);
+room[7].addGuardian(new Horizontal(sheet[77], 144, 208, -4, 16, 156));
+room[7].addGuardian(new Horizontal(sheet[78], 176, 176, 2, 176, 302));
+room[7].addGuardian(new Horizontal(sheet[79], 288, 112, 4, 288, 348));
+room[7].addGuardian(new Kong(sheet[80], 240, 0));
+room[7].setWilly(sheet[9], 2, 13, Willy.FACING_RIGHT);
+room[8] = new Room("Wacky Amoebatrons", "#000000");
+room[8].setTile(0, new Blank());
+room[8].setTile(1, new Floor(sheet[81]));
+room[8].setTile(2, new Crumble(sheet[82]));
+room[8].setTile(3, new Wall(sheet[83]));
+room[8].setTile(4, new Conveyor(sheet[84], Willy.FACING_RIGHT));
+room[8].setTile(5, new Damage(sheet[4]));
+room[8].setTile(6, new Damage(sheet[73]));
+room[8].decode("3003+R033+U033+U033+U033+U033+410011100+810011100110033+U033+S0113300110011100+84+B033+L01110011003311+S033+U03300110011100+810011100110033+S01133+U033+U13");
+room[8].addItem(sheet[6], 16, 1);
+room[8].setPortal(sheet[85], 1, 0);
+room[8].addGuardian(new Horizontal(sheet[86], 192, 48, 4, 192, 300));
+room[8].addGuardian(new Horizontal(sheet[87], 256, 160, 2, 192, 302));
+room[8].addGuardian(new Vertical(sheet[88], 80, 16, 0, 2, 10, 200));
+room[8].addGuardian(new Vertical(sheet[89], 160, 16, 1, 4, 10, 200));
+room[8].addGuardian(new Vertical(sheet[90], 320, 16, 2, 2, 10, 200));
+room[8].addGuardian(new Vertical(sheet[91], 400, 16, 3, 4, 10, 200));
+room[8].setWilly(sheet[9], 1, 13, Willy.FACING_RIGHT);
+room[9] = new Room("The Endorian Forest", "#000000");
+room[9].setTile(0, new Blank());
+room[9].setTile(1, new Floor(sheet[92]));
+room[9].setTile(2, new Crumble(sheet[93]));
+room[9].setTile(3, new Wall(sheet[94]));
+room[9].setTile(4, new Conveyor(sheet[95], Willy.FACING_LEFT));
+room[9].setTile(5, new Damage(sheet[96]));
+room[9].setTile(6, new Damage(sheet[97]));
+room[9].setTile(7, new Floor(sheet[98]));
+room[9].decode("3+A06011130606+A133+F03+406+9033+61+903+A0+4133006+C03+E033+F03+41+A033+701+723+60+8133+41+B03+E033+F03+71222+4033+51+A03+E0336+70+713+C01133+4122+903+71+60633+F03+606222+4033+70+A7+D033111+O011133+U03+W7");
+room[9].addItem(sheet[99], 21, 2);
+room[9].addItem(sheet[99], 14, 1);
+room[9].addItem(sheet[99], 12, 6);
+room[9].addItem(sheet[99], 18, 8);
+room[9].addItem(sheet[99], 30, 1);
+room[9].setPortal(sheet[100], 12, 13);
+room[9].addGuardian(new Horizontal(sheet[101], 144, 112, 4, 144, 236));
+room[9].addGuardian(new Horizontal(sheet[102], 192, 160, 2, 128, 238));
+room[9].addGuardian(new Horizontal(sheet[103], 128, 208, 4, 64, 428));
+room[9].addGuardian(new Horizontal(sheet[104], 288, 80, 4, 272, 348));
+room[9].setWilly(sheet[9], 1, 4, Willy.FACING_RIGHT);
+room[10] = new Room("Attack of the Mutant Telephones", "#000000");
+room[10].setTile(0, new Blank());
+room[10].setTile(1, new Floor(sheet[105]));
+room[10].setTile(2, new Crumble(sheet[106]));
+room[10].setTile(3, new Wall(sheet[107]));
+room[10].setTile(4, new Conveyor(sheet[108], Willy.FACING_LEFT));
+room[10].setTile(5, new Damage(sheet[109]));
+room[10].setTile(6, new Damage(sheet[110]));
+room[10].setTile(7, new Floor(sheet[111]));
+room[10].decode("+73+C06+B033+I05+B033+U033+41+Q033+U033+40+61+4011+7711+5033+N06+401133+N06+6033110044+H06+401133+A0+91+405+6033+B06+606+8010033+502221006+605+B033+B05+F01113311+K0111+5033+U033+U13");
+room[10].addItem(sheet[112], 24, 0);
+room[10].addItem(sheet[112], 30, 1);
+room[10].addItem(sheet[112], 1, 4);
+room[10].addItem(sheet[112], 19, 6);
+room[10].addItem(sheet[112], 30, 13);
+room[10].setPortal(sheet[113], 1, 1);
+room[10].addGuardian(new Horizontal(sheet[114], 240, 48, 4, 240, 396));
+room[10].addGuardian(new Horizontal(sheet[115], 224, 112, 2, 224, 302));
+room[10].addGuardian(new Horizontal(sheet[116], 240, 208, -4, 80, 316));
+room[10].addGuardian(new Vertical(sheet[117], 192, 16, 0, 4, 4, 112));
+room[10].addGuardian(new Vertical(sheet[118], 48, 64, 1, 2, 64, 200));
+room[10].addGuardian(new Vertical(sheet[119], 336, 96, 2, 2, 96, 200));
+room[10].addGuardian(new Vertical(sheet[120], 416, 96, 3, -6, 8, 200));
+room[10].setWilly(sheet[9], 3, 1, Willy.FACING_RIGHT);
+room[11] = new Room("Return of the Alien Kong Beast", "#000000");
+room[11].setTile(0, new Blank());
+room[11].setTile(1, new Floor(sheet[121]));
+room[11].setTile(2, new Crumble(sheet[122]));
+room[11].setTile(3, new Wall(sheet[123]));
+room[11].setTile(4, new Conveyor(sheet[124], Willy.FACING_RIGHT));
+room[11].setTile(5, new Damage(sheet[34]));
+room[11].setTile(6, new Damage(sheet[73]));
+room[11].setTile(7, new Switch(sheet[74], [new Affected(17, 11), new Affected(17, 12)]));
+room[11].setTile(8, new Switch(sheet[74], [new Affected(15, 2), new Affected(16, 2)]));
+room[11].setTile(9, new Wall(sheet[206]));
+room[11].decode("30600070006+6038003+9033+U033+E011+E033+U033+U033111+50+523003+6211+5033+D03003+C0133+5011+603003+D033001+A03003+70+6133+90+413003+D033+501+A03111+A033+G09+7011+4033+61+A09+505+4050033+A01113003+B40033+D03003+D033+D1+43+D13");
+room[11].addItem(sheet[75], 15, 3);
+room[11].addItem(sheet[75], 16, 7);
+room[11].addItem(sheet[75], 2, 6);
+room[11].addItem(sheet[75], 29, 13);
+room[11].addItem(sheet[75], 26, 5);
+room[11].setPortal(sheet[125], 15, 13);
+room[11].addGuardian(new Horizontal(sheet[77], 144, 208, -4, 16, 156));
+room[11].addGuardian(new Horizontal(sheet[126], 176, 176, 2, 176, 302));
+room[11].addGuardian(new Horizontal(sheet[79], 400, 96, 4, 400, 460));
+room[11].addGuardian(new Kong(sheet[80], 240, 0));
+room[11].setWilly(sheet[9], 2, 13, Willy.FACING_RIGHT);
+room[12] = new Room("Ore Refinery", "#000000");
+room[12].setTile(0, new Blank());
+room[12].setTile(1, new Floor(sheet[127]));
+room[12].setTile(2, new Crumble(sheet[82]));
+room[12].setTile(3, new Wall(sheet[83]));
+room[12].setTile(4, new Conveyor(sheet[84], Willy.FACING_RIGHT));
+room[12].setTile(5, new Damage(sheet[4]));
+room[12].setTile(6, new Damage(sheet[128]));
+room[12].setTile(7, new Floor(sheet[129]));
+room[12].decode("+X3007+R033007+R033007000+I100+4133007+R033007+R0330070001100+4100+5100+4100133007+R033007+R033007000+5100111000+5100+4133007+R033007+R0330070001110011100+4100+41001133007+R033007+R03311+Q4113");
+room[12].addItem(sheet[130], 26, 3);
+room[12].addItem(sheet[130], 10, 6);
+room[12].addItem(sheet[130], 19, 9);
+room[12].addItem(sheet[130], 26, 9);
+room[12].addItem(sheet[130], 11, 12);
+room[12].setPortal(sheet[131], 1, 13);
+room[12].addGuardian(new Horizontal(sheet[132], 112, 16, 4, 112, 476));
+room[12].addGuardian(new Horizontal(sheet[133], 256, 64, 2, 112, 478));
+room[12].addGuardian(new Horizontal(sheet[134], 320, 112, -4, 160, 428));
+room[12].addGuardian(new Horizontal(sheet[135], 288, 160, 2, 112, 478));
+room[12].addGuardian(new Vertical(sheet[136], 80, 16, 0, 4, 16, 200));
+room[12].setWilly(sheet[9], 29, 13, Willy.FACING_RIGHT);
+room[13] = new Room("Skylab Landing Bay", "#0000CC");
+room[13].setTile(0, new Blank());
+room[13].setTile(1, new Floor(sheet[137]));
+room[13].setTile(2, new Crumble(sheet[138]));
+room[13].setTile(3, new Wall(sheet[139]));
+room[13].setTile(4, new Conveyor(sheet[140], Willy.FACING_LEFT));
+room[13].setTile(5, new Damage(sheet[141]));
+room[13].setTile(6, new Damage(sheet[141]));
+room[13].setTile(7, new Floor(sheet[142]));
+room[13].decode("3+U033+U033+U033+U033+U033+E017+E0330017+6017+6017+60170033+6017+E017+6033+U033+4017+6017+6017+601733+U03317+6017+40+64+4017+4033+U033+6017+M033+U0+X3");
+room[13].addItem(sheet[143], 23, 2);
+room[13].addItem(sheet[143], 3, 8);
+room[13].addItem(sheet[143], 27, 7);
+room[13].addItem(sheet[143], 16, 7);
+room[13].setPortal(sheet[144], 15, 0);
+room[13].addGuardian(new Skylab(sheet[145], 16, 0, 8, 128, 512));
+room[13].addGuardian(new Skylab(sheet[146], 176, 0, 2, 128, 512));
+room[13].addGuardian(new Skylab(sheet[147], 336, 4, 6, 128, 512));
+room[13].setWilly(sheet[9], 29, 13, Willy.FACING_RIGHT);
+room[14] = new Room("The Bank", "#000000");
+room[14].setTile(0, new Blank());
+room[14].setTile(1, new Floor(sheet[148]));
+room[14].setTile(2, new Crumble(sheet[106]));
+room[14].setTile(3, new Wall(sheet[107]));
+room[14].setTile(4, new Conveyor(sheet[149], Willy.FACING_LEFT));
+room[14].setTile(5, new Damage(sheet[109]));
+room[14].setTile(6, new Damage(sheet[110]));
+room[14].setTile(7, new Floor(sheet[150]));
+room[14].decode("3+50+R3+S07733+S07733+70+G4+517733+706+J067733+51005+J067733+N0110067733+602+4011+E0677330011+D011+8067733+O01106773311+9011+E057733+H011+907733+40111+F011+407733+B011+F07733+S07733+U13");
+room[14].addItem(sheet[151], 25, 2);
+room[14].addItem(sheet[151], 12, 6);
+room[14].addItem(sheet[151], 26, 14);
+room[14].setPortal(sheet[152], 1, 3);
+room[14].addGuardian(new Horizontal(sheet[153], 272, 208, 4, 272, 316));
+room[14].addGuardian(new Vertical(sheet[154], 144, 80, 0, 4, 72, 204));
+room[14].addGuardian(new Vertical(sheet[155], 240, 128, 1, 2, 72, 204));
+room[14].addGuardian(new Vertical(sheet[156], 336, 160, 3, -6, 64, 208));
+room[14].setWilly(sheet[9], 2, 13, Willy.FACING_RIGHT);
+room[15] = new Room("The Sixteenth Cavern", "#000000");
+room[15].setTile(0, new Blank());
+room[15].setTile(1, new Floor(sheet[0]));
+room[15].setTile(2, new Crumble(sheet[1]));
+room[15].setTile(3, new Wall(sheet[157]));
+room[15].setTile(4, new Conveyor(sheet[158], Willy.FACING_LEFT));
+room[15].setTile(5, new Damage(sheet[159]));
+room[15].setTile(6, new Damage(sheet[73]));
+room[15].setTile(7, new Floor(sheet[160]));
+room[15].decode("3+U033+U033+U033+U033+U0331+401+403003+70111+6033+A030033+F0330001+60300333+80+6133+A0300+43+D03322+O4+4033+U033+903311+C01+4033+91+L033+J01+501+4033+M0555+5033+U13");
+room[15].addItem(sheet[161], 30, 2);
+room[15].addItem(sheet[161], 13, 7);
+room[15].addItem(sheet[161], 1, 0);
+room[15].addItem(sheet[161], 17, 10);
+room[15].setPortal(sheet[162], 12, 5);
+room[15].addGuardian(new Horizontal(sheet[163], 144, 208, 4, 16, 300));
+room[15].addGuardian(new Horizontal(sheet[164], 16, 160, 4, 16, 124));
+room[15].addGuardian(new Horizontal(sheet[165], 288, 112, 4, 288, 380));
+room[15].addGuardian(new Horizontal(sheet[166], 416, 80, 2, 400, 478));
+room[15].setWilly(sheet[9], 2, 13, Willy.FACING_RIGHT);
+room[16] = new Room("The Warehouse", "#000000");
+room[16].setTile(0, new Blank());
+room[16].setTile(1, new Floor(sheet[167]));
+room[16].setTile(2, new Crumble(sheet[168]));
+room[16].setTile(3, new Wall(sheet[169]));
+room[16].setTile(4, new Conveyor(sheet[170], Willy.FACING_RIGHT));
+room[16].setTile(5, new Damage(sheet[23]));
+room[16].setTile(6, new Damage(sheet[171]));
+room[16].decode("3+S0+43+U033+U033+U033+5050050005005+50505+603311+7200+7200222022001133226+6200+7200+62002233+9200222022200+5260022332200+520022+5400+620022330200+5200+7200+620022332200+5200+720226+420022332200+42600+E200022332200+5200+F2002233+U033+Q0+4133+U13");
+room[16].addItem(sheet[172], 24, 5);
+room[16].addItem(sheet[172], 15, 7);
+room[16].addItem(sheet[172], 1, 9);
+room[16].addItem(sheet[172], 19, 10);
+room[16].addItem(sheet[172], 26, 11);
+room[16].setPortal(sheet[173], 29, 1);
+room[16].addGuardian(new Horizontal(sheet[174], 80, 208, 2, 80, 142));
+room[16].addGuardian(new Horizontal(sheet[175], 192, 208, 4, 192, 412));
+room[16].addGuardian(new Vertical(sheet[176], 48, 128, 0, 4, 128, 204));
+room[16].addGuardian(new Vertical(sheet[177], 160, 128, 1, -6, 6, 192));
+room[16].addGuardian(new Vertical(sheet[178], 304, 96, 2, 2, 0, 128));
+room[16].addGuardian(new Vertical(sheet[179], 432, 0, 3, 8, 8, 192));
+room[16].setWilly(sheet[9], 1, 3, Willy.FACING_LEFT);
+room[17] = new Room("Amoebatrons' Revenge", "#000000");
+room[17].setTile(0, new Blank());
+room[17].setTile(1, new Floor(sheet[0]));
+room[17].setTile(2, new Crumble(sheet[1]));
+room[17].setTile(3, new Wall(sheet[180]));
+room[17].setTile(4, new Conveyor(sheet[181], Willy.FACING_RIGHT));
+room[17].setTile(5, new Damage(sheet[4]));
+room[17].setTile(6, new Damage(sheet[73]));
+room[17].decode("3+R030033+U033+U033+U033+U03300110011100+810011100+4133+U03311+S033+B0+810011100110033001100111+L033+S01133+U03300110011100+81001110011003311+S033+U03+W1");
+room[17].addItem(sheet[6], 16, 1);
+room[17].setPortal(sheet[182], 29, 0);
+room[17].addGuardian(new Horizontal(sheet[86], 192, 48, 2, 192, 302));
+room[17].addGuardian(new Horizontal(sheet[87], 256, 160, 2, 192, 286));
+room[17].addGuardian(new Horizontal(sheet[183], 256, 96, 4, 192, 284));
+room[17].addGuardian(new Horizontal(sheet[184], 256, 208, -4, 192, 300));
+room[17].addGuardian(new Vertical(sheet[185], 80, 16, 0, 6, 10, 208));
+room[17].addGuardian(new Vertical(sheet[186], 160, 16, 1, 4, 10, 208));
+room[17].addGuardian(new Vertical(sheet[187], 320, 16, 2, 8, 10, 208));
+room[17].addGuardian(new Vertical(sheet[188], 400, 16, 3, 2, 10, 208));
+room[17].setWilly(sheet[9], 29, 13, Willy.FACING_LEFT);
+room[18] = new Room("Solar Power Generator", "#00CC00");
+room[18].setTile(0, new Blank());
+room[18].setTile(1, new Floor(sheet[189]));
+room[18].setTile(2, new Crumble(sheet[1]));
+room[18].setTile(3, new Wall(sheet[2]));
+room[18].setTile(4, new Conveyor(sheet[190], Willy.FACING_LEFT));
+room[18].setTile(5, new Damage(sheet[4]));
+room[18].setTile(6, new Damage(sheet[73]));
+room[18].decode("333+S033+U033+U033+U033+U0330011+40+61+90+7133+U033+I0111+903311+A0111+80+7133+U033+I011+A033+41+J0+7133+60+44000+51+C033+U0+43+S0+43+K13+713");
+room[18].addItem(sheet[172], 30, 1);
+room[18].addItem(sheet[172], 1, 5);
+room[18].addItem(sheet[172], 30, 12);
+room[18].setPortal(sheet[191], 1, 1);
+room[18].addGuardian(new Horizontal(sheet[192], 384, 48, 4, 368, 476));
+room[18].addGuardian(new Horizontal(sheet[193], 448, 96, 4, 352, 476));
+room[18].addGuardian(new Horizontal(sheet[194], 464, 144, -2, 368, 478));
+room[18].addGuardian(new Horizontal(sheet[192], 256, 208, 4, 208, 476));
+room[18].addGuardian(new Vertical(sheet[195], 80, 128, 0, 6, 4, 204));
+room[18].addGuardian(new Vertical(sheet[196], 176, 112, 1, -4, 96, 204));
+room[18].addGuardian(new Vertical(sheet[197], 256, 160, 2, 2, 8, 160));
+room[18].setWilly(sheet[9], 14, 10, Willy.FACING_RIGHT);
+room[19] = new Room("The Final Barrier", "#000000");
+room[19].setTile(0, new Blank());
+room[19].setTile(1, new Floor(sheet[0]));
+room[19].setTile(2, new Crumble(sheet[1]));
+room[19].setTile(3, new Wall(sheet[198]));
+room[19].setTile(4, new Conveyor(sheet[199], Willy.FACING_RIGHT));
+room[19].setTile(5, new Damage(sheet[200]));
+room[19].setTile(6, new Damage(sheet[201]));
+room[19].decode("+Z0+Z0+Z0+Z0+40+G3+E0+53003+9030+43+90+53003+90+K3003+9033+S01133+U033+M40002+4033+805005+4050005+601003311+S033+4011+O033+U033+U13");
+room[19].addItem(sheet[6], 23, 5);
+room[19].addItem(sheet[6], 30, 6);
+room[19].addItem(sheet[6], 10, 11);
+room[19].addItem(sheet[6], 14, 11);
+room[19].addItem(sheet[6], 19, 11);
+room[19].setPortal(sheet[202], 19, 5);
+room[19].addGuardian(new Horizontal(sheet[203], 112, 208, 4, 112, 364));
+room[19].addGuardian(new Vertical(sheet[204], 384, 96, 0, 2, 80, 206));
+room[19].setWilly(sheet[9], 27, 13, Willy.FACING_LEFT);
+
+	/************************************************************************/
+
+	preloader.start(start);
+	mobile("keys");
+	sound(soundOn);
+}
+
+var title, airbar, score, life;
+
+function start() {
+	var charset = new Charset("images/charset.gif", 2, 96, 16, 16, 32);
+	title = new Line(charset, 0, 0, 0, 32);
+	title.add(document.getElementById("title"));
+
+	var dummyScore = new Line(charset, 1, 0, 16, 25);
+	dummyScore.set("High Score 000000   Score", Line.ALIGN_LEFT);
+	dummyScore.add(document.getElementById("space"));
+
+	score = new Line(charset, 1, 16 * 26, 16, 6);
+	score.set("000000", Line.ALIGN_LEFT);
+	score.add(document.getElementById("space"));
+
+	airbar = new Airbar(document.getElementById("bar"), 28 * 8 * 8);
+
+	var willy_life_sheet = new Sheet("images/willy_life.gif", 1, 4, 32, 32);
+	life = new Array();
+	for (var n = 0; n < 2; n++) {
+		life[n] = new Sprite(willy_life_sheet, n * 32, 48);
+
+		life[n]._image = life[n]._sheet.getElement();
+		life[n].update();
+
+		life[n].hide();
+		life[n].add(document.getElementById("space"));
+	}
+
+	loop();
+}
+
+function Airbar(element, total) {
+	this.element = element;
+	this.total = total;
+	this.length = parseInt(element.style.width);
+	this.set(total);
+}
+
+Airbar.prototype.set = function(value) {
+	var length = Math.round((value / this.total) * this.length);
+	if (length >= 0) {
+		this.element.style.clip = "rect(0px " + length + "px 8px 0px)";
+	}
+};
+
+var life_subframe = 0;
+
+var INTERVAL = 60;
+function loop() {
+	var start = (new Date).getTime();
+
+	game.process();
+
+	if (game.state == Game.STATE_DRAWING) {
+		title.clear();
+		title.set(game.room[game.playing].name, Line.ALIGN_CENTRE);
+	} else if (game.state == Game.STATE_GAME_OVER) {
+		title.clear();
+		score.set("000000", Line.ALIGN_LEFT);
+		game.score = 0;
+	}
+
+	airbar.set(game.air);
+	score.set(game.score + "", Line.ALIGN_RIGHT);
+
+	life_subframe++;
+	if (life_subframe > 4) {
+		for (var n = 0; n < life.length; n++) {
+			life[n].cycle();
+			if (n < game.lives) {
+				life[n].show();
+			} else {
+				life[n].hide();
+			}
+		}
+		life_subframe = 0;
+	}
+
+	var duration = (new Date).getTime() - start;
+	timer = setTimeout("loop()", (duration < INTERVAL) ? INTERVAL - duration : 1);
+}
+
+		</script>
+	</head>
+	<body bgcolor="#CC0000" onload="setTimeout('init()', 50)" leftmargin="0" topmargin="0" bottommargin="0" rightmargin="0" style="overflow: hidden">
+		<div id="border" style="position: relative; width: 544px; padding: 0px 0px 0px 0px;">
+			<div id="field" style="position: relative; width: 512px; height: 256px; overflow: hidden; background-color: black; background-image: url(images/mm_attract.gif);"></div>
+			<div id="title" style="position: relative; width: 512px; height: 16px; overflow: hidden; background-color: #CCCC00"></div>
+			<div id="air" style="position: relative; width: 512px; height: 16px; overflow: hidden; background-color: #00FF00;">
+				<div id="danger" style="position: absolute; width: 160px; height: 16px; overflow: hidden; background-color: #FF0000;"></div>
+				<img src="images/air.gif" style="position: absolute; left: 2px; top: 2px" />
+				<div id="bar" style="position: absolute; left: 64px; top: 4px; width: 448px; height: 8px; overflow: hidden; background-color: #FFFFFF;"></div>
+			</div>
+			<div id="space" style="position: relative; width: 512px; height: 96px; overflow: hidden; background-color: black;"></div>
+		</div>
+		<div id="keys"><b style="font-size:12px;margin-left:100px">Use Left and Right Arrow keys to move, Space to Jump</b></div>
+		<object id="stick" width="0" height="0"
+			classid="CLSID:3AE9ED90-4B59-47A0-873B-7B71554B3C3E">
+			<!--codebase="http://downloads.bigredswitch.co.uk/joystick.cab#version=0,4,7,1"-->
+		</object>
+		<!--<button onclick="game.state = Game.STATE_LOADING">Next</button>-->
+	</body>
+</html>

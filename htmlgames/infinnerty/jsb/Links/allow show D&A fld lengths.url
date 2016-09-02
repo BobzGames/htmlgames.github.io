@@ -1,0 +1,7 @@
+[InternetShortcut]
+URL=javascript:a_f="specCtlInformation|bTxt_DietaryKeyList|bTxt_DietaryStatementList|bTxt_DietaryDescList|bKwd_Answer1List|bKwd_Display1List|bTxt_DietarySourceList|bKwd_MSAOverrideList|bKwd_DietaryTypeList|bKwd_PresentOnLineList|bKwd_PresentInPlantList|bKwd_FormalControlList|bKwd_LabelDecList|bKwd_LabelDecChoiceList|bKwd_DeclaredList|bKwd_MSAList|bKwd_HeadingFormatList|bKwd_RadioFormatList|bKwd_TypeList|bTxt_DietaryDefaultList".split("|");s="";for(i in a_f){o=document.getElementById(a_f[i]);if(o){s+=o.name+"::"+o.value.split(";").length+"\n";}}alert(s);
+Modified=D06E2490407EC40175
+HotKey=0
+IDList=
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,15

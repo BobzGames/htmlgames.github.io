@@ -1,0 +1,38 @@
+@charset"utf-8";body{background-color:#000b15;margin:0 0 0 0;padding:0 0 0 0;font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;text-align:justify;font-size:0.8em;color:#444;}
+img, div{border:none;}
+p{text-align:justify;}
+a{color:#e74916;text-decoration:none;}
+a:link{color:#e74916;}
+a:active{outline:none;}
+a:focus{outline:0;}
+.editor .mceEditor .mceExternalToolbar{padding:0 0 0 120px;}
+.bouton_envoyer{width:100px;height:22px;background-color:transparent;background-image:url(../images/bouton_envoyer.jpg);background-position:top right;background-repeat:no-repeat;border-style:none;cursor:pointer;}
+.fleche_g{background-color:transparent;background-image:url(../images/fleche_g.png);background-repeat:no-repeat;background-position:top left;border-style:none;width:308px;height:16px;cursor:pointer;outline:none;}
+.fleche_d{background-color:transparent;background-image:url(../images/fleche_d.png);background-repeat:no-repeat;background-position:top right;border-style:none;width:308px;height:16px;cursor:pointer;outline:none;}
+#haut{margin-left:auto;margin-right:auto;margin-bottom:0px;margin-top:0px;width:1000px;height:180px;background-image:url(../images/bandeau.jpg);background-position:top left;background-repeat:no-repeat;padding:0 0 0 0;}
+#milieu{width:100%;background-color:#eee;background-image:url(../images/fond.jpg);background-position:top left;background-repeat:repeat-x;padding:0 0 0 0;margin:0 0 0 0;}
+#milieu #contenu{margin-left:auto;margin-right:auto;margin-top:0px;margin-bottom:0px;width:1000px;background-image:url(../images/menu.jpg);background-position:top left;background-repeat:no-repeat;padding:0 0 0 0;}
+#milieu #contenu #menu{width:1000px;padding:5px 0 36px 0px;font-size:1em;font-weight:bold;text-align:center;}
+#milieu #contenu #menu a{color:#BEBEBE;text-decoration:none;}
+#milieu #contenu #menu a:hover{color:#FFF;text-decoration:none;}
+#milieu #contenu #menu ul{display:block;margin:0;padding:0;}
+#milieu #contenu #menu ul li{display:inline;margin-left:28px;margin-right:28px;color:#465158;}
+#milieu #contenu img{border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;}
+#milieu #contenu #gauche{float:left;width:640px;margin:-24px 0 0 0;padding:0;}
+#milieu #contenu #gauche h1{width:640px;height:22px;text-align:left;font-size:1.3em;font-weight:bold;background-image:url(../images/h1.jpg);background-position:bottom left;background-repeat:no-repeat;margin:24px 0 0px 0;padding:0 0 0 0;color:#333;}
+#milieu #contenu #gauche h2{text-align:left;font-size:1.1em;font-weight:bold;margin:0 0 0px 0;padding:0 0 0 0;color:#333;}
+#milieu #contenu #gauche h3{text-align:left;font-size:1.em;font-weight:bold;margin:0 0 0px 0;padding:0 0 0 0;color:#333;}
+#milieu #contenu #gauche ul{margin:0 0 12px 0;padding:0 0 0 0;}
+#milieu #contenu #gauche ul li{margin:0 0 0px 0;padding:0 0 0 20px;list-style-position:inside;list-style-type:square;text-align:justify;}
+#milieu #contenu #droite{width:290px;float:right;margin:0;padding:0;}
+#milieu #contenu #droite h1{width:290px;height:18px;clear:both;text-align:left;font-size:1.1em;font-weight:bold;background-image:url(../images/h1_droite.jpg);background-position:bottom left;background-repeat:no-repeat;margin:0 0 12px 0;padding:0 0 0 0;color:#333;}
+#milieu #contenu #droite h2{text-align:left;font-size:1em;font-weight:normal;margin:0 0 12px 0;padding:0 0 0 0;color:#333;}
+#milieu #contenu #droite ul{margin:0 0 0 0;padding:0 0 0 0;}
+#milieu #contenu #droite ul li{margin:0 0 18px 0;padding:0 0 0 0;list-style-position:inside;list-style-type:square;text-align:justify;}
+#bas{clear:both;width:100%;padding:0 0 0 0;margin:0px 0 0 0;background-image:url(../images/bas.jpg);background-position:top left;background-repeat:repeat-x;}
+#bas #footer{width:930px;height:225px;margin-left:auto;margin-right:auto;margin-top:0px;margin-bottom:0px;background-image:url(../images/footer.jpg);background-position:top left;background-repeat:no-repeat;padding:0 0 0 0;}
+#bas #footer #texte{margin:0 0 0 0;padding:5px 0 0 0;font-size:0.8em;color:#bbb;}
+#bas #footer #texte p{text-align:center;margin:0;padding:0;}
+#bas #footer #texte a{color:#FFF;font-weight:bold;}
+#bas #footer #texte a:hover{color:#FFF;}
+#carousel1 img{border-radius:6px 6px 0 0;-moz-border-radius:6px 6px 0 0;-webkit-border-radius:6px 6px 0 0;}

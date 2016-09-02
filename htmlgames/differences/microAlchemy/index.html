@@ -1,0 +1,329 @@
+<html>
+<head>
+<title>microAlchemy</title>
+<style>
+.dragme{position:relative;width:28px;height:28px;visibility:hidden}
+.hide{display:none;}
+</style>
+<script>
+
+function isnew(o,oo)
+{
+	// debug
+	//alert(o.id.split("_")[0] + " is mixed with "+oo.id.split("_")[0]);
+	switch(o.id.split("_")[0] + oo.id.split("_")[0])
+	{
+		case "E3E4":
+		case "E4E3":
+			reveal(o,oo,"E5");
+			break;
+
+		case "E1E4":
+		case "E4E1":
+			reveal(o,oo,"E6");
+			break;
+
+		case "E5E1":
+		case "E1E5":
+			reveal(o,oo,"E7");
+			break;
+
+		case "E7E3":
+		case "E3E7":
+			reveal(o,oo,"E8");
+			break;
+
+		case "E8E4":
+		case "E4E8":
+			reveal(o,oo,"E9");
+			break;
+
+		case "E2E6":
+		case "E6E2":
+			reveal(o,oo,"E10");
+			break;
+
+		case "E3E3":
+		case "E3E3":
+			reveal(o,oo,"E11");
+			break;
+
+		case "E1E1":
+		case "E1E1":
+			reveal(o,oo,"E12");
+			break;
+
+	}
+}
+
+function reveal(o,oo,f)
+{
+	if(document.getElementById(f).style.visibility != "visible"){
+		document.getElementById(f).style.visibility="visible";
+		document.getElementById(o.id).style.visibility="hidden";
+		document.getElementById(oo.id).src='bang.gif';
+		document.getElementById("msg").innerHTML=o.title + "&#160;+&#160;" + oo.title + "&#160;=&#160;" + document.getElementById(f).title;
+		document.getElementById(f).title+="\n\n ("+o.title + " + " + oo.title + ")";
+		setTimeout('clear()',1000);
+	}
+}
+
+function clear()
+{
+	if(oo)document.getElementById(oo.id).style.visibility="hidden";
+	score++;
+	document.getElementById("msg").innerHTML=score;
+	win();
+}
+
+function win()
+{
+	if(score==MAX_ELEMENTS)alert("YOU WIN!\n\n(all elements collected)");
+}
+
+function movemouse(e)
+{
+  if (isdrag)
+  {
+    if(bTouch){
+    	e.preventDefault();
+    	dobj.style.left = tx + e.touches[0].pageX - x;
+    	dobj.style.top = ty + e.touches[0].pageY - y;
+    }else{
+	    dobj.style.left = nn6 ? tx + e.clientX - x : tx + event.clientX - x;
+	    dobj.style.top  = nn6 ? ty + e.clientY - y : ty + event.clientY - y;
+	}
+    return false;
+  }
+}
+
+function selectmouse(e)
+{
+  var fobj       = nn6 ? e.target : event.srcElement;
+  var topelement = nn6 ? "HTML" : "BODY";
+
+  while (fobj.tagName != topelement && fobj.className != "dragme")
+  {
+    fobj = nn6 ? fobj.parentNode : fobj.parentElement;
+  }
+
+  if (fobj.className=="dragme")
+  {
+    isdrag = true;
+    dobj = fobj;
+    tx = parseInt(dobj.style.left+0);
+    ty = parseInt(dobj.style.top+0);
+    if(bTouch){
+    	e.preventDefault();
+    	x = e.touches[0].pageX;
+    	y = e.touches[0].pageY;
+    	document.ontouchmove=movemouse;
+    }else{
+    	x = nn6 ? e.clientX : event.clientX;
+    	y = nn6 ? e.clientY : event.clientY;
+    	document.onmousemove=movemouse;
+    }
+    return false;
+  }
+}
+
+function checkmix()
+{
+	isdrag=false;
+	o=dobj;
+	if(o){
+		for(lp=MAX_ELEMENTS;lp > 0;lp--)
+		{
+			oo=document.getElementById("E"+lp);
+			if(oo && o.id != oo.id && isOverlapping(o,oo)){
+				isnew(o,oo);
+				break;
+			}
+		}
+	}
+}
+
+function isOverlapping(elm1, elm2) {
+  var pos_elm1 = absolutePosition(elm1);
+  var pos_elm2 = absolutePosition(elm2);
+  var top1 = pos_elm1.y;
+  var left1 = pos_elm1.x;
+  var right1 = left1 + elm1.offsetWidth;
+  var bottom1 = top1 + elm1.offsetHeight;
+  var top2 = pos_elm2.y;
+  var left2 = pos_elm2.x;
+  var right2 = left2 + elm2.offsetWidth;
+  var bottom2 = top2 + elm2.offsetHeight;
+  var getSign = function(v) {
+    if(v > 0) return "+";
+    else if(v < 0) return "-";
+    else return 0;
+  }
+
+  if ((getSign(top1 - bottom2) != getSign(bottom1 - top2)) &&
+      (getSign(left1 - right2) != getSign(right1 - left2)))
+    return true;
+  return false;
+}
+
+function absolutePosition(elm) {
+
+  var posObj = {'x': elm.offsetLeft, 'y': elm.offsetTop};
+try{
+  if(elm.offsetParent) {
+    var temp_pos = absolutePosition(elm.offsetParent);
+    posObj.x += temp_pos.x;
+    posObj.y += temp_pos.y;
+  }
+ }catch(e){}
+  return posObj;
+}
+
+function init()
+{
+	// globals, inits etc...
+
+	ua=navigator.userAgent;
+	bTouch = (ua.indexOf("(iP")==-1 && ua.indexOf("Android")==-1 && ua.indexOf("BlackBerry")==-1 && ua.indexOf("HTC")==-1 && ua.indexOf("PlayBook")==-1 && ua.indexOf("webOS")==-1 && ua.indexOf("IEMobile")==-1 && ua.indexOf("Silk")==-1)?false:true;
+	ie=document.all;
+	nn6=bTouch||document.getElementById&&!document.all;
+	isdrag=false;
+	x=0,y=0;
+	tx=0,ty=0;
+	dobj=null;
+	score=4;
+
+	if(bTouch){
+		document.ontouchstart=selectmouse;
+		document.ontouchend=checkmix;
+	}else{
+		document.onmousedown=selectmouse;
+		document.onmouseup=checkmix;
+	}
+	window.status=bTouch;
+
+	for(l=1;l>0;l++)
+	{
+		MAX_ELEMENTS=l-1;
+		if( !document.getElementById("E"+l) )l=-1;
+	}
+
+}
+
+// new
+
+idx = 0;
+
+function clone(el)
+{
+	idx++;
+	//document.write( img.replace("_",idx).replace("onclick","_onclick").replace("ontouchstart","_ontouchstart").replace("#","dragme") );
+	var oImg=document.createElement("img");
+	oImg.setAttribute('src', el.src);
+	oImg.setAttribute('title', el.title);
+	oImg.setAttribute('id', el.id + "_" + idx);
+	oImg.setAttribute('className', "dragme");
+
+	document.body.appendChild(oImg);
+	elo=document.getElementById(el.id);
+
+	document.getElementById(el.id + "_" + idx).style.visibility = "visible";
+	document.getElementById(el.id + "_" + idx).className = "dragme";
+
+	document.getElementById(el.id + "_" + idx).style.left = absolutePosition(elo).x-(idx*28);
+	document.getElementById(el.id + "_" + idx).style.top = absolutePosition(elo).y-14;
+
+}
+
+function checkmix() // OVERRIDES one above !!!
+{
+	isdrag=false;
+	o=dobj;
+
+	a_img = document.getElementsByTagName("img");
+
+	MAX = a_img.length-1;
+
+	if(o){
+		for(lp=MAX;lp > 0;lp--)
+		{
+			oo=( a_img[lp].id.match("_") )?document.getElementById(a_img[lp].id):( a_img[lp].id == "E0" )?document.getElementById(a_img[lp].id):0;
+			if(oo && o.id != oo.id && isOverlapping(o,oo)){
+				if(oo.id == "E0"){
+					bin(o);
+					break;
+				}else{
+					isnew(o,oo);
+					break;
+				}
+			}
+		}
+	}
+}
+
+function bin(o)
+{
+	document.getElementById(o.id).style.visibility = "hidden";
+	document.body.removeChild(o);
+	//alert("Binned " + o.id);
+}
+
+function binAll()
+{
+	a_img = document.getElementsByTagName("img");
+
+	MAX = a_img.length-1;
+
+	for(lp=MAX;lp > 0;lp--)
+	{
+		oo=( a_img[lp].id.match("_") )? a_img[lp]:0;
+		if(oo){
+			bin(oo);
+		}
+	}
+}
+
+</script>
+</head>
+<body onload="init()">
+
+<div style="float:right">
+	<!-- define all elements in table and show 1st four base ones -->
+	<!-- when you create a new element change visibility to show, -->
+	<!-- and place it where oo is and place o and oo back in list -->
+
+    <table border=1>
+      <tr>
+        <td><img src="dino.gif" title="Dino" id="E1" onmousedown="clone(this)" ontouchstart="clone(this)" style="visibility:visible" class="#" /></td>
+        <td><img src="dragon.gif" title="Dragon" id="E2" onmousedown="clone(this)" ontouchstart="clone(this)" style="visibility:visible" class="#" /></td>
+        <td><img src="energy.gif" title="Energy" id="E3" onmousedown="clone(this)" ontouchstart="clone(this)" style="visibility:visible" class="#" /></td>
+        <td><img src="fire.gif" title="Fire" id="E4" onmousedown="clone(this)" ontouchstart="clone(this)" style="visibility:visible" class="#" /></td>
+       </tr>
+       <tr>
+        <td><img src="human.gif" title="Human" id="E5" onmousedown="clone(this)" ontouchstart="clone(this)" style="visibility:hidden" class="#" /></td>
+        <td><img src="metal.gif" title="Metal" id="E6" onmousedown="clone(this)" ontouchstart="clone(this)" style="visibility:hidden" class="#" /></td>
+        <td><img src="psi.gif" title="Pressure" id="E7" onmousedown="clone(this)" ontouchstart="clone(this)" style="visibility:hidden" class="#" /></td>
+        <td><img src="tool.gif" title="Tool" id="E8" onmousedown="clone(this)" ontouchstart="clone(this)" style="visibility:hidden" class="#" /></td>
+      </tr>
+       <tr>
+        <td><img src="toothbrush.gif" title="Toothbrush" id="E9" onmousedown="clone(this)" ontouchstart="clone(this)" style="visibility:hidden" class="#" /></td>
+        <td><img src="wild_bore_egg.gif" title="Wild Bore Egg" id="E10" onmousedown="clone(this)" ontouchstart="clone(this)" style="visibility:hidden" class="#" /></td>
+        <td><img src="teds.gif" title="Teds" id="E11" onmousedown="clone(this)" ontouchstart="clone(this)" style="visibility:hidden" class="#" /></td>
+        <td><img src="green_cobra.gif" title="Green Cobra" id="E12" onmousedown="clone(this)" ontouchstart="clone(this)" style="visibility:hidden" class="#" /></td>
+      </tr>
+    </table>
+
+	<span id="msg" style="position:absolute;left:50%;top:5px;width:255px">4</span>
+
+    <p style="text-align:center"><img src="bin.gif" title="Bin Element (click to clear all)" id="E0" onclick="binAll()" /></p>
+
+</div>
+
+<div style="position:relative;top:5%;left:50%;background-color:yellow;width:200px;cursor:pointer" onclick="this.style.display='none'">
+	<p>Click on an element to clone it.</p>
+	<p>Mix elements to create new ones</p>
+	<p>Ok got it! CLOSE [X]</p>
+</div>
+
+</body>
+</html>

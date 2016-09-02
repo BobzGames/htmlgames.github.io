@@ -1,0 +1,1070 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<META HTTP-EQUIV="Expires" CONTENT="0">
+<title>Night Rock</title>
+<script type="text/javascript" src="playSound.js"></script>
+</head>
+<body onLoad="init_Level();">
+<script type="text/javascript">
+<!-- DeeHTML engine file :www.codeproject.com/useritems/deehtml.asp
+if(!parent.window.frames["game_iframe"]){location.href="blank.htm";alert("Error\n\n File './engine/opiframe1.htm' only runs within the game.");}
+if(!parent.window.frames["game_iframe"].document.body){setTimeout("parent.window.location.href='main.htm';",1000);}else{
+
+var time_ctr=0,year_ctr=null; //the timing vars time_ctr%200==0 updates year_ctr to be year_ctr-1, when zero player dies
+//buildings, objects pltOtyp=[ 1 =(gold), 0=(building,wall) 2=(enemy or elevator)]
+var MathObj=Math;
+var bo = new Array(); //see getBuildings()
+var bos = new Array();
+var bt = new Array();
+var bl = new Array();
+var bh = new Array();
+var bw = new Array();
+var biid = new Array();
+var bpathMaxL = new Array();
+var bpathMaxR = new Array();
+var bpathMaxT = new Array();
+var bpathMaxB = new Array();
+var bmoveleft_anim = new Array();
+var bmoveright_anim =  new Array();
+var bmoveup_anim = new Array();
+var bmovedown_anim =  new Array();
+var benemymovex_dir = new Array();
+var benemymovey_dir = new Array();
+var btyp = new Array();//the type {0=wall 1=gold 2=enemy}
+var bisdead = new Array(); //0 if alive 1 if dead
+var bpathmovespeed = new Array();
+var bvanilla = new Array(); //used for any custom properties
+var b_screenupdatetype= new Array();
+var baitype = new Array();
+var bpushable_speed = new Array(); //if the object is pushable by player this is greater than zero
+var bctr=0; //counter for array items for objects
+var timer_is_on=0 ,isIE=0;//timer status, is internet explorer5+ ?
+var baseFrameWin = parent.parent.window;
+var mainFrameWin = parent.window.frames["game_iframe"];
+var mainScreenDoc = mainFrameWin.document;
+var scoreScreenDoc = parent.window.document;
+var scoreScreenWin = parent.window;
+var level_editor_mode_ON = 0; //if in level design mode this=1
+var opiframecur_scrollleft=0,opiframeplrscroll_limit_horiz=0;
+var screenWidthMain = parseInt(mainScreenDoc.body.clientWidth);
+var screenHeightMain = parseInt(mainScreenDoc.body.clientHeight*2),plrscroll_limit_vert=((screenHeightMain)/2),objt=null , mainScSctop=null ,is_v_scrolled=0;
+var screenscrollHeightMain = parseInt(mainScreenDoc.body.scrollHeight);
+var o = mainScreenDoc.getElementById("plr1@0"),Player1_Property_Array=parent.Player1_Property_Array,Level_Property_Array=parent.Level_Property_Array; //the player1 object;
+var Restart_point_x=0,Restart_point_y=0;
+var ofallspd = 3, landstate_type=0 ,ohdestspeed=0,o_canjump=0; //the gravity speed , landstatetype(0=land, 1=water)
+var oh=0,ow=0,o_dest_x=0,o_dest_y=0,o_jump_status=0; //players height, width,destination x, destination y, is jumping (1=yes, 0=no)
+var omovex_dir =0,omovey_dir=0;
+var player_facing_int=1,old_player_facing_int=0; //0=dead -1=left walking , -2=left jumpin g-3=left swimming , 1=right walking etc..
+var oPLivesLeft = parseInt(parent.document.getElementById("livesctr").innerHTML); //the number of lives the player has
+var current_level=parseInt(parent.document.getElementById("current_level").innerHTML);
+var next_level=parseInt(current_level+1);
+var freeBullet_id=-1,coinid1obj=null,imgchgto="",cur_jumpstatus=o_jump_status,update_timeout=null,elm_rightmost=0,thisSpringZ=null,level_started=0;
+var pl1,pl2,pl3,pldead,pr1,pr2,pr3,pl1s,pl2s,pl3s,pr1s,pr2s,pr3s,pldeads,eblanks,eblank,espash,espashs,spring_dwn,sm1h,sm3h,sm4h,restart_p_h, eggFired=0;// the player images (cached in cache_images function)
+var Level_Objects_Array= new Array(), tempObjArray=new Array();/*Level_Objects_Array contains the formerly expando properties of the object , contained in comma seperated title tag, title tag is split into this array in the getBuildings function e.g. Level_Objects_Array[bctr][0]="W" ,values below:
+0~ alt="W"1~ pltOtyp="2"2~ bctr_inArray="0"3~ isEditable="1"4~ objweakspot="2"5~ pltOactdie="1"6~ pathmovespeed="1"7~ pathMaxL="1210"8~ pathMaxR="1309"9~ pathMaxB="267"10~ pathMaxT="267" 11~ moveright_anim="../img/smug1.gif"12~ moveleft_anim="../img/smug1.gif"13~ moveup_anim="../img/cannon_ball1.gif"14~ movedown_anim="../img/cannon_ball1.gif"15~ pltOactdieimg="../img/smug1_hit.gif"16~ PVanilla="44"17~ screenupdatetype=018~ Enemy_AI_type19~ pushable_speed20~ enemymovex_dir21~ enemymovey_dir22~ hillgradient23~ hilldir left:-1 right:124~ ishilltop  1=yes25~ hilltables_left*/
+
+}//end if
+
+
+function UpdatePScreenScrolling() //the scrolling function called if player <>mid screen
+{
+
+if(omovex_dir!=0)
+{
+var plrscroll_limit_horiz=0 ,objl=o.style.pixelLeft;
+if(isIE!=1){objl=parseInt(o.style.left);}
+
+//scrolling the screen if player.pixelLeft<>centerscreen (horizontal)
+              if(isIE==1){plrscroll_limit_horiz=opiframeplrscroll_limit_horiz=((mainScreenDoc.body.scrollLeft)+(screenWidthMain)/2);}else{plrscroll_limit_horiz=opiframeplrscroll_limit_horiz=((mainFrameWin.scrollX)+(screenWidthMain)/2);}
+
+               if( ((objl >= plrscroll_limit_horiz && omovex_dir>0) ||( objl <= plrscroll_limit_horiz && omovex_dir<0)))
+              {if(isIE==1){opiframecur_scrollleft=mainScreenDoc.body.scrollLeft+=(omovex_dir);}else{opiframecur_scrollleft=parseInt(mainFrameWin.scrollX)+(omovex_dir);mainFrameWin.scrollTo(mainFrameWin.scrollX+(omovex_dir),mainFrameWin.scrollY);}}
+}
+
+//vertical scrolling
+if(level_started==1 && level_editor_mode_ON!=1)
+{
+is_v_scrolled=0;
+if(isIE==1){objt=o.style.pixelTop;mainScSctop=mainScreenDoc.body.scrollTop;}else{objt=parseInt(o.style.top);mainScSctop=mainFrameWin.scrollY;}
+ if(mainScSctop>0 && MathObj.abs(objt-mainScSctop)<85 && omovey_dir==0){if(isIE==1){mainScreenDoc.body.scrollTop-=(2);}else{mainFrameWin.scrollTo(mainFrameWin.scrollX,mainFrameWin.scrollY-2);}is_v_scrolled=1;}
+ if(mainScSctop<225 && MathObj.abs(objt-mainScSctop)>85 && is_v_scrolled!=1){if(isIE==1){mainScreenDoc.body.scrollTop+=(1);}else{mainFrameWin.scrollTo(mainFrameWin.scrollX,mainFrameWin.scrollY+1);}}
+
+ }
+
+}//end UpdatePScreenScrolling
+
+
+
+
+
+
+function init_Level() //start the level by blacking the screen and getting the collision detection co-oreds from getBuildings
+{
+var loading_wait_time_ctr=1700;
+cache_images();
+
+
+
+if(parent.parent.location.href.indexOf("level_editor")!=-1)//if level edit mode..
+{level_editor_mode_ON=1;loading_wait_time_ctr=1;}
+
+    if(scoreScreenDoc.getElementById("plr1@0_covermessage")==null)
+    {//the level banner not loaded, error
+    scoreScreenWin.load_level_dyn_elements();
+    if(update_timeout){clearTimeout(update_timeout);}
+
+    }else{
+          //OK successful load
+        if(makescreenblack(loading_wait_time_ctr,"<span style='position:absolute; left:0; top:70; z-index:4; width:276; height:500; font-family:Comic Sans MS,Arial;'>Level "+current_level+"</span>"))
+        {getBuildings();}
+
+    }
+
+}//end init_Level
+
+
+function cache_images() //caches the players images
+{
+pl1 = new Image();
+pl1s=pl1.src = "../img/-1.gif";
+pl2 = new Image();
+pl2s=pl2.src = "../img/-2.gif";
+pl3 = new Image();
+pl3s=pl3.src = "../img/-3.gif";
+
+pldead = new Image();
+pldeads=pldead.src = "../img/0.gif";
+
+pr1 = new Image();
+pr1s = pr1.src = "../img/1.gif";
+pr2 = new Image();
+pr2s = pr2.src = "../img/2.gif";
+pr3 = new Image();
+pr3s = pr3.src = "../img/3.gif";
+
+eblank = new Image();
+eblanks = eblank.src = "../img/x.gif";
+
+spring_dwn = new Image();
+spring_dwn.src = "../img/spring_down.gif";
+
+esplash = new Image();
+esplashs = esplash.src = "../img/splash1.gif";
+
+sm1h = new Image();
+sm1h.src = "../img/smug1_hit.gif";
+
+sm3h = new Image();
+sm3h.src = "../img/smug3_hit.gif";
+
+sm4h = new Image();
+sm4h.src = "../img/smug4_hit.gif";
+
+restart_p_h = new Image();
+restart_p_h.src = "../img/restart_point_ON.gif";
+
+}//end cache_images
+
+
+function getBuildings() //initialise all the bumpable objects (walls,elevators,enemies) etc. so we can check their positions from an arrays
+{
+// start from the document root
+var elm_nodelist = mainScreenDoc.body.childNodes;
+  //loop through level and get out element properties from title tags etc.
+  for(z = 0; z < elm_nodelist.length; z++)
+  {
+    // test for an element
+    if(elm_nodelist[z].nodeType == 1)
+    {
+        w=elm_nodelist[z];
+        tempObjArray = w.title.split(","); //properties read from the title tag
+        Level_Objects_Array[bctr]=tempObjArray; //2-D array
+        tempObjArray=null;
+           //GET ALL THE BUILDING AND WALL ATTRIBUTES SO WE CAN DO COLLISION DETECTION ON THEM
+           if(Level_Objects_Array[bctr][0]=="W")
+           {
+            bo[bctr]=w;
+            bos[bctr]=w.style;
+            if(isIE==1)
+            {//ie only suppoerts pixelTop
+              bt[bctr]=w.style.pixelTop; //the pixelTop for ie ..obj top co-ordinate array
+              bl[bctr]=w.style.pixelLeft;//the obj left co-ordinate array
+            }else{/*non-ie*/
+              bt[bctr]=parseInt(w.style.top);
+              bl[bctr]=parseInt(w.style.left);
+            }
+            bt[bctr]=parseInt(w.style.top); //the pixelTop for ie ..obj top co-ordinate array
+            bl[bctr]=parseInt(w.style.left);//the obj left co-ordinate array
+            bw[bctr]=parseInt(w.width);//the obj width co-ordinate array
+            bh[bctr]=parseInt(w.height);//the obj height co-ordinate array
+            if(!parseInt(w.height)){bh[bctr]=parseInt(w.clientHeight);}
+            if(!parseInt(w.width)){bw[bctr]=parseInt(w.clientWidth);}
+
+
+            biid[bctr]=w.id=bctr;//the object id co-ordinate array (assigned from this function as the bctr variable)
+            btyp[bctr]=parseInt(Level_Objects_Array[bctr][1]); //the type 0=wall , 1=gold, 2=moving elevator or enemy, 3=hill , 4=water,5=level control points(restart pts, end levelpts)
+            bisdead[bctr]=0; // if dead then this is equal to one, these objects are then skipped for collision detection and movement
+            Level_Objects_Array[bctr][2]= bctr; //gives the HTML tag for the object the id in obj.bctr_inArray (useful if we don't know id)
+            bpushable_speed[bctr]=parseInt(Level_Objects_Array[bctr][19]); //if the object can be pushed left and right at speed ( in increments of pixels bpushable_speed[bctr])
+            //moving enemies and elevators, or pushable objects..
+            if(btyp[bctr]==2 || bpushable_speed[bctr]!=0)
+            {
+            bpathMaxL[bctr]=parseInt(Level_Objects_Array[bctr][7]);
+            bpathMaxR[bctr]=parseInt(Level_Objects_Array[bctr][8]);
+            bpathMaxT[bctr]=parseInt(Level_Objects_Array[bctr][10]);
+            bpathMaxB[bctr]=parseInt(Level_Objects_Array[bctr][9]);
+            bmoveleft_anim[bctr]=Level_Objects_Array[bctr][12];
+            bmoveright_anim[bctr]=Level_Objects_Array[bctr][11];
+            bmoveup_anim[bctr]=Level_Objects_Array[bctr][13];
+            bmovedown_anim[bctr]=Level_Objects_Array[bctr][14];
+            benemymovex_dir[bctr]=benemymovey_dir[bctr]=bpathmovespeed[bctr]=parseInt(Level_Objects_Array[bctr][6]);
+            Level_Objects_Array[bctr][20]=Level_Objects_Array[bctr][21]=bpathmovespeed[bctr];
+            baitype[bctr]=parseInt(Level_Objects_Array[bctr][18]);
+            }
+
+            b_screenupdatetype[bctr]=parseInt(Level_Objects_Array[bctr][17]); //if undefined or not 1 then only update when in screen focus, else if b_screenupdatetype=1 then update even when out of focus
+            bvanilla[bctr]=parseInt(Level_Objects_Array[bctr][16]); //for other properties (per object specific)
+            if(parseInt(bl[bctr]+bw[bctr])>elm_rightmost){elm_rightmost=parseInt(bl[bctr]+bw[bctr]);}
+
+            bctr++;
+           }//end if
+
+
+    }
+  }//end for elm_nodelist loop
+
+
+  if(!o)//if the main page has not loaded the player object correctly
+  {scoreScreenWin.load_level_dyn_elements();}
+  else{//successful load
+
+          //First- check if Level design mode , if so update ALL the screen, else only when in screen
+            if(level_editor_mode_ON==1)
+            {
+                parent.parent.assign_edit_tags();
+                screenWidthMain=10000;
+                next_level=parseInt(current_level);
+                if(parent.parent.change_level==1)
+                {//if level is changed, show level properties dialog on level editor screen
+                parent.parent.change_level=0;
+                parent.parent.unselectobj();
+                parent.parent.newobj_button_clicked();
+                parent.parent.enableObject_selectedelement("level_properties1");
+                parent.parent.load_level_properties();
+                }
+            }//end if level editor mode
+  //Init player vars
+  oh=o.height;
+  ow=o.width;
+  Player1_Property_Array[7]=1; //player can make contact with level objects
+  o_dest_y=parseInt(Player1_Property_Array[5]);
+  o_jump_status=Player1_Property_Array[1]=0;
+  ofallspd=Player1_Property_Array[3]=3;
+  ohdestspeed=oldohdestspeed=Player1_Property_Array[6]=2;
+  landstate_type=Player1_Property_Array[2];
+  o_dest_x=(o.style.left)=Level_Property_Array[2]=Restart_point_x=scoreScreenDoc.getElementById('current_level_start_point_x').innerHTML;
+  o.style.top = Restart_point_y=Level_Property_Array[3]=scoreScreenDoc.getElementById('current_level_start_point_y').innerHTML;
+  scoreScreenDoc.getElementById('yctr').style.color="white";
+  //key press handlers
+    if(mainScreenDoc.attachEvent)
+    {
+      isIE=1;//internet explorer only supports attachEvent, so we have IE if we get to here
+      mainScreenDoc.body.attachEvent('onblur',i_pause_game);//pausing
+      mainScreenDoc.body.attachEvent('onfocus',i_resume_game);
+      mainScreenDoc.attachEvent('onkeydown',plr_move);
+      mainScreenDoc.attachEvent('onkeyup',plr_stopmove);
+    }else
+    {
+      //some properties we have to set manually for Mozilla(not elegant)
+      screenHeightMain=450;
+      screenscrollHeightMain=868;
+      plrscroll_limit_vert=225;
+      mainScreenDoc.addEventListener('keypress',plr_move,false);
+      mainScreenDoc.addEventListener('keyup',plr_stopmove,false);
+      mainScreenDoc.addEventListener('blur',i_pause_game,false);
+      mainScreenDoc.addEventListener('focus',i_resume_game,false);
+    }
+  mainFrameWin.focus();
+  start_timer();
+  updateYear();
+  if(parent.parent.gameIsPaused==null || parent.parent.gameIsPaused==0)
+  {u1();} //begin updating the screen(if not designing level)
+
+  }
+
+}//end getBuildings
+
+
+
+
+function stop_timer()
+{timer_is_on=0;}
+
+function start_timer()
+{timer_is_on=1;}
+
+function dbgalert(dmsg) //debug messages print
+{scoreScreenDoc.getElementById('debugmsg_span').innerHTML=dmsg;}
+
+
+
+
+function makescreenblack(fortime,formessage)//black out the screen for messages (e.g. Game Over)
+{
+if(isIE==1){
+  mainScreenDoc.body.scrollLeft=0;
+  mainScreenDoc.body.scrollTop=0;
+  scoreScreenDoc.getElementById("plr1@0_covermessage").style.pixelLeft=0;
+  }else{
+  mainFrameWin.scrollTo(0,0);
+  scoreScreenDoc.getElementById("plr1@0_covermessage").style.left=0;
+  }
+  if(o){Player1_Property_Array[8]=0;}
+
+  scoreScreenDoc.getElementById("mainspan").style.visibility="hidden";
+  scoreScreenDoc.getElementById("plr1@0_covermessage").style.display="";
+
+  if(mainScreenDoc.getElementById("plr1@0_covermessage"))
+  {
+  if(isIE==1){mainScreenDoc.getElementById("plr1@0_covermessage").style.pixelLeft=0;}else{mainScreenDoc.getElementById("plr1@0_covermessage").style.left=0;}
+  mainScreenDoc.getElementById("plr1@0_covermessage").style.display="";
+  mainScreenDoc.getElementById("plr1@0_covermessage").innerHTML=formessage;
+  }
+
+  if(fortime>0)
+  {if(setTimeout("makescreenblack_restore("+fortime+");",fortime)){return(1);}}
+
+}
+
+function makescreenblack_restore(fortime2) //restore game screen after message
+{//reposition scroll first..
+ var gottoOffset =Restart_point_x-(screenWidthMain/2);
+  if(gottoOffset<0){gottoOffset=0;}
+   if(Restart_point_y>=plrscroll_limit_vert){if(isIE==1){mainScreenDoc.body.scrollTop=plrscroll_limit_vert;}else{if(level_editor_mode_ON!=1){mainFrameWin.scrollTo(gottoOffset,plrscroll_limit_vert);}}}else{if(isIE==1){mainScreenDoc.body.scrollTop=0;}else{if(level_editor_mode_ON!=1){mainFrameWin.scrollTo(gottoOffset,0);}}}
+
+  if(isIE==1){mainScreenDoc.body.scrollLeft=opiframecur_scrollleft=gottoOffset;}
+  else{opiframecur_scrollleft=gottoOffset;mainFrameWin.scrollTo(gottoOffset,mainFrameWin.scrollY);}
+
+
+  if(mainScreenDoc.getElementById("plr1@0_covermessage"))
+  {
+  mainScreenDoc.getElementById("plr1@0_covermessage").style.display="none";
+  mainScreenDoc.getElementById("plr1@0_covermessage").innerHTML="";
+  }
+
+  scoreScreenDoc.getElementById("plr1@0_covermessage").style.display="none";
+  scoreScreenDoc.getElementById("plr1@0_covermessage").innerHTML="";
+  scoreScreenDoc.getElementById("mainspan").style.visibility="";
+
+  if(o){Player1_Property_Array[8]=1;level_started=1;o.style.visibility="";}
+
+
+}
+
+
+
+
+
+
+
+function plr_move(evp_code) //change the player destinations in response to keyboard
+{
+if(isIE!=1 && evp_code!=0){evp_code.preventDefault();}//mozilla scrolls for arrow keys, we need to prevent this
+
+if(Player1_Property_Array[8]==1 && Player1_Property_Array[7]==1) //if the player can be controlled
+{
+
+    old_player_facing_int=player_facing_int;
+    cur_jumpstatus=o_jump_status;
+    if(landstate_type==2){ohdestspeed=2;} //if on ice only
+
+    if(evp_code!=32 && evp_code!=0) //if an event object passed as a param to this function, get the keycode for button id
+    {
+    evp_code.returnValue=false;
+    evp_code=evp_code.keyCode;
+    }
+
+
+
+   //jump
+  if((isIE==1 && evp_code==32) || (isIE!=1 && evp_code==0))
+  {
+  switch(landstate_type)
+    {
+    case 0:case 2: //on land
+      if(cur_jumpstatus==0 && o_canjump==1)
+      {
+      if(player_facing_int>0){imgchgto="../img/2.gif";player_facing_int=2;}
+      if(player_facing_int<0){imgchgto="../img/-2.gif";player_facing_int=-2;}
+      if(isIE==1){o_dest_y=o.style.pixelTop-50;}else{o_dest_y=parseInt(o.style.top)-50;}
+      o_jump_status=1;
+      }
+    break;
+
+    case 1: //sea water
+      if(isIE==1){o_dest_y=o.style.pixelTop-18;}else{o_dest_y=parseInt(o.style.top)-18;}
+      o_jump_status=1;
+    break;
+    }//end switch(landstate)
+  }
+
+  if(evp_code==37)//left
+  {
+      switch(landstate_type)
+      {
+      case 0: case 2: //land or ice
+        imgchgto="../img/-1.gif";
+        o_dest_x=0;
+        player_facing_int=-1;
+      break;
+
+      case 1: //sea water
+        imgchgto="../img/-3.gif";
+        o_dest_x=0;
+        player_facing_int=-3;
+      break;
+
+      }//end switch(landstate)
+  }
+
+
+  if(evp_code==39)//right
+  {
+      switch(landstate_type)
+      {
+      case 0:case 2: //land or ice
+      imgchgto="../img/1.gif";
+      o_dest_x=99999;
+      player_facing_int=1;
+      break;
+
+      case 1: //sea water
+      imgchgto="../img/3.gif";
+      o_dest_x=99999;
+      player_facing_int=3;
+      break;
+      }//end switch(landstate)
+  }//end right
+
+
+  if( (player_facing_int!=old_player_facing_int) || ( cur_jumpstatus!=o_jump_status && landstate_type!=1))
+  {o.src=imgchgto;}
+
+
+}//end if canControlE==1
+
+}//end function plr_move
+
+
+//stop moving when user releases key
+function plr_stopmove(evp_code,cur_anim_img)
+{
+if(!cur_anim_img){evp_code=evp_code.keyCode;cur_anim_img=o.src;}
+if((evp_code==37 || evp_code==39) &&(Player1_Property_Array[8]==1))//left,right just stop
+  {
+    //if we're on ice (landstate=2) then skid a bit if not, move normally
+    if(landstate_type==2)//skid on ice
+    {ohdestspeed=1;
+        if(isIE==1){o_dest_x=o.style.pixelLeft+(omovex_dir*12);}else{o_dest_x=parseInt(o.style.left)+(omovex_dir*12);}
+    }else
+    {if(isIE==1){o_dest_x=o.style.pixelLeft;}else{o_dest_x=parseInt(o.style.left);}}
+  }
+
+}//end function plr_stopmove
+
+
+
+
+
+function showPlayMessage(msg)//give time up messages etc.
+{
+var msgshower_obj=mainScreenDoc.getElementById('plr1@0_message');
+if(isIE==1)
+{
+msgshower_obj.style.pixelLeft=mainScreenDoc.body.scrollLeft;
+msgshower_obj.style.pixelTop=eval(mainScSctop)+60;
+}else{
+msgshower_obj.style.left=mainFrameWin.scrollX;
+msgshower_obj.style.top=eval(mainScSctop)+60;
+}
+msgshower_obj.innerHTML=msg;
+msgshower_obj.style.display="";
+}//end  showPlayMessage
+
+
+
+function i_pause_game()
+{showPlayMessage("-Game focus lost-<br> Click here to resume");}
+
+function i_resume_game()
+{showPlayMessage("");}
+
+
+
+function updateYear() //timer display and updating
+{
+  if(year_ctr==null){scoreScreenDoc.getElementById('yctr').innerHTML=year_ctr=scoreScreenDoc.getElementById('time_to_complete').innerHTML;}
+  if(year_ctr==6){scoreScreenDoc.getElementById('yctr').style.color="red";}
+  time_ctr=0;
+  year_ctr=parseInt(year_ctr-1);
+  scoreScreenDoc.getElementById('yctr').innerHTML=year_ctr;
+  //time up!
+  if(year_ctr<=0){showPlayMessage("Time Up!");Player1IsNowdead();}
+}
+
+
+function updateLives(lvalupd1)//players lives updated , if <0(game over)
+{
+oPLivesLeft+=lvalupd1;
+    if(oPLivesLeft>-1)
+    {scoreScreenDoc.getElementById('livesctr').innerHTML=oPLivesLeft;}
+    playSound("dead.wav");
+}
+
+
+
+function updatePlayerFX(fxl,fxt,fximg1) //shows splash, 1-up etc. next to mplayer character
+{
+var updfx_obj=mainScreenDoc.getElementById('plr1@0_fx');
+if(isIE==1){
+updfx_obj.style.pixelLeft=fxl;
+updfx_obj.style.pixelTop=fxt;
+}else{
+updfx_obj.style.left=fxl;
+updfx_obj.style.top=fxt;
+}
+updfx_obj.src=fximg1;
+setTimeout("mainScreenDoc.getElementById('plr1@0_fx').src=eblanks;",1700);
+
+}//end updatePlayerFX
+
+
+
+function UpdateGoldctr(coinid1)//updates the coin vars when coin collected
+{coinid1obj=null;
+  if(coinid1!="")
+  {
+       coinid1obj=mainScreenDoc.getElementById(coinid1);
+       coinid1obj.src=eblanks;
+      scoreScreenDoc.getElementById("goldctr").innerHTML=parseInt(scoreScreenDoc.getElementById("goldctr").innerHTML)+1;
+      playSound("gold.wav");
+      bisdead[Level_Objects_Array[coinid1obj.id][2]]=1;
+    }
+  //100 coins, extra life
+ if(parseInt(scoreScreenDoc.getElementById("goldctr").innerHTML)==100)
+ {updateLives(1);
+ updatePlayerFX(parseInt(o.style.left)+3,parseInt(o.style.top)-4,"../img/1up.gif");
+ scoreScreenDoc.getElementById("goldctr").innerHTML="0";
+ }
+
+}//end UpdateGoldctr
+
+
+
+function setNewPlayer_RestartPoint(coordx_RP,coordy_RP)//sets the restart points after dying
+{
+scoreScreenDoc.getElementById('current_level_start_point_x').innerHTML=Restart_point_x=coordx_RP;
+scoreScreenDoc.getElementById('current_level_start_point_y').innerHTML=coordy_RP;
+}
+
+
+
+function UpdateHitEnemy(enemyObjH)//enemy killed by player
+{
+    enemyObjH.src=Level_Objects_Array[enemyObjH.id][15]; //give them the dying image
+    bisdead[Level_Objects_Array[enemyObjH.id][2]]=1; //update isdead array
+  //back to invisible after some seconds (no lingering after RIP)
+setTimeout("mainScreenDoc.getElementById('"+enemyObjH.id+"').src=eblanks;",700);
+
+}//end UpdateHitEnemy
+
+
+function Player1IsNowdead()//player killed by enemy
+{
+stop_timer();
+
+  if(Player1_Property_Array[7]==1 && Player1_Property_Array[8]==1)
+  {
+    o.src=pldead.src;
+    o.style.zIndex=3;
+    if(isIE==1){
+    o_dest_x=o.style.pixelLeft;
+    o_dest_y=o.style.pixelTop-24;
+    }else{
+    o_dest_x=parseInt(o.style.left);
+    o_dest_y=parseInt(o.style.top)-24;
+    }
+    Player1_Property_Array[7]=0;
+    Player1_Property_Array[8]=0;
+    landstate_type=0;
+    ofallspd=4;
+    o_jump_status=1;
+    level_started=0;
+  }else
+  {//live or game over?
+        if(oPLivesLeft>0)
+        {
+        clearTimeout(update_timeout);
+        scoreScreenWin.document.getElementById('plr1@0_covermessage').style.display="";
+        updateLives(-1);
+        scoreScreenWin.arena_Load();
+        }else//GAME OVER
+        {clearTimeout(update_timeout);
+        makescreenblack(-1,"<span style='position:absolute; left:0; top:70; z-index:4; width:276; height:100%; font-family:Comic Sans MS,Arial;'><b>Game Over</b>");
+        parent.setTimeout('location.href="main.htm";',2800);
+        }
+  }
+
+}//end Player1IsNowdead
+
+
+//THis is the main update loop that checks every millisecond
+function u1()
+{
+
+var z=0,wenemyobj=-1,wenemyobjs=-1,enemymovex_dir=0,enemymovey_dir=0;
+var wl=0,wt=0,ww=0,wh=0,wpathmovespeed=0,WpathMaxL=0,WpathMaxR=0,WpathMaxB=0,WpathMaxT=0;
+var wid=0,wwelm_o=0,wtyp=0 ,wisdead=0,wownsbullet=0,whillgradient=0,whildir=0,wishilltop=0;
+var ot=0,ol=0,bullet1_obj=-1,Enemy_AI_type=0,w_screenupdatetype=0;
+var player_hitpart=0; //0 not hit any object, 1 top  , 2=foot, 3 left, 4 right
+
+
+             if(isIE==1)
+            {ot = o.style.pixelTop; //the y value of the top of the player
+             ol = o.style.pixelLeft; //the x value of the left side of the player
+            }else
+            {ot = parseInt(o.style.top);
+             ol = parseInt(o.style.left);
+            }
+            omovex_dir = 0;
+            omovey_dir = 0;
+            o_canjump=0; //allowed to jump (only if equal to 1, i.e. on a platform)
+
+
+             //have we reached the apex of the jump? if so, lets fall..
+              if(ot<=o_dest_y && o_jump_status==1){o_dest_y=screenHeightMain;}
+
+              if(ol < o_dest_x)
+              { omovex_dir = ohdestspeed;}
+              if(ol > o_dest_x)
+              { omovex_dir = -(ohdestspeed);}
+
+              if(ot < o_dest_y)
+              {omovey_dir = ofallspd;}
+               if(ot > o_dest_y)
+              {omovey_dir = -(ofallspd);}
+
+
+
+           //WALL & object COLLISION DETECTION from getBuildings() co-ordinates, and enemy movement
+           for(z=0; z<bctr;z++)
+              {
+                  wl=bl[z]; // left of obj
+                  wt=bt[z]; //top
+                  wh=bh[z];//height
+                  ww=bw[z];//width
+                  wtyp=btyp[z];//type (see getBuildings())
+                  wid=biid[z];//the ID of the enemy
+                  wenemyobj=wenemyobjs=-1;//enemy object ref (used for moving enemies)
+                  wisdead=bisdead[z]; //is dead? 1= yes, 0=no
+                  player_hitpart=0; //number indicating where on the players body there was a collision
+                  w_screenupdatetype=b_screenupdatetype[z]; //0(default)=only update when in screen, 1=always update (slower)
+
+
+                  //check enemy is in screen , if so move Enemy (i.e.)if wtyp=2
+                  if((w_screenupdatetype==1 && wisdead!=1 && wtyp==2) || (wtyp==2 && wisdead!=1 && wt<=screenHeightMain &&( ((opiframecur_scrollleft+screenWidthMain)>=bpathMaxL[z] && opiframecur_scrollleft<=bpathMaxR[z] && bpathMaxL[z]!=bpathMaxR[z])  || (wl<=(opiframecur_scrollleft+screenWidthMain) && (wl+ww)>=(opiframecur_scrollleft) && bpathMaxL[z]==bpathMaxR[z])) ))
+                  {
+                      enemymovex_dir=0;
+                      enemymovey_dir=0;
+                      wenemyobj=bo[z];
+                      wenemyobjs=bos[z];
+                      WpathMaxR=bpathMaxR[z];
+                      WpathMaxL=bpathMaxL[z];
+                      WpathMaxB=bpathMaxB[z];
+                      WpathMaxT=bpathMaxT[z];
+                      wpathmovespeed=bpathmovespeed[z];//the speed of the object
+                      wl=bl[z];
+                      wt=bt[z];
+                      Enemy_AI_type=baitype[z];
+
+
+                                  //Primitive AI (if any)(this is currently used only for the bird and egg character, else ignore)
+
+                                    if(Enemy_AI_type==1)
+                                    {
+                                      WpathMaxT=bpathMaxT[z]=mainScSctop;
+                                      WpathMaxB=bpathMaxB[z]=mainScSctop+34;
+                                      WpathMaxL=bpathMaxL[z]=ol-45;
+                                      WpathMaxR=bpathMaxR[z]=ol+80;
+
+                                      //the egg follows
+                                      if(eggFired==0)
+                                      {
+                                      if(isIE==1)
+                                      {bt[z+1]=mainScreenDoc.getElementById((z+1)).style.pixelTop=wt+19;
+                                      bl[z+1]=mainScreenDoc.getElementById((z+1)).style.pixelLeft=wl+4;
+                                      }else{bt[z+1]=mainScreenDoc.getElementById(""+(z+1)+"").style.top=wt+19;bl[z+1]=mainScreenDoc.getElementById(""+(z+1)+"").style.left=wl+4;}
+
+                                          //target sighted!
+                                          if(ol==wl)
+                                          {
+                                          eggFired=1;
+                                          if(isIE==1){bpathMaxL[z+1]=bpathMaxR[z+1]=mainScreenDoc.getElementById((z+1)).style.pixelLeft;bpathMaxT[z+1]=bt[z+1]=mainScreenDoc.getElementById((z+1)).style.pixelTop;}
+                                          else{bpathMaxL[z+1]=bpathMaxR[z+1]=mainScreenDoc.getElementById((z+1)).style.left;bpathMaxT[z+1]=bt[z+1];}
+                                          bpathMaxB[z+1]=99999;
+                                          }//end if wl==ol
+                                      }
+
+                                      //egg misses,reload
+                                      if(bt[z+1]>=521 && eggFired==1)
+                                      {eggFired=0;}
+
+                                    }//end if Enemy_AI_type>0
+
+
+
+
+                      //MOVE the enemies
+                      //horizontal moving
+                     if(WpathMaxL!=WpathMaxR)
+                     {
+                     enemymovex_dir=benemymovex_dir[z];
+                         if (wl<=WpathMaxL)
+                         {
+                         benemymovex_dir[z]=(wpathmovespeed);
+                         wenemyobj.src=bmoveright_anim[z];
+                         }
+                         if (wl+ww>=WpathMaxR )
+                         {
+                         benemymovex_dir[z]=-(wpathmovespeed);
+                         wenemyobj.src=bmoveleft_anim[z];
+                         }
+                         if(isIE==1){wenemyobjs.pixelLeft=bl[z]=wl+enemymovex_dir;}else{wenemyobjs.left=bl[z]=wl+enemymovex_dir;}
+                     }
+
+                     //vertical moving
+                     if(WpathMaxB!=WpathMaxT)
+                     {
+                       enemymovey_dir=benemymovey_dir[z];
+
+                       if (wt<=WpathMaxT )
+                       {
+                       benemymovey_dir[z]=(wpathmovespeed);
+                       wenemyobj.src=bmovedown_anim[z];
+                       }
+                       if ((wt+wh)>=WpathMaxB)
+                       {
+                       benemymovey_dir[z]=-(wpathmovespeed);
+                       wenemyobj.src=bmoveup_anim[z];
+                       if(bvanilla[z]>1){enemymovey_dir=0;bvanilla[z]--;}else{bvanilla[z]=parseInt(Level_Objects_Array[z][16]);}//cannonball delay
+                       }
+                     if(isIE==1){wenemyobjs.pixelTop=bt[z]=wt+enemymovey_dir;}else{wenemyobjs.top=bt[z]=(wt+enemymovey_dir);}
+                     }
+
+
+
+                  }//end if wtyp==2
+
+                  //check if obj dead or out of screen, if so loop on past
+                  if( ( (wisdead==1 || Player1_Property_Array[7]==0 ||(wl>(ol+ow+5) || (wl+ww)<(ol+omovex_dir) )) ||(wtyp==2 && wenemyobj==-1)))
+                  {continue;}
+
+
+                  //***COLLISION***
+                  if((ol>wl && ol<(wl+ww)) || ((ol+ow)>wl && ol<(wl+ww)))
+                  {
+                    //1 Player moving up hits bottom of object
+                    if((wt+wh)>=(ot+omovey_dir) && ot>=(wt+wh) ){player_hitpart=1;}
+                    //2 Player moving down hits top of object
+                    if((wt)<=(ot+oh+omovey_dir) && (ot+oh)<=wt ){player_hitpart=2;}
+                  }
+                  if((ot>wt && ot<(wt+wh)) || ((ot+oh)>wt && ot<(wt+wh)))
+                  {
+                    //3 Player moving right hits left of object
+                    if((wl)<=(ol+ow+omovex_dir) && ol<=(wl)){player_hitpart=3;}
+                    //4 Player moving left hits right of object
+                    if((wl+ww)>=(ol+omovex_dir) && ol>=(wl+ww)){player_hitpart=4;}
+                  }
+
+
+                    if(player_hitpart>0) //if player hit
+                    {
+
+                      switch(wtyp) //what did we hit 0=wall or building , 1=gold coin , 2=enemy or moving lift , 3=hill , 4=water ,5=level control object
+                    {
+                     //|||||||||||--wall object--||||||||||
+                     case 0:
+                           switch(player_hitpart)
+                             {case 1: //hit roof
+                              o_dest_y=screenHeightMain;
+                              omovex_dir=0;
+                              break;
+
+                              case 2://hit floor
+                              omovey_dir=wt-(ot+oh);
+                              o_jump_status=0;
+                              o_canjump=1;
+                              if(player_facing_int>1 && landstate_type!=1){o.src="../img/1.gif";}
+                              if(player_facing_int<-1 && landstate_type!=1){o.src="../img/-1.gif";}
+                              break;
+
+                              case 3://hit left of object
+                              omovex_dir=0;
+                              //if pushable , move the object
+                              if(bpushable_speed[z]!=0 && (bl[z]+bw[z])!=bpathMaxR[z]){if(isIE==1){bl[z]=bo[z].style.pixelLeft+=1;}else{bo[z].style.left=bl[z]=(bl[z])+1;}}
+                              break;
+
+                              case 4://hit right of object
+                              omovex_dir=0;
+                              //if pushable , move the object
+                              if(bpushable_speed[z]!=0 && (bl[z])!=bpathMaxL[z]){if(isIE==1){bl[z]=bo[z].style.pixelLeft-=1;}else{bo[z].style.left=bl[z]=(bl[z])-1;}}
+                              break;
+                           }//end switch player_hitpart
+                     break;
+
+
+                     //|||||||||||--goldcoins--||||||||||
+                    case 1:
+                    UpdateGoldctr(wid);
+                    break;
+
+
+                    //|||||||||||--moving objects (lifts,enemies)--||||||||||
+                    case 2:
+                    switch(player_hitpart)
+                             {case 1: //hit roof
+                              o_dest_y=screenHeightMain;
+                              omovex_dir=0;
+                              if(Level_Objects_Array[z][5]==1){Player1IsNowdead();}
+                              break;
+
+                              case 2://hit floor of object
+                              omovey_dir=wt-(ot+oh);
+                              o_jump_status=0;
+                              o_canjump=1;
+                              if(player_facing_int>1 && landstate_type!=1){o.src="../img/1.gif";}
+                              if(player_facing_int<-1 && landstate_type!=1){o.src="../img/-1.gif";}
+                                      //what to do if encountered, die or move or misc..
+                                        switch(parseInt(Level_Objects_Array[z][5]))
+                                        {
+                                        case 0://elevator object, go along with it
+                                            omovex_dir=(omovex_dir+enemymovex_dir);
+                                            o_dest_x=(ol+enemymovex_dir);
+                                            if((ohdestspeed!=1) &&( ((ol+omovex_dir)>o_dest_x && omovex_dir>0)||(((ol+omovex_dir)<o_dest_x && omovex_dir<0)) ))
+                                            {o_dest_x=(ol+(omovex_dir*1000));}
+
+                                            o_dest_y=screenHeightMain;
+                                            omovey_dir=(omovey_dir+enemymovey_dir);
+
+                                        break;
+
+                                        case 1: //enemy ! make sure its a weakspot(head)
+                                            if(player_hitpart==Level_Objects_Array[z][4])
+                                            {
+                                              UpdateHitEnemy(wenemyobj,player_hitpart);
+                                              o_jump_status=1;
+                                              o_dest_y=ot-25;
+                                            }else{
+                                              o_dest_x=(ol+omovex_dir);
+                                              omovex_dir=0;
+                                              Player1IsNowdead();
+                                            }
+                                          break;
+
+                                          case 2: //a spring , bounce player
+                                          wenemyobj.src="../img/spring_down.gif";
+                                          thisSpringZ=z;
+                                          if(isIE==1){setTimeout("bo[thisSpringZ].src='../img/spring_up.gif';plr_move(32);",100);}else{setTimeout("bo[thisSpringZ].src='../img/spring_up.gif';plr_move(0);",100);}
+                                          break;
+
+
+                                        }//end switch (Level_Objects_Array[z][1])
+                              break;
+
+                              case 3://hit left
+                              o_dest_x=(ol+omovex_dir);
+                              omovex_dir=0;
+                              if(Level_Objects_Array[z][5]==1){Player1IsNowdead();}
+                              break;
+
+                              case 4://hit right
+                              o_dest_x=(ol+omovex_dir);
+                              omovex_dir=0;
+                              if(Level_Objects_Array[z][5]==1){Player1IsNowdead();}
+                              break;
+                           }//end switch player_hitpart
+
+                    break;
+
+
+
+                     //|||||||||||--hill object--||||||||||
+                     case 3:
+
+                     wenemyobj=bo[z];
+                     whillgradient=Level_Objects_Array[z][22];
+                     whilldir=Level_Objects_Array[z][23];
+                     wishilltop=Level_Objects_Array[z][24];
+
+                           switch(player_hitpart)
+                             {case 1: //hit roof of hill
+                              o_dest_y=screenHeightMain;
+                              omovex_dir=0;
+                              o_canjump=1;
+                              break;
+
+                              case 2://hit floor of hill
+                              omovey_dir=(wt-(ot+oh));
+                              o_jump_status=0;
+                              o_canjump=1;
+                              if(player_facing_int>1 && landstate_type!=1){o.src="../img/1.gif";}
+                              if(player_facing_int<-1 && landstate_type!=1){o.src="../img/-1.gif";}
+                              break;
+
+                              case 3://hit left of hill
+                              o_canjump=1;
+                              //rising right
+                              if(whilldir==1 && omovex_dir>0 && ol<=wl){omovey_dir=(omovey_dir-whillgradient);}
+                              //rising left
+                              if(whilldir==-1 && omovex_dir<=0){omovey_dir=(omovey_dir-whillgradient);}
+                              break;
+
+                              case 4://hit right of hill
+                              o_canjump=1;
+                              //if rising left
+                                if(whilldir==-1 && omovex_dir<=0 && ol>=(wl+ww)){omovey_dir=(omovey_dir-whillgradient);}
+                              break;
+                           }//end switch player_hitpart
+                           if(wishilltop==1){omovey_dir=wt-(ot+oh);}
+                     break;
+
+
+
+                      //|||||||||||*^^^hit swimming water object^^^||||||||||
+                     case 4:
+                           switch(player_hitpart)
+                             {
+                             case 1: //exit water surface
+                               ofallspd=Player1_Property_Array[3]=3;
+                              ohdestspeed=2;
+                              o_jump_status=0;
+                              o_canjump=1;
+                              landstate_type=0;
+                              player_facing_int=player_facing_int*4;
+                              if(isIE==1){plr_move(32);}else{plr_move(0);} //jump out of water
+                              updatePlayerFX((ol-1),(wt-10),esplashs);
+                               break;
+
+                              case 2://hit water ^^^
+                                switch(bvanilla[z])//1=lava , else water
+                                {
+                                case 1:
+                                  o_dest_x=(ol+omovex_dir);
+                                  omovex_dir=0;
+                                  Player1IsNowdead();
+                                break;
+
+                                default: //water
+                                ofallspd=Player1_Property_Array[3]=1;
+                                o_jump_status=0;
+                                ohdestspeed=1;
+                                landstate_type=1;
+                                updatePlayerFX((ol-1),(wt-10),esplashs);
+                                omovey_dir=(wt-ot+wh);
+                                o_dest_y=99999;
+                                 if(player_facing_int>0){o.src=pr3s;}
+                                if(player_facing_int<0){o.src=pl3s;}
+                                break;
+                                }//end switch bvanilla
+                              break;
+
+                              case 3://hit left of object
+                              omovex_dir=0;
+                              break;
+
+                              case 4://hit right of object
+                              omovex_dir=0;
+                              break;
+                           }//end switch player_hitpart
+                     break;
+
+                      //|||||||||||--Control Points (restart points, end level etc.)--||||||||||
+                    case 5:
+                          switch(bvanilla[z]) //the type 0=restart , 1=level end
+                          {
+                          case 0://RESTART POINT
+                          if(wl!=Restart_point_x){bo[z].src="../img/restart_point_ON.gif";setNewPlayer_RestartPoint(wl,ot);}
+                          break;
+
+                          case 1://CHANGE LEVEL
+                           omovex_dir=omovey_dir=0; //no moving as level changes
+                          //except if level editing..
+                          if(level_editor_mode_ON==1)
+                          {
+                          if(parent.parent.document.getElementById('LevelEditMsg').innerText==""){
+                          parent.parent.WriteLevelEditorMsg("Level_End reached -(Loads next level in normal mode)");
+                          setTimeout("parent.parent.WriteLevelEditorMsg('')",2300);}}
+                          else{
+                          if(parseInt(scoreScreenWin.document.getElementById('current_level').innerHTML)!=next_level)
+                          {
+                          clearTimeout(update_timeout);
+                          Player1_Property_Array[8]=0;//can't move while level is changing
+                          scoreScreenWin.document.getElementById('current_level').innerHTML=next_level;
+                          scoreScreenWin.load_level_intocache();
+                          }
+
+                          }
+                          break;
+
+                          case 2://PLAYER FINISHES GAME!
+                          clearTimeout(update_timeout);
+                          update_timeout=null;
+                          Player1_Property_Array[8]=0;//can't move now
+                          omovex_dir=omovey_dir=0;
+                          level_started=0;
+                          makescreenblack(-1,"<span style='position:absolute; left:0; top:22; z-index:4; width:276; height:200; font-family:Comic Sans MS,Arial;'><img src='../img/2.gif'>&nbsp;&nbsp;Congratulations!&nbsp;&nbsp;<img src='../img/2.gif'><BR> You have mastered this game.<BR>Night Rock<BR><BR><span style='font-size:8pt;cursor:pointer; cursor:hand;' onClick='parent.parent.location.href=\"http://goo.gl/zI6A\";'><u>Click for more free HTML Games</u></span></span>");
+                          if(isIE==1){location.replace("blank.htm");}
+                          break;
+
+                          }
+
+
+                    break;
+                     }//end switch(wtyp)
+
+
+
+                  }//end if player_hitpart>0
+
+
+              }//end for z<bctr
+
+              if(isIE==1)
+              {
+              o.style.pixelLeft+=omovex_dir;
+              o.style.pixelTop+=omovey_dir;
+              }else{
+              o.style.left=ol+omovex_dir;
+              o.style.top=ot+omovey_dir;
+              }
+
+              //Fall down out of screen
+              if(ot>=screenHeightMain){Player1IsNowdead();}
+
+              //increment timer
+              time_ctr++;
+              if(time_ctr==220 && timer_is_on==1){updateYear();}
+
+
+  update_timeout=setTimeout('UpdatePScreenScrolling();u1();',0);//increment frame
+
+
+} //end u1()
+
+
+//By i1c1k2l2e3h1p1a1t1r2
+// -->
+</script>
+</body>
+</html>

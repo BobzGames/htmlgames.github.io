@@ -1,0 +1,414 @@
+<html>
+<head>
+</script>
+
+<title>Ant Splat!</title>
+
+<style type="text/css">
+
+body {
+   padding: 0;
+   margin: 0;
+   font-family: arial;
+   font-size: 11px;
+   color: black;
+}
+
+.box {
+   position: absolute;
+   left: 0;
+   top: 0;
+   width: 13px;
+   height: 13px;
+   border: 0px solid black;
+   color: green;
+   background-color:white;
+}
+
+#bounds {
+   position: absolute;
+   left: 0;
+   top: 0;
+   width: 800px;
+   height: 550px;
+   border: 1px solid red;
+   text-align: right;
+   background-color:white
+}
+
+#foodLocation {
+   position: absolute;
+   left: 538px;
+   top: 540px;
+   width: 6px;
+   height: 6px;
+   background: red;
+   border: 0px solid black;
+}
+
+#nestLocation {
+   position: absolute;
+   left: 0;
+   top: 0;
+   width: 8px;
+   height: 12px;
+   border: 0px solid red;
+   background: brown;
+   color: white;
+   overflow: hidden;
+   font-size: 11px;
+}
+
+</style>
+<script language="javascript">
+
+var ants = 32;
+var frameRate = 20; // 20 fps
+var currentFPS = 0;
+var lastTime;
+var bb;
+var nest;
+var objects = [];
+var food;
+var found = false;
+//var chars = ['', 'b', 'c', 'd', 'e', 'f', 'g'];
+var f=0;
+
+function randomChar(len)
+{
+   f++;
+   return "<img src='images/f"+f%8+".gif'/>";
+}
+
+function boundingBox()
+{
+   this.north = 0;
+   this.east = 800-6;
+   this.south = 550-6;
+   this.west = 0;
+}
+
+function food(x, y)
+{
+   this.x = x;
+   this.y = y;
+   this.amount = 550;
+}
+
+function nest(x, y)
+{
+   this.x = x;
+   this.y = y;
+   this.amount = 0;
+}
+
+function direction()
+{
+   this.n = 0;
+   this.ne = 1;
+   this.nw = 2;
+   this.e = 3;
+   this.s = 4;
+   this.se = 5;
+   this.sw = 6;
+   this.w = 7;
+
+   this.currentDirection = 0;
+
+   this.setRandomDirection = function() {
+      this.currentDirection = Math.round(Math.random() * 7);
+   }
+
+   this.setRandomDirection();
+}
+
+function cell(startX, startY, id)
+{
+   this.x = startX;
+   this.y = startY;
+   this.id = id;
+
+   this.dir = new direction();
+
+   this.capacity = 10;
+   this.amount = 0;
+
+   this.targetX = -1;
+   this.targetY = -1;
+
+   this.dead = false;
+
+   this.move = function(x, y) {
+
+      if(this.dead)return;
+
+      v = document.getElementById(id);
+      d = document.getElementById('debug');
+
+	ant = this.id.replace("box","ant");
+	a = document.getElementById(ant);
+	if(a)a.src = found?"images/ant" + "8" + ".gif":"images/ant" + this.dir.currentDirection + ".gif";
+
+      if(found && this.targetX == -1 && this.targetY == -1) {
+         this.targetX = food.x;
+	 this.targetY = food.y;
+      }
+      else if(this.x == this.targetX && this.y == this.targetY) {
+         if(this.targetX == nest.x && this.targetY == nest.y) {
+	    if(this.amount > 0) {
+	       nest.amount++;
+	       this.amount--;
+	       d.innerHTML = 'putting in nest(' + nest.amount + ')';
+	       var nestV = document.getElementById('nestLocation');
+	       nestV.style.width = nest.amount + 'px';
+	       nestV.style.height = nest.amount + 'px';
+	    }
+	    else {
+	       this.targetX = -1;
+	       this.targetY = -1;
+	       d.innerHTML = 'finished putting in nest(' + nest.amount + ')';
+	       var me = document.getElementById(this.id);
+	       //me.style.width = '2px';
+	       //me.style.height = '2px';
+	       me.innerHTML = '<img src="images/ant9.gif"/>';
+	    }
+	 }
+	 else {
+            if(this.amount == this.capacity) {
+               this.targetX = nest.x;
+	       this.targetY = nest.y;
+	       d.innerHTML = 'i am full(' + this.amount + ')';
+	       var me = document.getElementById(this.id);
+	       //me.style.width = (1 * this.amount) + 'px'; //3
+	       //me.style.height = (1 * this.amount) + 'px';//3
+	       me.innerHTML = randomChar(Math.round(Math.random() * 8));
+
+	       if(food != null && food.amount == 0) {
+                  found = false;
+		  food = null;
+	       }
+	    }
+            else {
+               if(food != null) {
+	          if(food.amount > 0) {
+		     food.amount--;
+	             this.amount++;
+	             d.innerHTML = 'eating (' + food.amount + ')';
+		  }
+		  else {
+                     food = null;
+		     if(this.amount > 0) {
+		        this.targetX = nest.x;
+		        this.targetY = nest.y;
+		     }
+		     else {
+		        this.targetX = -1;
+			this.targetY = -1;
+	             }
+		     found = false;
+		     d.innerHTML = 'i have eaten all the food.';
+		  }
+	       }
+	       else {
+                  if(this.amount > 0) {
+		     this.targetX = nest.x;
+		     this.targetY = nest.y;
+	          }
+		  else {
+		     this.targetX = -1;
+		     this.targetY = -1;
+                  }
+		  found = false;
+	          d.innerHTML = 'where did the food go?';
+		     if(typeof bMsg == "undefined"){alert("The Ants Won!");bMsg=true;}
+	       }
+	    }
+	 }
+      }
+      else if(this.targetX >= 0 && this.targetY >= 0) {
+	 if(this.targetX < this.x)
+	    this.x--;
+	 else if(this.targetX > this.x)
+	    this.x++;
+         if(this.targetY < this.y)
+	    this.y--;
+	 else if(this.targetY > this.y)
+	    this.y++;
+      }
+      //else if(food != null && !found && this.x == food.x && this.y == food.y) {
+      else if(food != null && !found && Math.abs(this.x - food.x) < 6 && Math.abs(this.y - food.y) <6 ) {
+         found = true;
+         d.innerHTML = 'someone found some food.';
+      }
+      else {
+         if(this.y == bb.north) {
+	    this.dir.setRandomDirection();
+            this.y++;
+         }
+         else if(this.x == bb.east) {
+	    this.dir.setRandomDirection();
+            this.x--;
+         }
+         else if(this.y == bb.south) {
+	    this.dir.setRandomDirection();
+            this.y--;
+         }
+         else if(this.x == bb.west) {
+	    this.dir.setRandomDirection();
+            this.x++;
+         }
+         else {
+	    if(Math.random() < 0.01) {
+               this.dir.setRandomDirection();
+	       d.innerHTML = 'random change in direction.';
+	    }
+            if(this.dir.currentDirection == this.dir.n) {
+               this.y--;
+	    }
+            else if(this.dir.currentDirection == this.dir.ne) {
+               this.x++;
+	       this.y--;
+	    }
+            else if(this.dir.currentDirection == this.dir.nw) {
+               this.x--;
+	       this.y--;
+	    }
+            else if(this.dir.currentDirection == this.dir.e) {
+               this.x++;
+	    }
+	    else if(this.dir.currentDirection == this.dir.s) {
+               this.y++;
+	    }
+            else if(this.dir.currentDirection == this.dir.se) {
+	       this.x++;
+	       this.y++;
+            }
+	    else if(this.dir.currentDirection == this.dir.sw) {
+	       this.x--;
+	       this.y++;
+	    }
+            else if(this.dir.currentDirection == this.dir.w) {
+	       this.x--;
+	    }
+         }
+      }
+
+      if(this.x < bb.west)
+         d.innerHTML = 'x < bb.west';
+      else if(this.x > bb.east)
+         d.innerHTML = 'x > bb.east';
+      else if(this.y < bb.north)
+         d.innerHTML = 'y < bb.north';
+      else if(this.y > bb.south)
+         d.innerHTML = 'y > bb.north';
+
+      v.style.left = this.x + 'px';
+      v.style.top = this.y + 'px';
+   }
+}
+
+function updateFPS()
+{
+   now = new Date();
+   if(now.getTime() - lastTime <= 1000)
+      currentFPS++;
+   else {
+      //v = document.getElementById('bounds');
+      //v.innerHTML = currentFPS + ' fps';
+      currentFPS = 1;
+      lastTime = now.getTime();
+
+   }
+}
+
+function moveObjects()
+{
+   for(i = 0; i < objects.length; i++)
+      objects[i].move();
+}
+
+function cycle()
+{
+   moveObjects();
+   updateFPS();
+   setTimeout("cycle()", frameRate);
+}
+
+function start()
+{
+   touch();
+   init();
+   cycle();
+}
+
+function init()
+{
+   bb = new boundingBox();
+   nest = new nest(bb.west, bb.north);
+   food = new food(bb.south, bb.south);
+   for(olp=1;olp<33;olp++)objects.push(new cell(0, 0, "box"+olp));
+   now = new Date();
+   lastTime = now.getTime();
+
+}
+
+function touch(){
+	// attach the touchstart, touchmove, touchend event listeners.
+	if(navigator.userAgent.indexOf("MSIE") != -1){
+		//canvas.attachEvent('onmousedown',draw);
+		//canvas.attachEvent('onmousemove',draw);
+		//canvas.attachEvent('onmouseup',draw);
+	}else{
+
+		//canvas.addEventListener('touchstart',draw, false);
+		//canvas.addEventListener('touchmove',draw, false);
+		//canvas.addEventListener('touchend',draw, false);
+		//canvas.addEventListener('mousedown',draw, false);
+		//canvas.addEventListener('mousemove',draw, false);
+		//canvas.addEventListener('mouseup',draw, false);
+
+		// prevent elastic scrolling
+		document.body.addEventListener('touchmove',function(event){event.preventDefault();});
+		//document.body.addEventListener('touchstart',function(event){event.preventDefault();});
+	}
+
+	setTimeout(function(){window.scrollTo(0, 1);}, 20);
+
+}
+
+function splat(ii)
+{
+	try{event.preventDefault();}catch(e){}
+
+	an = parseInt(ii.substr(3,2),10);
+	wa = an-1;
+
+	if(objects[wa].dead){
+		document.getElementById("ant"+an).src="images/splatter.gif";
+	}else{
+		objects[wa].dead=true;
+		document.body.style.backgroundColor="red";
+		setTimeout('document.body.style.backgroundColor="white";',50);
+		document.getElementById("ant"+an).src="images/splat.gif";
+		ants--;
+		if(!ants)finished();
+	}
+}
+
+function finished(){
+	alert("You Win!");
+}
+</script>
+</head>
+<body onLoad="start();">
+
+<div id="bounds"></div>
+<script>
+for(alp=1;alp<33;alp++)document.write('<div id="box'+alp+'" class="box" ontouchstart="splat(this.id)"><img id="ant'+alp+'" width="13px" height="13px" src="images/transparent.gif" onclick="splat(this.id)" ontouchstart="splat(this.id)" /></div>');
+</script>
+<div id="nestLocation"><img src="images/hole.gif"/><br><br>&#160;<a href="#" style="color:white">Should&#160;have&#160;bought&#160;some&#160;ant&#160;powder!</a></div>
+<div id="foodLocation"><img src="images/hamper.gif"/></div>
+<div id="debug" style="display:none;position:absolute;left:815px"></div>
+
+</body>
+</html>

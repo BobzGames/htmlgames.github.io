@@ -1,0 +1,54 @@
+<html>
+	<title>Angry Bird Differences</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+		<style>
+			body {background-color:#DDD}
+			h2 {background: #CCC}
+		</style>
+		<script type="text/javascript" src="../js/code.js"></script>
+
+		<script>
+			TIMER = 60;
+		</script>
+	</head>
+	<body onload="init('index.html')" onunload="reset_bg_music()" onkeypress="keyhint(event)" onclick="point(event)">
+
+		<div align="center" id="header">
+			<h2> <i><b><span id="remaining">0</span></b> Difference<span id="s">s</span> Left</i> <input type="button" value="Hint" id ="btnH" onclick="hint()" /></h2>
+		</div>
+		<div id="timerborder" class="timerOuter" onclick="pause()"><div id="timer" class="timerInner"></div></div>
+		<div id="content" align="center">
+
+			<img src ="images/abmod.jpg" id = "il" class="landscape" usemap="#TBmap" onclick="bClickedImage=true" ondragstart="return false" onselectstart="return false" />
+
+			<map name="TBmap">
+				<area shape ="circle" coords ="59,31,20" nohref id="m1" onclick="chkscore(1,this,event)" />
+				<area shape ="circle" coords ="74,68,20" nohref id="m2" onclick="chkscore(2,this,event)" />
+				<area shape ="circle" coords ="198,280,20" nohref id="m3" onclick="chkscore(3,this,event)" />
+				<area shape ="circle" coords ="238,98,20" nohref id="m4" onclick="chkscore(4,this,event)" />
+				<area shape ="circle" coords ="392,108,20" nohref id="m5" onclick="chkscore(5,this,event)" />
+				<area shape ="circle" coords ="210,131,20" nohref id="m6" onclick="chkscore(6,this,event)" />
+				<area shape ="circle" coords ="353,195,20" nohref id="m7" onclick="chkscore(7,this,event)" />
+
+			</map>
+
+			<img src ="images/ab.jpg" id="ir" class="landscape" usemap="#TBmap" onclick="bClickedImage=true" />
+
+			<div id="twoPlayerContent" class="twoPlayerStyle">
+				<span id="P1" class="player1">0</span>
+				<span id="P2" class="player2">0</span>
+			</div>
+
+			<div id="onePlayerContent" class="onePlayerStyle">
+				<span id="P" class="player">0</span>
+			</div>
+
+		</div>
+
+		<span class="hintContent" />
+
+
+	</body>
+</html>

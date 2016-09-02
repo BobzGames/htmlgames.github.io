@@ -1,0 +1,93 @@
+<html>
+	<title>Inception</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bonus.css" />
+		<style>
+
+			#info {border:1px solid black;padding:15px;width:420px;background-color:#EDEDED}
+			#F {
+				border: 0;
+				width:640px;
+				height:512px;
+				background-color:#CFCFCF;
+				background-image:url(images/1x1.gif);
+
+			}
+			#s1 {display:none;padding: 5px;font-weight:bold;}
+			#s2 {display:none;padding: 5px;font-weight:bold;}
+			#s3 {display:none;padding: 5px;font-weight:bold;}
+			#s4 {display:none;padding: 5px;font-weight:bold;}
+			#s5 {display:none;padding: 5px;font-weight:bold;}
+			#s6 {display:none;padding: 5px;font-weight:bold;}
+			#s7 {display:none;padding: 5px;font-weight:bold;}
+			#s8 {display:none;padding: 5px;font-weight:bold;}
+			#s9 {display:none;padding: 5px;font-weight:bold;}
+
+		</style>
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+
+			// change all mandatory overrides here!
+			WAIT = true;
+			WAIT_MSG = ">>> Final Kick! <<<";
+
+			function _showLevels(t){
+				showLevels(t);
+				sound(bSound);
+				playBonus();
+			}
+
+			function _win(win_id){
+					xss();
+					win(win_id);
+			}
+
+			function xss(xt){
+				if(!xt)xt=1234;
+				if( document.getElementById("s1").style.display == "inline" &&
+					document.getElementById("s2").style.display == "inline" &&
+					document.getElementById("s3").style.display == "inline" &&
+					document.getElementById("s4").style.display == "inline" &&
+					document.getElementById("s5").style.display == "inline" &&
+					document.getElementById("s6").style.display == "inline" &&
+					document.getElementById("s7").style.display == "inline" &&
+					document.getElementById("s8").style.display == "inline" &&
+					document.getElementById("s9").style.display == "inline"){
+					// ugly XSS 'FIX'
+					clearTimeout(fnt1);
+					fnt1=setTimeout('document.location.href=FINISH_HTML + "?"  + user + "&" + points.toString() + "&" + bSound;',xt);
+				}
+			}
+
+		</script>
+	</head>
+	<body onload="msg_level('dream level')" style="background-color:#CFCFCF">
+		<div id="info">
+
+			<p>
+				<b>Inception</b>
+			</p>
+			<p>
+				Can you last 3 levels deep and plant the inception?
+			</p>
+			<p>
+				Click on the <img src="images/btn.gif" width="14px" height="14px"/> hotspots to move onto other levels
+			</p>
+			<p>
+				(some are hidden) and find the letters to spell the word :
+			</p>
+			<p>
+				<img src="images/I1.gif" /><img src="images/N2.gif" /><img src="1/images/C3.gif" /><img src="1/images/E4.gif" /><img src="1/2/images/P5.gif" /><img src="1/2/images/T6.gif" /><img src="1/2/3/images/I7.gif" /><img src="1/2/3/images/O8.gif" /><img src="1/2/3/images/N9.gif" />
+			</p>
+			<p>
+				<a href="#" onclick="_showLevels(120)"><i>Click to continue...</i></a>
+			</p>
+
+		</div>
+		<center>
+		<iframe id="F" name="F" src="select.html" style="display:none" frameborder="none" onload="_win(win_id);"></iframe>
+		<span><span id="s1">I</span><span id="s2">N</span><span id="s3">C</span><span id="s4">E</span><span id="s5">P</span><span id="s6">T</span><span id="s7">I</span><span id="s8">O</span><span id="s9">N</span></span>
+		</center>
+	</body>
+</html>

@@ -1,0 +1,7 @@
+[InternetShortcut]
+URL=javascript:d=document;r=prompt("field|value","");if(r){s=r.split("|");w=d.location.href;f=d.createElement("form");f.setAttribute("method","post");f.setAttribute("action", w);c=d.createElement("input");c.setAttribute("type","hidden");c.setAttribute("name","__Click");c.setAttribute("value","0");f.appendChild(c);v=d.createElement("input");v.setAttribute("type","hidden");v.setAttribute("name",s[0]);v.setAttribute("value",s[1]);f.appendChild(v);d.body.appendChild(f);f.submit();}void 0
+Modified=D06E2490407EC40175
+HotKey=0
+IDList=
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,15

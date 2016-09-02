@@ -1,0 +1,7 @@
+[InternetShortcut]
+URL=javascript:w=prompt("Enter 0 for all Y or 1 for all N","1");i=document.getElementsByTagName("TD");for(o in i){if(i[o].innerHTML && i[o].innerHTML.match("radio")){s=i[o].innerHTML.indexOf("radio");n=i[o].innerHTML.substr(s).split("name=")[1].split(">")[0].replace(" ","").replace("?","");x=document.getElementsByName(n);x[w].checked=true;if(x[w].onclick){x[w].onclick()}}};void 0
+Modified=D06E2490407EC40175
+HotKey=0
+IDList=
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,15

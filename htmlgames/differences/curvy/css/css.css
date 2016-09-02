@@ -1,0 +1,8 @@
+@media screen {
+@font-face {
+  font-family: 'Tenor Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Tenor Sans'), local('TenorSans'), url('http://themes.googleusercontent.com/font?kit=pH9G9MQ0Q-aF9ThG3ok-txsxEYwM7FgeyaSgU71cLG0') format('woff');
+}
+}

@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<title>Snow Fort - Spinner [I]</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/bonus.css" />
+		<script type="text/javascript" src="js/code.js"></script>
+		<script>
+
+			MAXCLICKS = 10;
+			CHEATING = 100;
+			//function CHEAT(){levelQUIT(1)}
+			TIMEUP = "#"; // override timer
+
+			function CLEARED(l,p){if(parent.parent.parent.parent.$$("s7"))parent.parent.parent.parent.$$("s7").style.display = "inline";}
+
+		</script>
+		<style>
+			body{background-color:#CFCFCF}
+
+			a{font-size: 10px;}
+
+			.listdiv{left: 1px;top: 1px;z-index: 9999}
+
+			#ff1{
+				position:absolute;
+				cursor:default;
+				color:181818;
+				left:161px;
+				top:240px;
+				display:none
+			}
+
+			#content{display:block}
+
+		</style>
+
+	</head>
+	<body onload="init('#1','')" onkeypress="keyhint(event,0,0,1)" onunload="reset_bg_music()" onclick="point(event)">
+	<div class="listdiv">
+		<a href="#" onclick="levelQUIT(1)" id="quit">QUIT</a>
+	</div>
+		<div id="content" align="center">
+			<img name="normal" id="normal" class="landscape" src="images/spinner.jpg" ondragstart="return false" onselectstart="return false">
+
+			<div id="ff1"><img src="images/I7.gif" /></div>
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("off",'display:none')</script>
+
+			<map name="zoom">
+			  	   <area coords="500,750,32" id="m1" nohref onclick="chkscore(1,this,event)" shape=circle>
+			</map>
+		</div>
+	</body>
+</html>

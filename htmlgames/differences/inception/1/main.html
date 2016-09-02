@@ -1,0 +1,32 @@
+<html>
+	<title>Inception</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/bonus.css" />
+		<style>
+			#info {border:1px solid black;padding:15px;width:420px;background-color:#EDEDED}
+			#F {
+				border: 0;
+				width:100%;
+				height:100%;
+				background-color:#CFCFCF;
+				background-image:url(images/1x1.gif);
+
+			}
+
+		</style>
+		<script type="text/javascript" src="../../js/code.js"></script>
+		<script>
+			A_PATH = "../../_" + A_PATH;
+			// change all mandatory overrides here!
+			WAIT = true;
+			WIN_TIMEOUT = 555;
+			WAIT_MSG = ">>> Start Kick <<<";
+		</script>
+	</head>
+	<body onload="showLevels(500)" style="background-color:#CFCFCF">
+		<center>
+		<iframe id="F" name="F" src="select.html" style="display:none" frameborder="none" onload="win(win_id);"></iframe>
+		</center>
+	</body>
+</html>

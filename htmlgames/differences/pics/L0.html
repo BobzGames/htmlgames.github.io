@@ -1,0 +1,57 @@
+<html>
+<title>A slideshow about nothing more than where we live...</title>
+<head>
+<script>
+
+x=0;
+
+function fade(o,obj)
+{
+	if(!obj)obj = document.getElementsByTagName("body")[0].style;
+	obj.style.opacity = (o / 100);
+	obj.style.filter = "alpha(opacity=" + o + ")";
+	//obj.style.width = x/3 + "%";
+
+}
+
+function p()
+{
+	fade(100-x,document.getElementById("i1"));
+	fade(x,document.getElementById("i2"));
+	x++;
+	if(x>100)x=-x;
+	if(x<0)x=0;
+	t=setTimeout("p()",15);
+	wait(60,"L1.html");
+
+}
+
+function start(s)
+{
+	if(t)clearTimeout(t);
+	if(s){x=s;document.getElementById("sl").style.display="none";}
+	document.getElementById("i1").style.width = x/4 + "%";
+	document.getElementById("i2").style.width = x/4 + "%";
+	x--;
+	if(x){setTimeout("start()",15);}else{document.location.href="L1.html";}
+
+}
+
+function wait(s,u)
+{
+	setTimeout("document.location.href='"+u+"'",s*1000);
+}
+</script>
+</head>
+<body onload="p()" style="background-color:#0e0e0e">
+<!--<span>-->
+<div style="position:absolute;top:250px;left:47.5%;z-index:0;color:white;cursor:pointer;font-weight:bold" id="sl">START</div>
+<img style="position:absolute;top:30px;left:35%;width:300px;height:430px" src="wwl.jpg" id="i1" galleryimg="no"></img>
+<img style="position:absolute;top:30px;left:35%;width:300px;height:430px" src="wwl2.jpg" id="i2" galleryimg="no"></img>
+<div style="position:absolute;top:250px;left:47.5%;z-index:1;color:white;cursor:pointer;font-weight:bold" onclick="this.style.display='none';start(100)">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</div>
+<img style="position:absolute;top:500px;left:42%;cursor:pointer" onclick="top.document.location.href='http://goo.gl/zI6A'" title="Click to visit website" src="dapi.gif" />
+<!--</span>-->
+		<bgsound src="m0.wav"></bgsound>
+		<audio src="m0.wav" autoplay></audio>
+</body>
+</html>

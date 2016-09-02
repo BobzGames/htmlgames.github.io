@@ -1,0 +1,402 @@
+<html>
+<head>
+<title>LHC</title>
+<style>
+.dragme{position:relative;visibility:hidden}
+.hide{display:none;}
+.game{width:640px;height:480px;border:1px solid orange;position:absolute;left:0;top:0}
+.message{position:absolute;left:315px;top:457px}
+#E_{margin-top:30px}
+#E0{position:absolute;top:426px;left:303px}
+.s{position:relative;left:-35px;top:3px;font-size:x-small}
+p{margin:0}
+</style>
+<script>
+
+function isnew(o,oo)
+{
+	// debug
+	//alert(o.id + " is mixed with "+oo.id);
+
+	switch(o.id+oo.id)
+	{
+		case "E3E4":
+		case "E4E3":
+			reveal(o,oo,"E5");
+			break;
+
+		case "E1E4":
+		case "E4E1":
+			reveal(o,oo,"E6");
+			break;
+
+		case "E5E1":
+		case "E1E5":
+			reveal(o,oo,"E7");
+			break;
+
+		case "E7E3":
+		case "E3E7":
+			reveal(o,oo,"E8");
+			break;
+
+		case "E6E7":
+		case "E7E6":
+			reveal(o,oo,"E9");
+			break;
+
+		case "E1E9":
+		case "E9E1":
+			reveal(o,oo,"E10");
+			break;
+
+		case "E10E3":
+		case "E3E10":
+			reveal(o,oo,"E11");
+			break;
+
+		case "E6E17":
+		case "E17E6":
+			reveal(o,oo,"E12");
+			break;
+
+		case "E19E3":
+		case "E3E19":
+			reveal(o,oo,"E13");
+			break;
+
+		case "E7E20":
+		case "E20E7":
+			reveal(o,oo,"E14");
+			break;
+
+		case "E5E13":
+		case "E13E5":
+			reveal(o,oo,"E15");
+			break;
+
+		case "E11E17":
+		case "E17E11":
+			reveal(o,oo,"E16");
+			break;
+
+		case "E18E1":
+		case "E1E18":
+			reveal(o,oo,"E21");
+			break;
+
+		case "E21E15":
+		case "E15E21":
+			reveal(o,oo,"E22");
+			break;
+
+		case "E14E9":
+		case "E9E14":
+			reveal(o,oo,"E23");
+			break;
+
+		case "E22E17":
+		case "E17E22":
+			reveal(o,oo,"E24");
+			break;
+
+		case "E17E24":
+		case "E24E17":
+			reveal(o,oo,"E25");
+			break;
+
+		case "E18E3":
+		case "E3E18":
+			reveal(o,oo,"E26");
+			break;
+
+		case "E9E26":
+		case "E26E9":
+			reveal(o,oo,"E27");
+			break;
+
+		case "E27E3":
+		case "E3E27":
+			reveal(o,oo,"E28");
+			break;
+
+		case "E10E22":
+		case "E22E10":
+			reveal(o,oo,"E29");
+			break;
+
+		case "E7E28":
+		case "E28E7":
+			reveal(o,oo,"E30");
+			break;
+
+		case "E26E29":
+		case "E29E26":
+			reveal(o,oo,"E31");
+			break;
+
+		case "E30E14":
+		case "E14E30":
+			reveal(o,oo,"E32");
+			break;
+
+	}
+}
+
+function reveal(o,oo,f)
+{
+	if(document.getElementById(f).style.visibility != "visible"){
+		document.getElementById(f).style.visibility="visible";
+		document.getElementById(f).style.left=o.style.left;
+		document.getElementById(f).style.top=o.style.top;
+		tmp_src=document.getElementById(f).src;
+		tmp_o=f;
+		document.getElementById(f).src="bang.gif";
+		document.getElementById("msg").innerHTML="<span class='s'>" + o.id + "&#160;+&#160;" + oo.id + "&#160;=&#160;" + f + "</span>";
+		setTimeout('clear()',1500);
+	}
+}
+
+function clear()
+{
+	if(tmp_o && tmp_src)document.getElementById(tmp_o).src=tmp_src;
+	score++;
+	document.getElementById("msg").innerHTML=score;
+	win();
+}
+
+function win()
+{
+	if(score==MAX_ELEMENTS)alert("You have found all the elements!\n\nWell Done\n\n(who knows what we will find next)");
+}
+
+function movemouse(e)
+{
+  if (isdrag)
+  {
+    if(bTouch){
+    	e.preventDefault();
+    	dobj.style.left = tx + e.touches[0].pageX - x;
+    	dobj.style.top = ty + e.touches[0].pageY - y;
+    }else{
+	    dobj.style.left = nn6 ? tx + e.clientX - x : tx + event.clientX - x;
+	    dobj.style.top  = nn6 ? ty + e.clientY - y : ty + event.clientY - y;
+	}
+    return false;
+  }
+}
+
+function selectmouse(e)
+{
+  var fobj       = nn6 ? e.target : event.srcElement;
+  var topelement = nn6 ? "HTML" : "BODY";
+
+  while (fobj.tagName != topelement && fobj.className != "dragme")
+  {
+    fobj = nn6 ? fobj.parentNode : fobj.parentElement;
+  }
+
+  if (fobj.className=="dragme")
+  {
+    isdrag = true;
+    dobj = fobj;
+    tx = parseInt(dobj.style.left+0);
+    ty = parseInt(dobj.style.top+0);
+    if(bTouch){
+    	e.preventDefault();
+    	x = e.touches[0].pageX;
+    	y = e.touches[0].pageY;
+    	document.ontouchmove=movemouse;
+    }else{
+    	x = nn6 ? e.clientX : event.clientX;
+    	y = nn6 ? e.clientY : event.clientY;
+    	document.onmousemove=movemouse;
+    }
+    return false;
+  }
+}
+
+function checkmix()
+{
+	isdrag=false;
+	o=dobj;
+	if(o){
+		for(lp=MAX_ELEMENTS;lp > 0;lp--)
+		{
+			oo=document.getElementById("E"+lp);
+			if(oo && o.id != oo.id && isOverlapping(o,oo)){
+				isnew(o,oo);
+				break;
+			}
+		}
+		if( isOverlapping(o,document.getElementById("E0")) ){bin(o)}
+	}
+}
+
+function bin(o)
+{
+	document.getElementById(o.id).style.position="absolute";
+	document.getElementById(o.id).style.left=ele_arr[parseInt(o.id.replace("E",""),10)].split(":")[0]+"px";
+	document.getElementById(o.id).style.top=ele_arr[parseInt(o.id.replace("E",""),10)].split(":")[1]+"px";
+	//alert("Binned " + o.id);
+}
+
+function isOverlapping(elm1, elm2) {
+  var pos_elm1 = absolutePosition(elm1);
+  var pos_elm2 = absolutePosition(elm2);
+  var top1 = pos_elm1.y;
+  var left1 = pos_elm1.x;
+  var right1 = left1 + elm1.offsetWidth;
+  var bottom1 = top1 + elm1.offsetHeight;
+  var top2 = pos_elm2.y;
+  var left2 = pos_elm2.x;
+  var right2 = left2 + elm2.offsetWidth;
+  var bottom2 = top2 + elm2.offsetHeight;
+  var getSign = function(v) {
+    if(v > 0) return "+";
+    else if(v < 0) return "-";
+    else return 0;
+  }
+
+  if ((getSign(top1 - bottom2) != getSign(bottom1 - top2)) &&
+      (getSign(left1 - right2) != getSign(right1 - left2)))
+    return true;
+  return false;
+}
+
+function absolutePosition(elm) {
+  var posObj = {'x': elm.offsetLeft, 'y': elm.offsetTop};
+  if(elm.offsetParent) {
+    var temp_pos = absolutePosition(elm.offsetParent);
+    posObj.x += temp_pos.x;
+    posObj.y += temp_pos.y;
+  }
+  return posObj;
+}
+
+function init()
+{
+	// globals, inits etc...
+
+	ua=navigator.userAgent;
+	bTouch = (ua.indexOf("(iP")==-1 && ua.indexOf("Android")==-1 && ua.indexOf("BlackBerry")==-1 && ua.indexOf("HTC")==-1 && ua.indexOf("PlayBook")==-1 && ua.indexOf("webOS")==-1 && ua.indexOf("IEMobile")==-1 && ua.indexOf("Silk")==-1)?false:true;
+	ie=document.all;
+	nn6=bTouch||document.getElementById&&!document.all;
+	isdrag=false;
+	x=0,y=0;
+	tx=0,ty=0;
+	dobj=null;
+	score=8;
+
+	if(bTouch){
+		document.ontouchstart=selectmouse;
+		document.ontouchend=checkmix;
+	}else{
+		document.onmousedown=selectmouse;
+		document.onmouseup=checkmix;
+	}
+	window.status=bTouch;
+
+	ele_arr=new Array();
+
+	for(l=1;l>0;l++)
+	{
+		MAX_ELEMENTS=l-1;
+		if( !document.getElementById("E"+l) ){
+			l=-1;
+		}else{
+			ele_arr[l]=document.getElementById("E"+l).offsetLeft + ":" + document.getElementById("E"+l).offsetTop;
+		}
+	}
+
+
+}
+
+</script>
+</head>
+<body onload="init()" style="background:url(bg.gif) no-repeat">
+
+
+
+<div class="game">
+
+<p style="text-align:center"><img src="off.gif" title="Bin Element (click to clear all)" id="E_" onclick="" /></p>
+
+	<div style="float:left">
+      <p>
+        <span><img id="E1" src="E1.gif" title="-photon" class="dragme" style="visibility:visible" />&#160;</span>
+        <span><img id="E2" src="E2.gif" title="-gluton" class="dragme" style="visibility:visible" />&#160;</span>
+       </p>
+       <p>
+        <span><img id="E3" src="E3.gif" title="-Z boson" class="dragme" style="visibility:visible" />&#160;</span>
+        <span><img id="E4" src="E4.gif" title="-W boson" class="dragme" style="visibility:visible" />&#160;</span>
+       </p>
+       <p>
+        <span><img id="E5" src="E5.gif" title="-up" class="dragme" />&#160;</span>
+        <span><img id="E6" src="E6.gif" title="-charm" class="dragme" />&#160;</span>
+       </p>
+       <p>
+        <span><img id="E7" src="E7.gif" title="-top" class="dragme" />&#160;</span>
+        <span><img id="E8" src="E8.gif" title="-down" class="dragme" />&#160;</span>
+      </p>
+       <p>
+        <span><img id="E9" src="E9.gif" title="-strange" class="dragme" />&#160;</span>
+        <span><img id="E10" src="E10.gif" title="-bottom" class="dragme" />&#160;</span>
+       </p>
+       <p>
+        <span><img id="E11" src="E11.gif" title="-electon neutrino" class="dragme" />&#160;</span>
+        <span><img id="E12" src="E12.gif" title="-muon neutrino" class="dragme" />&#160;</span>
+      </p>
+       <p>
+        <span><img id="E13" src="E13.gif" title="-tau neutrino" class="dragme" />&#160;</span>
+        <span><img id="E14" src="E14.gif" title="-electron" class="dragme" />&#160;</span>
+       </p>
+       <p>
+        <span><img id="E15" src="E15.gif" title="-muon" class="dragme" />&#160;</span>
+        <span><img id="E16" src="E16.gif" title="-tau" class="dragme" />&#160;</span>
+      </p>
+	</div>
+	<div style="float:right">
+      <p>
+        <span><img id="E17" src="E17.gif" title="+gluon" class="dragme" style="visibility:visible" />&#160;</span>
+        <span><img id="E18" src="E18.gif" title="+photon" class="dragme" style="visibility:visible" />&#160;</span>
+       </p>
+       <p>
+        <span><img id="E19" src="E19.gif" title="+W boson" class="dragme" style="visibility:visible" />&#160;</span>
+        <span><img id="E20" src="E20.gif" title="+Z boson" class="dragme" style="visibility:visible" />&#160;</span>
+       </p>
+       <p>
+        <span><img id="E21" src="E21.gif" title="+charm" class="dragme" />&#160;</span>
+        <span><img id="E22" src="E22.gif" title="+up" class="dragme" />&#160;</span>
+       </p>
+       <p>
+        <span><img id="E23" src="E23.gif" title="+down" class="dragme" />&#160;</span>
+        <span><img id="E24" src="E24.gif" title="+top" class="dragme" />&#160;</span>
+      </p>
+       <p>
+        <span><img id="E25" src="E25.gif" title="+bottom" class="dragme" />&#160;</span>
+        <span><img id="E26" src="E26.gif" title="+strange" class="dragme" />&#160;</span>
+       </p>
+       <p>
+        <span><img id="E27" src="E27.gif" title="+muon neutrino" class="dragme" />&#160;</span>
+        <span><img id="E28" src="E28.gif" title="+electron neutrino" class="dragme" />&#160;</span>
+      </p>
+       <p>
+        <span><img id="E29" src="E29.gif" title="+electon" class="dragme" />&#160;</span>
+        <span><img id="E30" src="E30.gif" title="+tau neutrino" class="dragme" />&#160;</span>
+       </p>
+       <p>
+        <span><img id="E31" src="E31.gif" title="+tau" class="dragme" />&#160;</span>
+        <span><img id="E32" src="E32.gif" title="+muon" class="dragme" />&#160;</span>
+      </p>
+
+	</div>
+
+	<span id="msg" class="message">8</span>
+
+	<p style="clear:both;text-align:center"><img src="bin.gif" title="Bin Element" id="E0" onclick="" /></p>
+
+</div>
+
+</body>
+</html>

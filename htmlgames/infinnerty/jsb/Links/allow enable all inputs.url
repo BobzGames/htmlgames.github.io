@@ -1,0 +1,7 @@
+[InternetShortcut]
+URL=javascript:var o=document.getElementsByTagName("*");for(i=0;i<o.length;i++){if(o[i]){o[i].disabled=false;o[i].readOnly=false}};void 0
+Modified=D06E2490407EC40175
+HotKey=0
+IDList=
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,15

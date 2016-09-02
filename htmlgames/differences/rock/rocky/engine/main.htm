@@ -1,0 +1,262 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<META HTTP-EQUIV="Expires" CONTENT="0">
+<META HTTP-EQUIV="imagetoolbar" CONTENT="no">
+<title>Night Rock</title>
+<script language="Javascript">
+var mainScreen=null,opiframeScreen=null,is_loaded=0; //the game screen
+var item_1_dynamic_obj=null;
+var start_level=null, level_loaded=0 ,isIE=0 , level_check_timeout=null;
+var item_1_selected = "plr1@0"; //the players object id
+var player1_message_str="<div id='plr1@0_message' align='center' style='border:0px solid red; width:100%; position:absolute; left:1; top:20; z-index:2;color: #FFFFCC; font-size: 18pt; font-family: Verdana,Arial; letter-spacing: 2pt; vertical-align: middle; text-align:center;'>?</div>";
+var player1_str="<img id='plr1@0' alt='Z,0,0,3,0,9999,2,1,1,0' style='position:absolute; left:1; top:1; z-index:2; visibility:hidden;' src='../img/1.gif' >";
+var player1_fx_str="<img id='plr1@0_fx' src='../img/x.gif' style='border:0px; position:absolute;'>";
+var Level_Property_Array=null;//THE levels attributes in an array(comma delimited in level's body tag) 0~time_to_complete="100" 1~stylesheet_name="game_styles.txt" 2~start_point_x="27" 3~start_point_y="370" 4~level_version="1.4" 5~skygif="sky1.gif" 6~ 0=green(default) isice=1 iscastle=2 desert=3
+var Player1_Property_Array = new Array();//checks the player's alt tag ="Z,0,0,3,0,0,2,1,1,0" the numbers denote: Z is 0, then 1~ispjump=0 2~landstate=0 3~fallspeed=3 4~destx=0 5~desty=0 6~destspeed=2 7~canCollideE=1 8~canControlE=1 9~isice=0
+/* Player1_Property_Array checks the  player1_str alt tag ="Z,0,0,3,0,0,2,1,1,0" the numbers denote: Player1_Property_Array[
+Z is 0, then 1~ispjump=0 2~landstate=0 3~fallspeed=3 4~destx=0 5~desty=9999 6~destspeed=2 7~canCollideE=1 8~canControlE=1 9~isice=0 iscastle=1*/
+
+
+
+//load the level html from the cache hidden iframe (window.frames["opiframe_level_cache"].document.body.innerHTML) into the iframe game_iframe and commence game engine updating (load opiframe1.htm into opiframe hidden iframe)
+function arena_Load()
+{ 
+var arena_Load_load_errors=0;
+
+  if(mainScreen){
+   if( mainScreen.document.body){
+   mainScreen.document.body.innerHTML="<div id='plr1@0_covermessage' style='position:absolute; left:0; top:0; border:0px solid orange; width:10000; height:100%; z-index:3;color: #FFA500; font-size: 16pt; font-family: Tahoma,Arial; letter-spacing: 2pt; text-align:center; background-color:#000000;'><span style='position:absolute; left:0; top:70; z-index:4; width:276; height:500; font-family:Comic Sans MS,Arial;'>Level "+parseInt(document.getElementById("current_level").innerHTML)+"</span></div>";
+   document.getElementById("plr1@0_covermessage").style.display="";
+  
+   //IE: only load stylesheet once (its defined in ../levels/*level_number*.htm document.body.stylesheet_name)
+    if(mainScreen.document.attachEvent)
+    {if(mainScreen.document.styleSheets.length==0 || mainScreen.document.styleSheets[0].href.indexOf(Level_Property_Array[1])==-1){mainScreen.document.createStyleSheet("../engine/"+Level_Property_Array[1]+"");}
+    }else
+    {//mozilla stylesheet
+    mainScreen.document.body.parentNode.childNodes[0].innerHTML+="<style type=text/css><!--"+window.frames["opiframe_level_stylesheet"].document.body.innerHTML+" --></style>";
+    }
+    mainScreen.document.body.innerHTML+=window.frames["opiframe_level_cache"].document.body.innerHTML;
+    document.getElementById("yctr").innerHTML=document.getElementById("time_to_complete").innerHTML;
+
+   //set the backgrounds
+   document.getElementById("mainspan").style.backgroundColor=mainScreen.document.body.style.backgroundColor=window.frames["opiframe_level_cache"].document.body.bgColor;
+   mainScreen.document.body.style.backgroundPosition='0 225';
+   mainScreen.document.body.style.backgroundRepeat="repeat-x";
+   mainScreen.document.body.style.backgroundImage='url(../img/'+Level_Property_Array[5]+')';
+   
+
+    //is it an ice level? , then set it so we skeet!
+    if(parseInt(Level_Property_Array[6])==1){Player1_Property_Array[2]=2;}else{Player1_Property_Array[2]=0;}
+    
+        //if debug level,adjust gamescreen iframe
+        if(parent.window.location.href.indexOf("level_editor")!=-1)
+        {
+        //version checking for editing
+          if(Level_Property_Array[4]!="1.4")
+          {
+            arena_Load_load_errors=1;
+            alert("ERROR CANNOT EDIT!\n\nLevel is not version 1.4  ('..\\levels\\"+parseInt(document.getElementById("current_level").innerHTML)+".htm' reports its version as '"+Level_Property_Array[4]+"')");
+          }
+          
+          
+          
+           //editing at first load      
+              if(level_loaded!=parseInt(document.getElementById("current_level").innerHTML))
+              {
+                //show only suitable level objects e.g. ice only, castle etc..
+                parent.show_leveltype_objects(parseInt(Level_Property_Array[6]));
+                //Scrolls editor to player starting point 
+                var start_y_point=0;
+                level_loaded=parseInt(document.getElementById("current_level").innerHTML);
+                if(parseInt(Level_Property_Array[3])>225){start_y_point=225;}
+                parent.window.frames['debug_iframe'].document.body.scrollTop=start_y_point;
+                parent.window.frames['debug_iframe'].document.body.scrollLeft=parseInt(Level_Property_Array[2]);
+              }
+    
+        }//end if debug
+
+        
+      if(arena_Load_load_errors==0)
+      {
+      window.frames["opiframe1"].location.href="../engine/opiframe1.htm";}
+      }else{
+      window.frames["opiframe1"].location.href="blank.htm";
+      window.frames["game_iframe"].location.href="blank.htm";
+      }
+    
+    
+  }
+}//end arena_load
+
+// if level does not exist
+function Check_Level_Exists()
+{
+   if(parent.window.location.href.indexOf("level_editor")!=-1)
+    {                                                           
+       if(parent.elm_name)
+       {
+       var e_n=parent.elm_name;
+       parent.elm_name=null;
+       parent.document.getElementById(""+e_n+"").style.display="none";
+       parent.sidebar_hover(parent.document.getElementById(e_n+"3sidebar"),1);
+      
+       }
+       window.status="";
+       window.frames["opiframe_level_cache"].location.href="blank.htm";
+       show_startscreen();
+       alert("'"+document.getElementById('current_level').innerHTML+".htm' not found in the 'levels' folder. \n\nCheck that it exists and correct permissions are set.");     
+       
+    }
+}//end function level exists
+
+
+//load the current level into the window.frames["opiframe_level_cache"] frame
+function load_level_intocache() 
+{
+level_check_timeout=setTimeout('Check_Level_Exists()',1800);
+
+ if(!start_level){aa=1;start_level=parseInt(document.getElementById("current_level").innerHTML);}
+  var current_level = "/levels/"+parseInt(document.getElementById("current_level").innerHTML)+".htm";
+ 
+  if(mainScreen.document.detachEvent){//start when click or keypress
+        mainScreen.document.detachEvent('onclick',load_level_intocache);
+        mainScreen.document.detachEvent('onkeydown',load_level_intocache);
+        }else{mainScreen.document.removeEventListener('click',load_level_intocache,false);mainScreen.document.removeEventListener('keypress',load_level_intocache,false);}
+        
+  
+    if(start_level)
+    {window.frames["opiframe_level_cache"].location.replace(".."+current_level);
+    }else{window.frames["opiframe_level_cache"].location.href = ".."+current_level;}
+ 
+  
+       
+        
+}//end load_level_intocache
+
+
+//create the player element & helper elements dynamically
+function load_level_dyn_elements()
+{
+clearTimeout(level_check_timeout);
+  if(window.frames["opiframe_level_cache"].document!=null)
+  {
+  var iframe_LevelDoc=window.frames["opiframe_level_cache"].document;
+  item_1_dynamic_obj=null;
+  if(mainScreen)
+  {
+  if(mainScreen.document.attachEvent)//IE only
+  {
+  item_1_dynamic_obj=iframe_LevelDoc.createElement(""+player1_str+"");
+  iframe_LevelDoc.body.insertBefore(item_1_dynamic_obj);
+  
+  item_1_dynamic_obj=iframe_LevelDoc.createElement(""+player1_fx_str+"");
+  iframe_LevelDoc.body.insertBefore(item_1_dynamic_obj);
+  
+  item_1_dynamic_obj=iframe_LevelDoc.createElement(""+player1_message_str+"");
+  iframe_LevelDoc.body.insertBefore(item_1_dynamic_obj);
+  }else{iframe_LevelDoc.body.innerHTML+=player1_fx_str+player1_message_str+player1_str;}
+  
+  
+  Player1_Property_Array = window.frames["opiframe_level_cache"].document.getElementById("plr1@0").alt.split(",");
+  Level_Property_Array=window.frames["opiframe_level_cache"].document.body.title.split(","); 
+  iframe_LevelDoc.getElementById(''+item_1_selected+'').style.visibility="";
+ 
+  document.getElementById('time_to_complete').innerHTML=parseInt(Level_Property_Array[0]);
+  document.getElementById('current_level_start_point_x').innerHTML=parseInt(Level_Property_Array[2]);
+  document.getElementById('current_level_start_point_y').innerHTML=parseInt(Level_Property_Array[3]);
+   arena_Load();
+   
+  }
+}
+}
+
+
+
+function show_startscreen()//show start welcome screen
+{
+ mainScreen = window.frames["game_iframe"];
+ opiframeScreen = window.frames["opiframe1"];
+ if(document.all){isIE=1;}
+ if(!mainScreen.document.attachEvent){window.frames["opiframe_level_stylesheet"].location.href="../engine/game_styles.css";}
+  if(mainScreen)
+  {
+    if(mainScreen.window.location.href.indexOf("blank.htm")!=-1)
+    {if(mainScreen.document.getElementById('blankmainspan')!=null)
+    {
+      if(parent.window.location.href.indexOf('level_editor')==-1)
+      {//GAME mode start screen(default)
+        mainScreen.document.getElementById('blankmainspan').innerHTML="<img src='../img/2.gif'>&nbsp;<span style='cursor:pointer;cursor:hand;color:#FFA500;font-family:Comic Sans MS,Arial;font-weight:bold;letter-spacing: 2pt; font-size:15pt;'>Night Rock</span><fieldset id=r style='cursor:hand;font-family:Arial;font-size:8pt;font-weight:normal;color:#FFFFFF;  border: 1px solid #808080;padding:1pt;'><legend style='color:#808080;'><b>Keyboard Control</b></legend><table border=0 style='color:#2151FF; font-size:10pt;'><tr><td><span style='font-size:12pt;font-weight:bold;'>&#8592;</span> Move Left </td></tr><tr><td><span style='font-size:12pt;font-weight:bold;'><span style='position:relative;left:-10px'>&#8594;</span></span> Move Right </td></tr><tr><td> SPACE to jump.</td></tr></table></fieldset>";
+        mainScreen.document.getElementById('blankmainspan').innerHTML+="<BR><span style='font-family:Tahoma,Arial;font-size:8pt;'><b>Click here&nbsp;&nbsp;or&nbsp;&nbsp;Press any key</b>";
+     
+        if(mainScreen.document.attachEvent){//start when click or keypress
+        mainScreen.document.attachEvent('onclick',load_level_intocache);
+        mainScreen.document.attachEvent('onkeydown',load_level_intocache);
+        }else{mainScreen.document.addEventListener('click',load_level_intocache,false);mainScreen.document.addEventListener('keypress',load_level_intocache,false);}
+        
+        mainScreen.focus();
+          
+      }else{//LEVEL EDITOR MODE start screen  
+        if(isIE==1){mainScreen.document.attachEvent('oncontextmenu',falseret);}else{mainScreen.document.addEventListener('contextmenu',falseret,false);}
+        document.getElementById("game_iframe").style.width="10000";
+        document.getElementById("game_iframe").style.height="451";
+        
+        document.getElementById("livesctr").innerHTML="90000"; //level design needs lives for testing
+        document.getElementById("livesctr").style.visibility="hidden";
+        mainScreen.document.getElementById('blankmainspan').innerHTML="<table align=left  style=\"cursor:pointer;cursor:hand; border:0px solid red; font-family:Verdana,Arial; width:340; align:left; text-align:left; font-size:9pt; color:#2151FF;\" onClick='javascript:document.getElementById(\"spanhelp1\").style.display=\"\";'><tr><td>Click here for HELP>></tr></td><tr id=spanhelp1 style=\"display:none; border: 1px solid #808080;  font-family:Verdana,Arial; width:350; text-align:left; font-size:8pt; color:#cc9966;table-layout:fixed;\"><td style=\"border:1px solid\" >1. Choose a level to edit above.<br>2. Selectable objects have a purple border e.g.<img src='../img/coin1.gif' style='border:1px solid #FF33CC;'>, click on these to edit their properties.<br>3. Click on the <b>'Animate!'</b> button above to play the level using the usual keys. Performance is slower due to editor overhead, but good for play-testing.<br><br>4. <b>To Save</b> Click 'Save Level' button above.<br>This will copy the saved text to the clipboard.<br>Paste this into your level file, in the 'levels' directory.<br>Create the level file if its not there.<br><br><b>TIP</b>&nbsp;Test to make sure levels are fun to play & Save your work often!</td></tr></table></span>";
+        parent.mainScreen=parent.window.frames['debug_iframe'];
+         parent.gameScreen=window.frames['game_iframe'];
+        parent.opiframe1Screen=window.frames['opiframe1'];
+  
+        parent.init_Doc();
+      }//end if editor
+      
+    
+    
+    }else{setTimeout("location.reload();",900);}
+    }else{setTimeout("location.reload();",900);}
+  
+  }else{setTimeout("location.reload();",900);}
+
+}//end show_startscreen
+
+function falseret(evp){evp.returnValue=false;return(false);}
+</script>
+
+</head>
+<body bgcolor=#000000 style=" margin-top: 0px; margin-left: 0px; margin-right: 0px;" onLoad="is_loaded=1;show_startscreen();">
+
+
+<div id="plr1@0_covermessage" style='position:absolute; left:0; top:0; border:0px solid orange; width:100%; height:22; z-index:4;color: #FFA500; font-size: 16pt; font-family: Tahoma,Arial; letter-spacing: 2pt; text-align:center; background-color:#000000; display:none;'></div>
+
+ <span id="top_contents">
+  <table id="mainspan" border="0" cellpadding="0" cellspacing="0" style=" visibility:hidden;z-index:1;border-collapse: collapse; font-family: Verdana; font-size: 8pt; font-weight:normal; color:white; text-align:center; table-layout:fixed;" bordercolor="#111111" width="100%" height="18">
+  <tr>
+  <td valign="bottom"><img src="../img/livesctr_logotop.gif" border=0> x <b><span id="livesctr">2</span></b></td>
+  <td valign="bottom"><img src="../img/timectr_logotop.gif" border=0>&nbsp;<b><span id="yctr">?</span></b></td>
+  <td valign="bottom"><img src="../img/coinctr_logotop.gif" border=0> x <b><span id="goldctr">0</span></b></td>
+  </tr>
+    <tr><td colspan="3" align="center"><span style="color:#FFFFCC;" id="debugmsg_span" align="left" style="font-family:tahoma; font-size: 8pt; text-align:center;"></span></td></tr>
+    </table>
+
+
+ <span id="current_level" style="display:none;">1</span>
+<span id="time_to_complete" style="display:none;">501</span>
+<span id="current_level_start_point_x" style="display:none;">0</span>
+<span id="current_level_start_point_y" style="display:none;">0</span>
+
+<IFRAME FRAMEBORDER=0 id="opiframe1" name="opiframe1" width="0" height="0" src="" style=" border:0px solid; display:none;"></IFRAME>                 
+<IFRAME FRAMEBORDER=0 id="opiframe_level_cache" name="opiframe_level_cache" width="0" height="0" src="" href=null style=" border:0px solid; display:none;"></IFRAME>                 
+<IFRAME FRAMEBORDER=0 id="opiframe_level_stylesheet" name="opiframe_level_stylesheet" width="0" height="0" src="" style=" border:0px solid; display:none;"></IFRAME>                 
+
+
+<IFRAME id="game_iframe" name="game_iframe" FRAMEBORDER=0 scrolling="no" marginwidth="0" marginheight="0" noresize width="276" height="225" src="blank.htm" style="position:absolute:left:0; top:18; border:0px solid red; margin:0px; border-top-width:0px; z-index:1;"></IFRAME>
+
+ 
+</span>
+<span id="top_savehtml_span"></span>
+
+</body>
+</html>
+
+  

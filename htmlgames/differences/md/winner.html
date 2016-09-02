@@ -1,0 +1,96 @@
+<html>
+	<head>
+		<title>Winner !</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+			A_PATH = "../" + A_PATH;
+			A_MUSIC = "winner.wav"; // override				
+
+			function end()
+			{
+				document.getElementById("u").innerHTML = unescape(document.location.search.replace("?","").split("&")[0].replace("^"," and "));
+				document.getElementById("p").innerHTML = (document.location.search)?document.location.search.replace("?","").split("&")[1].replace("."," and "):"0";
+				soundOn = (document.location.search.replace("?","").split("&")[2] == "true")?true:(document.location.search.length == 0)?true:false;
+				sound(soundOn);
+				osX = images[0].width / 2;
+				osY = images[0].height / 2;
+
+			}
+
+			var fnt3;
+			var images;
+			var storage;
+			var osX = 0;
+			var osY = 0;
+
+			function initTrail()
+			{
+				images = new Array();
+				var trailLength = 32 // The length of trail
+				var path = "images/cursor.gif" // URL of your image
+
+				for (i = 0; i < parseInt(trailLength); i++) {
+					images[i] = new Image();
+					images[i].src = path;
+				}
+				storage = new Array();
+				for (i = 0; i < images.length*3; i++) {
+					storage[i] = -999; // hide initial cursor.
+				}
+				var shtml = new Array();;
+				for (i = 0; i < images.length; i++) { // make divs
+					shtml.push('<div id="obj' + i + '" style="position: absolute; z-index: 0"><img src="' + images[i].src + '" onclick="go(\'index.html\')"></div>');
+				}
+				shtml=shtml.join("");
+				document.write(shtml);
+
+				trail();
+			}
+
+			function trail()
+			{
+				var d = 0;
+				for (i in images) {
+					document.getElementById("obj" + i).style.top=storage[d];
+					document.getElementById("obj" + i).style.left=storage[d+1];
+					d = d + 2;
+				}
+				for (i = storage.length; i >= 2; i--) {
+					storage[i] = storage[i-2];
+				}
+				fnt3 = setTimeout("trail()",10) // call recursively
+			}
+
+			function processEvent(e)
+			{
+				if (document.all) { // for IE
+					storage[0] = window.event.y - osY;
+					storage[1] = window.event.x - osX;
+				} else {
+					storage[0] = e.pageY - osY;
+					storage[1] = e.pageX - osX;
+				}
+			}
+
+			if(document.all){}else{document.captureEvents(Event.MOUSEMOVE);}
+			document.onmousemove = processEvent; // start capturing
+
+			initTrail();
+
+		</script>
+
+		<style>
+
+
+
+		</style>
+
+	</head>
+	<body onload="end()" onunload="clearTimeout(fnt3);reset_bg_music()" style="background: #ffff7f; cursor: crosshair;">
+		<div align="center">
+			<h1><span id="u"></span>&nbsp;You Scored <span id="p">0</span> Points!<br /><a href="javascript:go('index.html')" onclick="go('index.html')" style="background: #ffff7f;">Play Again</a></h1>
+			<img src="images/win.jpg" onclick="go('index.html')" galleryimg="no" />
+		</div>
+	</body>
+</html>

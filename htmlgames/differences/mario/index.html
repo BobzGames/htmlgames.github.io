@@ -1,0 +1,34 @@
+<html>
+<head><title>inFinnerty Mario - HTML5 (Excanvas for IE)</title>
+<meta name="viewport" content="width=device-width, initial-scale=0.8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<link rel="shortcut icon" href=favicon.png />
+<link rel=stylesheet type="text/css" href="css/mario.css">
+<!--[if IE]><script src="src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="src/jquery.min.js"></script>
+</head>
+<body>
+<h2 title="Based on Robert Kleffner's version www.fromlifetodeath.com">inFinnerty Mario in HTML5 (excanvas for IE) <a href="javascript:fullscreen()" title="Go Fullscreen">*</a></h2>
+<div class=main>
+<canvas id=canvas width=640 height=480>
+<p style="text-align: center;">Attempting emulation of the canvas element...</p>
+</canvas>
+<div id="keys"><h4>Move: Left/Right -- Jump/Enter Level: S -- Fireball/Run: A</h4></div>
+</div>
+<script src="src/enjine.js"></script>
+<script src="src/mario.js"></script>
+<script>$(document).ready(function() { new Enjine.Application().Initialize(new Mario.LoadingState(), 320, 240); mobile('keys') });</script>
+<script>
+function fullscreen(){
+		try{
+			var fs = document.getElementsByTagName("body")[0];
+			if(!document.mozFullScreen && !document.webkitFullScreen){
+				if(fs.mozRequestFullScreen){fs.mozRequestFullScreen();}else{fs.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);}
+			}else{
+				if(document.mozCancelFullScreen){document.mozCancelFullScreen();}else{document.webkitCancelFullScreen();}
+			}
+		}catch(e){}
+}
+</scipt>
+</body>
+</html>

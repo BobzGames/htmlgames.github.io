@@ -1,0 +1,8 @@
+<html>
+	<head>
+		<script type="text/javascript" src="js/code.js"></script>
+	</head>
+	<!-- <body onload="levelUP(1,5,true)">QUIT +5 points</body> -->
+	<!-- <body onload="levelUP(1,parent.points,true)">QUIT +all points on this level</body> -->
+	<body onload="levelUP(1,10)">WIN + all points on this level + 10 bonus points</body>
+</html>

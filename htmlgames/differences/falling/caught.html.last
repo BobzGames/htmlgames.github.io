@@ -1,0 +1,212 @@
+<html>
+<head>
+
+<style type="text/css" media="screen">
+body {overflow-x:none; overflow-y:none}
+#cube {line-height:1; width:20px ;height:20px; float:left; background-Color:black; color:white; font-Size:xx-small; text-Align:right; vertical-align:bottom;}
+input {padding-left:3px; text-transform:capitalize; width:18px; border:0}
+#q {position:relative; top:-395px;left: 420px; font-size:x-small;}
+#s {position:relative; top:0px;left: 0px; font-size:x-small;}
+</style>
+
+<style type="text/css" media="print">
+#cube {line-height:1; width:20px ;height:20px; float:left; background-Color:black; color:white; font-Size:xx-small; text-Align:right; vertical-align:bottom;}
+input {width:18px; height:18px;}
+#q {position:relative; top:10px;left: 0px; font-size:xx-small;}
+#s {display:none}
+table {border: 1px solid blue}
+</style>
+
+<script>
+var hint=true;
+
+function p(bClear)
+{
+	o=document.getElementsByTagName("INPUT");
+
+	if(bClear){
+		for(i in o)
+		{
+			if(o[i] && o[i].value && o[i].value.length == 1){
+				o[i].value="";
+				k(o[i],"?");
+			}
+		}
+	}else{
+		if(hint){
+			for(i in o)
+			{
+				if(o[i] && o[i].value && o[i].value.length == 1){
+					k(o[i],o[i].value);
+				}
+			}
+		}
+		hint = false;
+	}
+}
+
+function k(cube,val)
+{
+	if(cube.value.toUpperCase()==val){
+		cube.style.backgroundColor="green";
+		// emulate Tab ?
+	}else{
+		cube.style.backgroundColor="white";
+	}
+}
+
+function h(bAll)
+{
+	if(hint || bAll){
+		o=document.getElementsByTagName("INPUT");
+		for(i in o)
+		{
+			if(o[i] && o[i].onkeyup){
+				f=o[i].onkeyup.toString();
+				l=f.split('"')[1].split('"')[0];
+				if(bAll || Math.random() > 0.9){
+					o[i].value = l;
+					k(o[i],l);
+				}
+			}
+		}
+		hint = false;
+	}
+}
+
+addEvent = function(o, e, f, s){
+    var r = o[r = "_" + (e = "on" + e)] = o[r] || (o[e] ? [[o[e], o]] : []), a, c, d;
+    r[r.length] = [f, s || o], o[e] = function(e){
+        try{
+            (e = e || event).preventDefault || (e.preventDefault = function(){e.returnValue = false;});
+            e.stopPropagation || (e.stopPropagation = function(){e.cancelBubble = true;});
+            e.target || (e.target = e.srcElement || null);
+            e.key = (e.which + 1 || e.keyCode + 1) - 1 || 0;
+        }catch(f){}
+        for(d = 1, f = r.length; f; r[--f] && (a = r[f][0], o = r[f][1], a.call ? c = a.call(o, e) : (o._ = a, c = o._(e), o._ = null), d &= c !== false));
+        return e = null, !!d;
+    }
+};
+
+removeEvent = function(o, e, f, s){
+    for(var i = (e = o["_on" + e] || []).length; i;)
+        if(e[--i] && e[i][0] == f && (s || o) == e[i][1])
+            return delete e[i];
+    return false;
+};
+
+enterAsTab = function(f, a){
+    addEvent(f, "keydown", function(e){try{
+        var l, i, f, j, o = e.target;
+        if(e.key == 13 && (a || !/textarea|select/i.test(o.type))){
+            for(i = l = (f = o.form.elements).length; f[--i] != o;);
+            for(j = i; (j = (j + 1) % l) != i && (!f[j].type || f[j].disabled || f[j].readOnly || f[j].type.toLowerCase() == "hidden"););
+            e.preventDefault(), j != i && f[j].focus();
+        }}catch(e){}
+    });
+};
+
+// <input type='text' maxlength='1' onkeyup='k(this,"?")'>
+
+</script>
+</head>
+	<body onload="p(document.location.search.match(/none/i))">
+	<form>
+		<h1>&#160;&#160;<a href="#" onclick="h()">CROSSWORD PUZZLE</a></h1>
+		<table cellspacing=0 cellpadding=0>
+			<tr>
+				<td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><br>11</td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><br>13</td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><br>15</td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 1  -->
+			<tr>
+				<td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"M")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'><br>12</td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"J")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'><br>9</td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"B")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"I")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"B")' value='B'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"L")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 2  -->
+			<tr>
+				<td id='cube'> </td><td id='cube'><br>1</td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"W")' value='W'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"M")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")' value='E'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"N")'></td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'><br>14</td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 3  -->
+			<tr>
+				<td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"T")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"S")' value='S'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"C")' value='C'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"V")' value='V'></td><td id='cube'><br>16</td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 4  -->
+			<tr>
+				<td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"H")' value='H'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"M")'></td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"U")'></td><td id='cube'> </td><td id='cube'><br>8</td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"H")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"A")' value='A'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"V")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"N")'></td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 5  -->
+			<tr>
+				<td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'> </td><td id='cube'><br>6</td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")' value='E'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"S")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"T")' value='T'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"R")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 6  -->
+			<tr>
+				<td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"R")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"I")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"A")' value='A'></td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 7  -->
+			<tr>
+				<td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><br>19</td><td id='cube'> </td><td id='cube'> </td><td id='cube'><br>7</td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"M")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"S")' value='S'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"S")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"H")'></td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 8  -->
+			<tr>
+				<td id='cube'> </td><td id='cube'><br>17</td><td id='cube'><br>2</td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"N")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"G")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"L")' value='L'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"T")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 9  -->
+			<tr>
+				<td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"M")' value='M'></td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"M")' value='M'></td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"R")' value='R'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"M")'></td><td id='cube'> </td><td id='cube'><br>21</td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 10 -->
+			<tr>
+				<td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'><br>20</td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"J")' value='J'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'><br>18</td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 11 -->
+			<tr>
+				<td id='cube'><br>3</td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"S")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"N")'></td><td id='cube'><br>4</td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"C")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"N")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"F")' value='F'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"S")' value='S'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"S")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"I")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"N")'></td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"H")' value='H'></td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 12 -->
+			<tr>
+				<td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"S")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"O")'></td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 13 -->
+			<tr>
+				<td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"S")' value='S'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"T")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")' value='E'></td><td id='cube'> </td><td id='cube'><br>22</td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"P")'></td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 14 -->
+			<tr>
+				<td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"H")' value='H'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><br>10</td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"P")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"T")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"R")' value='R'></td><td id='cube'> </td>
+			</tr><!-- 15 -->
+			<tr>
+				<td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"H")'></td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 16 -->
+			<tr>
+				<td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><br>5</td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"G")' value='G'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"A")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"B")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"R")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"I")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"E")'></td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"L")' value='L'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'><input type='text' maxlength='1' onkeyup='k(this,"N")'></td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 17 -->
+			<tr>
+				<td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td><td id='cube'> </td>
+			</tr><!-- 18 -->
+		</table>
+
+		<a href="#" id="s" onclick="h(true)">Solve</a>
+		<div id="q">
+			<b>ACROSS:</b><br>
+			1. Fill in the blank from the Hail Mary prayer "the Lord is with you, Blessed are you among ___ and blessed is the fruit of thy womb".<br>
+			2. Everyone has a guardian ___ watching over us and protecting us.<br>
+			3. God sent his only ___, Jesus, to save us.<br>
+			4. When we sin, we must go for ___ to ask for forgiveness.<br>
+			5. What was the name of the angel that told Mary that she would have a son name Jesus?<br>
+			6. When do we celebrate Jesus's Resurrection?<br>
+			7. We go to church for ___ every Sunday.<br>
+			8. Saint Peter holds the key to ___.<br>
+			9. We must read our ___ everyday to know what God is trying to tell us.<br>
+			10. Which apostle did Jesus call the 'ROCK'?<br>
+			<br>
+			<b>DOWN:</b><br>
+			2. When we recieve communion, we must say "___".<br>
+			11. Mary is the ___ of God.<br>
+			12. Our Father in heaven, Holy be your ___.<br>
+			13. ___ is our saviour.<br>
+			14. When do we celebrate Jesus's birthday?<br>
+			15. Jesus said "___ one another as I have loved you."<br>
+			16. Who did God ask to build an ark to save the animals from the flood?<br>
+			17. Who lead the Israelites out of Egypt and parted the Red Sea to escape from the Egyptians?<br>
+			18. Faith, ___ and charity<br>
+			19. Hail Mary, full of ___, the Lord is with you.<br>
+			20. In the name of the ___, the son and the Holy Spirit.<br>
+			21. What is the name of Jesus's earthly father?<br>
+			22. We were given ___ commandments by God and we must obey every one of them.<br>
+		</div>
+
+		<bgsound src="audio/_shimmer.wav"></bgsound>
+		<audio src="audio/_shimmer.wav" autoplay></audio>
+
+		<script>
+			document.getElementsByTagName("INPUT")[0].focus();
+			enterAsTab(document);
+		</script>
+	</form>
+	</body>
+</html>

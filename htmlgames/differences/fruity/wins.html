@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<title>Fruti Hunt</title>
+		<script>
+
+			function go()
+			{
+				document.location.href = "index.html" + document.location.search;
+			}
+
+		</script>
+	</head>
+	<body style="background-color:black">
+		<center>
+		<img src="images/logo.jpg" /><br><br>
+		<a href="#" onclick="go()" style="color:yellow">YOU WIN! (click to restart)</a>
+		<div style="background-color:orange;font-size:12px;margin:15px;width:380px;border-radius: 15px">
+		PLUS YOU WIN THE CORRECT ORDER BONUS!<br>
+		CLICK THE DAPI NUGGET BELOW TO REVEAL YOUR PRIZE!<br>
+		</div>
+		<img src="../nuggets/images/nugget.gif" onclick="this.src='../nuggets/images/nuggeted.gif';window.open('../nuggets/n0000.html');this.title='This Nugget has been mined';this.onclick=null" title="Click to mine this Nugget (opens a new window)"/>
+		</center>
+	</body>
+</html>
+
+
+
+

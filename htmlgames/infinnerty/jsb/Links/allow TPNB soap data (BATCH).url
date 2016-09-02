@@ -1,0 +1,7 @@
+[InternetShortcut]
+URL=javascript:BS=prompt("Enter Batch Size","20");if(BS){WEBS=document.location.href.split('specs.nsf')[0]+"web%20service%20agent.nsf/TTLWebserviceRequest";xmlhttp=new XMLHttpRequest();xmlhttp.open("POST", WEBS, false);xmlhttp.setRequestHeader("SOAPAction", WEBS);xmlhttp.setRequestHeader("Content-Type", "text/xml");var xml='<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Header><LoginToken xmlns="http://tempuri.org/webservices/sku_service"><Username>Rhys Charlton</Username><Password>password</Password></LoginToken></soap:Header><soap:Body><GetProductDataForTPNBs xmlns="http://tempuri.org/webservices/sku_service"><SkuXml>&lt;UnsentProductData&gt;&lt;ExtractType&gt;HS&lt;/ExtractType&gt;&lt;BatchSize&gt;'+BS+'&lt;/BatchSize&gt;&lt;/UnsentProductData&gt;</SkuXml></GetProductDataForTPNBs></soap:Body></soap:Envelope>';alert(xml);xmlhttp.send(xml);x=xmlhttp.responseText;alert("Done in new window (Please view-source for xml data)");with(window.open()){document.write('<pre>'+x+'</pre>')}};void 0
+Modified=D06E2490407EC40175
+HotKey=0
+IDList=
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,15

@@ -1,0 +1,24 @@
+<html>
+	<head>
+		<title>HopIT!</title>
+		<script>
+
+			function go()
+			{
+				if(parent.document.getElementById('title'))parent.document.getElementById("title").style.display = "block";
+				document.location.href = "L1.html" + document.location.search;
+			}
+
+		</script>
+	</head>
+	<body style="background-color:black" onload="if(parent.document.getElementById('title'))parent.document.getElementById('title').style.display = 'none';">
+		<center>
+		<img src="images/logo.jpg" />
+		<a href="#" onclick="go()" style="color:yellow">YOU WIN! (click to restart)</a>
+		</center>
+	</body>
+</html>
+
+
+
+

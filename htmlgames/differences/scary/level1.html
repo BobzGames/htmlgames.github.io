@@ -1,0 +1,67 @@
+<html>
+	<title>Level 1</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+			A_PATH = "../" + A_PATH;
+			HINTS_LEFT = 3; // override single hint + display hints left
+			MAXCLICKS = 10;
+			CHEATING = 100;
+			WAIT = true;
+
+		</script>
+	</head>
+	<body onload="init('level2.html')" onunload="reset_bg_music()" onkeypress="keyhint(event)" onclick="point(event)">
+		<div align="center" id="header">
+			<h2>Level 1: Ted's and Bird <i><b><span id="remaining">0</span></b> Difference<span id="s">s</span> Left</i> <input type="button" value="Hint" id ="btnH" onclick="hint()" /></h2>
+		</div>
+		<div id="timerborder" class="timerOuter" onclick="pause()"><div id="timer" class="timerInner"></div></div>
+		<div id="content" align="center">
+
+			<img src ="images/L1mod.jpg" id = "il" class="portrait" usemap="#TBmap" onclick="bClickedImage=true" />
+
+			<map name="TBmap">
+				<area shape ="circle" coords ="126,85,15"
+				nohref id="m1" onclick="chkscore(1,this,event)" />
+
+				<area shape ="circle" coords ="168,65,15"
+				nohref id="m2" onclick="add2Hint(2,this,event)" />
+
+				<area shape ="circle" coords ="36,164,20"
+				nohref id="m3" onclick="chkscore(3,this,event)" />
+
+				<area shape ="circle" coords ="135,153,10"
+				nohref id="m4" onclick="chkscore(4,this,event)" />
+
+				<area shape ="circle" coords ="215,234,10"
+				nohref id="m5" onclick="chkscore(5,this,event)" />
+
+				<area shape ="circle" coords ="284,256,15"
+				nohref id="m6" onclick="chkscore(6,this,event)" />
+
+				<area shape ="circle" coords ="270,400,30"
+				nohref id="m7" onclick="chkscore(7,this,event)" />
+
+			</map>
+
+			<img src ="images/L1.jpg" id="ir" class="portrait" usemap="#TBmap" onclick="bClickedImage=true" />
+
+			<div id="twoPlayerContent" class="twoPlayerStyle">
+				<span id="P1" class="player1">0</span>
+				<span id="P2" class="player2">0</span>
+			</div>
+
+			<div id="onePlayerContent" class="onePlayerStyle">
+				<span id="P" class="player">0</span>
+			</div>
+
+		</div>
+
+		<span class="hintContent" />
+		<span id="hints_left1" name="hints_left" class="hintleft" onclick="keyhint(this,true,true)">H</span>
+		<span id="hints_left2" name="hints_left" class="hintleft" onclick="keyhint(this,true,true)">H</span>
+		<span id="hints_left3" name="hints_left" class="hintleft" onclick="keyhint(this,true,true)">H</span>
+
+	</body>
+</html>

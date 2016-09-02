@@ -1,0 +1,45 @@
+<html>
+	<head><title>Stop Motion in HTML and Javascript</title>
+		<style>
+			body {
+					background-color: #101010;
+					text-align: center;
+					color: #cecece;
+			}
+
+			span {
+					color:#7c7c7c;
+			}
+		</style>
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+			function create()
+			{
+				var max = document.getElementById("f").value;
+				if ( isNaN(max) ) return
+				s = "data=[";
+				for (lp = 0; lp < max; lp++)
+				{
+					s += "'0i" + (lp + 1) + ".jpg',";	
+				}
+				s += "];";
+				s = s.replace(",]","]");
+				document.getElementById("f").value = s;
+				document.getElementById("f").select();
+				document.getElementById("f").focus();	
+			}
+		</script>
+	</head>
+    <body onload="">
+        <div>
+            <h3>Welcome to Stop Motion in HTML and Javascript</h3>
+	    <p>
+	    Here you will find an example stop motion film using the Differences API<br /><br />
+	    Films can have sound (wav format) and are quick to make once you have your scene setup<br /><br />
+	    Please note that the films can take a while to load (see size), so if you see the timer please wait
+	    </p>
+	    <span>DATA string creator </span><input type="text" id="f" title="Enter number of sequenced frames and click button" /> <button onclick="create()">&#160;</button>
+	    <p><a href="default.html" style="font-size:x-small;text-decoration:none" title="Click for html template file">TEMPLATE</a></p>
+        </div>
+    </body>
+</html>

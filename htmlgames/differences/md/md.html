@@ -1,0 +1,144 @@
+<html>
+	<head>
+		<title>Mysteriez!Deluxe</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bonus.css" />
+
+		<style>
+			.portrait {
+
+				width: 338px;
+				height: 423px;
+			}
+
+			.findlist {background-color:#CCC;}
+			#f1 {padding:25px}
+			#f2 {padding:25px}
+			#f3 {padding:25px}
+			#f4 {padding:25px}
+			#f5 {padding:25px}
+			#f6 {padding:25px}
+			#f7 {padding:25px}
+			#f8 {padding:25px}
+			#f9 {padding:25px}
+			#f10 {padding:25px}
+			#f11 {padding:25px}
+			#f12 {padding:25px}
+			#f13 {padding:25px}
+			#f14 {padding:25px}
+			#f15 {padding:25px}
+			#f16 {padding:25px}
+			#f17 {padding:25px}
+			#f18 {padding:25px}
+			#f19 {padding:25px}
+			#f20 {padding:25px}
+			#f21 {padding:25px}
+			#f22 {padding:25px}
+			#f23 {padding:25px}
+			#f24 {padding:25px}
+			#f25 {padding:25px}
+			#f26 {padding:25px}
+			#f27 {padding:25px}
+
+		</style>
+		<script type="text/javascript" src="../js/code.js"></script>
+
+		<script>
+
+			A_PATH = "../" + A_PATH;
+		</script>
+		<style>
+
+		</style>
+
+	</head>
+	<body onload="init('winner.html','')" onkeypress="keyhint(event,0,0,1)" onunload="reset_bg_music()" onclick="point(event)">
+		<div class="listdiv">
+			<div align="center" id="header">
+				<div class="findlist">
+					<h1></h1><br />
+					<span id="f1" >16</span>
+					<span id="f2" >13</span>
+					<span id="f3" >29</span><br />
+					<span id="f4" >10</span>
+					<span id="f5" >5</span>
+					<span id="f6" >30</span><br />
+					<span id="f7" >6</span>
+					<span id="f8" >17</span>
+					<span id="f9" >29</span><br />
+					<span id="f10" >9</span>
+					<span id="f11" >26</span>
+					<span id="f12" >20</span><br />
+					<span id="f13" >23</span>
+					<span id="f14" >21</span>
+					<span id="f15" >27</span><br />
+					<span id="f16" >1</span>
+					<span id="f17" >8</span>
+					<span id="f18" >7</span><br />
+					<span id="f19" >12</span>
+					<span id="f20" >8</span>
+					<span id="f21" >1</span><br />
+					<span id="f22" >4</span>
+					<span id="f23" >10</span>
+					<span id="f24" >11</span><br />
+					<span id="f25" >15</span>
+					<span id="f26" >2</span>
+					<span id="f27" >25</span><br />
+
+				</div>
+			</div>
+			<div align="center" id="footer">
+				<div id="timerborder" class="timerOuter" onclick="pause()"><div id="timer" class="timerInner"></div></div>
+
+				<div id="onePlayerContent" class="onePlayerStyle">
+					<span id="P" class="player">0</span>
+				</div>
+
+			</div>
+		</div>
+		<div id="content" align="center">
+			<img name="normal" id="normal" class="portrait" src="images/b1.jpg" ondragstart="return false" onselectstart="return false" >
+
+
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("circle","")</script>
+
+			<map name="zoom">
+				<area shape ="circle" coords ="356,306,24" nohref id="m1" onclick="chkscore(1,this,event,true)" />
+				<area shape ="circle" coords ="109,335,24" nohref id="m2" onclick="chkscore(2,this,event,true)" />
+				<area shape ="circle" coords ="614,365,24" nohref id="m3" onclick="chkscore(3,this,event,true)" />
+				<area shape ="circle" coords ="723,306,24" nohref id="m4" onclick="chkscore(4,this,event,true)" />
+				<area shape ="circle" coords ="492,922,24" nohref id="m5" onclick="chkscore(5,this,event,true)" />
+				<area shape ="circle" coords ="357,896,32" nohref id="m6" onclick="chkscore(6,this,event,true)" />
+				<area shape ="circle" coords ="371,430,32" nohref id="m7" onclick="chkscore(7,this,event,true)" />
+				<area shape ="circle" coords ="299,220,32" nohref id="m8" onclick="chkscore(8,this,event,true)" />
+				<area shape ="circle" coords ="246,354,32" nohref id="m9" onclick="chkscore(9,this,event,true)" />
+				<area shape ="circle" coords ="647,886,32" nohref id="m10" onclick="chkscore(10,this,event,true)" />
+				<area shape ="circle" coords ="210,299,40" nohref id="m11" onclick="chkscore(11,this,event,true)" />
+				<area shape ="circle" coords ="217,240,40" nohref id="m12" onclick="chkscore(12,this,event,true)" />
+				<area shape ="circle" coords ="399,231,40" nohref id="m13" onclick="chkscore(13,this,event,true)" />
+				<area shape ="circle" coords ="554,214,40" nohref id="m14" onclick="chkscore(14,this,event,true)" />
+				<area shape ="circle" coords ="671,337,40" nohref id="m15" onclick="chkscore(15,this,event,true)" />
+				<area shape ="circle" coords ="659,652,40" nohref id="m16" onclick="chkscore(16,this,event,true)" />
+				<area shape ="circle" coords ="527,725,40" nohref id="m17" onclick="chkscore(17,this,event,true)" />
+				<area shape ="circle" coords ="426,628,40" nohref id="m18" onclick="chkscore(18,this,event,true)" />
+				<area shape ="circle" coords ="526,805,40" nohref id="m19" onclick="chkscore(19,this,event,true)" />
+				<area shape ="circle" coords ="252,1172,40" nohref id="m20" onclick="chkscore(20,this,event,true)" />
+				<area shape ="circle" coords ="673,1052,40" nohref id="m21" onclick="chkscore(21,this,event,true)" />
+				<area shape ="circle" coords ="249,846,64" nohref id="m22" onclick="chkscore(22,this,event,true)" />
+				<area shape ="circle" coords ="474,1066,64" nohref id="m23" onclick="chkscore(23,this,event,true)" />
+				<area shape ="circle" coords ="212,1089,64" nohref id="m24" onclick="chkscore(24,this,event,true)" />
+				<area shape ="circle" coords ="633,85,64" nohref id="m25" onclick="chkscore(25,this,event,true)" />
+				<area shape ="circle" coords ="286,75,64" nohref id="m26" onclick="chkscore(26,this,event,true)" />
+				<area shape ="circle" coords ="430,335,40" nohref id="m27" onclick="chkscore(27,this,event,true)" />
+
+			</map>
+
+		</div>
+
+		<span class="hintContent" />
+
+
+	</body>
+</html>

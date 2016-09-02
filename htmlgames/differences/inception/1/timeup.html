@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<title>Time Up!</title>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<script type="text/javascript" src="../../js/code.js"></script>
+		<script>
+			A_PATH = "../../_" + A_PATH;
+			A_MUSIC = "timeup.wav"; // override
+			var f=100;
+			function end()
+			{
+				document.getElementById("u").innerHTML = unescape(document.location.search.replace("?","").split("&")[0].replace("^"," and "));
+				document.getElementById("p").innerHTML = (document.location.search)?document.location.search.replace("?","").split("&")[1].replace("."," and "):"0";
+				soundOn = (document.location.search.replace("?","").split("&")[2] == "true")?true:(document.location.search.length == 0)?true:false;
+				sound(soundOn);
+
+				setInterval("fade(f,document.images.tu.style);f--;if(f==-20)parent.parent.go('../index.html')",100);
+
+			}
+		</script>
+	</head>
+	<body onload="end()" onunload="reset_bg_music()" style="background: #f0f0f0">
+		<div align="center">
+			<h1>Never Mind&nbsp;<span id="u"></span>,&nbsp;You Still Scored <span id="p">0</span> Points!<br /><a href="javascript:parent.parent.go('../index.html')" onclick="parent.parent.go('../index.html')">New Game</a></h1>
+			<img src="images/timeup.jpg" id="tu" onclick="parent.parent.go('../index.html')" galleryimg="no" />
+		</div>
+	</body>
+</html>

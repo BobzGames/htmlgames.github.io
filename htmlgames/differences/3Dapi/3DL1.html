@@ -1,0 +1,35 @@
+<html>
+	<title>3D Differences</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+		<style>
+
+		</style>
+		<script type="text/javascript" src="../js/code.js"></script>
+
+		<script>
+			TIMEUP = "#";
+		</script>
+	</head>
+	<body onload="init('3DL1.html')" onunload="reset_bg_music()" onkeypress="keyhint(event)" onclick="point(event)">
+		<div align="center" id="header">
+			<h2> <i><b><span id="remaining">0</span></b> Difference<span id="s">s</span> Left</i> <input type="button" value="Hint" id ="btnH" onclick="hint()" /></h2>
+		</div>
+		
+		<div id="content" align="center">
+			<img src ="images/L1mod.gif" id = "il" class="portrait" usemap="#TBmap" onclick="bClickedImage=true" ondragstart="return false" onselectstart="return false" />
+			<map name="TBmap">
+				<area shape ="circle" coords ="113,317,32" nohref id="m1" onclick="chkscore(1,this,event)" />
+				<area shape ="circle" coords ="185,284,32" nohref id="m2" onclick="chkscore(2,this,event)" />
+				<area shape ="circle" coords ="193,360,32" nohref id="m3" onclick="chkscore(3,this,event)" />
+			</map>
+			<img src ="images/L1.gif" id="ir" class="portrait" usemap="#TBmap" onclick="bClickedImage=true" />
+
+			<div id="onePlayerContent" class="onePlayerStyle">
+				<span id="P" class="player">0</span>
+				<div><img src='images/brg.gif' /> <div style="font-size:11px">Glasses required</div></div>				
+			</div>
+		</div>
+	</body>
+</html>

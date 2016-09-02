@@ -1,0 +1,8 @@
+[InternetShortcut]
+URL=javascript:%20(function(){d=document;e=d.getElementsByTagName;h=e('head').item(0);l='style';m=d.createElement(l);h.appendChild(m);s=m.setAttribute;s('id','tb');t=d.styleSheets.tb;t.addRule('table','border:%202px%20solid%20#ff0000');t.addRule('td','border:%201px%20solid%20#ff00ff');})()
+IDList=
+HotKey=0
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,15
+[Branding]
+IEAKCreated=3

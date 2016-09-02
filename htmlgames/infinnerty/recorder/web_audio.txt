@@ -1,0 +1,24 @@
+<script>
+// this is to store a reference to the input so we can kill it later 
+var liveSource;
+
+// creates an audiocontext and hooks up the audio input
+function connectAudioInToSpeakers(){
+  var context = new webkitAudioContext();  
+  navigator.webkitGetUserMedia({audio: true}, function(stream) {
+    console.log("Connected live audio input");
+    liveSource = context.createMediaStreamSource(stream);
+    liveSource.connect(context.destination);
+  });
+}
+
+// disconnects the audio input
+function makeItStop(){
+  console.log("killing audio!");
+  liveSource.disconnect();
+}
+
+// run this when the page loads
+connectAudioInToSpeakers();
+<script>
+<input type="button" value="please make it stop!" onclick="makeItStop()"/>

@@ -1,0 +1,2161 @@
+
+<html>
+	<head>
+		<title>D.O.T.T.Y (level 2)</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bonus.css" />
+
+		<style>
+			.hint {border:0;color:black}
+
+			.rise{
+				position:absolute;
+				top:-15px;
+				left:-10px;
+			}
+
+			.landscape {
+
+				width: 529px;
+				height: 397px;
+			}
+
+			#ff1{
+				position:absolute;
+				left:100px;
+				top:34px;
+				display:none;
+			}
+
+			#ff2{
+				position:absolute;
+				left:133px;
+				top:67px;
+				display:none;
+			}
+
+			#ff3{
+				position:absolute;
+				left:166px;
+				top:100px;
+				display:none;
+			}
+
+			#ff4{
+				position:absolute;
+				left:199px;
+				top:100px;
+				display:none;
+			}
+
+			#ff5{
+				position:absolute;
+				left:232px;
+				top:100px;
+				display:none;
+			}
+
+			#ff6{
+				position:absolute;
+				left:265px;
+				top:100px;
+				display:none;
+			}
+
+			#ff7{
+				position:absolute;
+				left:298px;
+				top:100px;
+				display:none;
+			}
+
+			#ff8{
+				position:absolute;
+				left:331px;
+				top:100px;
+				display:none;
+			}
+
+			#ff9{
+				position:absolute;
+				left:364px;
+				top:67px;
+				display:none;
+			}
+
+			#ff10{
+				position:absolute;
+				left:397px;
+				top:67px;
+				display:none;
+			}
+
+			#ff11{
+				position:absolute;
+				left:430px;
+				top:100px;
+				display:none;
+			}
+			
+			#ff12{
+				position:absolute;
+				left:463px;
+				top:133px;
+				display:none;
+			}
+
+			#ff13{
+				position:absolute;
+				left:430px;
+				top:166px;
+				display:none;
+			}
+
+			#ff14{
+				position:absolute;
+				left:397px;
+				top:166px;
+				display:none;
+			}
+
+			#ff15{
+				position:absolute;
+				left:364px;
+				top:166px;
+				display:none;
+			}
+
+			#ff16{
+				position:absolute;
+				left:331px;
+				top:199px;
+				display:none;
+			}
+
+			#ff17{
+				position:absolute;
+				left:298px;
+				top:232px;
+				display:none;
+			}
+
+			#ff18{
+				position:absolute;
+				left:265px;
+				top:265px;
+				display:none;
+			}
+
+			#ff19{
+				position:absolute;
+				left:232px;
+				top:298px;
+				display:none;
+			}
+
+
+			#ff20{
+				position:absolute;
+				left:199px;
+				top:298px;
+				display:none;
+			}
+			#ff21{
+				position:absolute;
+				left:166px;
+				top:298px;
+				display:none;
+			}
+
+			#ff22{
+				position:absolute;
+				left:133px;
+				top:265px;
+				display:none;
+			}
+
+			#ff23{
+				position:absolute;
+				left:166px;
+				top:232px;
+				display:none;
+			}
+
+
+			#ff24{
+				position:absolute;
+				left:199px;
+				top:199px;
+				display:none;
+			}
+
+			#ff25{
+				position:absolute;
+				left:232px;
+				top:166px;
+				display:none;
+			}
+
+			#ff26{
+				position:absolute;
+				left:199px;
+				top:166px;
+				display:none;
+			}
+
+			#ff27{
+				position:absolute;
+				left:166px;
+				top:166px;
+				display:none;
+			}
+
+			#ff28{
+				position:absolute;
+				left:133px;
+				top:166px;
+				display:none;
+			}
+
+			#ff29{
+				position:absolute;
+				left:100px;
+				top:166px;
+				display:none;
+			}
+
+			#ff30{
+				position:absolute;
+				left:67px;
+				top:133px;
+				display:none;
+			}
+
+			#ff31{
+				position:absolute;
+				left:67px;
+				top:100px;
+				display:none;
+			}
+
+			#ff32{
+				position:absolute;
+				left:67px;
+				top:67px;
+				display:none;
+			}
+
+			#ff33{
+				position:absolute;
+				left:67px;
+				top:34px;
+				display:none;
+			}
+
+<!--
+			#xff1{
+				position:absolute;
+				left:1px;
+				top:1px;
+				display:none;
+			}
+
+			#xff2{
+				position:absolute;
+				left:34px;
+				top:1px;
+				display:none;
+			}
+
+			#xff3{
+				position:absolute;
+				left:67px;
+				top:1px;
+				display:none;
+			}
+
+			#xff4{
+				position:absolute;
+				left:100px;
+				top:1px;
+				display:none;
+			}
+
+			#xff5{
+				position:absolute;
+				left:133px;
+				top:1px;
+				display:none;
+			}
+
+			#xff6{
+				position:absolute;
+				left:166px;
+				top:1px;
+				display:none;
+			}
+
+			#xff7{
+				position:absolute;
+				left:199px;
+				top:1px;
+				display:none;
+			}
+
+			#xff8{
+				position:absolute;
+				left:232px;
+				top:1px;
+				display:none;
+			}
+
+			#xff9{
+				position:absolute;
+				left:265px;
+				top:1px;
+				display:none;
+			}
+
+			#xff10{
+				position:absolute;
+				left:298px;
+				top:1px;
+				display:none;
+			}
+
+			#xff11{
+				position:absolute;
+				left:331px;
+				top:1px;
+				display:none;
+			}
+
+			#xff12{
+				position:absolute;
+				left:364px;
+				top:1px;
+				display:none;
+			}
+
+			#xff13{
+				position:absolute;
+				left:397px;
+				top:1px;
+				display:none;
+			}
+
+			#xff14{
+				position:absolute;
+				left:430px;
+				top:1px;
+				display:none;
+			}
+
+			#xff15{
+				position:absolute;
+				left:463px;
+				top:1px;
+				display:none;
+			}
+
+			#xff16{
+				position:absolute;
+				left:496px;
+				top:1px;
+				display:none;
+			}
+
+
+			#xff17{
+				position:absolute;
+				left:1px;
+				top:34px;
+				display:none;
+			}
+
+			#xff18{
+				position:absolute;
+				left:34px;
+				top:34px;
+				display:none;
+			}
+
+			#xff19{
+				position:absolute;
+				left:67px;
+				top:34px;
+				display:none;
+			}
+
+			#xff20{
+				position:absolute;
+				left:100px;
+				top:34px;
+				display:none;
+			}
+
+			#xff21{
+				position:absolute;
+				left:133px;
+				top:34px;
+				display:none;
+			}
+
+			#xff22{
+				position:absolute;
+				left:166px;
+				top:34px;
+				display:none;
+			}
+
+			#xff23{
+				position:absolute;
+				left:199px;
+				top:34px;
+				display:none;
+			}
+
+			#xff24{
+				position:absolute;
+				left:232px;
+				top:34px;
+				display:none;
+			}
+
+			#xff25{
+				position:absolute;
+				left:265px;
+				top:34px;
+				display:none;
+			}
+
+			#xff26{
+				position:absolute;
+				left:298px;
+				top:34px;
+				display:none;
+			}
+
+			#xff27{
+				position:absolute;
+				left:331px;
+				top:34px;
+				display:none;
+			}
+
+			#xff28{
+				position:absolute;
+				left:364px;
+				top:34px;
+				display:none;
+			}
+
+			#xff29{
+				position:absolute;
+				left:397px;
+				top:34px;
+				display:none;
+			}
+
+			#xff30{
+				position:absolute;
+				left:430px;
+				top:34px;
+				display:none;
+			}
+
+			#xff31{
+				position:absolute;
+				left:463px;
+				top:34px;
+				display:none;
+			}
+
+			#xff32{
+				position:absolute;
+				left:496px;
+				top:34px;
+				display:none;
+			}
+
+
+			#xff33{
+				position:absolute;
+				left:1px;
+				top:67px;
+				display:none;
+			}
+
+			#ff34{
+				position:absolute;
+				left:34px;
+				top:67px;
+				display:none;
+			}
+
+			#ff35{
+				position:absolute;
+				left:67px;
+				top:67px;
+				display:none;
+			}
+
+			#ff36{
+				position:absolute;
+				left:100px;
+				top:67px;
+				display:none;
+			}
+
+			#ff37{
+				position:absolute;
+				left:133px;
+				top:67px;
+				display:none;
+			}
+
+			#ff38{
+				position:absolute;
+				left:166px;
+				top:67px;
+				display:none;
+			}
+
+			#ff39{
+				position:absolute;
+				left:199px;
+				top:67px;
+				display:none;
+			}
+
+			#ff40{
+				position:absolute;
+				left:232px;
+				top:67px;
+				display:none;
+			}
+
+			#ff41{
+				position:absolute;
+				left:265px;
+				top:67px;
+				display:none;
+			}
+
+			#ff42{
+				position:absolute;
+				left:298px;
+				top:67px;
+				display:none;
+			}
+
+			#ff43{
+				position:absolute;
+				left:331px;
+				top:67px;
+				display:none;
+			}
+
+			#ff44{
+				position:absolute;
+				left:364px;
+				top:67px;
+				display:none;
+			}
+
+			#ff45{
+				position:absolute;
+				left:397px;
+				top:67px;
+				display:none;
+			}
+
+			#ff46{
+				position:absolute;
+				left:430px;
+				top:67px;
+				display:none;
+			}
+
+			#ff47{
+				position:absolute;
+				left:463px;
+				top:67px;
+				display:none;
+			}
+
+			#ff48{
+				position:absolute;
+				left:496px;
+				top:67px;
+				display:none;
+			}
+
+
+			#ff49{
+				position:absolute;
+				left:1px;
+				top:100px;
+				display:none;
+			}
+
+			#ff50{
+				position:absolute;
+				left:34px;
+				top:100px;
+				display:none;
+			}
+
+			#ff51{
+				position:absolute;
+				left:67px;
+				top:100px;
+				display:none;
+			}
+
+			#ff52{
+				position:absolute;
+				left:100px;
+				top:100px;
+				display:none;
+			}
+
+			#ff53{
+				position:absolute;
+				left:133px;
+				top:100px;
+				display:none;
+			}
+
+			#ff54{
+				position:absolute;
+				left:166px;
+				top:100px;
+				display:none;
+			}
+
+			#ff55{
+				position:absolute;
+				left:199px;
+				top:100px;
+				display:none;
+			}
+
+			#ff56{
+				position:absolute;
+				left:232px;
+				top:100px;
+				display:none;
+			}
+
+			#ff57{
+				position:absolute;
+				left:265px;
+				top:100px;
+				display:none;
+			}
+
+			#ff58{
+				position:absolute;
+				left:298px;
+				top:100px;
+				display:none;
+			}
+
+			#ff59{
+				position:absolute;
+				left:331px;
+				top:100px;
+				display:none;
+			}
+
+			#ff60{
+				position:absolute;
+				left:364px;
+				top:100px;
+				display:none;
+			}
+
+			#ff61{
+				position:absolute;
+				left:397px;
+				top:100px;
+				display:none;
+			}
+
+			#ff62{
+				position:absolute;
+				left:430px;
+				top:100px;
+				display:none;
+			}
+
+			#ff63{
+				position:absolute;
+				left:463px;
+				top:100px;
+				display:none;
+			}
+
+			#ff64{
+				position:absolute;
+				left:496px;
+				top:100px;
+				display:none;
+			}
+
+
+			#ff65{
+				position:absolute;
+				left:1px;
+				top:133px;
+				display:none;
+			}
+
+			#ff66{
+				position:absolute;
+				left:34px;
+				top:133px;
+				display:none;
+			}
+
+			#ff67{
+				position:absolute;
+				left:67px;
+				top:133px;
+				display:none;
+			}
+
+			#ff68{
+				position:absolute;
+				left:100px;
+				top:133px;
+				display:none;
+			}
+
+			#ff69{
+				position:absolute;
+				left:133px;
+				top:133px;
+				display:none;
+			}
+
+			#ff70{
+				position:absolute;
+				left:166px;
+				top:133px;
+				display:none;
+			}
+
+			#ff71{
+				position:absolute;
+				left:199px;
+				top:133px;
+				display:none;
+			}
+
+			#ff72{
+				position:absolute;
+				left:232px;
+				top:133px;
+				display:none;
+			}
+
+			#ff73{
+				position:absolute;
+				left:265px;
+				top:133px;
+				display:none;
+			}
+
+			#ff74{
+				position:absolute;
+				left:298px;
+				top:133px;
+				display:none;
+			}
+
+			#ff75{
+				position:absolute;
+				left:331px;
+				top:133px;
+				display:none;
+			}
+
+			#ff76{
+				position:absolute;
+				left:364px;
+				top:133px;
+				display:none;
+			}
+
+			#ff77{
+				position:absolute;
+				left:397px;
+				top:133px;
+				display:none;
+			}
+
+			#ff78{
+				position:absolute;
+				left:430px;
+				top:133px;
+				display:none;
+			}
+
+			#ff79{
+				position:absolute;
+				left:463px;
+				top:133px;
+				display:none;
+			}
+
+			#ff80{
+				position:absolute;
+				left:496px;
+				top:133px;
+				display:none;
+			}
+
+
+			#ff81{
+				position:absolute;
+				left:1px;
+				top:166px;
+				display:none;
+			}
+
+			#ff82{
+				position:absolute;
+				left:34px;
+				top:166px;
+				display:none;
+			}
+
+			#ff83{
+				position:absolute;
+				left:67px;
+				top:166px;
+				display:none;
+			}
+
+			#ff84{
+				position:absolute;
+				left:100px;
+				top:166px;
+				display:none;
+			}
+
+			#ff85{
+				position:absolute;
+				left:133px;
+				top:166px;
+				display:none;
+			}
+
+			#ff86{
+				position:absolute;
+				left:166px;
+				top:166px;
+				display:none;
+			}
+
+			#ff87{
+				position:absolute;
+				left:199px;
+				top:166px;
+				display:none;
+			}
+
+			#ff88{
+				position:absolute;
+				left:232px;
+				top:166px;
+				display:none;
+			}
+
+			#ff89{
+				position:absolute;
+				left:265px;
+				top:166px;
+				display:none;
+			}
+
+			#ff90{
+				position:absolute;
+				left:298px;
+				top:166px;
+				display:none;
+			}
+
+			#ff91{
+				position:absolute;
+				left:331px;
+				top:166px;
+				display:none;
+			}
+
+			#ff92{
+				position:absolute;
+				left:364px;
+				top:166px;
+				display:none;
+			}
+
+			#ff93{
+				position:absolute;
+				left:397px;
+				top:166px;
+				display:none;
+			}
+
+			#ff94{
+				position:absolute;
+				left:430px;
+				top:166px;
+				display:none;
+			}
+
+			#ff95{
+				position:absolute;
+				left:463px;
+				top:166px;
+				display:none;
+			}
+
+			#ff96{
+				position:absolute;
+				left:496px;
+				top:166px;
+				display:none;
+			}
+
+
+			#ff97{
+				position:absolute;
+				left:1px;
+				top:199px;
+				display:none;
+			}
+
+			#ff98{
+				position:absolute;
+				left:34px;
+				top:199px;
+				display:none;
+			}
+
+			#ff99{
+				position:absolute;
+				left:67px;
+				top:199px;
+				display:none;
+			}
+
+			#ff100{
+				position:absolute;
+				left:100px;
+				top:199px;
+				display:none;
+			}
+
+			#ff101{
+				position:absolute;
+				left:133px;
+				top:199px;
+				display:none;
+			}
+
+			#ff102{
+				position:absolute;
+				left:166px;
+				top:199px;
+				display:none;
+			}
+
+			#ff103{
+				position:absolute;
+				left:199px;
+				top:199px;
+				display:none;
+			}
+
+			#ff104{
+				position:absolute;
+				left:232px;
+				top:199px;
+				display:none;
+			}
+
+			#ff105{
+				position:absolute;
+				left:265px;
+				top:199px;
+				display:none;
+			}
+
+			#ff106{
+				position:absolute;
+				left:298px;
+				top:199px;
+				display:none;
+			}
+
+			#ff107{
+				position:absolute;
+				left:331px;
+				top:199px;
+				display:none;
+			}
+
+			#ff108{
+				position:absolute;
+				left:364px;
+				top:199px;
+				display:none;
+			}
+
+			#ff109{
+				position:absolute;
+				left:397px;
+				top:199px;
+				display:none;
+			}
+
+			#ff110{
+				position:absolute;
+				left:430px;
+				top:199px;
+				display:none;
+			}
+
+			#ff111{
+				position:absolute;
+				left:463px;
+				top:199px;
+				display:none;
+			}
+
+			#ff112{
+				position:absolute;
+				left:496px;
+				top:199px;
+				display:none;
+			}
+
+
+			#ff113{
+				position:absolute;
+				left:1px;
+				top:232px;
+				display:none;
+			}
+
+			#ff114{
+				position:absolute;
+				left:34px;
+				top:232px;
+				display:none;
+			}
+
+			#ff115{
+				position:absolute;
+				left:67px;
+				top:232px;
+				display:none;
+			}
+
+			#ff116{
+				position:absolute;
+				left:100px;
+				top:232px;
+				display:none;
+			}
+
+			#ff117{
+				position:absolute;
+				left:133px;
+				top:232px;
+				display:none;
+			}
+
+			#ff118{
+				position:absolute;
+				left:166px;
+				top:232px;
+				display:none;
+			}
+
+			#ff119{
+				position:absolute;
+				left:199px;
+				top:232px;
+				display:none;
+			}
+
+			#ff120{
+				position:absolute;
+				left:232px;
+				top:232px;
+				display:none;
+			}
+
+			#ff121{
+				position:absolute;
+				left:265px;
+				top:232px;
+				display:none;
+			}
+
+			#ff122{
+				position:absolute;
+				left:298px;
+				top:232px;
+				display:none;
+			}
+
+			#ff123{
+				position:absolute;
+				left:331px;
+				top:232px;
+				display:none;
+			}
+
+			#ff124{
+				position:absolute;
+				left:364px;
+				top:232px;
+				display:none;
+			}
+
+			#ff125{
+				position:absolute;
+				left:397px;
+				top:232px;
+				display:none;
+			}
+
+			#ff126{
+				position:absolute;
+				left:430px;
+				top:232px;
+				display:none;
+			}
+
+			#ff127{
+				position:absolute;
+				left:463px;
+				top:232px;
+				display:none;
+			}
+
+			#ff128{
+				position:absolute;
+				left:496px;
+				top:232px;
+				display:none;
+			}
+
+
+			#ff129{
+				position:absolute;
+				left:1px;
+				top:265px;
+				display:none;
+			}
+
+			#ff130{
+				position:absolute;
+				left:34px;
+				top:265px;
+				display:none;
+			}
+
+			#ff131{
+				position:absolute;
+				left:67px;
+				top:265px;
+				display:none;
+			}
+
+			#ff132{
+				position:absolute;
+				left:100px;
+				top:265px;
+				display:none;
+			}
+
+			#ff133{
+				position:absolute;
+				left:133px;
+				top:265px;
+				display:none;
+			}
+
+			#ff134{
+				position:absolute;
+				left:166px;
+				top:265px;
+				display:none;
+			}
+
+			#ff135{
+				position:absolute;
+				left:199px;
+				top:265px;
+				display:none;
+			}
+
+			#ff136{
+				position:absolute;
+				left:232px;
+				top:265px;
+				display:none;
+			}
+
+			#ff137{
+				position:absolute;
+				left:265px;
+				top:265px;
+				display:none;
+			}
+
+			#ff138{
+				position:absolute;
+				left:298px;
+				top:265px;
+				display:none;
+			}
+
+			#ff139{
+				position:absolute;
+				left:331px;
+				top:265px;
+				display:none;
+			}
+
+			#ff140{
+				position:absolute;
+				left:364px;
+				top:265px;
+				display:none;
+			}
+
+			#ff141{
+				position:absolute;
+				left:397px;
+				top:265px;
+				display:none;
+			}
+
+			#ff142{
+				position:absolute;
+				left:430px;
+				top:265px;
+				display:none;
+			}
+
+			#ff143{
+				position:absolute;
+				left:463px;
+				top:265px;
+				display:none;
+			}
+
+			#ff144{
+				position:absolute;
+				left:496px;
+				top:265px;
+				display:none;
+			}
+
+
+			#ff145{
+				position:absolute;
+				left:1px;
+				top:298px;
+				display:none;
+			}
+
+			#ff146{
+				position:absolute;
+				left:34px;
+				top:298px;
+				display:none;
+			}
+
+			#ff147{
+				position:absolute;
+				left:67px;
+				top:298px;
+				display:none;
+			}
+
+			#ff148{
+				position:absolute;
+				left:100px;
+				top:298px;
+				display:none;
+			}
+
+			#ff149{
+				position:absolute;
+				left:133px;
+				top:298px;
+				display:none;
+			}
+
+			#ff150{
+				position:absolute;
+				left:166px;
+				top:298px;
+				display:none;
+			}
+
+			#ff151{
+				position:absolute;
+				left:199px;
+				top:298px;
+				display:none;
+			}
+
+			#ff152{
+				position:absolute;
+				left:232px;
+				top:298px;
+				display:none;
+			}
+
+			#ff153{
+				position:absolute;
+				left:265px;
+				top:298px;
+				display:none;
+			}
+
+			#ff154{
+				position:absolute;
+				left:298px;
+				top:298px;
+				display:none;
+			}
+
+			#ff155{
+				position:absolute;
+				left:331px;
+				top:298px;
+				display:none;
+			}
+
+			#ff156{
+				position:absolute;
+				left:364px;
+				top:298px;
+				display:none;
+			}
+
+			#ff157{
+				position:absolute;
+				left:397px;
+				top:298px;
+				display:none;
+			}
+
+			#ff158{
+				position:absolute;
+				left:430px;
+				top:298px;
+				display:none;
+			}
+
+			#ff159{
+				position:absolute;
+				left:463px;
+				top:298px;
+				display:none;
+			}
+
+			#ff160{
+				position:absolute;
+				left:496px;
+				top:298px;
+				display:none;
+			}
+
+
+			#ff161{
+				position:absolute;
+				left:1px;
+				top:331px;
+				display:none;
+			}
+
+			#ff162{
+				position:absolute;
+				left:34px;
+				top:331px;
+				display:none;
+			}
+
+			#ff163{
+				position:absolute;
+				left:67px;
+				top:331px;
+				display:none;
+			}
+
+			#ff164{
+				position:absolute;
+				left:100px;
+				top:331px;
+				display:none;
+			}
+
+			#ff165{
+				position:absolute;
+				left:133px;
+				top:331px;
+				display:none;
+			}
+
+			#ff166{
+				position:absolute;
+				left:166px;
+				top:331px;
+				display:none;
+			}
+
+			#ff167{
+				position:absolute;
+				left:199px;
+				top:331px;
+				display:none;
+			}
+
+			#ff168{
+				position:absolute;
+				left:232px;
+				top:331px;
+				display:none;
+			}
+
+			#ff169{
+				position:absolute;
+				left:265px;
+				top:331px;
+				display:none;
+			}
+
+			#ff170{
+				position:absolute;
+				left:298px;
+				top:331px;
+				display:none;
+			}
+
+			#ff171{
+				position:absolute;
+				left:331px;
+				top:331px;
+				display:none;
+			}
+
+			#ff172{
+				position:absolute;
+				left:364px;
+				top:331px;
+				display:none;
+			}
+
+			#ff173{
+				position:absolute;
+				left:397px;
+				top:331px;
+				display:none;
+			}
+
+			#ff174{
+				position:absolute;
+				left:430px;
+				top:331px;
+				display:none;
+			}
+
+			#ff175{
+				position:absolute;
+				left:463px;
+				top:331px;
+				display:none;
+			}
+
+			#ff176{
+				position:absolute;
+				left:496px;
+				top:331px;
+				display:none;
+			}
+
+
+			#ff177{
+				position:absolute;
+				left:1px;
+				top:364px;
+				display:none;
+			}
+
+			#ff178{
+				position:absolute;
+				left:34px;
+				top:364px;
+				display:none;
+			}
+
+			#ff179{
+				position:absolute;
+				left:67px;
+				top:364px;
+				display:none;
+			}
+
+			#ff180{
+				position:absolute;
+				left:100px;
+				top:364px;
+				display:none;
+			}
+
+			#ff181{
+				position:absolute;
+				left:133px;
+				top:364px;
+				display:none;
+			}
+
+			#ff182{
+				position:absolute;
+				left:166px;
+				top:364px;
+				display:none;
+			}
+
+			#ff183{
+				position:absolute;
+				left:199px;
+				top:364px;
+				display:none;
+			}
+
+			#ff184{
+				position:absolute;
+				left:232px;
+				top:364px;
+				display:none;
+			}
+
+			#ff185{
+				position:absolute;
+				left:265px;
+				top:364px;
+				display:none;
+			}
+
+			#ff186{
+				position:absolute;
+				left:298px;
+				top:364px;
+				display:none;
+			}
+
+			#ff187{
+				position:absolute;
+				left:331px;
+				top:364px;
+				display:none;
+			}
+
+			#ff188{
+				position:absolute;
+				left:364px;
+				top:364px;
+				display:none;
+			}
+
+			#ff189{
+				position:absolute;
+				left:397px;
+				top:364px;
+				display:none;
+			}
+
+			#ff190{
+				position:absolute;
+				left:430px;
+				top:364px;
+				display:none;
+			}
+
+			#ff191{
+				position:absolute;
+				left:463px;
+				top:364px;
+				display:none;
+			}
+
+			#ff192{
+				position:absolute;
+				left:496px;
+				top:364px;
+				display:none;
+			}
+-->
+			.imgbonus{display:block}
+
+		</style>
+		<script type="text/javascript" src="../js/code.js"></script>
+
+		<script>
+			A_PATH = "../" + A_PATH;
+			A_MUSIC = "";
+			TIMEUP = "#";
+			USE_FADE = 1;
+			HINTS_LEFT = 0;
+			FOUND_RISE = false;
+			BONUS_MSG = ""
+			WRONG_MSG = "";
+
+			function got_bonus(i){ // example of overriding hiding / showing of hotspot gfx
+
+				if(ORDER){
+
+					$$("ff"+i).style.display = "block";
+				}
+
+			}
+
+			function CORRECT_ORDER()
+			{
+				return true
+			}
+			function INCORRECT_ORDER()
+			{
+				return false
+			}
+
+			function WRONG_GUESS()
+			{
+				playBonus();
+				setTimeout("document.location.reload();",3000);
+			}
+
+			function ZEROHINTS()
+			{
+				newdiv(375, 44, 450, 20, "hint", "<i><b>Don't forget to click the hidden dots between the numbered dots!<b><i>", "sd");
+				setTimeout("removeDiv();eval('ZEROHINTS = function(){}')",3987);
+			}
+		</script>
+	</head>
+	<body onload="init('dotty3.html','')" onkeypress="keyhint(event,0,0,1)" onunload="reset_bg_music()" onclick="point(event)">
+		<div id="content" align="center">
+			<img name="normal" id="normal" class="landscape" src="images/dot2dot_hard.gif" ondragstart="return false" onselectstart="return false" >
+
+			<div id="ff1"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff2"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff3"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff4"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff5"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff6"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff7"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff8"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff9"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff10"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff11"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff12"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff13"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff14"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff15"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff16"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff17"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff18"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff19"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff20"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff21"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff22"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff23"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff24"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff25"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff26"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff27"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff28"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff29"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff30"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff31"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff32"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff33"><img src="images/_astar.gif" width="32px" /></div>
+
+<!--
+			
+			<div id="ff1"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff2"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff3"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff4"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff5"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff6"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff7"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff8"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff9"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff10"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff11"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff12"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff13"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff14"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff15"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff16"><img src="images/_astar.gif" width="32px" /></div>
+			
+			<div id="ff17"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff18"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff19"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff20"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff21"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff22"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff23"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff24"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff25"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff26"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff27"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff28"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff29"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff30"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff31"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff32"><img src="images/_astar.gif" width="32px" /></div>
+			
+			<div id="ff33"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff34"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff35"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff36"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff37"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff38"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff39"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff40"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff41"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff42"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff43"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff44"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff45"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff46"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff47"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff48"><img src="images/_astar.gif" width="32px" /></div>
+			
+			<div id="ff49"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff50"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff51"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff52"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff53"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff54"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff55"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff56"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff57"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff58"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff59"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff60"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff61"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff62"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff63"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff64"><img src="images/_astar.gif" width="32px" /></div>
+			
+			<div id="ff65"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff66"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff67"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff68"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff69"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff70"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff71"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff72"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff73"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff74"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff75"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff76"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff77"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff78"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff79"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff80"><img src="images/_astar.gif" width="32px" /></div>
+			
+			<div id="ff81"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff82"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff83"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff84"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff85"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff86"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff87"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff88"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff89"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff90"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff91"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff92"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff93"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff94"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff95"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff96"><img src="images/_astar.gif" width="32px" /></div>
+			
+			<div id="ff97"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff98"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff99"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff100"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff101"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff102"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff103"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff104"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff105"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff106"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff107"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff108"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff109"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff110"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff111"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff112"><img src="images/_astar.gif" width="32px" /></div>
+			
+			<div id="ff113"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff114"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff115"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff116"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff117"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff118"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff119"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff120"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff121"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff122"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff123"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff124"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff125"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff126"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff127"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff128"><img src="images/_astar.gif" width="32px" /></div>
+			
+			<div id="ff129"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff130"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff131"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff132"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff133"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff134"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff135"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff136"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff137"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff138"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff139"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff140"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff141"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff142"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff143"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff144"><img src="images/_astar.gif" width="32px" /></div>
+			
+			<div id="ff145"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff146"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff147"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff148"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff149"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff150"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff151"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff152"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff153"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff154"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff155"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff156"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff157"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff158"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff159"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff160"><img src="images/_astar.gif" width="32px" /></div>
+			
+			<div id="ff161"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff162"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff163"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff164"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff165"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff166"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff167"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff168"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff169"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff170"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff171"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff172"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff173"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff174"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff175"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff176"><img src="images/_astar.gif" width="32px" /></div>
+			
+			<div id="ff177"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff178"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff179"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff180"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff181"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff182"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff183"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff184"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff185"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff186"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff187"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff188"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff189"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff190"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff191"><img src="images/_astar.gif" width="32px" /></div>
+			<div id="ff192"><img src="images/_astar.gif" width="32px" /></div>
+-->
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("off","")</script>
+
+			<map name="zoom">
+				<!-- grid is 32 x 32 px  #    X  Y  R -->
+				<!-- NOTE: only one route allowed here as coords CANNOT overlap (API limitation) -->
+
+				<area shape ="circle" coords ="115,49,15" nohref id="m1" onclick="chkscore(1,this,event)" />
+				<area shape ="circle" coords ="148,82,15" nohref id="m2" onclick="chkscore(2,this,event)" />
+				<area shape ="circle" coords ="181,115,15" nohref id="m3" onclick="chkscore(3,this,event)" />
+				<area shape ="circle" coords ="214,115,15" nohref id="m4" onclick="chkscore(4,this,event)" />
+				<area shape ="circle" coords ="247,115,15" nohref id="m5" onclick="chkscore(5,this,event)" />
+				<area shape ="circle" coords ="280,115,15" nohref id="m6" onclick="chkscore(6,this,event)" />
+				<area shape ="circle" coords ="313,115,15" nohref id="m7" onclick="chkscore(7,this,event)" />
+				<area shape ="circle" coords ="346,115,15" nohref id="m8" onclick="chkscore(8,this,event)" />
+				<area shape ="circle" coords ="379,82,15" nohref id="m9" onclick="chkscore(9,this,event)" />
+				<area shape ="circle" coords ="412,82,15" nohref id="m10" onclick="chkscore(10,this,event)" />
+				<area shape ="circle" coords ="445,115,15" nohref id="m11" onclick="chkscore(11,this,event)" />
+				<area shape ="circle" coords ="478,148,15" nohref id="m12" onclick="chkscore(12,this,event)" />
+				<area shape ="circle" coords ="445,181,15" nohref id="m13" onclick="chkscore(13,this,event)" />
+				<area shape ="circle" coords ="412,181,15" nohref id="m14" onclick="chkscore(14,this,event)" />
+				<area shape ="circle" coords ="379,181,15" nohref id="m15" onclick="chkscore(15,this,event)" />
+				<area shape ="circle" coords ="346,214,15" nohref id="m16" onclick="chkscore(16,this,event)" />
+				<area shape ="circle" coords ="313,247,15" nohref id="m17" onclick="chkscore(17,this,event)" />
+				<area shape ="circle" coords ="280,280,15" nohref id="m18" onclick="chkscore(18,this,event)" />
+				<area shape ="circle" coords ="247,313,15" nohref id="m19" onclick="chkscore(19,this,event)" />
+				<area shape ="circle" coords ="214,313,15" nohref id="m20" onclick="chkscore(20,this,event)" />
+				<area shape ="circle" coords ="181,313,15" nohref id="m21" onclick="chkscore(21,this,event)" />
+				<area shape ="circle" coords ="148,280,15" nohref id="m22" onclick="chkscore(22,this,event)" />
+				<area shape ="circle" coords ="181,247,15" nohref id="m23" onclick="chkscore(23,this,event)" />
+				<area shape ="circle" coords ="214,214,15" nohref id="m24" onclick="chkscore(24,this,event)" />
+				<area shape ="circle" coords ="247,181,15" nohref id="m25" onclick="chkscore(25,this,event)" />
+				<area shape ="circle" coords ="214,181,15" nohref id="m26" onclick="chkscore(26,this,event)" />
+				<area shape ="circle" coords ="181,181,15" nohref id="m27" onclick="chkscore(27,this,event)" />
+				<area shape ="circle" coords ="148,181,15" nohref id="m28" onclick="chkscore(28,this,event)" />
+				<area shape ="circle" coords ="115,181,15" nohref id="m29" onclick="chkscore(29,this,event)" />
+				<area shape ="circle" coords ="82,148,15" nohref id="m30" onclick="chkscore(30,this,event)" />
+				<area shape ="circle" coords ="82,115,15" nohref id="m31" onclick="chkscore(31,this,event)" />
+				<area shape ="circle" coords ="82,82,15" nohref id="m32" onclick="chkscore(32,this,event)" />
+				<area shape ="circle" coords ="82,49,15" nohref id="m33" onclick="chkscore(33,this,event)" />
+
+
+
+
+
+
+
+<!--				
+				<area shape ="circle" coords ="16,16,15" nohref id="m1" onclick="chkscore(1,this,event)" />
+				<area shape ="circle" coords ="49,16,15" nohref id="m2" onclick="chkscore(2,this,event)" />
+				<area shape ="circle" coords ="82,16,15" nohref id="m3" onclick="chkscore(3,this,event)" />
+				<area shape ="circle" coords ="115,16,15" nohref id="m4" onclick="chkscore(4,this,event)" />
+				<area shape ="circle" coords ="148,16,15" nohref id="m5" onclick="chkscore(5,this,event)" />
+				<area shape ="circle" coords ="181,16,15" nohref id="m6" onclick="chkscore(6,this,event)" />
+				<area shape ="circle" coords ="214,16,15" nohref id="m7" onclick="chkscore(7,this,event)" />
+				<area shape ="circle" coords ="247,16,15" nohref id="m8" onclick="chkscore(8,this,event)" />
+				<area shape ="circle" coords ="280,16,15" nohref id="m9" onclick="chkscore(9,this,event)" />
+				<area shape ="circle" coords ="313,16,15" nohref id="m10" onclick="chkscore(10,this,event)" />
+				<area shape ="circle" coords ="346,16,15" nohref id="m11" onclick="chkscore(11,this,event)" />
+				<area shape ="circle" coords ="379,16,15" nohref id="m12" onclick="chkscore(12,this,event)" />
+				<area shape ="circle" coords ="412,16,15" nohref id="m13" onclick="chkscore(13,this,event)" />
+				<area shape ="circle" coords ="445,16,15" nohref id="m14" onclick="chkscore(14,this,event)" />
+				<area shape ="circle" coords ="478,16,15" nohref id="m15" onclick="chkscore(15,this,event)" />
+				<area shape ="circle" coords ="511,16,15" nohref id="m16" onclick="chkscore(16,this,event)" />
+				
+				<area shape ="circle" coords ="16,49,15" nohref id="m17" onclick="chkscore(17,this,event)" />
+				<area shape ="circle" coords ="49,49,15" nohref id="m18" onclick="chkscore(18,this,event)" />
+				<area shape ="circle" coords ="82,49,15" nohref id="m19" onclick="chkscore(19,this,event)" />
+				<area shape ="circle" coords ="115,49,15" nohref id="m20" onclick="chkscore(20,this,event)" />
+				<area shape ="circle" coords ="148,49,15" nohref id="m21" onclick="chkscore(21,this,event)" />
+				<area shape ="circle" coords ="181,49,15" nohref id="m22" onclick="chkscore(22,this,event)" />
+				<area shape ="circle" coords ="214,49,15" nohref id="m23" onclick="chkscore(23,this,event)" />
+				<area shape ="circle" coords ="247,49,15" nohref id="m24" onclick="chkscore(24,this,event)" />
+				<area shape ="circle" coords ="280,49,15" nohref id="m25" onclick="chkscore(25,this,event)" />
+				<area shape ="circle" coords ="313,49,15" nohref id="m26" onclick="chkscore(26,this,event)" />
+				<area shape ="circle" coords ="346,49,15" nohref id="m27" onclick="chkscore(27,this,event)" />
+				<area shape ="circle" coords ="379,49,15" nohref id="m28" onclick="chkscore(28,this,event)" />
+				<area shape ="circle" coords ="412,49,15" nohref id="m29" onclick="chkscore(29,this,event)" />
+				<area shape ="circle" coords ="445,49,15" nohref id="m30" onclick="chkscore(30,this,event)" />
+				<area shape ="circle" coords ="478,49,15" nohref id="m31" onclick="chkscore(31,this,event)" />
+				<area shape ="circle" coords ="511,49,15" nohref id="m32" onclick="chkscore(32,this,event)" />
+				
+				<area shape ="circle" coords ="16,82,15" nohref id="m33" onclick="chkscore(33,this,event)" />
+				<area shape ="circle" coords ="49,82,15" nohref id="m34" onclick="chkscore(34,this,event)" />
+				<area shape ="circle" coords ="82,82,15" nohref id="m35" onclick="chkscore(35,this,event)" />
+				<area shape ="circle" coords ="115,82,15" nohref id="m36" onclick="chkscore(36,this,event)" />
+				<area shape ="circle" coords ="148,82,15" nohref id="m37" onclick="chkscore(37,this,event)" />
+				<area shape ="circle" coords ="181,82,15" nohref id="m38" onclick="chkscore(38,this,event)" />
+				<area shape ="circle" coords ="214,82,15" nohref id="m39" onclick="chkscore(39,this,event)" />
+				<area shape ="circle" coords ="247,82,15" nohref id="m40" onclick="chkscore(40,this,event)" />
+				<area shape ="circle" coords ="280,82,15" nohref id="m41" onclick="chkscore(41,this,event)" />
+				<area shape ="circle" coords ="313,82,15" nohref id="m42" onclick="chkscore(42,this,event)" />
+				<area shape ="circle" coords ="346,82,15" nohref id="m43" onclick="chkscore(43,this,event)" />
+				<area shape ="circle" coords ="379,82,15" nohref id="m44" onclick="chkscore(44,this,event)" />
+				<area shape ="circle" coords ="412,82,15" nohref id="m45" onclick="chkscore(45,this,event)" />
+				<area shape ="circle" coords ="445,82,15" nohref id="m46" onclick="chkscore(46,this,event)" />
+				<area shape ="circle" coords ="478,82,15" nohref id="m47" onclick="chkscore(47,this,event)" />
+				<area shape ="circle" coords ="511,82,15" nohref id="m48" onclick="chkscore(48,this,event)" />
+				
+				<area shape ="circle" coords ="16,115,15" nohref id="m49" onclick="chkscore(49,this,event)" />
+				<area shape ="circle" coords ="49,115,15" nohref id="m50" onclick="chkscore(50,this,event)" />
+				<area shape ="circle" coords ="82,115,15" nohref id="m51" onclick="chkscore(51,this,event)" />
+				<area shape ="circle" coords ="115,115,15" nohref id="m52" onclick="chkscore(52,this,event)" />
+				<area shape ="circle" coords ="148,115,15" nohref id="m53" onclick="chkscore(53,this,event)" />
+				<area shape ="circle" coords ="181,115,15" nohref id="m54" onclick="chkscore(54,this,event)" />
+				<area shape ="circle" coords ="214,115,15" nohref id="m55" onclick="chkscore(55,this,event)" />
+				<area shape ="circle" coords ="247,115,15" nohref id="m56" onclick="chkscore(56,this,event)" />
+				<area shape ="circle" coords ="280,115,15" nohref id="m57" onclick="chkscore(57,this,event)" />
+				<area shape ="circle" coords ="313,115,15" nohref id="m58" onclick="chkscore(58,this,event)" />
+				<area shape ="circle" coords ="346,115,15" nohref id="m59" onclick="chkscore(59,this,event)" />
+				<area shape ="circle" coords ="379,115,15" nohref id="m60" onclick="chkscore(60,this,event)" />
+				<area shape ="circle" coords ="412,115,15" nohref id="m61" onclick="chkscore(61,this,event)" />
+				<area shape ="circle" coords ="445,115,15" nohref id="m62" onclick="chkscore(62,this,event)" />
+				<area shape ="circle" coords ="478,115,15" nohref id="m63" onclick="chkscore(63,this,event)" />
+				<area shape ="circle" coords ="511,155,15" nohref id="m64" onclick="chkscore(64,this,event)" />
+				
+				<area shape ="circle" coords ="16,148,15" nohref id="m65" onclick="chkscore(65,this,event)" />
+				<area shape ="circle" coords ="49,148,15" nohref id="m66" onclick="chkscore(66,this,event)" />
+				<area shape ="circle" coords ="82,148,15" nohref id="m67" onclick="chkscore(67,this,event)" />
+				<area shape ="circle" coords ="115,148,15" nohref id="m68" onclick="chkscore(68,this,event)" />
+				<area shape ="circle" coords ="148,148,15" nohref id="m69" onclick="chkscore(69,this,event)" />
+				<area shape ="circle" coords ="181,148,15" nohref id="m70" onclick="chkscore(70,this,event)" />
+				<area shape ="circle" coords ="214,148,15" nohref id="m71" onclick="chkscore(71,this,event)" />
+				<area shape ="circle" coords ="247,148,15" nohref id="m72" onclick="chkscore(72,this,event)" />
+				<area shape ="circle" coords ="280,148,15" nohref id="m73" onclick="chkscore(73,this,event)" />
+				<area shape ="circle" coords ="313,148,15" nohref id="m74" onclick="chkscore(74,this,event)" />
+				<area shape ="circle" coords ="346,148,15" nohref id="m75" onclick="chkscore(75,this,event)" />
+				<area shape ="circle" coords ="379,148,15" nohref id="m76" onclick="chkscore(76,this,event)" />
+				<area shape ="circle" coords ="412,148,15" nohref id="m77" onclick="chkscore(77,this,event)" />
+				<area shape ="circle" coords ="445,148,15" nohref id="m78" onclick="chkscore(78,this,event)" />
+				<area shape ="circle" coords ="478,148,15" nohref id="m79" onclick="chkscore(79,this,event)" />
+				<area shape ="circle" coords ="511,148,15" nohref id="m80" onclick="chkscore(80,this,event)" />
+				
+				<area shape ="circle" coords ="16,181,15" nohref id="m81" onclick="chkscore(81,this,event)" />
+				<area shape ="circle" coords ="49,181,15" nohref id="m82" onclick="chkscore(82,this,event)" />
+				<area shape ="circle" coords ="82,181,15" nohref id="m83" onclick="chkscore(83,this,event)" />
+				<area shape ="circle" coords ="115,181,15" nohref id="m84" onclick="chkscore(84,this,event)" />
+				<area shape ="circle" coords ="148,181,15" nohref id="m85" onclick="chkscore(85,this,event)" />
+				<area shape ="circle" coords ="181,181,15" nohref id="m86" onclick="chkscore(86,this,event)" />
+				<area shape ="circle" coords ="214,181,15" nohref id="m87" onclick="chkscore(87,this,event)" />
+				<area shape ="circle" coords ="247,181,15" nohref id="m88" onclick="chkscore(88,this,event)" />
+				<area shape ="circle" coords ="280,181,15" nohref id="m89" onclick="chkscore(89,this,event)" />
+				<area shape ="circle" coords ="313,181,15" nohref id="m90" onclick="chkscore(90,this,event)" />
+				<area shape ="circle" coords ="346,181,15" nohref id="m91" onclick="chkscore(91,this,event)" />
+				<area shape ="circle" coords ="379,181,15" nohref id="m92" onclick="chkscore(92,this,event)" />
+				<area shape ="circle" coords ="412,181,15" nohref id="m93" onclick="chkscore(93,this,event)" />
+				<area shape ="circle" coords ="445,181,15" nohref id="m94" onclick="chkscore(94,this,event)" />
+				<area shape ="circle" coords ="478,181,15" nohref id="m95" onclick="chkscore(95,this,event)" />
+				<area shape ="circle" coords ="511,181,15" nohref id="m96" onclick="chkscore(96,this,event)" />
+				
+				<area shape ="circle" coords ="16,214,15" nohref id="m97" onclick="chkscore(97,this,event)" />
+				<area shape ="circle" coords ="49,214,15" nohref id="m98" onclick="chkscore(98,this,event)" />
+				<area shape ="circle" coords ="82,214,15" nohref id="m99" onclick="chkscore(99,this,event)" />
+				<area shape ="circle" coords ="115,214,15" nohref id="m100" onclick="chkscore(100,this,event)" />
+				<area shape ="circle" coords ="148,214,15" nohref id="m101" onclick="chkscore(101,this,event)" />
+				<area shape ="circle" coords ="181,214,15" nohref id="m102" onclick="chkscore(102,this,event)" />
+				<area shape ="circle" coords ="214,214,15" nohref id="m103" onclick="chkscore(103,this,event)" />
+				<area shape ="circle" coords ="247,214,15" nohref id="m104" onclick="chkscore(104,this,event)" />
+				<area shape ="circle" coords ="280,214,15" nohref id="m105" onclick="chkscore(105,this,event)" />
+				<area shape ="circle" coords ="313,214,15" nohref id="m106" onclick="chkscore(106,this,event)" />
+				<area shape ="circle" coords ="346,214,15" nohref id="m107" onclick="chkscore(107,this,event)" />
+				<area shape ="circle" coords ="379,214,15" nohref id="m108" onclick="chkscore(108,this,event)" />
+				<area shape ="circle" coords ="412,214,15" nohref id="m109" onclick="chkscore(109,this,event)" />
+				<area shape ="circle" coords ="445,214,15" nohref id="m110" onclick="chkscore(110,this,event)" />
+				<area shape ="circle" coords ="478,214,15" nohref id="m111" onclick="chkscore(111,this,event)" />
+				<area shape ="circle" coords ="511,214,15" nohref id="m112" onclick="chkscore(112,this,event)" />
+				
+				<area shape ="circle" coords ="16,247,15" nohref id="m113" onclick="chkscore(113,this,event)" />
+				<area shape ="circle" coords ="49,247,15" nohref id="m114" onclick="chkscore(114,this,event)" />
+				<area shape ="circle" coords ="82,247,15" nohref id="m115" onclick="chkscore(115,this,event)" />
+				<area shape ="circle" coords ="115,247,15" nohref id="m116" onclick="chkscore(116,this,event)" />
+				<area shape ="circle" coords ="148,247,15" nohref id="m117" onclick="chkscore(117,this,event)" />
+				<area shape ="circle" coords ="181,247,15" nohref id="m118" onclick="chkscore(118,this,event)" />
+				<area shape ="circle" coords ="214,247,15" nohref id="m119" onclick="chkscore(119,this,event)" />
+				<area shape ="circle" coords ="247,247,15" nohref id="m120" onclick="chkscore(120,this,event)" />
+				<area shape ="circle" coords ="280,247,15" nohref id="m121" onclick="chkscore(121,this,event)" />
+				<area shape ="circle" coords ="313,247,15" nohref id="m122" onclick="chkscore(122,this,event)" />
+				<area shape ="circle" coords ="346,247,15" nohref id="m123" onclick="chkscore(123,this,event)" />
+				<area shape ="circle" coords ="379,247,15" nohref id="m124" onclick="chkscore(124,this,event)" />
+				<area shape ="circle" coords ="412,247,15" nohref id="m125" onclick="chkscore(125,this,event)" />
+				<area shape ="circle" coords ="445,247,15" nohref id="m126" onclick="chkscore(126,this,event)" />
+				<area shape ="circle" coords ="478,247,15" nohref id="m127" onclick="chkscore(127,this,event)" />
+				<area shape ="circle" coords ="511,247,15" nohref id="m128" onclick="chkscore(128,this,event)" />
+				
+				<area shape ="circle" coords ="16,280,15" nohref id="m129" onclick="chkscore(129,this,event)" />
+				<area shape ="circle" coords ="49,280,15" nohref id="m130" onclick="chkscore(130,this,event)" />
+				<area shape ="circle" coords ="82,280,15" nohref id="m131" onclick="chkscore(131,this,event)" />
+				<area shape ="circle" coords ="115,280,15" nohref id="m132" onclick="chkscore(132,this,event)" />
+				<area shape ="circle" coords ="148,280,15" nohref id="m133" onclick="chkscore(133,this,event)" />
+				<area shape ="circle" coords ="181,280,15" nohref id="m134" onclick="chkscore(134,this,event)" />
+				<area shape ="circle" coords ="214,280,15" nohref id="m135" onclick="chkscore(135,this,event)" />
+				<area shape ="circle" coords ="247,280,15" nohref id="m136" onclick="chkscore(136,this,event)" />
+				<area shape ="circle" coords ="280,280,15" nohref id="m137" onclick="chkscore(137,this,event)" />
+				<area shape ="circle" coords ="313,280,15" nohref id="m138" onclick="chkscore(138,this,event)" />
+				<area shape ="circle" coords ="346,280,15" nohref id="m139" onclick="chkscore(139,this,event)" />
+				<area shape ="circle" coords ="379,280,15" nohref id="m140" onclick="chkscore(140,this,event)" />
+				<area shape ="circle" coords ="412,280,15" nohref id="m141" onclick="chkscore(141,this,event)" />
+				<area shape ="circle" coords ="445,280,15" nohref id="m142" onclick="chkscore(142,this,event)" />
+				<area shape ="circle" coords ="478,280,15" nohref id="m143" onclick="chkscore(143,this,event)" />
+				<area shape ="circle" coords ="511,280,15" nohref id="m144" onclick="chkscore(144,this,event)" />
+				
+				<area shape ="circle" coords ="16,313,15" nohref id="m145" onclick="chkscore(145,this,event)" />
+				<area shape ="circle" coords ="49,313,15" nohref id="m146" onclick="chkscore(146,this,event)" />
+				<area shape ="circle" coords ="82,313,15" nohref id="m147" onclick="chkscore(147,this,event)" />
+				<area shape ="circle" coords ="115,313,15" nohref id="m148" onclick="chkscore(148,this,event)" />
+				<area shape ="circle" coords ="148,313,15" nohref id="m149" onclick="chkscore(149,this,event)" />
+				<area shape ="circle" coords ="181,313,15" nohref id="m150" onclick="chkscore(150,this,event)" />
+				<area shape ="circle" coords ="214,313,15" nohref id="m151" onclick="chkscore(151,this,event)" />
+				<area shape ="circle" coords ="247,313,15" nohref id="m152" onclick="chkscore(152,this,event)" />
+				<area shape ="circle" coords ="280,313,15" nohref id="m153" onclick="chkscore(153,this,event)" />
+				<area shape ="circle" coords ="313,313,15" nohref id="m154" onclick="chkscore(154,this,event)" />
+				<area shape ="circle" coords ="346,313,15" nohref id="m155" onclick="chkscore(155,this,event)" />
+				<area shape ="circle" coords ="379,313,15" nohref id="m156" onclick="chkscore(156,this,event)" />
+				<area shape ="circle" coords ="412,313,15" nohref id="m157" onclick="chkscore(157,this,event)" />
+				<area shape ="circle" coords ="445,313,15" nohref id="m158" onclick="chkscore(158,this,event)" />
+				<area shape ="circle" coords ="478,313,15" nohref id="m159" onclick="chkscore(159,this,event)" />
+				<area shape ="circle" coords ="511,313,15" nohref id="m160" onclick="chkscore(160,this,event)" />
+				
+				<area shape ="circle" coords ="16,346,15" nohref id="m161" onclick="chkscore(161,this,event)" />
+				<area shape ="circle" coords ="49,346,15" nohref id="m162" onclick="chkscore(162,this,event)" />
+				<area shape ="circle" coords ="82,346,15" nohref id="m163" onclick="chkscore(163,this,event)" />
+				<area shape ="circle" coords ="115,346,15" nohref id="m164" onclick="chkscore(164,this,event)" />
+				<area shape ="circle" coords ="148,346,15" nohref id="m165" onclick="chkscore(165,this,event)" />
+				<area shape ="circle" coords ="181,346,15" nohref id="m166" onclick="chkscore(166,this,event)" />
+				<area shape ="circle" coords ="214,346,15" nohref id="m167" onclick="chkscore(167,this,event)" />
+				<area shape ="circle" coords ="247,346,15" nohref id="m168" onclick="chkscore(168,this,event)" />
+				<area shape ="circle" coords ="280,346,15" nohref id="m169" onclick="chkscore(169,this,event)" />
+				<area shape ="circle" coords ="313,346,15" nohref id="m170" onclick="chkscore(170,this,event)" />
+				<area shape ="circle" coords ="346,346,15" nohref id="m171" onclick="chkscore(171,this,event)" />
+				<area shape ="circle" coords ="379,346,15" nohref id="m172" onclick="chkscore(172,this,event)" />
+				<area shape ="circle" coords ="412,346,15" nohref id="m173" onclick="chkscore(173,this,event)" />
+				<area shape ="circle" coords ="445,346,15" nohref id="m174" onclick="chkscore(174,this,event)" />
+				<area shape ="circle" coords ="478,346,15" nohref id="m175" onclick="chkscore(175,this,event)" />
+				<area shape ="circle" coords ="511,346,15" nohref id="m176" onclick="chkscore(176,this,event)" />
+				
+				<area shape ="circle" coords ="16,379,15" nohref id="m177" onclick="chkscore(177,this,event)" />
+				<area shape ="circle" coords ="48,379,15" nohref id="m178" onclick="chkscore(178,this,event)" />
+				<area shape ="circle" coords ="82,379,15" nohref id="m179" onclick="chkscore(179,this,event)" />
+				<area shape ="circle" coords ="115,379,15" nohref id="m180" onclick="chkscore(180,this,event)" />
+				<area shape ="circle" coords ="148,379,15" nohref id="m181" onclick="chkscore(181,this,event)" />
+				<area shape ="circle" coords ="181,379,15" nohref id="m182" onclick="chkscore(182,this,event)" />
+				<area shape ="circle" coords ="214,379,15" nohref id="m183" onclick="chkscore(183,this,event)" />
+				<area shape ="circle" coords ="247,379,15" nohref id="m184" onclick="chkscore(184,this,event)" />
+				<area shape ="circle" coords ="280,379,15" nohref id="m185" onclick="chkscore(185,this,event)" />
+				<area shape ="circle" coords ="313,379,15" nohref id="m186" onclick="chkscore(186,this,event)" />
+				<area shape ="circle" coords ="346,379,15" nohref id="m187" onclick="chkscore(187,this,event)" />
+				<area shape ="circle" coords ="379,379,15" nohref id="m188" onclick="chkscore(188,this,event)" />
+				<area shape ="circle" coords ="412,379,15" nohref id="m189" onclick="chkscore(189,this,event)" />
+				<area shape ="circle" coords ="445,379,15" nohref id="m190" onclick="chkscore(190,this,event)" />
+				<area shape ="circle" coords ="478,379,15" nohref id="m191" onclick="chkscore(191,this,event)" />
+				<area shape ="circle" coords ="511,379,15" nohref id="m192" onclick="chkscore(192,this,event)" />
+-->
+
+			</map>
+		</div>
+	</body>
+</html>
+
+
+
+

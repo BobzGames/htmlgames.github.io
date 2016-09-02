@@ -1,0 +1,179 @@
+<html>
+	<head>
+	<script>
+
+	/**
+	*
+	*  Base64 encode / decode
+	*  http://www.webtoolkit.info/
+	*
+	**/
+
+	var Base64 = {
+
+		// private property
+		_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+
+		// public method for encoding
+		encode : function (input) {
+			var output = "";
+			var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+			var i = 0;
+
+			input = Base64._utf8_encode(input);
+
+			while (i < input.length) {
+
+				chr1 = input.charCodeAt(i++);
+				chr2 = input.charCodeAt(i++);
+				chr3 = input.charCodeAt(i++);
+
+				enc1 = chr1 >> 2;
+				enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+				enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+				enc4 = chr3 & 63;
+
+				if (isNaN(chr2)) {
+					enc3 = enc4 = 64;
+				} else if (isNaN(chr3)) {
+					enc4 = 64;
+				}
+
+				output = output +
+				this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
+				this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+
+			}
+
+			return output;
+		},
+
+		// public method for decoding
+		decode : function (input) {
+			var output = "";
+			var chr1, chr2, chr3;
+			var enc1, enc2, enc3, enc4;
+			var i = 0;
+
+			input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+			while (i < input.length) {
+
+				enc1 = this._keyStr.indexOf(input.charAt(i++));
+				enc2 = this._keyStr.indexOf(input.charAt(i++));
+				enc3 = this._keyStr.indexOf(input.charAt(i++));
+				enc4 = this._keyStr.indexOf(input.charAt(i++));
+
+				chr1 = (enc1 << 2) | (enc2 >> 4);
+				chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+				chr3 = ((enc3 & 3) << 6) | enc4;
+
+				output = output + String.fromCharCode(chr1);
+
+				if (enc3 != 64) {
+					output = output + String.fromCharCode(chr2);
+				}
+				if (enc4 != 64) {
+					output = output + String.fromCharCode(chr3);
+				}
+
+			}
+
+			output = Base64._utf8_decode(output);
+
+			return output;
+
+		},
+
+		// private method for UTF-8 encoding
+		_utf8_encode : function (string) {
+			string = string.replace(/\r\n/g,"\n");
+			var utftext = "";
+
+			for (var n = 0; n < string.length; n++) {
+
+				var c = string.charCodeAt(n);
+
+				if (c < 128) {
+					utftext += String.fromCharCode(c);
+				}
+				else if((c > 127) && (c < 2048)) {
+					utftext += String.fromCharCode((c >> 6) | 192);
+					utftext += String.fromCharCode((c & 63) | 128);
+				}
+				else {
+					utftext += String.fromCharCode((c >> 12) | 224);
+					utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+					utftext += String.fromCharCode((c & 63) | 128);
+				}
+
+			}
+
+			return utftext;
+		},
+
+		// private method for UTF-8 decoding
+		_utf8_decode : function (utftext) {
+			var string = "";
+			var i = 0;
+			var c = c1 = c2 = 0;
+
+			while ( i < utftext.length ) {
+
+				c = utftext.charCodeAt(i);
+
+				if (c < 128) {
+					string += String.fromCharCode(c);
+					i++;
+				}
+				else if((c > 191) && (c < 224)) {
+					c2 = utftext.charCodeAt(i+1);
+					string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+					i += 2;
+				}
+				else {
+					c2 = utftext.charCodeAt(i+1);
+					c3 = utftext.charCodeAt(i+2);
+					string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+					i += 3;
+				}
+
+			}
+
+			return string;
+		}
+
+	}
+
+	function generate()
+	{
+
+		data=Base64.encode(document.getElementById("t1").value);
+		document.getElementById("d").value="Please copy the gamecode below and visit goo.gl/zI6A \n\nClick on the DAPI game link and follow the onscreen instructions to play this game.\n\ngamecode:\n"+data;
+		document.getElementById("d").focus();
+		document.getElementById("d").select();
+
+
+	}
+
+	</script>
+	</head>
+	<body style="background-color:#EEE;color:black">
+		<h1>Steps for creating the DAPI gamecode</h1>
+
+		<p><b>1) You need to generate the raw html code for your game, created with either:</b></p>
+		<p>&#160;&#160;&#160;&#160;&#160;<a href="../dev/devkit/index.html" target="_blank">The online DEVKIT (Click to open in a new window)</a></p>
+		<p>&#160;&#160;&#160;&#160;&#160;<b>or</b></p>
+		<p>&#160;&#160;&#160;&#160;&#160;<a href="../dev/devkit.zip">The Local DEVKIT (Click to download zip)<a/></p>
+
+		<p><b>2) Paste the generated html into the field below and click <input type="button" value="Generate DAPI" onclick="generate()" /></b></p>
+
+		<p>&#160;&#160;&#160;&#160;&#160;<textarea id="t1" name="t1" rows=3 cols=59></textarea></p>
+
+		<p><b>3) Copy the highlighted gamecode below:</b></p>
+		<p>&#160;&#160;&#160;&#160;&#160;<textarea rows=1 cols=62 readonly style="overflow-y:hidden;background-color:#EEE;border:0" size="78" id="d"></textarea></span></p>
+
+		<p><b>4) And finally - all that's left to do is post this copied gamecode onto your site!</b><br><br><a href="javascript:document.location='dapi.html'" style="text-decoration:none;font-size:10px"><b>RESET</b></a></p>
+
+	</body>
+</html>

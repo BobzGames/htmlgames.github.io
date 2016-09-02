@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>LHC</title>
+<script>
+function help()
+{
+	document.getElementById("h").style.display="block";
+}
+</script>
+</head>
+<body style="background-color:black;margin:0;padding:0">
+<img src="title.jpg" onclick="document.location.href='index2.html'" title="Click to play..." style="cursor:pointer;" />
+<p style="margin:0;color:lightblue;position:absolute;top:380px;left:470px;font-weight:bold;cursor:pointer" title="Instructions..." onclick="help()">HELP</p>
+
+<div id="h" style="display:none;position:absolute;top:0;left:0;background:url(h.gif)">
+<div style="color:lightblue;width:640px;height;480px;text-align:center">
+<p><strong>The Large Hadron Collider - THE GAME</strong></p>
+<p>You play the part of an LHC Scientist who has stumbled on new types of matter when tinkering with</p>
+<p>the machines detectors late one night. These new types of matter are in fact anti-matter from what</p>
+<p>appears to be another dimension, which was opened briefly by a small black hole caused by your work!</p>
+<p>&#160;</p>
+<p>Need not worry! you just need to mix all the correct (anti) matter together and discover new elements.</p>
+<p>When all the elements have been created (32 in total) thus stablised, a new discovery will be possible!</p>
+<p>&#160;</p>
+<p>Mix the matter together by touch or mouse click and draging to another element in the grey work area.</p>
+<p>If you get two elements that mix a new element will be revealed - that can also can be mixed again!</p>
+<p>If the work area gets full of elements then drag unused elements into the bin where they will return.</p>
+<div style="float:right"><p onclick="document.getElementById('h').style.display='none'" title="Close..." style="cursor:pointer"><b>CLOSE</b></p></div>
+</div>
+</div>
+</body>
+</html>

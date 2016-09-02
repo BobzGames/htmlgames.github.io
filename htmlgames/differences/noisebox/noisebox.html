@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<style>
+			#n0{
+				position:absolute;
+				top:0;
+				left:0;
+				z-index:0;
+			}
+
+			#n1{
+				position:absolute;
+				top:62px;
+				left:25px;
+				width:32px;
+				height:32px;
+				z-index:1;
+				color:gold;
+				cursor:pointer;
+				xborder:1px solid green;
+			}
+			#n2{
+				position:absolute;
+				top:122px;
+				left:28px;
+				width:32px;
+				height:32px;
+				z-index:1;
+				color:gold;
+				cursor:pointer;
+				xborder:1px solid red;
+			}
+			#n3{
+				position:absolute;
+				top:76px;
+				left:79px;
+				width:32px;
+				height:32px;
+				z-index:1;
+				color:red;
+				cursor:pointer;
+				xborder:1px solid green;
+			}
+			#n4{
+				position:absolute;
+				top:138px;
+				left:82px;
+				width:32px;
+				height:32px;
+				z-index:1;
+				color:red;
+				cursor:pointer;
+				xborder:1px solid red;
+			}
+			#n5{
+				position:absolute;
+				top:92px;
+				left:135px;
+				width:32px;
+				height:32px;
+				z-index:1;
+				color:blue;
+				cursor:pointer;
+				xborder:1px solid green;
+			}
+			#n6{
+				position:absolute;
+				top:155px;
+				left:138px;
+				width:32px;
+				height:32px;
+				z-index:1;
+				color:blue;
+				cursor:pointer;
+				xborder:1px solid red;
+			}
+
+		</style>
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+
+			function TALK_START(){$$('normal').src='images/on.jpg';}
+			function TALK_ENDED(){$$('normal').src='images/off.jpg';}
+
+		</script>
+	</head>
+
+	<body onload="INIT(true)"> <!-- add talkInit? -->
+
+		<div id="n0"><img src="images/off.jpg" id="normal" galleryimg="no" ondragstart="return false" onselectstart="return false" /></div>
+
+		<div id="n1" onclick="talk(1,2500)">&#160;&#160;&#160;&#160;&#160;&#160;</div>
+		<div id="n2" onclick="talk(2,2000)">&#160;&#160;&#160;&#160;&#160;&#160;</div>
+		<div id="n3" onclick="talk(3,1400)">&#160;&#160;&#160;&#160;&#160;&#160;</div>
+		<div id="n4" onclick="talk(4,1000)">&#160;&#160;&#160;&#160;&#160;&#160;</div>
+		<div id="n5" onclick="talk(5,1000)">&#160;&#160;&#160;&#160;&#160;&#160;</div>
+		<div id="n6" onclick="talk(6,1900)">&#160;&#160;&#160;&#160;&#160;&#160;</div>
+
+	</body>
+
+</html>

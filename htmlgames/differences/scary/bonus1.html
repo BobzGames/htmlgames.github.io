@@ -1,0 +1,74 @@
+<html>
+	<head>
+		<title>Bonus Level 1</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bonus.css" />
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+			A_PATH = "../" + A_PATH;
+		</script>
+		<style>
+
+		</style>
+
+	</head>
+	<body onload="init('bonus2.html','')" onunload="reset_bg_music()" onclick="point(event)">
+	<div class="listdiv">
+		<div align="center" id="header">
+			<div class="findlist">
+				<h1>Crazy Word Search</h1>
+				<h2 id="f1">TEDS</h2>
+				<h2 id="f2">BIRDS</h2>
+				<h2 id="f3">SCARY</h2>
+				<h2 id="f4">PLACES</h2>
+			</div>
+		</div>
+		<div align="center" id="footer">
+			<div id="timerborder" class="timerOuter" onclick="pause()"><div id="timer" class="timerInner"></div></div>
+
+			<div id="onePlayerContent" class="onePlayerStyle">
+				<span id="P" class="player">0</span>
+			</div>
+
+		</div>
+	</div>
+		<div align="center">
+			<img name="normal" id="normal" class="landscape" src="images/B1.jpg" >
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("rect","display:none")</script>
+
+			<!-- sadly firefox and webkit doesn't support the shape=rect attrib properly - after one click event it refuses to re-fire :(
+			<map name="zoom">
+			  	   <area coords="696,301,714,396" id="m1" nohref onclick="chkscore(1,this,event)" shape=rect>
+			  	   <area coords="757,378,773,478" id="m2" nohref onclick="chkscore(2,this,event)" shape=rect>
+			  	   <area coords="607,455,744,478" id="m3" nohref onclick="chkscore(3,this,event)" shape=rect>
+			  	   <area coords="458,507,477,656" id="m4" nohref onclick="chkscore(4,this,event)" shape=rect>
+			</map>
+			-->
+			<map name="zoom">
+			  	   <area coords="706,310,15" id="m1" nohref onclick="chkscore(1,this,event)" shape=circle>
+			  	   <area coords="706,335,15" id="m1" nohref onclick="chkscore(1,this,event)" shape=circle>
+			  	   <area coords="706,361,15" id="m1" nohref onclick="chkscore(1,this,event)" shape=circle>
+			  	   <area coords="706,385,15" id="m1" nohref onclick="chkscore(1,this,event)" shape=circle>
+			  	   <area coords="762,362,15" id="m2" nohref onclick="chkscore(2,this,event)" shape=circle>
+			  	   <area coords="762,387,15" id="m2" nohref onclick="chkscore(2,this,event)" shape=circle>
+			  	   <area coords="762,413,15" id="m2" nohref onclick="chkscore(2,this,event)" shape=circle>
+			  	   <area coords="762,440,15" id="m2" nohref onclick="chkscore(2,this,event)" shape=circle>
+			  	   <area coords="762,465,15" id="m2" nohref onclick="chkscore(2,this,event)" shape=circle>
+			  	   <area coords="616,466,15" id="m3" nohref onclick="chkscore(3,this,event)" shape=circle>
+			  	   <area coords="645,466,15" id="m3" nohref onclick="chkscore(3,this,event)" shape=circle>
+			  	   <area coords="674,466,15" id="m3" nohref onclick="chkscore(3,this,event)" shape=circle>
+			  	   <area coords="704,466,15" id="m3" nohref onclick="chkscore(3,this,event)" shape=circle>
+			  	   <area coords="735,466,15" id="m3" nohref onclick="chkscore(3,this,event)" shape=circle>
+			  	   <area coords="466,518,15" id="m4" nohref onclick="chkscore(4,this,event)" shape=circle>
+			  	   <area coords="466,544,15" id="m4" nohref onclick="chkscore(4,this,event)" shape=circle>
+			  	   <area coords="466,571,15" id="m4" nohref onclick="chkscore(4,this,event)" shape=circle>
+			  	   <area coords="466,596,15" id="m4" nohref onclick="chkscore(4,this,event)" shape=circle>
+			  	   <area coords="466,622,15" id="m4" nohref onclick="chkscore(4,this,event)" shape=circle>
+			  	   <area coords="466,646,15" id="m4" nohref onclick="chkscore(4,this,event)" shape=circle>
+			</map>
+
+		</div>
+	</body>
+</html>

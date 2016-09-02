@@ -1,0 +1,97 @@
+<html>
+	<head>
+		<title>Welcome</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/bonus.css" />
+		<script type="text/javascript" src="js/code.js"></script>
+		<script>
+
+			function start()
+			{
+				points = 0;
+				f();
+				soundOn = (unescape(document.location.search).replace("?","").split("&")[2] == "true")?true:(document.location.search.length == 0)?true:false;
+				document.getElementById("music").checked = soundOn;
+				sound(soundOn);
+
+				toggle(document.getElementById("twoPlayers"));
+
+			}
+
+			function go()
+			{
+				player = document.getElementById("ip1").value.replace(/\^/g," ").replace(/\?/g,"").replace(/\&/g,"");
+				if(document.getElementById("twoPlay").style.display == "block"){
+					player = player + "^ " + document.getElementById("ip2").value.replace(/\^/g," ").replace(/\?/g,"").replace(/\&/g,"");
+				}
+				arr_p = player.split(" ");
+				for(i in arr_p){arr_p[i] = arr_p[i].substr(0,1).toUpperCase() + arr_p[i].substr(1);}
+				user = arr_p.join(" ").replace("^ ","^");
+				document.location.href='main.html?' + user + "&" + points + "&" + bSound;
+			}
+
+			function f(bFocus)
+			{
+				player = unescape(document.location.search).replace("?","").split("&")[0];
+				if(!bFocus && player.length > 0){
+				player1 = player;
+					if(player.indexOf("^") != -1){
+						player1 = player.split("^")[0];
+						player2 = player.split("^")[1];
+						document.getElementById("ip2").value = player2;
+						document.getElementById("twoPlay").style.display = "block";
+						document.getElementById("twoPlayers").checked = true;
+					}
+					document.getElementById("ip1").value = player1;
+					document.getElementById("ip1").select();
+				} else {
+					setTimeout('document.getElementById("ip1").focus();',50);
+				}
+			}
+
+			function toggle(t)
+			{
+				var o = document.getElementById("twoPlay");
+				if(o){
+					if(t && t.checked){
+						o.style.display = "block";
+						document.getElementById("ip2").select();
+						setTimeout('document.getElementById("ip2").focus();',50);
+					} else {
+						o.style.display = "none";
+						document.getElementById("ip1").select();
+						setTimeout('document.getElementById("ip1").focus();',50);
+					}
+
+				}
+			}
+		</script>
+	</head>
+	<!-- to add new levels use 1280 x 1024 base images and resize 33% (both x and y) -->
+	<!-- for levels use coords from resized image in paint, orginal in bonus levels. -->
+	<!-- Tested in ie6, ie7, firefox 3.5 and Chrome 3. Enjoy and modify as you wish. -->
+	<!-- -webkit-border-radius: 32px 32px; 					-moz-border-radius: 32px -->
+	<body onload="start()" onunload="reset_bg_music()" style="background: black">
+		<div align="center">
+			<h1><a href="javascript:go()" style="background: black">Click to Play</a> <input type="checkbox" checked id="music" onclick="sound(this.checked);f(true)" style="margin-left:125px" /> <font size="5px" color="white">sound</font></h1>
+			<img style="cursor: pointer;position:relative;top:5px;left:300px" title="Powered by the Differences API" src="images/dapi.gif" onclick="document.location.href='../dev/main.html'" galleryimg="no" />
+			<img src="images/logo.jpg" onclick="go()" galleryimg="no" title="(c) Warner Bros. Pictures"/>
+
+
+			<h3><span style="color:red">Please enter your name Player 1:</span> <input type="text" id="ip1" /></h3>
+			<h3 id="twoPlay" style="display:none"><span style="color:orange">Please enter your name Player 2:</span> <input type="text" id="ip2" /></h3>
+			<div style="color:white"></div>
+		</div>
+		
+		<span style="display:none">
+		<!-- attempt to cache audio before use -->
+		<audio src="audio/correct.wav" />
+		<audio src="audio/wrong.wav" />
+		<audio src="audio/hint.wav" />
+		<audio src="audio/completed.wav" />
+		<audio src="audio/bonus.wav" />
+
+		</span>
+
+	</body>
+</html>

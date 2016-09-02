@@ -1,0 +1,616 @@
+<html>
+	<head>
+
+		<title>Differences Level Creator</title>
+
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<style>
+			body {
+
+				overflow-x: auto;
+				overflow-y: auto;
+				background-color: #f0f0f0;
+
+			}
+
+			a {font-size: 13px}
+
+		</style>
+		<script>
+
+			s = 1; // number of hotspots
+			h = 1; // number of hints
+
+			// defaults
+			var areaTag = '<area shape ="circle" coords ="%x%,%y%,%c%" nohref id="m%i%" onclick="%f%(%o%,this,event)" />'; // coords replaced within function
+			var hintHTML= 'H'; // %hc%
+			var hintTag = '<span id="hints_left%h%" name="hints_left" class="hintleft" onclick="keyhint(this,true,%fh%)">%hc%</span>';
+
+			// for bonus
+			var ffcss = "";
+			ffcss+= "#ff%i%{" + "\n\t\t\t";
+			ffcss+= "position:absolute;" + "\n\t\t\t";
+			ffcss+= "cursor:default;" + "\n\t\t\t";
+			ffcss+= "color:%colour%;" + "\n\t\t\t";
+			ffcss+= "left:%left%px;" + "\n\t\t\t";
+			ffcss+= "top:%top%px;" + "\n\t\t\t";
+			ffcss+= "%hide%";
+			ffcss+= "}" + "\n\t\t\t";
+			ffhide= "display:none" + "\n\t\t\t" + "}" + "#content{" + "\n\t\t\t" + "display:block" + "\n\t\t\t";
+
+			var listTag = '<h2 id="f%i%" %ssh%>%find%</h2>';
+			var oImgTag = '<div id="ff%i%"><img src="%oimage%" /></div>';
+
+			// mandatory replacements within html txt (bonus)
+			var overlayCSS = ""; // concatination of above for each overlay image
+			var listHTML = "";
+			var shape = "";
+			var shapeStyle = "";
+			var oImgHTML = "";
+
+			// mandatory replacements within html txt
+			var WindowTitle = "";
+			var extLink = "";
+			var extInclude = "";
+			var extScript = "";
+			var oStyle = "";
+			var nextPage = "index.html";
+			var levelHeader = "";
+			var levelImage = "";
+			var imgLayout = "";
+			var areaHTML= '';
+			var levelImageMod = "";
+			var levelHint = "";
+			var numLevelHint = 1;
+
+			// internal
+			var imgPath = "images/";
+			var imgMod = "mod";
+			var isBonus = false;
+
+			var offsetX = 0;
+			var offsetY = 0;
+			var cssX = 0;
+			var cssY = 0;
+
+			var multi = 1;
+
+			function point_it(event,isMod){
+
+				if(isMod){
+					pos_x = event.offsetX?(event.offsetX):event.pageX-document.getElementById("i1mod").offsetLeft;
+					pos_y = event.offsetY?(event.offsetY):event.pageY-document.getElementById("i1mod").offsetTop;
+				}else{
+					pos_x = event.offsetX?(event.offsetX):event.pageX-document.getElementById("i1").offsetLeft;
+					pos_y = event.offsetY?(event.offsetY):event.pageY-document.getElementById("i1").offsetTop;
+				}
+				document.getElementById("x").value = pos_x.toString().replace("NaN","0");
+				document.getElementById("y").value = pos_y.toString().replace("NaN","0");
+
+				var x=document.getElementById("x").value;
+				var y=document.getElementById("y").value;
+				var c=document.getElementById("c").value;
+
+				var cl = ""
+				var pt = (y-(c/2)) + document.getElementById("i1").offsetTop;
+				var pl = (x-(c/2)) + document.getElementById("i1").offsetLeft;
+				var pw = c;
+				var ph = c;
+
+				var newdiv = document.createElement('div');
+				newdiv.className = cl;
+				newdiv.style.position = "absolute";
+				//newdiv.style.overflow = "auto";				// yay!
+				newdiv.style.border = "2px solid red";
+				newdiv.style.top = pt + "px";
+				newdiv.style.left = pl + "px";
+				newdiv.style.width = pw + "px";
+				newdiv.style.height = ph + "px";
+				newdiv.style.fontSize = "xx-small";
+				newdiv.innerHTML = s.toString();
+				newdiv.id = "show";
+				document.body.appendChild(newdiv);
+
+				//var fn = "chkscore";
+				var fn=document.getElementById("fnt").options[document.getElementById("fnt").selectedIndex].text;
+					fn=fn.replace("()","();void"); // fudge
+				var hs=document.getElementById("hst").options[document.getElementById("hst").selectedIndex].text;
+				ss=(isBonus && document.getElementById("bth").checked)?s-1:s; // fudge
+				areaHTML += areaTag.replace("%x%",x).replace("%y%",y).replace("%c%",c).replace("%i%",ss).replace("%o%",s).replace("%f%",fn);
+				if(isBonus && document.getElementById("bt").checked){
+					areaHTML=(document.getElementById("bth").checked)?areaHTML.replace("event)","event,true,true)"):areaHTML.replace("event)","event,true)"); // float div contents if unchecked (mysteriez style) or if checked float img contents
+				}
+
+				if(hs == "mirror"){
+					var xx=document.getElementById("i1").width;
+					areaHTML += areaTag.replace("%x%",xx-x).replace("%y%",y).replace("%c%",c).replace("%i%",s).replace("%o%",s).replace("%f%",fn);
+				}
+
+				areaHTML = areaHTML + "\n\t\t\t\t";
+
+				document.getElementById("num").value = s;
+
+				if(isBonus){
+					var r="";
+					var findthis=document.getElementById("listitem").value;
+					if(document.getElementById("ui").checked){
+						// image overlay
+						var pimg = document.getElementById("pc").value;
+						if(pimg == "")pimg=document.getElementById("pc").defaultValue; // use url
+						pimg=pimg.replace(/\\/g,"~").replace(/\//g,"~");
+						pimg=pimg.split("~")[pimg.split("~").length-1];
+
+						if(document.getElementById("pc").value != "" && imgPath.match(/^http/)){
+							r = prompt("Image path mismatch! Suggest:","images/");
+							findthis="<img src='" + r + pimg + "' />";
+						}else{
+							findthis="<img src='" + imgPath + pimg + "' />";
+						}
+
+						var c=document.getElementById("oc").value;
+						getSize();
+
+						var xx=cssX-offsetX;
+						var yy=cssY-offsetY;
+						var isMultiLevel=(nextPage.match(/^#/) && nextPage.length > 1)?true:false;
+
+						if(isMultiLevel && ffhide.length > 0){
+							fftemp=ffcss.replace("%hide%",ffhide);
+							a_fftemp=fftemp.split("#content{");
+							ffcss="#content{" + a_fftemp[1] + "\n\t\t\t" + a_fftemp[0];
+							ffhide=""; // only allow once
+						}
+
+						overlayCSS = overlayCSS + ffcss.replace("%i%",s).replace("%colour%",c).replace("%left%",xx).replace("%top%",yy).replace("%hide%","");
+						overlayCSS = overlayCSS + "\n\n\t\t\t";
+
+						var oip=(r=="")?imgPath+pimg:r+pimg;
+						oImgHTML=oImgHTML+oImgTag.replace("%i%",s).replace("%oimage%",oip);
+						oImgHTML=oImgHTML + "\n\t\t\t";
+
+						// reset css
+						ffcss = "";
+						ffcss+= "#ff%i%{" + "\n\t\t\t";
+						ffcss+= "position:absolute;" + "\n\t\t\t";
+						ffcss+= "cursor:default;" + "\n\t\t\t";
+						ffcss+= "color:%colour%;" + "\n\t\t\t";
+						ffcss+= "left:%left%px;" + "\n\t\t\t";
+						ffcss+= "top:%top%px;" + "\n\t\t\t";
+						ffcss+= "%hide%";
+						ffcss+= "}" + "\n\t\t\t";
+
+					}
+					if(document.getElementById("bth").checked){ // fudge
+						listHTML = listHTML + listTag.replace("%i%",s).replace("%ssh%",'style="display:none"').replace("%find%",findthis);
+					}else{
+						listHTML = listHTML + listTag.replace("%i%",s).replace("%ssh%",'').replace("%find%",findthis);
+					}
+					listHTML = listHTML + "\n\t\t\t\t";
+
+					alert(areaHTML + "\n\n" + listHTML + "\n\n" + overlayCSS);
+				}else{
+
+					alert(areaHTML);
+				}
+
+				if(hs != "animated" && fn != "singleshot();void"){
+					s++;
+				}
+
+			}
+
+
+			function done(){
+
+				levelImage=levelImage.replace(/\\/g,"~").replace(/\//g,"~");
+				levelImage=levelImage.split("~")[levelImage.split("~").length-1];
+
+				levelImageMod=levelImageMod.replace(/\\/g,"~").replace(/\//g,"~");
+				levelImageMod=levelImageMod.split("~")[levelImageMod.split("~").length-1];
+
+				levelImage=imgPath + levelImage;
+				levelImageMod=imgPath + levelImageMod;
+
+				var pauseEvent = (document.getElementById("igp").checked)?' onclick="pause()"':"";
+
+				var swait = (document.getElementById("wait").checked)?"\n\t\t\tWAIT = true;\n":"";
+				var skh = (document.getElementById("kh").checked)?"":"\n\t\t\tKEYHINT = false;\n";
+				var sfade = (document.getElementById("sft").checked)?"\n\t\t\tUSE_FADE = 1":"";
+				if(document.getElementById("sft").checked && document.getElementById("sfts").value.length > 0){
+					sfade += ",STEP = " + document.getElementById("sfts").value;
+				}
+				if(document.getElementById("sft").checked)sfade += ";\n";
+
+				var sFlags = swait + skh + sfade;
+
+				if(document.getElementById("sh").checked){ // show hints on screen (now common to both types)
+					flashHint=document.getElementById("fh").checked;
+					hintTag=hintTag.replace("%fh%",flashHint);
+					hintTag=hintTag.replace("%hc%",hintHTML); // replace %hc% with hintHTML
+					if(isBonus)hintTag=hintTag.replace(' onclick="keyhint(this,true,'+flashHint.toString()+')"',"");
+					var noh=numLevelHint; // hint counter
+					for(lp=0; lp < noh; lp++)
+					{
+						levelHint=levelHint+hintTag.replace("%h%",lp+1);
+						levelHint=levelHint + "\n\t\t";
+					}
+				}
+
+				if(isBonus){
+					// extra's...
+					shape = document.getElementById("ls").options[document.getElementById("ls").selectedIndex].text;
+					shapeStyle = document.getElementById("lsb").options[document.getElementById("lsb").selectedIndex].value;
+					shapeUrl = (document.getElementById("lsbu").value.length > 0)?',"'+document.getElementById("lsbu").value+'"':'';
+
+					document.getElementById("t1").value=document.getElementById("t1").value.replace("%title%",WindowTitle).replace("%link%",extLink).replace("%style%",oStyle).replace("%include%",extInclude).replace("%script%",sFlags + extScript).replace("%overlayStyle%",overlayCSS).replace("%next%",nextPage).replace("%header%",levelHeader).replace("%list%",listHTML).replace(" %pause%",pauseEvent).replace("%class%",imgLayout).replace("%image%",levelImage).replace("%overlay%",oImgHTML).replace("%shape%",shape).replace("%shapeStyle%",shapeStyle).replace(" %shapeUrl%",shapeUrl).replace("%map%",areaHTML).replace("%hint%",levelHint);
+				}else{
+
+					document.getElementById("t1").value=document.getElementById("t1").value.replace("%title%",WindowTitle).replace("%link%",extLink).replace("%style%",oStyle).replace("%include%",extInclude).replace("%script%",sFlags + extScript).replace("%next%",nextPage).replace("%header%",levelHeader).replace(" %pause%",pauseEvent).replace("%imageMod%",levelImageMod).replace("%class%",imgLayout).replace("%map%",areaHTML).replace("%image%",levelImage).replace("%class%",imgLayout).replace("%hint%",levelHint);
+				}
+
+				if(document.getElementById("base").value.length > 0){
+					document.getElementById("t1").value=document.getElementById("t1").value.replace("css/style.css",document.getElementById("base").value + "css/style.css").replace("css/bonus.css",document.getElementById("base").value + "css/bonus.css").replace("js/code.js",document.getElementById("base").value + "js/code.js");
+				}
+
+				document.getElementById("t1").focus();
+				document.getElementById("t1").select();
+
+				//f();
+
+			}
+
+			function f(){
+			// old
+			try{
+				if(document.all){
+					document.getElementById("t1").value=f1.document.body.innerText; //top
+				}else{
+					document.getElementById("t1").value=f1.document.body.textContent; //top
+				}
+
+				document.getElementById("t1").focus();
+				document.getElementById("t1").select();
+			}catch(e){alert("Please RESET rather than refresh page.")}
+			}
+
+			function l(url){
+				var b = url;
+				if(b){
+					r=prompt("Enter Image URL","http://");
+					if(r){
+						document.getElementById("p1").defaultValue = r;
+						a_r = r.split("/");
+						delete a_r[a_r.length-1];
+						r = a_r.join("/");
+						document.getElementById("ipurl").value = r;
+						imgPath = r;
+					}else{return}
+				}else{url=1;}
+
+				if(document.getElementById("p1").value.indexOf(":") == -1){ // no : inurl
+					document.getElementById("i1").src = document.getElementById("p1").defaultValue;
+					document.getElementById("i1mod").src = imgPath + document.getElementById("p1").defaultValue.split("/")[imgPath.split("/").length-1].replace(".",imgMod+".")
+					levelImage = document.getElementById("p1").defaultValue;
+					levelImageMod = imgPath + document.getElementById("p1").defaultValue.split("/")[imgPath.split("/").length-1].replace(".",imgMod+".");
+				}else{
+					if(escape(document.getElementById("p1").value).split("%5C")[0].match("%3A")){
+						arr_filepos = escape(document.getElementById("p1").value).split("%5C");
+						filename = arr_filepos[arr_filepos.length-1];
+						document.getElementById("i1").src = imgPath + filename;
+						document.getElementById("i1mod").src = imgPath + filename.replace(".",imgMod+".");
+						levelImage = imgPath + filename;
+						levelImageMod = imgPath + filename.replace(".",imgMod+".");
+
+					}else{
+						document.getElementById("i1").src = imgPath + document.getElementById("p1").value;
+						document.getElementById("i1mod").src = imgPath + document.getElementById("p1").value.replace(".",imgMod+".");
+						levelImage = imgPath + document.getElementById("p1").value;
+						levelImageMod = imgPath + document.getElementById("p1").value.replace(".",imgMod+".");
+					}
+				}
+				if(b || document.getElementById("i1").src.replace(/\\/g,"").replace(/\//g,"").match(document.getElementById("p1").value.replace(/\\/g,"").replace(/\//g,""))){
+					setTimeout("porl()",1000*url*multi); // allow image to load
+
+				}else{
+					alert("Warning - Please correct image path directory mismatch (below) and reload image.\n\n"+"Correct Path: "+document.getElementById("p1").value + "\n\n" + "(But is using: "+document.getElementById("i1").src+")");
+					if(confirm("Continue anyway?"))setTimeout("porl()",1000*url*multi); // allow image to load // NEW
+				}
+			}
+
+			function lc(url){
+				if(url){
+					r=prompt("Enter Image URL","http://");
+					if(r){
+						document.getElementById("pc").defaultValue = r;
+					}else{return}
+
+				}else{
+					url=1;
+				}
+				if(document.getElementById("pc").value.indexOf(":") == -1){
+					document.getElementById("ic").src = document.getElementById("pc").defaultValue;
+				}else{
+					if(document.getElementById("pc").value != "" && imgPath.match(/^http/)){
+						r = prompt("Image path mismatch! Suggest:","images/");
+						arr_filepos = escape(document.getElementById("pc").value).split("%5C");
+						filename = arr_filepos[arr_filepos.length-1];
+						document.getElementById("ic").src = r + filename;
+					}else{
+						document.getElementById("ic").src = imgPath + document.getElementById("pc").value;
+					}
+				}
+				setTimeout("getSize()",100*url*multi);
+
+			}
+
+			function getSize(){
+
+				var xx=document.getElementById("ic").width;
+				var yy=document.getElementById("ic").height;
+
+				offsetX = xx / 2;
+				offsetY = yy / 2;
+
+			}
+
+			function getCSSsize(){
+
+				var ss="";
+				if(document.all){
+					ss=document.styleSheets[0].cssText;
+				}else{
+					try{ss=document.styleSheets[0].cssRules}catch(e){}
+				}
+				if(ss != ""){
+
+					if(document.all){
+						cssX=(imgLayout == "landscape")?document.getElementById("L").currentStyle.width:document.getElementById("P").currentStyle.width;
+						cssY=(imgLayout == "landscape")?document.getElementById("L").currentStyle.height:document.getElementById("P").currentStyle.height;
+					}else{
+						cssX=(imgLayout == "landscape")?document.defaultView.getComputedStyle(document.getElementById('L'), '').getPropertyValue("width"):document.defaultView.getComputedStyle(document.getElementById('P'), '').getPropertyValue("width");
+						cssY=(imgLayout == "landscape")?document.defaultView.getComputedStyle(document.getElementById('L'), '').getPropertyValue("height"):document.defaultView.getComputedStyle(document.getElementById('P'), '').getPropertyValue("height");
+					}
+
+					cssX=parseInt(cssX.split(".")[0].replace(/[^\d]/g,""),10);
+					cssY=parseInt(cssY.split(".")[0].replace(/[^\d]/g,""),10);
+				}else{
+					alert("Warning: style.css not found.\n\n Using default for landscape 423px by 338px\n\n Using default for portrait 338px by 423px");
+					cssX=(imgLayout == "landscape")?423:338;
+					cssY=(imgLayout == "landscape")?338:423;
+				}
+
+			}
+
+			function porl(){
+
+				var xx=document.getElementById("i1").width;
+				var yy=document.getElementById("i1").height;
+
+				var xxm=document.getElementById("i1mod").width;
+				var yym=document.getElementById("i1mod").height;
+
+				getCSSsize(); // init
+
+				if(xx==xxm && yy==yym){
+					if(xx > yy){
+						imgLayout = "landscape";
+					}else{
+						imgLayout = "portrait";
+					}
+					if(xx==cssX && yy==cssY){
+					// check dimensions matches css defined ones
+					}else{
+						r=confirm("Warning: CSS size mismatch for " + imgLayout + ".\n\nAuto correct to " + xx + "px by " + yy + "px ?");
+						if(r){
+							oStyle=oStyle+"."+imgLayout+" {\n\n\t\t\t\t" + "width: " + xx + "px;\n\t\t\t\t" + "height: " + yy + "px;\n\t\t\t" + "}";
+						}
+					}
+				}else{
+					var r=confirm("image error: no modified image found.\n\nuse as single image?");
+					if(r){
+						document.getElementById("f1").src = "bonus.txt";
+						document.getElementById("bt").style.display="inline";
+						document.getElementById("bth").style.display="inline";
+						document.getElementById("ic").style.display="inline";
+						document.getElementById("pc").style.display="inline";
+						document.getElementById("pcu").style.display="inline";
+						document.getElementById("ls").style.display="inline";
+						document.getElementById("lsb").style.display="inline";
+						document.getElementById("lsbu").style.display="inline";
+						document.getElementById("ui").style.display="inline";
+						document.getElementById("listitem").style.display="inline";
+						document.getElementById("oc").style.display="inline";
+						document.getElementById("i1mod").style.display="none";
+						document.getElementById("lh").style.display="none";
+
+						if(xx > yy){
+							imgLayout = "landscape";
+						}else{
+							imgLayout = "portrait";
+						}
+
+						// NEW : TEST!
+						var factor = 3.0295; // ratio
+						var fxx = Math.round(xx / factor);
+						var fyy = Math.round(yy / factor);
+						if(imgLayout=="landscape"){
+							var bTest = (fxx == cssY);
+						}else{
+							var bTest = (fyy == cssX);
+						}
+						if(bTest){
+						// check dimensions matches css defined ones
+						}else{
+							r=confirm("Warning: CSS size mismatch for " + imgLayout + ".\n\nAuto correct to " + fxx + "px by " + fyy + "px ?");
+							if(r){
+								oStyle=oStyle+"."+imgLayout+" {\n\n\t\t\t\t" + "width: " + fxx + "px;\n\t\t\t\t" + "height: " + fyy + "px;\n\t\t\t" + "}";
+							}
+						}
+					}
+				}
+
+				var defaultWidth = 24; // ?
+				if(document.all)defaultWidth+=4; // border width?
+
+				if(xxm == defaultWidth)isBonus = true;
+
+
+			}
+
+		</script>
+	</head>
+	<body onload="document.location.hash='#top'">
+		<a name="top" />
+		<h3>Dev Tool for creating games using the Differences API <a href="js/code.js" title="Click here to view code version">[ version ]</a></h3>
+		<p>
+		<pre>
+		This tool is basically an imagemap creator which requires human intervention.
+		It saves you time by converting the position of differences or 'hotspots' into
+		a html code template which you can then copy and save as a playable level.
+
+		There are currently 2 templates which have been used to create all the games in the demo.
+		I suggest you view the source on each of these demo's to get an idea what can done.
+
+		This tool is still in development and supplied 'as is'. For more information visit:
+
+		http://homepage.ntlworld.com/infinnerty/differences/index.html
+		</pre>
+		</p>
+		<p>
+		<b>Pre-requisites</b>
+		<pre>
+		 1) Download the dev.zip and extract.  This is the skeleton folder structure and contains default html
+		    css and sounds, along with the javascript Differences API.
+
+		 2) Within MSPaint (or similar) Resize an image to have a pixel size of 1280 x 1024 for landscape,
+		    or 1024 x 1280 for portrait.  To start with stay with these sizes.
+
+		    (Note: These sizes can change but the css classes for landscape and portrait will be overridden)
+
+			 	### IMPORTANT : Store all local images in the devkit/images folder ###
+				### IMPORTANT : Make sure your browser has local file read access! ###
+
+		    * For a 'Spot the Difference' type game continue with the steps 3 - 6, for a 'Find and Seek'
+		      Mysteriez	type game just save your resized image into the images directory.
+		      You are now ready for creating the imagemap... (step 7)
+
+
+		 3) Still within MSPaint make a copy of this image appending the word 'mod' to the end.
+		    E.G. if the orginal image was called L1.jpg then the modified image will be L1mod.jpg
+
+		 4) Now go ahead and make your differences to the modified image remembering to resave after you have
+		    finished.
+
+		 5) Using MSPaint resize tool reduce both the original image and the modified image width and height
+		    to 33% (giving a pixel size of 423 x 338 landscape, or 338 x 423 portrait) and resave both images.
+		    This gives us the correct resolution that matches the landscape or portrait class within style.css
+
+ 		 6) Copy both the orginal and the modified image into the images directory.
+ 		    You are now ready for creating the imagemap...
+		</pre>
+		</p>
+		<p>
+		<b>Create image hotspots (imagemap)</b>
+		<pre>
+		 7) Click on the browse button below (or the new URL link) and select you orginal image from the images
+		    folder you just copied it into. If you created a modified version this should automatically load next
+		    to it.  The template will be automatically loaded for a 'Spot the Difference' type game.
+
+		    Note: If a modified image cannot be found then a template to create a mysteriez type game will be
+		    	  loaded instead.
+
+		 8) Click on the left image (modified) to create a hotspot. The hotspot size can be changed (default is
+		    32 pixels) to match the size of the change. Repeat this step until you have marked all differences.
+		</pre>
+		<img id="i1mod" name="i1mod" src="" style="border:1px solid green" onclick="point_it(event,true)" galleryimg="no"></img>
+		<img id="i1" name="i1" src="" style="border:1px solid green" onclick="point_it(event,false)" galleryimg="no"></img>
+		<input name="p1" id="p1" type="file" onchange="l()" /> <a href="javascript:l(1)">URL</a>
+		<br />
+		You pointed on x = <input type="text" id="x" name="x" size="4" /> y = <input type="text" id="y" name="y" size="4" /> hotspot size = <input type="text" id="c" name="c" size="4" value="32" />
+
+		calctype = <select id="hst"><option value="1">normal</option><option value="2">mirror</option><option value="3">animated</option></select>
+
+		function = <select id="fnt"><option value="1">chkscore</option><option value="2">add2Time</option><option value="3">add2Hint</option><option value="4">singleshot()</option></select>
+
+		use list item:<input type="checkbox" id="bt" name="bt" checked style="display:none" />
+
+		(hide list item:<input type="checkbox" id="bth" name="bth" style="display:none" />)
+
+		<br />
+
+		<img id="ic" name="ic" src="" style="border:1px solid green; display:none" galleryimg="no"></img>
+		<input name="pc" id="pc" type="file" onchange="lc()" style="display:none" /> <a href="javascript:lc(1)" id="pcu" style="display:none">URL</a>
+
+		<input type="checkbox" id="ui" name="ui" style="display:none" /> =
+		<input type="text" name="listitem" id="listitem" value="List Item" style="display:none" />
+		<input type="text" name="oc" id="oc" value="red" style="display:none" />
+
+		loupe shape = <select id="ls" style="display:none"><option value="1">off</option><option value="2">rect</option><option value="3">circle</option><option value="4">star</option></select>
+		<select id="lsb" style="display:none"><option value="display:none">border off</option><option value="">border on</option></select>(url:<input type="text" id="lsbu" value="" style="display:none" />)
+
+		<br />
+		#<input type="text" name="num" id="num" size=2 />
+
+		<iframe id="f1" name="f1" src="default.txt" onload="f()" style="display:none"></iframe>
+
+		<p>Other:<br />
+		<input type="text" value="WindowTitle" onchange="WindowTitle=this.value" />
+		<input type="text" value="extLink" onchange="extLink=this.value" />
+		<input type="text" value="oStyle" onchange="oStyle=this.value" />
+		<input type="text" value="extInclude" onchange="extInclude=this.value" />
+		<input type="text" value="extScript" onchange="extScript=this.value" />
+		<input type="text" value="levelHeader" onchange="levelHeader=this.value" />
+		<br />
+		Next level to load: (use #num for multi level)
+		<input type="text" value="index.html" onchange="nextPage=this.value" />
+		<br />
+
+		allow hint via keypress('H')<input type="checkbox" id="kh" name="kh" checked />
+		number of hints<input type="text" value="1" onchange="numLevelHint=this.value" size=2 />
+		show hints left<input type="checkbox" id="sh" name="sh" />
+		hints contents<input type="text" value="H" onchange="hintHTML=this.value" id="ht" />
+		flash hint<input type="checkbox" id="fh" name="fh" />
+		<span id="lh">
+		</span>
+		<br />
+		allow in game pause when timer clicked <input type="checkbox" id="igp" name="igp" checked />
+		<br />
+		pause when level completed <input type="checkbox" id="wait" name="wait" />
+		<br />
+		fade in level when loading <input type="checkbox" id="sft" name="sft" />, step (leave blank for default) <input type="text" id="sfts" size="1" />
+		</p>
+		<p>
+		<b>Nearly there!</b>
+		<pre>
+		 9) When your happy with the number of hotspots on your image click the Done button below.
+
+		10) Right click the hightlighted text and select Copy, then paste into a blank document.
+		    Save this document with the name of your level and a file extension of .html
+
+		    Now you can load the level into your browser (or click the test level button below) to play!
+
+
+		    Don't forget that you can use sounds* in your game - either override the defaults (see demo)
+		    or create you own with the same file name as those in the audio directory.
+
+		    *Note: Browser must support wav playback.
+
+		<input type="button" value="Done" onclick="done()" />
+		</p>
+		<input type="button" value="Click here when done to test level (via browser)." onclick="r=confirm('Please make sure you have COPIED the highlighted code...\nI Would not want you to risk losing it!\n\nClick OK to continue to test level -or- Click Cancel to return');if(r){nw=window.open('','test','height=600,width=1024');tmp = nw.document;tmp.write(document.getElementById('t1').value);tmp.close()}else{document.getElementById('t1').focus();document.getElementById('t1').select()}" />
+		<textarea id="t1" name="t1" rows=10 cols=50></textarea>
+		<p>Internal:<br />
+		image path:<input type="text" value="images/" onchange="imgPath=this.value" id="ipurl" />
+		modifiy ID:<input type="text" value="mod" onchange="imgMod=this.value" />
+		URL time x:<input type="text" value="1" onchange="multi=this.value" />
+		<p>External:<br />
+		CSS/JS URL:<input type="text" value="" id="base" /> e.g: http://homepage.ntlworld.com/infinnerty/differences/
+		</pre>
+		</p>
+
+		<a href="javascript:document.location='devkit.html'"><b>RESET</b></a>
+
+		<p style="display:none"><img id="L" class="landscape" src="" /><img id="P" class="portrait" src="" /></p>
+		</p>
+	</body>
+</html>

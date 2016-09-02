@@ -1,0 +1,68 @@
+<html>
+<title>LED</title>
+<head>
+<script>
+	function googlurl(url, cb){
+	  try{
+		  jsonlib.fetch({
+			url: 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyBp_DYsvea3hiXbqJg8hAphi96oRR7RmAM',
+			header: 'Content-Type: application/json',
+			data: JSON.stringify({longUrl: url})
+		  }, function (m) {
+			var result = null;
+			try {
+			  result = JSON.parse(m.content).id;
+			  if (typeof result != 'string') result = null;
+			} catch (e) {
+			  result = null;
+			}
+			cb(result);
+		  });
+	  }catch(e){alert("Sorry, this option is not available at the moment.")}
+	}
+
+	function googl(gid){
+
+		// Make a short URL
+		googlurl( document.getElementById("url").value, function(s) { document.getElementById("url").value = s; document.getElementById("url").focus(); document.getElementById("url").select();} );
+
+		document.getElementById(gid).disabled = true;
+		document.getElementById("url").focus();
+		document.getElementById("url").select();
+	}
+
+	function u(){
+		o_m = document.getElementById("m").value;
+		o_c = document.getElementById("c")[document.getElementById("c").selectedIndex].text;
+		//o_s = document.getElementById("s").value;
+		o_s = document.getElementById("s")[document.getElementById("s").selectedIndex].text;
+		//o_f = document.getElementById("i").checked;
+		o_f = document.getElementById("i")[document.getElementById("i").selectedIndex].text;
+		oURL = document.getElementById("url");
+		oF = document.getElementById("f");
+		ss = "?" + o_m + "&" + o_c + "&" + o_s + "&blocks=" + o_f.toString();
+		oURL.value = "http://homepage.ntlworld.com/infinnerty/differences/led/led.html" + ss;
+		oF.src="led.html"+ss;
+		document.getElementById("gb0").disabled = false;
+		oURL.focus();
+		oURL.select();
+	}
+</script>
+</head>
+<body onload='if(navigator.userAgent.match("MSIE"))document.getElementById("i").selectedIndex=0;'>
+	<h3>Message Creator</h3>
+	<h5>Create scrolling 'LED' style messages on your phone screen</h5>
+	<p>Enter message, LED color and speed then click the update button.  Copy the generated URL and use... wherever... Easy!</p>
+	<div style="border:1px dashed gray;padding:15px;margin:0;width:300px">
+	<p>LED texts : &#160;<input type="text" id="m" value="Click to Configure..." onclick="this.focus();this.select()"/></p>
+	<p>LED color : &#160;<select id="c"><option>Red</option><option>Green</option><option>Blue</option><option>Yellow</option><option>Purple</option></select></p>
+	<p>LED speed : <select id="s"><option>-9</option><option>-8</option><option>-7</option><option>-6</option><option>-5</option><option>-4</option><option>-3</option><option>-2</option><option>-1</option><option selected>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select> (-9 to 9)</p>
+	<!--<p>Msg speed : <input type="text" id="s" size="1" maxlength="1" value="0"/> (-9 to 9)</p>-->
+	<p>LED blocks: <select id="i"/><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option selected>8</option></select> (fewer blocks helps IE)</p>
+	<p><input type="button" value="UPDATE" onclick="u()"/></p>
+	</div>
+	<p><b>OUTPUT URL </b><input type="text" id="url" title="Copy this url" size="101" value="http://homepage.ntlworld.com/infinnerty/differences/led/led.html" /> <input type="button" value="goo.gl" title="Shorten this URL using goo.gl" id="gb0" onclick="googl(this.id)" disabled style="border:1px solid orange;margin:0;font-size:14px" /></p>
+	<iframe id="f" name="f" src="led.html" width="805px" height="180px" style="overflow:none"></iframe>
+	<script src="http://call.jsonlib.com/jsonlib.js" />
+</body>
+</html>

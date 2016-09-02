@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title></title>
+  </head>
+  <body>
+
+    <h1>Simple Table</h1>
+
+    <a name="OVERVIEW">
+      <h3>OVERVIEW</h3>
+    </a>
+
+	<table>
+		<tr>
+			<td align="right">Date</td>
+			<td align="left"><b>20 Feb 2012</b></td>
+		</tr>
+		<tr>
+			<td align="right">Username</td>
+			<td align="left"><b>Paul F</b></td>
+		</tr>
+		<tr>
+			<td align="right">Password</td>
+			<td align="left"><b>abracadabra-ABRACADABRA</b></td>
+		</tr>
+	</table>
+
+  </body>
+</html>

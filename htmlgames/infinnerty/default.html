@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>inFinnerty</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="google-site-verification" content="irWDVuirlf_5vY9w_bYrFVF9vkTzWXnXEFsxrjSMrF8" />
+<style>#p{cursor:pointer !important}</style>
+<script type="text/javascript">
+var t=0;
+function s(){
+if(document.getElementById){
+document.getElementById('url').focus();
+}else{
+top.main.url.focus();
+}
+}
+
+function go(){
+if(document.getElementById){
+var newurl="main"+document.getElementById('url').value+document.getElementById('pas').value+".html";
+}else{
+var newurl="main"+top.main.url.value+top.main.pas.value+".html";
+}
+newurl=newurl.toLowerCase();
+if(document.getElementById("google").checked)top.document.location.href="http://www.google.co.uk/#hl=en&q="+document.getElementById('url').value;
+if(newurl!="main.html"){
+if(document.getElementById){
+document.getElementById('p').src="$/p.gif";
+document.getElementById('p').width="12";
+document.getElementById('p').height="12";
+}else{
+top.main.p.src="$/p.gif";
+top.main.p.width="12";
+top.main.p.height="12";
+}
+check(newurl);
+}else{
+s();
+}
+}
+
+function check(url){
+if(document.getElementById){
+var i=parent.main.frames["test"];
+var dl=document.location;
+if(url==''){
+t++;
+if(i.document.title!="ok"){
+if((t==15)||(i.document.title.indexOf("annot ")!=-1)){
+dl.href="../index.html";
+}else{
+setTimeout("check('')",1000);}
+}else{dl.replace(i.document.location.href);}
+}else{i.document.location.replace(url);t=0;check('');}
+}else{
+if(url==''){
+t++;
+if(top.main.test.document.title!="ok"){
+if((t==15)||(top.main.test.document.title.indexOf("annot ")!=-1)){
+top.document.location.href="../index.html";
+}else{setTimeout("check('')",1000);}
+}else{top.main.document.location.replace(top.main.test.document.location.href);}
+}else{top.main.test.document.location.replace(url);t=0;check('');}
+}
+}
+</script>
+</head>
+<body onLoad="s()" style="background-color:black;color:orange">
+<table border="0" align="center" cellpadding="1" cellspacing="0">
+<tr><td colspan="2" align="center"><img src="$/homelogo.gif" width="242" height="34" onClick="s();" alt=""/></td></tr>
+<tr><td colspan="2" align="center"><h1>Welcome to <i>in</i>Finnerty</h1></td></tr>
+<tr><td><input id="url" name="url" value="" /> TOPIC</td><td>&nbsp;&nbsp;&nbsp;<input id="pas" name="pas" type="password" onBlur="go()" value="" /> PASSWORD</td></tr>
+<tr><td> </td></tr>
+<tr><td><input type="checkbox" id="google" onclick="s()"/> <font color="#C0C0C0">Google</font></td><td align="right"><img id="p" src="$/go.gif" width="14" height="14" border="0" style="cursor:pointer" alt="" onClick="go()"/></td></tr>
+<tr><td><iframe name="test" id="test" width="0" height="0" frameborder="0" scrolling="no" src="">Website Error : Your browser doesn't support IFrames</iframe></td></tr>
+</table>
+<div id=B text=snow bgColor=0><script>Ô=setInterval("m='';c=Math.cos;for(ô=0;ô<65;)m+='<p style=position:absolute;top:'+(42+(z=399/(73-(++ô+Ô++&63)))*c(ô*.9))+'%;left:'+(50+z*c(ô))+(z>>3?'%>.':'%;color:#456>.');B.innerHTML=m",49)</script>
+<noscript><p>Website Error : You need Javascript to use this site</p></noscript>
+</body>
+</html>

@@ -1,0 +1,221 @@
+ <html>
+	<head>
+		<title>iThankYou</title>
+		<script>
+		// V1.0
+		var isIE = navigator.userAgent.match("MSIE");
+		var URL = "";
+		var _URL = "";
+		var count = 0;
+		var guestvals = [];
+		var giftvals = [];
+		var urlvals = [];
+
+		function p(){
+
+			document.getElementById("ta").value = unescape("Dear [GUEST], thank you for coming to%0Amy party and for the fun [GIFT] gift.%0A%0ALove from [FOR]");
+
+		}
+
+		function create(){
+
+			document.getElementById("obtn" + count).disabled = true;
+			document.getElementById("go").disabled = true;
+
+			var num = document.getElementById("party")[document.getElementById("party").selectedIndex].value.split("^")[0];
+			var snd = document.getElementById("party")[document.getElementById("party").selectedIndex].value.split("^")[1];
+
+			var oFOR = document.getElementById("ofor").value;
+
+			var temp_ta = document.getElementById("ta").value;
+
+			var lp = count + 1;
+			count = 0;
+
+			for(;lp--;)
+			{
+				if(count > 0){
+					var oHTML = document.getElementById("template_e").innerHTML.replace("#0","#" + count).replace("eg0","eg" + count).replace("url0","url" + count).replace("gb0","gb" + count);
+					var oDOM = document.getElementById("dom_e");
+
+					oDOM.innerHTML += (isIE) ? oHTML + "<br />" : oHTML + "<br /><br />";
+
+				}
+
+				var oGUEST = document.getElementById("oguest" + count).value;
+				var oGIFT = document.getElementById("ogift" + count).value;
+				var oMSG = temp_ta.replace("[GUEST]", oGUEST).replace("[GIFT]", oGIFT).replace("[FOR]", oFOR);
+
+				URL = "http://homepage.ntlworld.com/infinnerty/differences/ithankyou/" + num.toString() + "/" + "index.html" + "?" + escape(oGUEST) + "^" + escape(oMSG) + "&0" + "&" + snd.toString();
+
+				URL = URL.replace(/%0A/g,"<br>");
+
+				//if(document.location.protocol.match(/http/i)){
+					URL = URL.split("<").join("%3C");
+					URL = URL.split(">").join("%3E");
+				//}
+
+				document.getElementById("eg" + count).innerText = oGUEST;
+				document.getElementById("url" + count).value = URL;
+				document.getElementById("gb" + count).disabled = false;
+
+				urlvals[count] = URL;
+
+				count++;
+
+				for(lp2 = count;lp2--;)
+				{
+					document.getElementById("url" + lp2).value = urlvals[lp2];
+				}
+			}
+
+			document.getElementById("pg").innerText = document.getElementById("oguest0").value;
+			document.getElementById("ifo").src = document.getElementById("url0").value;
+			document.getElementById("url0").focus();
+			document.getElementById("url0").select();
+		}
+
+		function add(guestValue,giftValue){
+
+			var oHTML = document.getElementById("template_g").innerHTML.replace("oguest0","oguest" + (count+1).toString()).replace("ogift0","ogift" + (count+1).toString()).replace("obtn0","obtn" + (count+1).toString());
+			var oDOM = document.getElementById("dom_g");
+
+			try{
+				oDOM.innerHTML += oHTML + "<br/>";
+			}catch(e){ // ie
+				var dv = document.createElement('div');
+				dv.innerHTML = oHTML + "<br/>";
+				oDOM.appendChild(dv);
+				document.getElementById("oguest" + (count+1)).value = "";
+				document.getElementById("ogift" + (count+1)).value = "";
+			}
+
+			guestvals[count] = guestValue;
+			giftvals[count] = giftValue;
+
+			count++;
+
+			for(lp = count;lp--;)
+			{
+				document.getElementById("oguest" + lp).value = guestvals[lp];
+				document.getElementById("ogift" + lp).value = giftvals[lp];
+				document.getElementById("oguest" + lp).disabled = true;
+				document.getElementById("ogift" + lp).disabled = true;
+				document.getElementById("obtn" + lp).disabled = true;
+			}
+			document.getElementById("oguest" + count).disabled = false;
+			document.getElementById("ogift" + count).disabled = false;
+			document.getElementById("obtn" + count).disabled = false;
+		}
+
+		function highlight(a){
+
+			r = a.split('#')[1];
+
+			document.getElementById("pg").innerText = document.getElementById("oguest"+r).value;
+			document.getElementById("ifo").src = document.getElementById("url"+r).value;
+
+			document.getElementById('url'+r).focus();
+			document.getElementById('url'+r).select();
+		}
+
+		function googlurl(url, cb){
+		  try{
+			  jsonlib.fetch({
+				url: 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyBp_DYsvea3hiXbqJg8hAphi96oRR7RmAM',
+				header: 'Content-Type: application/json',
+				data: JSON.stringify({longUrl: url})
+			  }, function (m) {
+				var result = null;
+				try {
+				  result = JSON.parse(m.content).id;
+				  if (typeof result != 'string') result = null;
+				} catch (e) {
+				  result = null;
+				}
+				cb(result);
+			  });
+		  }catch(e){alert("Sorry, this option is not available at the moment.")}
+		}
+
+		function googl(gid){
+
+			_URL = gid.replace("gb","url");
+
+			// Make a short URL
+			googlurl( document.getElementById(_URL).value, function(s) { document.getElementById(_URL).value = s; document.getElementById(_URL).focus(); document.getElementById(_URL).select();} );
+
+			document.getElementById(gid).disabled = true;
+			document.getElementById(_URL).focus();
+			document.getElementById(_URL).select();
+		}
+
+		</script>
+	</head>
+	<body style="background-color:black;color:yellow" onload="p()">
+		<p>
+
+			This is a form for generating interative Thank You Cards...
+			<br />
+			Please consider a <a href="../dev/credits.html" title="I will add more styles and features if the money comes in...  :P" style="text-decoration:none;color:orange">donation [PAYPAL]</a> for use of this App.
+
+		</p>
+
+		<div style="background-color:gray;padding:10px;width:555px;border-radius: 15px;">
+
+			<p>
+
+				PARTY STYLE : <select id="party" title="Select the type of iThankYou"><option value="100^false">Birthday (style 1) no sound</option><option value="100^true">Birthday (style 1) with sound</option></select> FOR : <input type="text" title="Recipients name" onfocus="if(this.value=='Enter Name Here')this.value=''" value="Enter Name Here" id="ofor" />
+
+			</p>
+
+			<p>
+				<div id="template_g">
+					<div style="background-color:#c0c0c0;width:505px;padding-left:5px;color:black;border-radius:7px">
+						I THANK: <input type="text" title="Guest name" onfocus="if(this.value=='Enter Guest Name Here')this.value=''" value="Enter Guest Name Here" id="oguest0" />	FOR GIFT: <input type="text" title="Gift recieved" onfocus="if(this.value=='Enter Gift Here')this.value=''" value="Enter Gift Here" id="ogift0" /> <input type="button" id="obtn0" onclick="add(document.getElementById('oguest' + count).value,document.getElementById('ogift' + count).value)" value="+" title="Add another guest" />
+					</div>
+				</div>
+				<p id="dom_g"></p>
+			</p>
+
+			<p>
+
+				<a href="javascript:document.getElementById('ta').readOnly=false;document.getElementById('ta').focus()" style="text-decoration:none;color:orange" title="Click here to edit message">MESSAGE</a> :
+				<br />
+				<textarea id="ta" style="width:510px;height:80px" readonly title="Click the MESSAGE label to edit contents of this field"></textarea>
+
+			</p>
+
+			<p>
+
+				<input type="button" value="Create iThankYou Card(s)" onclick="create()" id="go" title="Click to generate link(s) to the iThankYou website" />
+
+			</p>
+
+			<p>
+				<div id="template_e">
+					<a href="javascript:highlight('#0')" style="text-decoration:none;color:orange" title="Click to highlight link">EMAIL</a> : <span id="eg0">[GUEST]</span><br /><span style="width:555px"><input id="url0" style="width:455px" value="Click the 'Create iThankYou Card(s)' button above to generate the link(s)" title="Paste generated link into an email" /> <input type="button" value="goo.gl" title="Shorten this URL using goo.gl" id="gb0" onclick="googl(this.id)" disabled style="border:1px solid orange;margin:0;font-size:14px" /></span>
+				</div>
+			</p>
+			<p id="dom_e"></p>
+			<div style="cursor:pointer;font-size:x-small;color:white;text-align:center;margin-top:10px" onclick="document.location='ithankyou.html'">RESET</div>
+		</div>
+
+		<p>
+
+			Preview <b> iThankYou </b> for <span id="pg">[GUEST]</span>
+			<br />
+			<iframe src="javascript:void 0" id="ifo" name="ifo" width="575px" height="320px" frameborder="none" style="border:0;background-color:white"></iframe>
+
+		</p>
+
+		<p style="font-size:x-small">
+
+			<img src="../dev/dapi.gif" onclick="location.href='../dev/index.html'" style="cursor:pointer" title="Click for more information" alt="Differences API" />
+			<br />
+			Powered by the Differences API
+
+		</p>
+		<script src="http://call.jsonlib.com/jsonlib.js" />
+	</body>
+</html>

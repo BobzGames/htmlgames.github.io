@@ -1,0 +1,20 @@
+<html>
+<head>
+<script>
+function p()
+{
+	id=navigator.userAgent;
+	url="";
+	if( url == "" && id.match("MSIE") )url="im.html";
+	if( url == "" && id.match("Opera") )url="io.html";
+	if( url == "" && id.match("Firefox") )url="if.html";
+	if( url == "" )url="iw.html"; // Chrome et al...
+	document.location.replace(url);
+	
+}
+</script>
+</head>
+<body onload="p()">
+
+</body>
+</html>

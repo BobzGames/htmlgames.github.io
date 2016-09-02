@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/bonus.css" />
+		<style>
+
+			body{background-color:#CFCFCF}
+
+			.landscape {
+
+					width: 640px;
+					height: 512px;
+					position: absolute;
+					top: 0px;
+					left: 0px;
+					border-style: none;
+					cursor: default;
+			}
+
+			.title {position:absolute;top: 0px;left: 175px}
+			#l1 {position:absolute;top: 61px;left: 188px}
+			#l2 {position:absolute;top: 269px;left: 545px}
+			#l3 {position:absolute;top: 370px;left: 424px}
+
+			h4 {color: black;padding:0;margin:0;top:0}
+			#msg{color: black}
+
+		</style>
+		<script type="text/javascript" src="../../js/code.js"></script>
+		<script>
+
+			A_PATH = "../../_" + A_PATH;
+			TIMEUP = "#";
+			A_MUSIC = "";
+
+		</script>
+	<head>
+	<body onload="inits('You have another # dream levels...')">
+		<div id="content" align="center">
+			<img name="normal" id="normal" class="landscape" src="images/background.jpg" ondragstart="return false" onselectstart="return false">
+
+			<div class="title">
+				<h4>Plant the Inception... <span id="s"> </span></h4>
+				<p><span id="msg"></span></p>
+			</div>
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("off","")</script>
+
+		<map name="zoom">
+			<area shape="circle" coords="201,71,32" href="#" id="L1" /><div id="l1"><img id="ll1" src="images/i.gif" style="display:none" /></div>
+			<area shape="circle" coords="558,279,32" href="#" id="L2" /><div id="l2"><img id="ll2" src="images/i.gif" style="display:none" /></div>
+			<area shape="circle" coords="437,380,32" href="#" id="L3" /><div id="l3"><img id="ll3" src="images/i.gif" style="display:none" /></div>
+		</map>
+
+	</div>
+
+	</body>
+</html>

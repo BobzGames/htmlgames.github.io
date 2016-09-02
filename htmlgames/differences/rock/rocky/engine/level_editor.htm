@@ -1,0 +1,2056 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<META HTTP-EQUIV="Expires" CONTENT="0">
+<META HTTP-EQUIV="imagetoolbar" CONTENT="no">
+<link rel="stylesheet" href="game_styles.css" />
+
+<title>Level Editor</title>
+
+<script language="Javascript">
+var mainScreen=null,gameScreen=null,isIE=0,elm_name=null,elm_selected=null,elm_edittag_obj=null;
+var element_typeHTML=null,opiframe1Screen=null,t=0, gameIsPaused=1, change_level=0,evmouseco=null;
+var opiframe1_innerHTMLarr=new Array(); //translates the 'W' tag number to its number into document.all
+var opiframeLevelCacheDocument=null; //the level htm file in hidden iframe
+var Level_Property_Array=new Array() ,body_js_txt=null,temp_save_str=null; //Level_Property_Array contains the comma-seperated level body alt tag attributes,
+//init the forms id's
+function init_forms()
+{  
+var doc_list = document.body.childNodes;
+
+for(i = 0; i < doc_list.length; i++)
+{
+  if(doc_list[i].nodeType == 1)  
+  {if(doc_list[i].hasChildNodes() == true){newdoc_list = doc_list[i].childNodes;checkInnerNodes(newdoc_list);}
+  }
+}//end for
+   
+
+}//end init_forms()
+
+function checkInnerNodes(NodesColl)
+{
+var k=0;
+    for(k=0;k<NodesColl.length;k++)
+    {
+    if(NodesColl[k].name){if(NodesColl[k].name.indexOf("@@")!=-1){assign_prop_id(NodesColl[k],NodesColl[k].name);}}
+    if(NodesColl[k].hasChildNodes() == true){newnodecoll = NodesColl[k].childNodes;checkInnerNodes(newnodecoll);}
+    }
+}//end checkInnerNodes
+
+
+//body onload initialisations
+function init_Doc()
+{
+//test for internet explorer
+if(document.all){isIE=1;}else{document.getElementById("pausegamechk").style.display="none";}
+
+   show_leveltype_objects(0);
+  mainScreen=window.frames['debug_iframe'];
+  gameScreen=window.frames['debug_iframe'].window.frames['game_iframe'];
+  opiframe1Screen=window.frames['debug_iframe'].window.frames['opiframe1'];
+  
+  Levelcache_Screen=mainScreen.window.frames['opiframe_level_cache'];
+  opiframeLevelCacheDocument=mainScreen.window.frames['opiframe_level_cache'].document;
+  init_forms();
+  newobj_button_clicked();
+  if(isIE==1){gameScreen.document.attachEvent('onmousemove',parent.parent.mousedisplayCoords);}else{gameScreen.document.addEventListener('mousemove',parent.parent.mousedisplayCoords,false);}
+}
+
+//check if numeric
+function checkifval_number(str)
+{
+var testresult_chck=/^[0-9]*$/.test(str);
+  return(testresult_chck);
+}
+
+//checks the form for invalid values
+function check_obj_property_values()
+{
+if(elm_name)
+{
+var thisformobj=document.forms[""+elm_name+"@@form"],thecheckedobj=null, haserrorinform=0,formcheckmsg="";
+ for(t=0; t<thisformobj.length; t++)
+  {thecheckedobj=thisformobj[t];
+      if(thecheckedobj.alt)
+      {
+      switch(thecheckedobj.alt)
+      {
+      case "num"://numeric checking
+      if(!checkifval_number(thecheckedobj.value) || thecheckedobj.value=="")
+      {haserrorinform=1;thecheckedobj.style.color="red";}else{thecheckedobj.style.color="black";}
+      break;
+      
+      }//end switch
+      
+      
+      }
+  }//end for
+  if(haserrorinform==1){formcheckmsg="<font color=red><b>Error!&nbsp;Please correct form values.</b></font>";}
+  
+  document.getElementById(elm_name+"@@info").innerHTML=formcheckmsg;
+
+}
+if(haserrorinform==1){return(false);}else{return(true);}
+
+}//end check_obj_property_values
+
+
+
+//adds the object to the game screen
+function addObj_element(elm_name,objoperation_type)
+{var h=null, b=0, elmadded_ctr=0,opiframeLevelCacheDocument=mainScreen.window.frames['opiframe_level_cache'].document;
+
+if(check_obj_property_values() || objoperation_type=="delete")
+{  element_typeHTML="<!--linebreakhere-->";
+
+        if(elm_name=="hill1r")//hill requires multiple tables generated dynamically
+        { 
+          for(b=0;b<parseInt(document.getElementById(elm_name+"@@height").value);b++)
+          {element_typeHTML+="<table class=\"Hill1Tbl\" title=\"W,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,0,tablesleftvalue\" cellpadding=0 cellspacing=0 width=\"7\" height=\"9\" style=\"left:"+parseInt(parseInt(document.getElementById(elm_name+"@@left").value)-(5*(b+1)))+";top:"+parseInt(parseInt(document.getElementById(elm_name+"@@top").value)+(6*b))+";\"><tr><td><img src=\"../img/hill_ru1.gif\" ></td></tr><tr><td bgcolor=\"#848200\" valign=\"top\"><img src=\"../img/hill_ru2.gif\"></td></tr><tr><td bgcolor=\"#848200\" valign=\"top\" height=500></td></tr></table>";}    
+          elmadded_ctr=b;
+        }
+        if(elm_name=="hill1l")//hill requires multiple tables generated dynamically
+        { 
+          for(b=0;b<parseInt(document.getElementById(elm_name+"@@height").value);b++)
+          {element_typeHTML+="<table class=\"Hill1Tbl\" title=\"W,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,-1,0,tablesleftvalue\" cellpadding=0 cellspacing=0 width=\"7\" height=\"9\" style=\"left:"+parseInt(parseInt(document.getElementById(elm_name+"@@left").value)+18+(5*b))+";top:"+parseInt(parseInt(document.getElementById(elm_name+"@@top").value)+(6*b))+";\"><tr><td><img src=\"../img/hill_lu1.gif\" ></td></tr><tr><td bgcolor=\"#848200\" valign=\"top\"><img src=\"../img/hill_lu2.gif\"></td></tr><tr><td bgcolor=\"#848200\" valign=\"top\" height=500></td></tr></table>";}    
+          elmadded_ctr=b;
+        }
+        
+         if(elm_name=="hill2r")//hill requires multiple tables generated dynamically
+        { 
+          for(b=0;b<parseInt(document.getElementById(elm_name+"@@height").value);b++)
+          {element_typeHTML+="<table class=\"Hill1Tbl\" title=\"W,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,0,tablesleftvalue\" cellpadding=0 cellspacing=0 width=\"7\" height=\"9\" style=\"left:"+parseInt(parseInt(document.getElementById(elm_name+"@@left").value)-(5*(b+1)))+";top:"+parseInt(parseInt(document.getElementById(elm_name+"@@top").value)+(6*b))+";\"><tr><td><img src=\"../img/hill2_ru1.gif\" ></td></tr><tr><td bgcolor=\"#848200\" valign=\"top\"><img src=\"../img/hill2_ru2.gif\"></td></tr><tr><td bgcolor=\"#848200\" valign=\"top\" height=500></td></tr></table>";}    
+          elmadded_ctr=b;
+        }
+        
+         if(elm_name=="hillsandr")//hill requires multiple tables generated dynamically
+        { 
+          for(b=0;b<parseInt(document.getElementById(elm_name+"@@height").value);b++)
+          {element_typeHTML+="<table class=\"Hill1Tbl\" title=\"W,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,0,tablesleftvalue\" cellpadding=0 cellspacing=0 width=\"7\" height=\"9\" style=\"left:"+parseInt(parseInt(document.getElementById(elm_name+"@@left").value)-(5*(b+1)))+";top:"+parseInt(parseInt(document.getElementById(elm_name+"@@top").value)+(6*b))+";\"><tr><td><img src=\"../img/hill3_ru1.gif\" ></td></tr><tr><td bgcolor=\"#ffbe21\" valign=\"top\"><img src=\"../img/hill3_ru2.gif\"></td></tr><tr><td bgcolor=\"#ffbe21\" valign=\"top\" height=500></td></tr></table>";}    
+          elmadded_ctr=b;
+        }
+        if(elm_name=="hill2l")//hill requies multiple tables generated dynamically
+        { 
+          for(b=0;b<parseInt(document.getElementById(elm_name+"@@height").value);b++)
+          {element_typeHTML+="<table class=\"Hill1Tbl\" title=\"W,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,-1,0,tablesleftvalue\" cellpadding=0 cellspacing=0 width=\"7\" height=\"9\" style=\"left:"+parseInt(parseInt(document.getElementById(elm_name+"@@left").value)+18+(5*b))+";top:"+parseInt(parseInt(document.getElementById(elm_name+"@@top").value)+(6*b))+";\"><tr><td><img src=\"../img/hill2_lu1.gif\" ></td></tr><tr><td bgcolor=\"#848200\" valign=\"top\"><img src=\"../img/hill2_lu2.gif\"></td></tr><tr><td bgcolor=\"#848200\" valign=\"top\" height=500></td></tr></table>";}    
+          elmadded_ctr=b;
+        }
+        
+        if(elm_name=="hillsandl")//hill requies multiple tables generated dynamically
+        { 
+          for(b=0;b<parseInt(document.getElementById(elm_name+"@@height").value);b++)
+          {element_typeHTML+="<table class=\"Hill1Tbl\" title=\"W,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,-1,0,tablesleftvalue\" cellpadding=0 cellspacing=0 width=\"7\" height=\"9\" style=\"left:"+parseInt(parseInt(document.getElementById(elm_name+"@@left").value)+18+(5*b))+";top:"+parseInt(parseInt(document.getElementById(elm_name+"@@top").value)+(6*b))+";\"><tr><td><img src=\"../img/hill3_lu1.gif\" ></td></tr><tr><td bgcolor=\"#ffbe21\" valign=\"top\"><img src=\"../img/hill3_lu2.gif\"></td></tr><tr><td bgcolor=\"#ffbe21\" valign=\"top\" height=500></td></tr></table>";}    
+          elmadded_ctr=b;
+        }
+     
+  element_typeHTML+=document.getElementById(elm_name+"@@objectHTML").innerHTML;
+
+  element_typeHTML=element_typeHTML.replace(/DISPLAY: none;/gi,"");
+  element_typeHTML=element_typeHTML.replace(/relative/gi,"absolute");
+  element_typeHTML=element_typeHTML.replace(/999992/gi,"'"+document.getElementById(elm_name+"@@height").value+"'");
+  element_typeHTML=element_typeHTML.replace(/999991/gi,"'"+document.getElementById(elm_name+"@@width").value+"'");
+  element_typeHTML=element_typeHTML.replace(/LEFT: 3px/gi,"LEFT: "+document.getElementById(elm_name+"@@left").value+"");
+  element_typeHTML=element_typeHTML.replace(/TOP: 4px/gi,"TOP: "+document.getElementById(elm_name+"@@top").value+"");
+  element_typeHTML=element_typeHTML.replace(/tablesleftvalue/gi,""+document.getElementById(elm_name+"@@height").value+"");   
+   
+   //for water which must have 2 components,adjust the bottom table
+  if(elm_name=="water1" || elm_name=="lava1"){element_typeHTML=element_typeHTML.replace(/TOP: 5px/gi,"TOP: "+parseInt(parseInt(document.getElementById(elm_name+"@@top").value)+6)+"");}
+  if(elm_name=="cannon1")
+  {
+  element_typeHTML=element_typeHTML.replace(/LEFT: 5px/gi,"LEFT: "+parseInt(parseInt(document.getElementById(elm_name+"@@left").value)+4)+"");
+  element_typeHTML=element_typeHTML.replace(/ballpathmaxb/gi,""+parseInt(parseInt(document.getElementById(elm_name+"@@top").value)+12)+"");
+  element_typeHTML=element_typeHTML.replace(/ballpathmaxt/gi,""+parseInt(document.getElementById(elm_name+"@@height").value)+"");  
+  }
+  
+   if(elm_name=="bigelevator1" ||elm_name=="smallelevator1" || elm_name=="bigelevator2" || elm_name=="smallelevator2" || elm_name=="castle_elevator1" || elm_name=="sandelevator1")//elevators special properties
+  {   
+    swapobj_valuesif_A_Greater_B(document.getElementById(elm_name+"@@left"),document.getElementById(elm_name+"@@left2"));
+    swapobj_valuesif_A_Greater_B(document.getElementById(elm_name+"@@top"),document.getElementById(elm_name+"@@top2"));
+         
+    element_typeHTML=element_typeHTML.replace(/pathmaxl_value/gi,""+document.getElementById(elm_name+"@@left").value+"");   
+    element_typeHTML=element_typeHTML.replace(/pathmaxr_value/gi,""+document.getElementById(elm_name+"@@left2").value+"");  
+    element_typeHTML=element_typeHTML.replace(/pathmaxt_value/gi,""+document.getElementById(elm_name+"@@top").value+"");  
+    element_typeHTML=element_typeHTML.replace(/pathmaxb_value/gi,""+document.getElementById(elm_name+"@@top2").value+"");  
+    }    
+  
+  if(elm_name=="smug1" || elm_name=="smug4")
+  {
+    swapobj_valuesif_A_Greater_B(document.getElementById(elm_name+"@@left"),document.getElementById(elm_name+"@@left2"));    
+    element_typeHTML=element_typeHTML.replace(/pathmaxl_value/gi,""+document.getElementById(elm_name+"@@left").value+"");   
+    element_typeHTML=element_typeHTML.replace(/pathmaxr_value/gi,""+document.getElementById(elm_name+"@@left2").value+"");  
+    element_typeHTML=element_typeHTML.replace(/pathmaxt_value/gi,""+document.getElementById(elm_name+"@@top").value+"");  
+    element_typeHTML=element_typeHTML.replace(/pathmaxb_value/gi,""+document.getElementById(elm_name+"@@top").value+"");  
+  }
+  
+  if(elm_name=="smug2")
+  {
+    swapobj_valuesif_A_Greater_B(document.getElementById(elm_name+"@@top"),document.getElementById(elm_name+"@@top2"));   
+     element_typeHTML=element_typeHTML.replace(/pathmaxl_value/gi,""+document.getElementById(elm_name+"@@left").value+"");   
+    element_typeHTML=element_typeHTML.replace(/pathmaxr_value/gi,""+document.getElementById(elm_name+"@@left").value+"");  
+    element_typeHTML=element_typeHTML.replace(/pathmaxt_value/gi,""+document.getElementById(elm_name+"@@top").value+"");  
+    element_typeHTML=element_typeHTML.replace(/pathmaxb_value/gi,""+document.getElementById(elm_name+"@@top2").value+"");  
+  }
+  if(elm_name=="smug3")
+  {
+    swapobj_valuesif_A_Greater_B(document.getElementById(elm_name+"@@top"),document.getElementById(elm_name+"@@top2"));   
+     swapobj_valuesif_A_Greater_B(document.getElementById(elm_name+"@@left"),document.getElementById(elm_name+"@@left2"));   
+    element_typeHTML=element_typeHTML.replace(/pathmaxl_value/gi,""+document.getElementById(elm_name+"@@left").value+"");   
+    element_typeHTML=element_typeHTML.replace(/pathmaxr_value/gi,""+document.getElementById(elm_name+"@@left2").value+"");  
+    element_typeHTML=element_typeHTML.replace(/pathmaxt_value/gi,""+document.getElementById(elm_name+"@@top").value+"");  
+    element_typeHTML=element_typeHTML.replace(/pathmaxb_value/gi,""+document.getElementById(elm_name+"@@top2").value+"");  
+  }
+  
+  if(elm_name=="fish1")
+  {    
+    swapobj_valuesif_A_Greater_B(document.getElementById(elm_name+"@@left"),document.getElementById(elm_name+"@@left2")); 
+    /*colour*/element_typeHTML=element_typeHTML.replace(/fish_/gi,"fish"+document.getElementById(elm_name+"@@width").value+"_");   
+     element_typeHTML=element_typeHTML.replace(/pathmaxl_value/gi,""+document.getElementById(elm_name+"@@left").value+"");   
+    element_typeHTML=element_typeHTML.replace(/pathmaxr_value/gi,""+document.getElementById(elm_name+"@@left2").value+"");  
+    element_typeHTML=element_typeHTML.replace(/pathmaxt_value/gi,""+document.getElementById(elm_name+"@@top").value+"");  
+    element_typeHTML=element_typeHTML.replace(/pathmaxb_value/gi,""+document.getElementById(elm_name+"@@top").value+"");  
+  }
+  
+  //new body tag, different because it goes at the top of level HTM
+  if(elm_name=="level_properties1")
+  {
+    if(parseInt(document.getElementById(elm_name+"@@height").value)<=2){document.getElementById(elm_name+"@@info").innerHTML="<font color=red><b>Error! Timer start less than 2</b></font>";
+    }else{Level_Property_Array[0]=parseInt(document.getElementById(elm_name+"@@height").value);}
+    Level_Property_Array[2]=parseInt(document.getElementById(elm_name+"@@width").value);
+    Level_Property_Array[3]=parseInt(document.getElementById(elm_name+"@@width2").value);
+    
+    var level_template_number=0, body_bgColor="#FFFFFF", lvl_temp_numplus=null;
+    
+    if(parseInt(document.getElementById("the_level_template").selectedIndex)){level_template_number=parseInt(document.getElementById("the_level_template").selectedIndex);}
+    body_bgColor= get_template_bgColor(level_template_number);
+    lvl_temp_numplus=level_template_number+1;
+    Level_Property_Array[5]="sky"+lvl_temp_numplus+".gif";
+    Level_Property_Array[6]=level_template_number;
+    //sets the body title tag, bgcolor for the level-- see main.htm for desc  
+    opiframeLevelCacheDocument.body.bgColor=body_bgColor;  
+    opiframeLevelCacheDocument.body.title=Level_Property_Array[0]+","+Level_Property_Array[1]+","+Level_Property_Array[2]+","+Level_Property_Array[3]+","+Level_Property_Array[4]+","+Level_Property_Array[5]+","+Level_Property_Array[6];
+    element_typeHTML="";
+  }
+  
+
+    
+  //editing existing element---delete element in opiframe_level_cache if changed and add as new after
+      if(elm_selected!=null)
+      {
+        switch(elm_name) //delete item html first(object specific ,may have multiple elements, so wee need this switch) 
+        {
+          case "water1": case "lava1":
+          if(isIE==1){opiframeLevelCacheDocument.body.removeChild(opiframeLevelCacheDocument.body.childNodes[opiframe1_innerHTMLarr[elm_selected]].nextSibling);}else{opiframeLevelCacheDocument.body.removeChild(opiframeLevelCacheDocument.body.childNodes[opiframe1_innerHTMLarr[elm_selected]].nextSibling.nextSibling);}
+          opiframeLevelCacheDocument.body.removeChild(opiframeLevelCacheDocument.body.childNodes[opiframe1_innerHTMLarr[elm_selected]]);
+          break;
+          
+          case "hill1r":  case "hill2r": case "hillsandr":/*delete the previous hill tables*/
+            var num_tables_to_delete=parseInt(opiframe1Screen.Level_Objects_Array[elm_selected][25]);
+            h=0;elmadded_ctr=parseInt((b)-parseInt(num_tables_to_delete));
+            while(h<=num_tables_to_delete)
+            {opiframeLevelCacheDocument.body.removeChild(opiframeLevelCacheDocument.body.childNodes[opiframe1_innerHTMLarr[parseInt(elm_selected)-h]]);h++;}  
+          break;
+          
+           case "hill1l": case "hill2l": case "hillsandl":/*delete the previous hill tables*/
+            var num_tables_to_delete=parseInt(opiframe1Screen.Level_Objects_Array[elm_selected][25]);
+            h=0;elmadded_ctr=parseInt((b)-parseInt(num_tables_to_delete));
+            while(h<=num_tables_to_delete)
+            {opiframeLevelCacheDocument.body.removeChild(opiframeLevelCacheDocument.body.childNodes[opiframe1_innerHTMLarr[parseInt(elm_selected)-h]]);h++;}  
+          break;  
+          
+           case "cannon1":
+            elmadded_ctr=-1;
+            opiframeLevelCacheDocument.body.removeChild(opiframeLevelCacheDocument.body.childNodes[opiframe1_innerHTMLarr[elm_selected+1]]);
+             opiframeLevelCacheDocument.body.removeChild(opiframeLevelCacheDocument.body.childNodes[opiframe1_innerHTMLarr[elm_selected]]);
+         break;
+          
+          default: //all other elements 
+            opiframeLevelCacheDocument.body.removeChild(opiframeLevelCacheDocument.body.childNodes[opiframe1_innerHTMLarr[elm_selected]]);
+          break;
+        
+        }//end switch
+      
+      }//end if elm_selected!=null
+  
+
+  //only add element again if saving element,which has a new id
+  if(objoperation_type!="delete")
+  {
+  element_typeHTML+="<!--linebreakhere-->";
+  opiframeLevelCacheDocument.body.innerHTML+=element_typeHTML;
+  if(objoperation_type=="add"){elm_selected=parseInt(opiframe1Screen.bctr)+elmadded_ctr;}
+  if(objoperation_type=="save" && elm_name!="level_properties1"){elm_selected=parseInt(opiframe1Screen.bctr-1)+elmadded_ctr;}
+  }else{/*delete object*/newobj_button_clicked();}
+  
+ mainScreen.load_level_dyn_elements();
+
+}
+
+} 
+
+
+//shows object properties for editing
+function editObj_element(elm_id,fromobj)
+{
+var elm_title=gameScreen.document.getElementById(elm_id).title,elm_html=gameScreen.document.getElementById(elm_id).innerHTML,elm_src=gameScreen.document.getElementById(elm_id).src;
+
+    if(elm_name){newobj_button_clicked();}
+    elm_edittag_obj=fromobj;
+    elm_selected=elm_id;
+    enableObject_selectedelement(findobject_prop_type(elm_title+elm_html));
+    set_objedit_buttons("","","","none");  
+    setPropBannerText(" "," Properties");
+    document.getElementById(elm_name+"@@height").value=opiframe1Screen.bh[elm_selected];
+    document.getElementById(elm_name+"@@width").value=opiframe1Screen.bw[elm_selected];
+    document.getElementById(elm_name+"@@left").value=opiframe1Screen.bl[elm_selected];
+    document.getElementById(elm_name+"@@top").value=opiframe1Screen.bt[elm_selected];
+    
+    //Custom Properties,fill in values
+    switch(elm_name)
+    {
+      case "hill1r": case "hill2r": case "hillsandr":
+      document.getElementById(elm_name+"@@height").value=opiframe1Screen.Level_Objects_Array[elm_id][25];
+      break;  
+      
+      case "hill1l": case "hill2l": case "hillsandl":
+      document.getElementById(elm_name+"@@height").value=opiframe1Screen.Level_Objects_Array[elm_id][25];
+      break;
+      
+      case "bigelevator1": case "smallelevator1": case "bigelevator2": case "smallelevator2": case "castle_elevator1": case "sandelevator1":
+        document.getElementById(elm_name+"@@left").value=opiframe1Screen.Level_Objects_Array[elm_id][7];
+        document.getElementById(elm_name+"@@left2").value=opiframe1Screen.Level_Objects_Array[elm_id][8];
+        document.getElementById(elm_name+"@@top").value=opiframe1Screen.Level_Objects_Array[elm_id][10];
+        document.getElementById(elm_name+"@@top2").value=opiframe1Screen.Level_Objects_Array[elm_id][9];
+      break;
+      
+     case "smug1": case "smug4":
+        document.getElementById(elm_name+"@@left").value=opiframe1Screen.Level_Objects_Array[elm_id][7];
+        document.getElementById(elm_name+"@@left2").value=opiframe1Screen.Level_Objects_Array[elm_id][8];
+     break;
+     
+     case "smug2":
+        document.getElementById(elm_name+"@@top").value=opiframe1Screen.Level_Objects_Array[elm_id][10];
+        document.getElementById(elm_name+"@@top2").value=opiframe1Screen.Level_Objects_Array[elm_id][9];
+     break;
+     
+      case "smug3":
+             document.getElementById(elm_name+"@@left").value=opiframe1Screen.Level_Objects_Array[elm_id][7];
+        document.getElementById(elm_name+"@@left2").value=opiframe1Screen.Level_Objects_Array[elm_id][8];
+        document.getElementById(elm_name+"@@top").value=opiframe1Screen.Level_Objects_Array[elm_id][10];
+        document.getElementById(elm_name+"@@top2").value=opiframe1Screen.Level_Objects_Array[elm_id][9];
+     break;
+      
+      case "cannon1":
+      document.getElementById(elm_name+"@@height").value=opiframe1Screen.Level_Objects_Array[elm_id][10];
+      break;
+      
+      case "fish1":
+        var selectedColourFish=0;
+        if(elm_src.indexOf("fish2_")!=-1){selectedColourFish=1;}
+        document.getElementById(elm_name+"@@width").selectedIndex=selectedColourFish;
+        document.getElementById(elm_name+"@@left").value=opiframe1Screen.Level_Objects_Array[elm_id][7];
+        document.getElementById(elm_name+"@@left2").value=opiframe1Screen.Level_Objects_Array[elm_id][8];
+     break;  
+     
+     case "level_properties1":
+         set_objedit_buttons("","none","none","");  
+         load_level_properties();
+     break;
+     
+    
+      
+    }//end switch
+    check_obj_property_values(); 
+    
+}//end edit function
+
+
+
+function load_level_properties()
+{
+window.status="";
+opiframeLevelCacheDocument=mainScreen.window.frames['opiframe_level_cache'].document;
+ Level_Property_Array=opiframeLevelCacheDocument.body.title.split(","); 
+ 
+ 
+  if(elm_name && Level_Property_Array.length>0)
+  {
+        document.getElementById(elm_name+"@@height").value=Level_Property_Array[0];
+        document.getElementById(elm_name+"@@width").value=Level_Property_Array[2];
+        document.getElementById(elm_name+"@@width2").value=Level_Property_Array[3];
+        document.getElementById("the_level_template").selectedIndex=Level_Property_Array[6];
+  }
+}
+
+
+//assigns property textboxes unique id's dynamically
+function assign_prop_id(elm1,str1)
+{
+ elm1.id=elm1.parentNode.parentNode.parentNode.parentNode.id.replace("@2","")+str1;
+
+}
+      
+      
+//find out what we've clicked
+function findobject_prop_type(chkstr)
+{
+var elmchkstr_type=null;
+
+  if(chkstr.indexOf("W,0,0,1,0")!=-1 && chkstr.indexOf("cube2.gif")!=-1){ elmchkstr_type="cube2";}
+  if(chkstr.indexOf("W,0,0,1,0")!=-1 && chkstr.indexOf("grass_knoll1.gif")!=-1){ elmchkstr_type="grass1";}
+  if(chkstr.indexOf("W,0,0,1,0")!=-1 && chkstr.indexOf("cube3.gif")!=-1){ elmchkstr_type="cube3";}
+  if(chkstr.indexOf("W,0,0,1,0")!=-1 && chkstr.indexOf("cube_sand1.gif")!=-1){ elmchkstr_type="cube_sand1";}
+ 
+  if(chkstr.indexOf("W,0,0,1,0")!=-1 && chkstr.indexOf("castle_knoll1.gif")!=-1){ elmchkstr_type="cube_castle";}
+  if(chkstr.indexOf("W,0,0,1,0")!=-1 && chkstr.indexOf("grass_knoll2.gif")!=-1){ elmchkstr_type="grass2";}
+  if(chkstr.indexOf("W,0,0,1,0")!=-1 && chkstr.indexOf("grass_knoll3.gif")!=-1){ elmchkstr_type="sand1";}
+  if(chkstr.indexOf("W,1,0,1,2")!=-1){ elmchkstr_type="lemon1";}
+  if(chkstr.indexOf("W,4,0,1")!=-1 && chkstr.indexOf("water1.gif")!=-1 ){ elmchkstr_type="water1";}
+  if(chkstr.indexOf("W,4,0,1")!=-1 && chkstr.indexOf("lava1.gif")!=-1 ){ elmchkstr_type="lava1";}
+  
+  if(chkstr.indexOf("rock1")!=-1 && chkstr.indexOf("W,0,0,1,0")!=-1 ){ elmchkstr_type="rock1";}
+  /*hill-right*/if(chkstr.indexOf("W,3,0,1,0")!=-1 && chkstr.indexOf("hill_ru1.gif")!=-1  && chkstr.indexOf("grass_knoll1.gif")!=-1){ elmchkstr_type="hill1r";}
+  /*hill-left*/if(chkstr.indexOf("W,3,0,1,0")!=-1 && chkstr.indexOf("hill_lu1.gif")!=-1   && chkstr.indexOf("grass_knoll1.gif")!=-1){ elmchkstr_type="hill1l";}
+  /*bigelevator*/if(chkstr.indexOf("elevator")!=-1 && chkstr.indexOf("r_m1.gif")!=-1 && chkstr.indexOf('W,2,0,1,2')!=-1 && chkstr.indexOf("elevator_r1.gif")!=-1){ elmchkstr_type="bigelevator1";}
+  /*smallelevator*/if(chkstr.indexOf("elevator")!=-1 && chkstr.indexOf("r_m1.gif")==-1 && chkstr.indexOf('W,2,0,1,2')!=-1 && chkstr.indexOf("elevator_r1.gif")!=-1){ elmchkstr_type="smallelevator1";}
+  /*hill-right ice*/if(chkstr.indexOf("W,3,0,1,0")!=-1 && chkstr.indexOf("hill2_ru1.gif")!=-1  && chkstr.indexOf("grass_knoll2.gif")!=-1){ elmchkstr_type="hill2r";}
+  /*hill-left ice*/if(chkstr.indexOf("W,3,0,1,0")!=-1 && chkstr.indexOf("hill2_lu1.gif")!=-1  && chkstr.indexOf("grass_knoll2.gif")!=-1){ elmchkstr_type="hill2l";}
+  /*bigelevator ice*/if(chkstr.indexOf("elevator")!=-1 && chkstr.indexOf("r_m2")!=-1 && chkstr.indexOf('W,2,0,1,2')!=-1 && chkstr.indexOf("elevator_r2.gif")!=-1){ elmchkstr_type="bigelevator2";}
+  /*smallelevator ice*/if(chkstr.indexOf("elevator")!=-1 && chkstr.indexOf("r_m2")==-1 && chkstr.indexOf('W,2,0,1,2')!=-1 && chkstr.indexOf("elevator_r2.gif")!=-1){ elmchkstr_type="smallelevator2";}
+    /*elevator sand*/if(chkstr.indexOf("elevator")!=-1 && chkstr.indexOf("r_m2")==-1 && chkstr.indexOf('W,2,0,1,2')!=-1 && chkstr.indexOf("elevator_sand1.gif")!=-1){ elmchkstr_type="sandelevator1";}
+ 
+    /*hill-right sand*/if(chkstr.indexOf("W,3,0,1,0")!=-1 && chkstr.indexOf("hill3_ru1.gif")!=-1  && chkstr.indexOf("grass_knoll3.gif")!=-1){ elmchkstr_type="hillsandr";}
+  /*hill-left sand*/if(chkstr.indexOf("W,3,0,1,0")!=-1 && chkstr.indexOf("hill3_lu1.gif")!=-1  && chkstr.indexOf("grass_knoll3.gif")!=-1){ elmchkstr_type="hillsandl";}
+ 
+  
+  /*castle elevator1*/if(chkstr.indexOf("elevator")!=-1 && chkstr.indexOf("castle.gif")!=-1 && chkstr.indexOf('W,2,0,1,2')!=-1 && chkstr.indexOf("elevator_castle.gif")!=-1){ elmchkstr_type="castle_elevator1";}
+  
+  /*cannon */if(chkstr.indexOf("cannon1_up.gif")!=-1 && chkstr.indexOf('W,0,0,1,0')!=-1){elmchkstr_type="cannon1";} 
+  /*smug1 */if(chkstr.indexOf("smug1.gif")!=-1 && chkstr.indexOf('W,2,0,1,2,1')!=-1){elmchkstr_type="smug1";} 
+  /*smug2 */if(chkstr.indexOf("smug2_up.gif")!=-1 && chkstr.indexOf('W,2,0,1,2,1')!=-1){elmchkstr_type="smug2";} 
+  /*smug3 (ghost) */if(chkstr.indexOf("smug3.gif")!=-1 && chkstr.indexOf('W,2,0,1,2,1')!=-1){elmchkstr_type="smug3";} 
+  /*smug4 (cactus) */if(chkstr.indexOf("smug4.gif")!=-1 && chkstr.indexOf('W,2,0,1,2,1')!=-1){elmchkstr_type="smug4";} 
+ 
+  /*fish1 */if(chkstr.indexOf("W,2,0,1,-1")!=-1 && chkstr.indexOf('fish')!=-1){elmchkstr_type="fish1";} 
+  /*Spring1 */if(chkstr.indexOf("W,2,0,1,2,2")!=-1 && chkstr.indexOf('spring_up.gif')!=-1){elmchkstr_type="spring1";} 
+ 
+  /*restart point */if(chkstr.indexOf("W,5,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0")!=-1){elmchkstr_type="level_restart_point1";} 
+  /*end goal point */if(chkstr.indexOf("W,5,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1")!=-1){elmchkstr_type="level_end_goal1";} 
+  /*body tag*/if(chkstr.indexOf("time_to_complete")!=-1 && chkstr.indexOf('start_point_x')!=-1){elmchkstr_type="level_properties1";} 
+
+
+return(elmchkstr_type);
+}
+
+
+//Overlays game objects with invisible clickable elements, for editing
+function assign_edit_tags()
+{
+var z=0,temp_edit_tag=null,moz_edit_tags="";
+var edit_tag_element="<img src='../img/x.gif' class=V height='h' width='w' style='position:absolute;left:;top:; border-color:#FF33CC;' onclick='xyzclickevent this.style.borderColor=\"#FFFF00\";'>";
+
+for(z=0; z<opiframe1Screen.bctr;z++)
+{
+    //only game objects and hilltops are clickable                                                       
+      if(opiframe1Screen.Level_Objects_Array[z][3]==1)
+      {
+      temp_edit_tag=edit_tag_element;
+      temp_edit_tag=temp_edit_tag.replace("left:;","left:"+opiframe1Screen.bo[z].style.left+";");
+      temp_edit_tag=temp_edit_tag.replace("top:;","top:"+opiframe1Screen.bo[z].style.top+";");
+      temp_edit_tag=temp_edit_tag.replace("xyzclickevent","parent.parent.editObj_element("+opiframe1Screen.biid[z]+",this);");
+      temp_edit_tag=temp_edit_tag.replace("height='h'","height='"+opiframe1Screen.bh[z]+"'");
+      temp_edit_tag=temp_edit_tag.replace("width='w'","width='"+opiframe1Screen.bw[z]+"'");
+      if(elm_selected==z){temp_edit_tag=temp_edit_tag.replace("#FF33CC","#FFFF00");}
+      if(isIE==1)
+      {
+      edit_tagdynamicobj=gameScreen.document.createElement(""+temp_edit_tag+"");
+      gameScreen.document.body.appendChild(edit_tagdynamicobj);
+      }else{moz_edit_tags+=temp_edit_tag;edit_tagdynamicobj=gameScreen.document.getElementById(parseInt(opiframe1Screen.bctr)+1);}
+      if(elm_selected==z){editObj_element(z,edit_tagdynamicobj);}
+      
+    }
+    
+}//end for
+
+//mozilla tags
+if(isIE!=1){gameScreen.document.body.innerHTML+=moz_edit_tags;}
+
+
+
+updateLevelcachearr();
+}
+
+
+//translates a "W" element tag pos in W tag array-- to pos in document.body.childNodes array e.g. opiframe1_innerHTMLarr[Wtagarray_position]=doc.body.childNodes array position
+function updateLevelcachearr()
+{
+var z=0,u=0,lcsda=Levelcache_Screen.document.body.childNodes,lcsda_alt=new Array();
+  for(z=0; z<lcsda.length;z++)
+    {if(lcsda[z].title)
+    {
+    lcsda_alt=lcsda[z].title.split(",");
+    if(lcsda_alt[0]=="W"){opiframe1_innerHTMLarr[u]=z;u++;}
+    }
+      lcsda_alt=null;
+  }//end for
+  
+}
+
+
+
+
+//de-select an object
+function unselectobj()
+{
+  if(elm_edittag_obj){elm_edittag_obj.style.borderColor="#FF33CC";}
+  elm_edittag_obj=null;
+  elm_selected=null;
+}
+
+
+//'NEW' object button clicked
+function newobj_button_clicked()
+{
+  reset_properties();
+  set_objedit_buttons("none","none","none","");
+  if(elm_name){setPropBannerText(" New ","");}
+  check_obj_property_values();
+  unselectobj();
+}
+
+function reset_properties()
+{
+ if(elm_name){document.forms[""+elm_name+"@@form"].reset();}
+}
+
+//shows or hides form buttons (new,apply etc.) for element saving
+function set_objedit_buttons(ffa,ffb,ffc,ffd)
+{
+if(elm_name){
+    document.getElementById(elm_name+"@@apply").style.display=ffa;
+    document.getElementById(elm_name+"@@delete").style.display=ffb;
+    document.getElementById(elm_name+"@@new").style.display=ffc;
+    document.getElementById(elm_name+"@@add").style.display=ffd;
+  }
+}
+
+function setPropBannerText(pretextS,posttextS)
+{
+if(isIE==1)
+{document.getElementById(""+elm_name+"@@propbanner").innerText=pretextS+document.getElementById(""+elm_name+"3sidebar").innerText.replace(/\s/gi,"")+posttextS;
+}else{document.getElementById(""+elm_name+"@@propbanner").textContent=pretextS+document.getElementById(""+elm_name+"3sidebar").textContent.replace(/\s/gi,"")+posttextS;}
+}
+
+
+function show_leveltype_objects(level_type_status) //turn on ice editing if icestatus=1, or castle if iscastle=1
+{
+var node_ieoffset=1;if(isIE){node_ieoffset=0;}
+var tbl_selectors=window.document.getElementById("side_list_contents").childNodes[node_ieoffset].childNodes,typ_to_display="greenobject" ,tbl_title=null;
+if(level_type_status==0){typ_to_display="greenobject";}
+if(level_type_status==1){typ_to_display="iceobject";}
+if(level_type_status==2){typ_to_display="castleobject";}
+if(level_type_status==3){typ_to_display="sandobject";}
+
+  for(l=0;l<tbl_selectors.length;l++)
+  {
+      tbl_title=tbl_selectors[l].title;
+      
+      if(tbl_title.indexOf("object")!=-1)
+      {  
+      if((tbl_title==typ_to_display) ){tbl_selectors[l].style.display="";}
+      if( tbl_title!="allobjects" && tbl_selectors[l].tagName=="TR" && tbl_title!=typ_to_display){tbl_selectors[l].style.display="none";}
+      }
+      tbl_title=null;
+  }
+
+}
+
+
+
+//toggles between grass,stone etc..
+function enableObject_selectedelement(elm_s)
+{ 
+var old_elmname=elm_name;
+  if(opiframe1Screen.bctr!=null)//level has to be loaded first..
+      {
+      if(elm_s!=null)
+      {
+        document.getElementById(elm_s).style.display="";
+        elm_name=elm_s; 
+       if(elm_name=="level_properties1")
+            {
+            document.getElementById("template_selector_tr").style.display="none";
+            document.getElementById("timer_tr").style.display="";
+            document.getElementById("player_start_tr").style.display="";
+            set_objedit_buttons("","none","","none");  
+            } 
+         
+        setPropBannerText(" New ","");
+        if(old_elmname){if(old_elmname!=elm_name){document.getElementById(old_elmname).style.display="none";sidebar_hover(document.getElementById(old_elmname+"3sidebar"),1);}}
+        if(elm_name){document.getElementById(elm_name).style.display="";sidebar_hover(document.getElementById(elm_name+"3sidebar"),0);}
+        if(isIE==1){document.getElementById(elm_s+"3sidebar").focus();}else{document.getElementById(elm_s+"3sidebar").focus=true;}
+      
+      }else{alert("This object cannot be edited."); newobj_button_clicked();}
+  }else{alert("No Level loaded.");}
+  
+    
+}
+
+
+function hiliborder(hilielm,hilityp)
+{
+if(hilityp==0)
+  {
+  hilielm.style.backgroundColor='#B5BEDE';
+  hilielm.style.borderWidth="1";
+  hilielm.style.borderColor="#18206B";
+  hilielm.style.borderStyle="solid";
+  
+  }
+  if(hilityp==1)
+  {
+  hilielm.style.borderColor="#808080";
+  hilielm.style.borderStyle="solid";
+  }
+}
+
+//sidebar mouse effects
+function sidebar_hover(hoverelm,hovertype)
+{
+  if(hovertype==0)//mouseOver
+  {
+  hiliborder(hoverelm,0);
+  hoverelm.style.fontWeight='bold';
+  }
+  if(hovertype==1)//mouseOut
+  {
+      if(elm_name!=hoverelm.title)
+      {
+        hoverelm.style.backgroundColor='#dedbd6';
+        hoverelm.style.fontWeight='normal';
+        hoverelm.style.borderWidth="0";
+        hiliborder(hoverelm,1);
+      }
+  }
+}
+
+
+
+//returns parent.parent.. element name
+function get_ename(getenobj)
+{
+ return(getenobj.parentNode.parentNode.parentNode.parentNode.id);
+}
+
+
+//confirm object delete
+function iask_del(delobjelm)
+{
+ if(window.confirm('Are you sure you want to delete this object?')){addObj_element(get_ename(delobjelm),'delete');}
+}
+
+//swaps values if A>B vobj1=A, vobj2=B
+function swapobj_valuesif_A_Greater_B(vobj1,vobj2)//
+{
+  var tempvarobj=null;
+  if(parseInt(vobj1.value)>parseInt(vobj2.value)){tempvarobj=vobj2.value;vobj2.value=vobj1.value;vobj1.value=tempvarobj;}
+}
+
+//Returns a random number between 0 and fctor
+function getRandom(fctor) {
+   return Math.round(eval(fctor*Math.random()))
+} 
+
+
+function save_level() //saves the level html to clipboard
+{
+temp_save_str="";
+var clouds_HTML="",body_js_txt="<BODY title='"+Level_Property_Array[0]+","+Level_Property_Array[1]+","+Level_Property_Array[2]+","+Level_Property_Array[3]+","+Level_Property_Array[4]+","+Level_Property_Array[5]+","+Level_Property_Array[6]+"' bgColor="+ opiframeLevelCacheDocument.body.bgColor+" leftMargin=0 topMargin=0 onload=parent.load_level_dyn_elements(); rightMargin=0>";
+  
+ 
+if(opiframe1Screen.bctr!=null)//level has to be loaded first..
+{
+//generate random placed clouds for outdoor levels (not castle)
+if(Level_Property_Array[6]<2)
+{for(var rnge=0;rnge<opiframe1Screen.elm_rightmost;rnge+=10)
+  {if(getRandom(20)==1){clouds_HTML+="<IMG style=\" LEFT: "+eval(rnge+getRandom(2))+";  POSITION: absolute; TOP: "+eval(getRandom(60)+210)+"; z-index:0;\" src=\"../img/cloud"+eval(1+getRandom(1))+".gif\">";} }
+}
+  opiframeLevelCacheDocument=mainScreen.window.frames['opiframe_level_cache'].document;
+  //manip HTML to eliminate absolute IMG SRC addresses, replace with relative addressing(../img/)
+      temp_save_str=body_js_txt+opiframeLevelCacheDocument.body.innerHTML;
+      temp_save_str=temp_save_str.replace(/<\/table>/gi,"</TABLE>\r\n");
+      temp_save_str=temp_save_str.replace(/<\/div>/gi,"</DIV>\r\n");
+      temp_save_str=temp_save_str.replace(/<\/span>/gi,"</SPAN>\r\n");
+      temp_save_str=temp_save_str.replace(/<img/gi,"\r\n<IMG");
+      temp_save_str=temp_save_str.replace(/<img.*\/cloud.*>/gi,"\r\n");
+      temp_save_str=temp_save_str.replace(/\.gif/gi,".gif\r\nS@S");
+
+      temp_save_str=temp_save_str.replace(/file:.*\/img\//gi,"../img/");
+      temp_save_str=temp_save_str.replace(/\r\nS@S/gi,"");
+      temp_save_str=temp_save_str.replace(/<!--linebreakhere-->/gi,"\r\n");
+      temp_save_str=temp_save_str.replace(/<IMG.*id=plr1@0/gi,"\r\n<IMG id=plr1@0");     
+      temp_save_str=temp_save_str.replace(/<.*plr1@0.*>/gi,"");
+      temp_save_str=temp_save_str.replace(/[\r\n]+/gi,"\r\n");
+      temp_save_str+=(clouds_HTML+"</BODY>");
+      
+  //copy to clipboard
+  if(window.clipboardData){
+    if(window.clipboardData.setData("Text", temp_save_str))
+    {
+    alert("LEVEL CODE COPIED TO THE CLIPBOARD SUCCESSFULLY\n\nTO SAVE:\nBrowser games cannot save directly, you must do it yourself!\nOpen a text-editor (e.g. Notepad) and select \'Paste\', then save the file in this games 'levels' folder as '"+mainScreen.document.getElementById('current_level').innerHTML+".htm'");
+    }else{alert("ERROR!\n\nCould not write the level code to the clipboard.\nPlease check your browser security settings, if set to 'high' this may stop your ability to save.");}
+    }else
+    {/*no clipboard?*/
+    var clipwin_js=window.open("blank.htm","windowf","width=340,height=270,scrollbars=yes,left="+((screen.width)/3.1)+",top="+((screen.height)/3)+"");clipwin_js.focus;
+    }
+    
+}else{alert("No Level loaded.");}
+
+}
+
+//display mouseover co-ords
+function mousedisplayCoords(evmouseco)
+{
+ document.getElementById("MouseCoordsMsgSpan").value="Left: "+evmouseco.clientX+" Top: "+evmouseco.clientY+"";
+}
+
+function New_Level_Show()//loads new level 
+{
+var docubody=mainScreen.window.frames["opiframe_level_cache"].document.body ,level_template_number=0,plus_lvl=null;
+    if(parseInt(document.getElementById("the_level_template").selectedIndex)){level_template_number=parseInt(document.getElementById("the_level_template").selectedIndex);}
+    plus_lvl=level_template_number+1;
+  //sets the body title tag, bgcolor for the level-- see main.htm for desc  
+  docubody.title="101,game_styles.css,22,370,1.4,sky"+plus_lvl+".gif,"+level_template_number+"";
+  docubody.bgColor=get_template_bgColor(level_template_number);
+  docubody.innerHTML='\r\n<!--------------- Begin the level HTML------------->\r\n<img id=\"placergif\" style=\"position:absolute; left:1; top:1; z-index:2;\" src=\"../img/x.gif\"><IMG title=W,2,0,1,2,2,1,100,100,155,155,../img/spring_up.gif,../img/spring_up.gif,../img/spring_up.gif,../img/spring_up.gif,../img/spring_up.gif,0,0,0,0,0,0,0,0 style=\"BORDER-RIGHT: 0px; BORDER-TOP: 0px; Z-INDEX: 1; LEFT: 24px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px; POSITION: absolute; TOP: 391px;\" height=16 src=../img/spring_up.gif width=18>\r\n</body>';  
+  document.getElementById("level_properties1@@width").value=22;//player posstart
+  document.getElementById("level_properties1@@width2").value=370;
+  document.getElementById("level_properties1@@height").value=101;//timer
+  mainScreen.level_loaded=-1;
+  
+  addObj_element("level_properties1",'save'); 
+  set_objedit_buttons("","none","","none");
+  document.getElementById("level_select_debug").options[0].innerText="New Level";  
+  document.getElementById("template_selector_tr").style.display="none";
+  document.getElementById("timer_tr").style.display="";
+  document.getElementById("player_start_tr").style.display="";
+
+}
+
+
+
+function get_template_bgColor(template_num)
+{
+var thecColor="#FFFFFF"; 
+    switch(template_num)//get the background color
+    {
+    case 0:
+    thecColor="#00b5ff";
+    break;
+    case 1:
+    thecColor="#c6c7ff";
+    break;
+    case 2://castle
+    thecColor="#212042";
+    break;
+    case 3:
+    thecColor="#ff8642";
+    break;
+    }//end switch
+    return (thecColor); 
+}
+
+function New_Level()
+{
+set_objedit_buttons("none","none","none","");  
+document.getElementById("template_selector_tr").style.display="";
+document.getElementById("timer_tr").style.display="none";
+document.getElementById("player_start_tr").style.display="none";
+
+}
+
+function WriteLevelEditorMsg(msg)
+{
+ document.getElementById("LevelEditMsg").innerHTML=msg;
+}
+</script>
+
+</head>
+<body bgcolor="#cecbc6" style=" margin-top: 0px; margin-left: 0px; margin-right: 0px; background-color:#cecbc6;" onload="window.frames['debug_iframe'].location.href='main.htm';">
+
+<span id="title@@top" style=' z-index:4; width:276; font-family:Comic Sans MS,Arial; font-size:18pt; color:#808080;background-color:#cecbc6;'>DeeHTML Editor</span>
+
+<!-- object element selectable list -->
+<table cellpadding="0" bgcolor="#D6D3CE" cellspacing="0" align="top" style=" border:1px outset" bordercolordark="#808080" bordercolorlight="#FFFFFF" width="100%">
+<tr><td>
+
+<table width="97%" cellpadding="2" cellspacing="2" border=0 style="height:335px;table-layout:fixed;" bgcolor="#D6D3CE" align="top">
+<tr><td width=102 style="font-family:Tahoma;color:#848284; font-size:8pt;" align="center">
+Game Objects
+  <table id="level_object_list" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" style=" z-index:1; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:1px inset; height:250; width:100; table-layout:fixed; overflow-y:scroll;" bordercolordark="#808080" bordercolorlight="#FFFFFF">
+  <tr><td>
+  <div id="left_scroller" style="overflow:scroll; overflow-x:hidden; height:249; width:96;">
+   <!-- begin side list -->
+    <table height=400 id="side_list_contents" width="100%" cellpadding="0" cellspacing="2" style="z-index:1;border-collapse: collapse;  background-color:#dedbd6;">
+    <tr title=allobjects><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="level_properties1" id="level_properties13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="unselectobj();newobj_button_clicked();enableObject_selectedelement(this.title);load_level_properties();"><img src="../img/level.gif"><br>Level</td></tr>
+      </table>
+    <tr title=greenobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="cube2" id="cube23sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/cube2.gif"><br>Stone</td></tr>
+      </table>
+    <tr title=iceobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="cube3" id="cube33sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/cube3.gif"><br>Block</td></tr>
+      </table>
+    <tr title=castleobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="cube_castle" id="cube_castle3sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/castle_knoll1.gif"><br>Block</td></tr>
+      </table>
+    <tr title=sandobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="cube_sand1" id="cube_sand13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/cube_sand1.gif"><br>Brick</td></tr>
+      </table>
+    <tr title=greenobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="grass1" id="grass13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/grass_knoll1.gif"><br>Grass</td></tr>
+      </table>
+    <tr title=iceobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="grass2" id="grass23sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/grass_knoll2.gif"><br>Grass</td></tr>
+      </table>
+    <tr title=sandobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="sand1" id="sand13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/grass_knoll3.gif"><br>Sand</td></tr>
+      </table>
+    <tr title=allobjects><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="lemon1" id="lemon13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/coin1.gif"><br>Lemon</td></tr>
+      </table>
+    <tr title=allobjects><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="water1" id="water13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/water1.gif" width=28 height=6><br>Water</td></tr>
+      </table>
+    <tr title=castleobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="lava1" id="lava13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/lava1.gif" width=28 height=6><br>Lava</td></tr>
+      </table>
+    <tr title=allobjects><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="rock1" id="rock13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/rock1_top.gif"><br>Rock</td></tr>
+      </table>
+    <tr title=greenobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="hill1l" id="hill1l3sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/hill_lu2.gif"><img src="../img/hill_lu1.gif"><br>Hill-Left</td></tr>
+      </table>
+    <tr title=iceobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="hill2l" id="hill2l3sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/hill2_lu2.gif"><img src="../img/hill2_lu1.gif"><br>Hill-Left</td></tr>
+      </table>
+    <tr title=sandobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="hillsandl" id="hillsandl3sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/hill3_lu2.gif"><img src="../img/hill3_lu1.gif"><br>Hill-Left</td></tr>
+      </table>
+    <tr title=greenobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="hill1r" id="hill1r3sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/hill_ru1.gif"><img src="../img/hill_ru2.gif"><br>Hill-Right</td></tr>
+      </table>
+    <tr title=iceobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="hill2r" id="hill2r3sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/hill2_ru1.gif"><img src="../img/hill2_ru2.gif"><br>Hill-Right</td></tr>
+      </table>
+    <tr title=sandobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="hillsandr" id="hillsandr3sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/hill3_ru1.gif"><img src="../img/hill3_ru2.gif"><br>Hill-Right</td></tr>
+      </table>
+    <tr title=greenobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="bigelevator1" id="bigelevator13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/elevator_l1.gif"><img src="../img/elevator_m1.gif"><img src="../img/elevator_r1.gif"><br>Elevator</td></tr>
+      </table>
+    <tr title=iceobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="bigelevator2" id="bigelevator23sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/elevator_l2.gif"><img src="../img/elevator_m2.gif"><img src="../img/elevator_r2.gif"><br>Elevator</td></tr>
+      </table>
+    <tr title=greenobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="smallelevator1" id="smallelevator13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/elevator_l1.gif"><img src="../img/elevator_r1.gif"><br>ElevatorB</td></tr>
+      </table>
+    
+    <tr title=iceobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="smallelevator2" id="smallelevator23sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/elevator_l2.gif"><img src="../img/elevator_r2.gif"><br>ElevatorB</td></tr>
+      </table>
+    <tr title=castleobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="castle_elevator1" id="castle_elevator13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/elevator_castle.gif"><br>ElevatorC</td></tr>
+      </table>
+    <tr title=sandobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="sandelevator1" id="sandelevator13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/elevator_sand1.gif"><br>Elevator</td></tr>
+      </table>
+    <tr title=allobjects><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="cannon1" id="cannon13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/cannon1_up.gif"><br>Cannon</td></tr>
+      </table>
+    <tr title=allobjects><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="smug1" id="smug13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/smug1.gif"><br>Smug</td></tr>
+      </table>
+    <tr title=allobjects><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="smug2" id="smug23sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/smug2_up.gif"><br>SmugPogo</td></tr>
+      </table>
+    <tr title=castleobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="smug3" id="smug33sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/smug3.gif"><br>SmugGhost</td></tr>
+      </table>
+    <tr title=sandobject><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="smug4" id="smug43sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/smug4.gif"><br>Cactusmug</td></tr>
+      </table>
+    <tr><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="fish1" id="fish13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/fish_r1.gif"><br>Fish</td></tr>
+      </table>
+    <tr title=allobjects><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="spring1" id="spring13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/spring_up.gif"><br>Spring</td></tr>
+      </table>
+    <tr title=allobjects><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="level_restart_point1" id="level_restart_point13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/restart_point_OFF.gif" height=23><br>RestartPoint</td></tr>
+      </table>
+    <tr title=allobjects><td>
+      <table class="sidebar_td" bgcolor="#dedbd6" width="100%" height=40 cellpadding="0" cellspacing="0">
+      <tr><td title="level_end_goal1" id="level_end_goal13sidebar" height=40 onMouseOver="sidebar_hover(this,0);" onMouseOut="sidebar_hover(this,1);" onClick="newobj_button_clicked();enableObject_selectedelement(this.title);"><img src="../img/goal1.gif"><br>End Goal</td></tr>
+      </table>
+    
+      
+      
+    </table> 
+    <!-- end side list -->
+    </div>
+ 
+</tr></td>
+</table>
+
+
+  
+
+<td id="object_properties_td" width="215" align=top valign=top>
+<img src=../img/x.gif align=top height=44>
+<!--- object element properties -->
+    <table id="cube2" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<img src="../img/cube2.gif"><span id="cube2@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="cube2@@objectHTML"> 
+    <TABLE class=cube1Tbl width=999991 height=999992 style="position:relative; left:3;  top:4; display:none;" title="W,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+    <TBODY><TR><TD style="BACKGROUND: url(../img/cube2.gif) repeat left top"></TD></TR></TBODY></TABLE>
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="cube2@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="cube2@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="cube2@2" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+    </table>
+    </form></div>  
+    
+    
+    </table>
+<!---end  object element properties -->
+
+<!--- object element properties -->
+    <table id="cube3" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<img src="../img/cube3.gif"><span id="cube3@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="cube3@@objectHTML">
+    <TABLE class=cube1Tbl width=999991 height=999992 style="position:relative; left:3;  top:4; display:none;" title="W,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+    <TBODY><TR><TD style="BACKGROUND: url(../img/cube3.gif) repeat left top"></TD></TR></TBODY></TABLE>
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="cube3@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="cube3@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="cube3@2" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+    </table>
+    </form></div>  
+    
+    
+    </table>
+<!---end  object element properties -->
+
+<!--- object element properties -->
+    <table id="cube_castle" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<img src="../img/castle_knoll1.gif"><span id="cube_castle@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="cube_castle@@objectHTML">
+    <TABLE class=cube1Tbl width=999991 height=999992 style="position:relative; left:3;  top:4; display:none;" title="W,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+    <TBODY><TR><TD style="BACKGROUND: url(../img/castle_knoll1.gif) repeat center top"></TD></TR></TBODY></TABLE>   
+   </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="cube_castle@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="cube_castle@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="cube_castle@2" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+    </table>
+    </form></div>  
+    
+    
+    </table>
+<!---end  object element properties -->
+
+<!--- object element properties -->
+    <table id="cube_sand1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<img src="../img/cube_sand1.gif"><span id="cube_sand1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="cube_sand1@@objectHTML"> 
+    <TABLE class=cube1Tbl width=999991 height=999992 style="position:relative; left:3;  top:4; display:none;" title="W,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+    <TBODY><TR><TD style="BACKGROUND: url(../img/cube_sand1.gif) repeat left top"></TD></TR></TBODY></TABLE>
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="cube_sand1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="cube_sand1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="cube_sand1@2" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+    </table>
+    </form></div>  
+    
+    
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="grass1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<img src="../img/grass_knoll1.gif"><span id="grass1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center"> 
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="grass1@@objectHTML"> 
+    <TABLE class=Grass1Tbl width="999991" height="999992" style="position:relative; left:3;  top:4; display:none;" title="W,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+    <TR height=20><TD style="BACKGROUND: url(../img/grass_knoll1.gif) center top" width="100%"></TD></TR><TR><TD bgColor=#848200></TD></TR></TBODY></TABLE>    
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="grass1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="grass1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="grass1@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+   
+    </table>
+    </form></div>  
+    
+    
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="grass2" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<img src="../img/grass_knoll2.gif"><span id="grass2@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center"> 
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="grass2@@objectHTML">
+    <TABLE class=Grass1Tbl width=999991 height=999992 style="position:relative; left:3;  top:4; display:none;" title="W,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+    <TR height=20><TD style="BACKGROUND: url(../img/grass_knoll2.gif) center top" width="100%"></TD></TR><TR><TD bgColor=#848200></TD></TR></TBODY></TABLE>
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="grass2@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="grass2@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="grass2@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+   
+    </table>
+    </form></div>  
+    
+    
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="sand1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<img src="../img/grass_knoll3.gif"><span id="sand1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center"> 
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="sand1@@objectHTML">
+    <TABLE class=Grass1Tbl width=999991 height=999992 style="position:relative; left:3;  top:4; display:none;" title="W,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+    <TR height=20><TD style="BACKGROUND: url(../img/grass_knoll3.gif) center top" width="100%"></TD></TR><TR><TD bgColor=#ffbe21></TD></TR></TBODY></TABLE>
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="sand1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="sand1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="sand1@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+   
+    </table>
+    </form></div>  
+    
+    
+    </table>
+<!---end  object element properties -->
+
+
+
+<!--- object element properties -->
+    <table id="lemon1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<img src="../img/coin1.gif"><span id="lemon1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="lemon1@@objectHTML">
+    <IMG src="../img/coin1.gif" style="position:relative; left:3;  top:4; display:none;"  title="W,1,0,1,2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"> 
+     </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="lemon1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="lemon1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="lemon1@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+      <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+      <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>
+      <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+      <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+
+    </table>
+    </form></div>  
+    
+    
+    </table>
+<!---end  object element properties -->
+
+
+
+<!--- object element properties -->
+    <table id="water1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<img src="../img/water1.gif" width=27 height=6><span id="water1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="water1@@objectHTML">
+        <TABLE class=River1Tbl width=999991 height=6 style="position:relative; left:3;  top:4; display:none;" title="W,4,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+        <TBODY><TR height=6><TD style="BACKGROUND: url(../img/water1.gif) left top" height=6></TD></TR></TBODY></TABLE>
+        <TABLE class=River1Tbl style="position:relative; left:3;  top:5; display:none;" height=500 width=999991><TBODY><TR><TD bgColor=#2424ff></TD></TR></TBODY></TABLE>
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="water1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="water1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="water1@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+   
+    </table>
+    </form></div>  
+    
+    
+    </table>
+<!---end  object element properties -->
+
+
+
+<!--- object element properties -->
+    <table id="lava1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<img src="../img/lava1.gif" width=27 height=6><span id="lava1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="lava1@@objectHTML">
+           <TABLE class=River1Tbl width=999991 height=6 style="position:relative; left:3;  top:4; display:none;" title="W,4,0,1,0,0,0,0,0,0,0t,0,0,0,0,0,1,0,0,0,0,0,0,0,0">
+        <TBODY><TR><TD style="BACKGROUND: url(../img/lava1.gif) left top" height=6></TD></TR></TBODY></TABLE>
+        <TABLE class=River1Tbl style="position:relative; left:3;  top:5; display:none;" height=500 width=999991><TBODY><TR><TD bgColor=#ff0000></TD></TR></TBODY></TABLE>
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="lava1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="lava1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="lava1@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+   
+    </table>
+    </form></div>  
+    
+    
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="rock1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/rock1_top.gif"><span id="rock1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="rock1@@objectHTML">
+      <TABLE class=big_cube2Tbl width="40" height=999992 style="position:relative; left:3;  top:4; display:none;" cellpadding=0 cellspacing=0 title="W,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+      <TBODY><TR height=10>
+      <TD width=40 height=7 style="BACKGROUND: url(../img/rock1_top.gif) left top;"></TD></tr><TR><TD width=38 style="BORDER-RIGHT: 1px solid; BORDER-TOP: 0px; BORDER-LEFT: 1px solid; BORDER-BOTTOM: 1px solid; BACKGROUND: url(../img/rock1.gif) left top; "></TD></TR></TBODY></TABLE>
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="rock1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="rock1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;"  valign="top">
+    <table id="rock1@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+   
+    </table>
+    </form></div>  
+    
+    
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="hill1r" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/hill_ru1.gif"><img src="../img/hill_ru2.gif"></nobr><span id="hill1r@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="hill1r@@objectHTML">
+    <table class="Hill1Tbl" title="W,3,0,1,0,0,0,0,0,0,0,../img/hill_ru1.gif,0,0,0,0,0,0,0,0,0,0,0,1,1,tablesleftvalue" cellpadding=0 cellspacing=0 width=18 height=21 style="position:relative; left:3;  top:4; display:none;"><tr><td><img src="../img/grass_knoll1.gif" border=0></td></tr><tr><td bgcolor="#848200" valign="top" height=500></td></tr></table>
+   </span> 
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="hill1r@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="hill1r@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="hill1r@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Repeat:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    
+    </table>
+    </form></div>     
+    
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="hill2r" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/hill2_ru1.gif"><img src="../img/hill2_ru2.gif"></nobr><span id="hill2r@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="hill2r@@objectHTML">
+      <table class="Hill1Tbl" title="W,3,0,1,0,0,0,0,0,0,0,../img/hill2_ru1.gif,0,0,0,0,0,0,0,0,0,0,0,1,1,tablesleftvalue" cellpadding=0 cellspacing=0 width=18 height=21 style="position:relative; left:3;  top:4; display:none;"><tr><td><img src="../img/grass_knoll2.gif" border=0></td></tr><tr><td bgcolor="#848200" valign="top" height=500></td></tr></table> 
+  </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="hill2r@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="hill2r@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="hill2r@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Repeat:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    
+    </table>
+    </form></div>     
+    
+    </table>
+<!---end  object element properties -->
+
+<!--- object element properties -->
+    <table id="hillsandr" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/hill3_ru1.gif"><img src="../img/hill3_ru2.gif"></nobr><span id="hillsandr@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="hillsandr@@objectHTML">
+      <table class="Hill1Tbl" title="W,3,0,1,0,0,0,0,0,0,0,../img/hill3_ru1.gif,0,0,0,0,0,0,0,0,0,0,0,1,1,tablesleftvalue" cellpadding=0 cellspacing=0 width=18 height=21 style="position:relative; left:3;  top:4; display:none;"><tr><td><img src="../img/grass_knoll3.gif" border=0></td></tr><tr><td bgcolor="#ffbe21" valign="top" height=500></td></tr></table> 
+  </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="hillsandr@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="hillsandr@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="hillsandr@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Repeat:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    
+    </table>
+    </form></div>     
+    
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="hill1l" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/hill_lu2.gif"><img src="../img/hill_lu1.gif"></nobr><span id="hill1l@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="hill1l@@objectHTML">
+      <table class="Hill1Tbl" title="W,3,0,1,0,0,0,0,0,0,0,../img/hill_lu1.gif,0,0,0,0,0,0,0,0,0,0,0,-1,1,tablesleftvalue" cellpadding=0 cellspacing=0 width=18 height=21 style="position:relative; left:3;  top:4; display:none;"><tr><td><img src="../img/grass_knoll1.gif" border=0></td></tr><tr><td bgcolor="#848200" valign="top" height=500></td></tr></table>
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="hill1l@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="hill1l@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="hill1l@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Repeat:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="hill2l" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/hill2_lu2.gif"><img src="../img/hill2_lu1.gif"></nobr><span id="hill2l@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="hill2l@@objectHTML"> 
+        <table class="Hill1Tbl" title="W,3,0,1,0,0,0,0,0,0,0,../img/hill2_lu1.gif,0,0,0,0,0,0,0,0,0,0,0,-1,1,tablesleftvalue" cellpadding=0 cellspacing=0 width=18 height=21 style="position:relative; left:3;  top:4; display:none;"><tr><td><img src="../img/grass_knoll2.gif" border=0></td></tr><tr><td bgcolor="#848200" valign="top" height=500></td></tr></table>
+  </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="hill2l@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="hill2l@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="hill2l@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Repeat:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="hillsandl" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/hill3_lu2.gif"><img src="../img/hill3_lu1.gif"></nobr><span id="hillsandl@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="hillsandl@@objectHTML"> 
+        <table class="Hill1Tbl" title="W,3,0,1,0,0,0,0,0,0,0,../img/hill3_lu1.gif,0,0,0,0,0,0,0,0,0,0,0,-1,1,tablesleftvalue" cellpadding=0 cellspacing=0 width=18 height=21 style="position:relative; left:3;  top:4; display:none;"><tr><td><img src="../img/grass_knoll3.gif" border=0></td></tr><tr><td bgcolor="#ffbe21" valign="top" height=500></td></tr></table>
+  </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="hillsandl@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="hillsandl@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="hillsandl@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Repeat:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+
+<!--- object element properties -->
+    <table id="bigelevator1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/elevator_l1.gif"><img src="../img/elevator_m1.gif"><img src="../img/elevator_r1.gif"></nobr><span id="bigelevator1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="bigelevator1@@objectHTML"> 
+      <TABLE class=Elevator1Tbl width="54" height="5" style="position:relative; left:3;  top:4; display:none;" cellpadding=0 cellspacing=0 title="W,2,0,1,2,0,1,pathmaxl_value,pathmaxr_value,pathmaxb_value,pathmaxt_value,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+      <TBODY><TR><TD><IMG src="../img/elevator_l1.gif"></TD><TD><IMG src="../img/elevator_m1.gif"></TD><TD><IMG src="../img/elevator_r1.gif"></TD></TR></TBODY></TABLE>   
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="bigelevator1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="bigelevator1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="bigelevator1@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=10>
+      <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Horiz path:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@left2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Vertical path:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@top2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+
+
+
+
+<!--- object element properties -->
+    <table id="bigelevator2" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/elevator_l2.gif"><img src="../img/elevator_m2.gif"><img src="../img/elevator_r2.gif"></nobr><span id="bigelevator2@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="bigelevator2@@objectHTML">
+        <TABLE class=Elevator1Tbl width="54" height="5" style="position:relative; left:3;  top:4; display:none;" cellpadding=0 cellspacing=0 title="W,2,0,1,2,0,1,pathmaxl_value,pathmaxr_value,pathmaxb_value,pathmaxt_value,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+      <TBODY><TR><TD><IMG src="../img/elevator_l2.gif"></TD><TD><IMG src="../img/elevator_m2.gif"></TD><TD><IMG src="../img/elevator_r2.gif"></TD></TR></TBODY></TABLE>   
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="bigelevator2@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="bigelevator2@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="bigelevator2@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=10>
+      <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Horiz path:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@left2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Vertical path:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@top2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="smallelevator1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/elevator_l1.gif"><img src="../img/elevator_r1.gif"></nobr><span id="smallelevator1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="smallelevator1@@objectHTML">
+    <TABLE class=Elevator1Tbl width="36" height="5" style="position:relative; left:3;  top:4; display:none;" cellpadding=0 cellspacing=0 title="W,2,0,1,2,0,1,pathmaxl_value,pathmaxr_value,pathmaxb_value,pathmaxt_value,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+      <TBODY><TR><TD><IMG src="../img/elevator_l1.gif"></TD><TD><IMG src="../img/elevator_r1.gif"></TD></TR></TBODY></TABLE>   
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="smallelevator1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="smallelevator1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="smallelevator1@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=10>
+      <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Horiz path:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@left2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Vertical path:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@top2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="smallelevator2" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/elevator_l2.gif"><img src="../img/elevator_r2.gif"></nobr><span id="smallelevator2@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="smallelevator2@@objectHTML"> 
+      <TABLE class=Elevator1Tbl width="36" height="5" style="position:relative; left:3;  top:4; display:none;" cellpadding=0 cellspacing=0 title="W,2,0,1,2,0,1,pathmaxl_value,pathmaxr_value,pathmaxb_value,pathmaxt_value,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+      <TBODY><TR><TD><IMG src="../img/elevator_l2.gif"></TD><TD><IMG src="../img/elevator_r2.gif"></TD></TR></TBODY></TABLE>   
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="smallelevator2@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="smallelevator2@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="smallelevator2@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=10>
+      <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Horiz path:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@left2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Vertical path:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@top2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="castle_elevator1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/elevator_castle.gif"></nobr><span id="castle_elevator1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="castle_elevator1@@objectHTML"> 
+      <TABLE class=Elevator1Tbl width="38" height="9" style="position:relative; left:3;  top:4; display:none;" cellpadding=0 cellspacing=0 title="W,2,0,1,2,0,1,pathmaxl_value,pathmaxr_value,pathmaxb_value,pathmaxt_value,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+      <TBODY><TR><TD><IMG src="../img/elevator_castle.gif"></TD></TR></TBODY></TABLE>   
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="castle_elevator1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="castle_elevator1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="castle_elevator1@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=10>
+      <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Horiz path:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@left2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Vertical path:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@top2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+
+<!--- object element properties -->
+    <table id="sandelevator1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/elevator_sand1.gif"></nobr><span id="sandelevator1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="sandelevator1@@objectHTML">
+    <TABLE class=Elevator1Tbl width="38" height="6" style="position:relative; left:3;  top:4; display:none;" cellpadding=0 cellspacing=0 title="W,2,0,1,2,0,1,pathmaxl_value,pathmaxr_value,pathmaxb_value,pathmaxt_value,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+      <TBODY><TR><TD><IMG src="../img/elevator_sand1.gif"></TD></TR></TBODY></TABLE>   
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="sandelevator1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="sandelevator1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="sandelevator1@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=10>
+      <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Horiz path:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@left2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Vertical path:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@top2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="cannon1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/cannon1_up.gif"></nobr><span id="cannon1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="cannon1@@objectHTML">
+      <img src="../img/cannon1_up.gif" style="position:relative; left:3;  top:4; display:none; z-index:2;" title="W,0,0,1,0,0,0,0,0,0,ballpathmaxt,cannon1_up.gif,0,0,0,0,0,0,0,0,0,0,0,0,0">
+      <IMG class="Projectile1Tbl" style="border:0px;position:relative; left:5;  top:4; display:none; z-index:1;" src="../img/cannon_ball1.gif" width=8 height=9 title="W,2,0,0,-1,1,3,0,0,ballpathmaxb,ballpathmaxt,../img/cannon_ball1.gif,../img/cannon_ball1.gif,../img/cannon_ball1.gif,../img/cannon_ball1.gif,../img/cannon_ball1.gif,44,0,0,0,0,0,0,0"> 
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="cannon1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="cannon1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="cannon1@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=10>
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>CannonBall vertical limit:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=6 value="0" maxlength=5></td></tr>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=6 value="0" maxlength=5></td></tr>    
+    
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+
+<!--- object element properties -->
+    <table id="smug1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/smug1.gif"></nobr><span id="smug1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="smug1@@objectHTML">
+    <IMG src="../img/smug1.gif" style="border:0px;  z-index:1; position:relative; left:3;  top:4; display:none;" title=W,2,0,1,2,1,1,pathmaxl_value,pathmaxr_value,pathmaxb_value,pathmaxt_value,../img/smug1.gif,../img/smug1.gif,../img/smug1.gif,../img/smug1.gif,../img/smug1_hit.gif,0,0,0,0,0,0,0,0> 
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="smug1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="smug1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="smug1@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=10>
+      <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=6 value="0" maxlength=5></td></tr>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Horiz path:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@left2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+
+<!--- object element properties -->
+    <table id="smug2" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/smug2_up.gif"></nobr><span id="smug2@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="smug2@@objectHTML">
+      <IMG src="../img/smug2_up.gif" style="border:0px;  z-index:1; position:relative; left:3;  top:4; display:none;" title=W,2,0,1,2,1,1,pathmaxl_value,pathmaxr_value,pathmaxb_value,pathmaxt_value,../img/smug1.gif,../img/smug1.gif,../img/smug2_up.gif,../img/smug2_down.gif,../img/smug1_hit.gif,0,0,0,0,0,0,0,0> 
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="smug2@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="smug2@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="smug2@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=10>
+      <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=6 value="0" maxlength=5></td></tr>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Vertical path:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@top2" type="text" size=6 value="0" maxlength=5></td></tr>    
+   
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+
+<!--- object element properties -->
+    <table id="smug3" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/smug3.gif"></nobr><span id="smug3@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="smug3@@objectHTML">
+        <IMG src="../img/smug3.gif" style="border:0px;  z-index:1; position:relative; left:3;  top:4; display:none;" title=W,2,0,1,2,1,1,pathmaxl_value,pathmaxr_value,pathmaxb_value,pathmaxt_value,../img/smug3.gif,../img/smug3.gif,../img/smug3.gif,../img/smug3.gif,../img/smug3_hit.gif,0,0,0,0,0,0,0,0> 
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="smug3@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="smug3@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="smug3@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=10>
+      <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=6 value="0" maxlength=5></td></tr>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Horiz path:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@left2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Vertical path:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@top2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="smug4" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/smug4.gif"></nobr><span id="smug4@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="smug4@@objectHTML">
+    <IMG src="../img/smug4.gif" style="border:0px;  z-index:1; position:relative; left:3;  top:4; display:none;" title=W,2,0,1,2,1,1,pathmaxl_value,pathmaxr_value,pathmaxb_value,pathmaxt_value,../img/smug4.gif,../img/smug4.gif,../img/smug4.gif,../img/smug4.gif,../img/smug4_hit.gif,0,0,0,0,0,0,0,0> 
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="smug4@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="smug4@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="smug4@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=10>
+      <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=6 value="0" maxlength=5></td></tr>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Horiz path:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@left2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+
+   <!--- object element properties -->
+    <table id="fish1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<nobr><img src="../img/fish_r1.gif"></nobr><span id="fish1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="fish1@@objectHTML">
+        <IMG src="../img/fish_r1.gif" style="border:0px;  z-index:1; position:relative; left:3;  top:4; display:none;" title=W,2,0,1,-1,1,1,pathmaxl_value,pathmaxr_value,pathmaxb_value,pathmaxt_value,../img/fish_r1.gif,../img/fish_l1.gif,../img/fish_r1.gif,../img/fish_r1.gif,../img/fish1_hit.gif,0,0,0,0,0,0,0,0>  
+     </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="fish1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="fish1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="fish1@2" bgcolor="#dedbd6"  border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=10>
+    <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=6 value="0" maxlength=5></td></tr>
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Horiz path:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=6 value="0" maxlength=5>&nbsp;to&nbsp;<input alt="num" class="txt2" name="@@left2" type="text" size=6 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Colour:</td><td colspan=2><select style="font-family:verdana; font-size:8pt;" name="@@width"><option value="">Red</option><option value=2>Purple</option></td></tr>    
+    
+    </table>
+    </form></div>  
+       
+    </table>
+<!---end  object element properties -->
+  
+  
+
+  
+<!--- object element properties -->
+    <table id="level_restart_point1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<img src="../img/restart_point_OFF.gif" height=22><span id="level_restart_point1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="level_restart_point1@@objectHTML">
+     <img style="position:relative; left:3;  top:4; display:none;" width=15 height=32 testprop="RESTART POINT" src="../img/restart_point_OFF.gif" title=W,5,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0>
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="level_restart_point1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="level_restart_point1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="level_restart_point1@2" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr  style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+  
+    </table>
+    </form></div>  
+    
+    
+    </table>
+<!---end  object element properties -->
+
+
+
+
+
+  
+<!--- object element properties -->
+    <table id="level_end_goal1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<img src="../img/goal1.gif"><span id="level_end_goal1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="level_end_goal1@@objectHTML">
+          <img testprop="END LEVEL POINT" style="position:relative; left:3; top:4; display:none;" src="../img/goal1.gif" title=W,5,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0>
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="level_end_goal1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="level_end_goal1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="level_end_goal1@2" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+    </table>
+    </form></div>  
+    
+    
+    </table>
+<!---end  object element properties -->
+
+
+
+ <table id="level_properties1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<img src="../img/level.gif"><span style="font-weight:bold;">&nbsp;Level Properties</span><span id="level_properties1@@propbanner" style="font-weight:bold; display:none;"></span><span style="font-family:tahoma,Arial; font-size:8pt;">
+  </td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New "  style="width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="New_Level();">
+    <input class="tx" name="@@add" type=button value=" Create " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="New_Level_Show();">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="level_properties1@@objectHTML"> 
+    <bodytxt bgColor=#00b5ff leftMargin=0 rightMargin=0 topMargin=0 title=time_to_completevalue,game_styles.css,start_point_xvalue,start_point_y,1.4,skygif_value,level_template_value  onload=parent.load_level_dyn_elements();>
+   </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="level_properties1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="level_properties1@@form">
+    <div id="level_properties1_C" style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="level_properties1@2" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+     <tr id="template_selector_tr" height=28 style="display:none;"><td><td>Template:</td><td colspan=2><select style="font-family:Verdana,Arial; font-size:10pt;color: black;" id="the_level_template"><option value=0>Green</option><option value=1>Ice</option><option value=2>Castle</option><option value=3>Desert</option></select></td></tr>
+    <tr id="timer_tr"><td><td>Timer start:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr id="player_start_tr"><td><td>Player start:&nbsp;</td><td colspan=2>Left:<input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5>Top:<input alt="num" class="txt2" name="@@width2" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr style="display:none;"><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr style="display:none;"><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+   </table>
+    </form></div>   
+     
+    </table>
+<!---end  object element properties -->
+
+
+<!--- object element properties -->
+    <table id="spring1" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" class="propBox" style="display:none;">
+    <col width=30><col width=180>
+    <tr height=32 bgcolor="#E0E0E0"><td colspan=2 align="left">&nbsp;<img src="../img/spring_up.gif"><span id="spring1@@propbanner" style="font-weight:bold;"></span></td>
+    <tr bgcolor="#E0E0E0">
+    <td colspan=2 align="center">
+    <input class="tx" name="@@new" type=button value=" New " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="newobj_button_clicked();">
+    <input class="tx" name="@@add" type=button value=" Insert " style="display:;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'add');">
+    <input class="tx" name="@@apply" type=button value=" Apply " style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="addObj_element(get_ename(this),'save');">
+    <input class="tx" name="@@delete" type=button value="Delete" style="display:none;width:50px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="iask_del(this)">
+    
+    <span id="spring1@@objectHTML">
+          <IMG src="../img/spring_up.gif" width=18 height=16 style="border:0px;  z-index:1; position:relative; left:3;  top:4; display:none;" title=W,2,0,1,2,2,1,100,100,155,155,../img/spring_up.gif,../img/spring_up.gif,../img/spring_up.gif,../img/spring_up.gif,../img/spring_up.gif,0,0,0,0,0,0,0,0>  
+    </span>
+    
+    </td></tr><tr><td bgcolor="#E0E0E0" colspan=2 style="border-bottom:1px solid #808080 ;"><span id="spring1@@info" ></span></td></tr>
+    <tr><td colspan=2 valign="top"><form name="spring1@@form">
+    <div style="overflow-y:auto; overflow-x:hidden; height:187; width:210;">
+    <table id="spring1@2" bgcolor="#dedbd6" border="0" cellpadding="0" cellspacing="0" style="z-index:1;border-collapse: collapse; font-family: Tahoma; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:0px solid;">
+    <col width=20>
+    <tr style="display:none;"><td><td>Height:</td><td colspan=2><input alt="num" class="txt2" name="@@height" type="text" size=4 value="0" maxlength=5></td></tr>
+    <tr style="display:none;"><td><td>Width:</td><td colspan=2><input alt="num" class="txt2" name="@@width" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Left:</td><td colspan=2><input alt="num" class="txt2" name="@@left" type="text" size=4 value="0" maxlength=5></td></tr>    
+    <tr><td><td>Top:</td><td colspan=2><input alt="num" class="txt2" name="@@top" type="text" size=4 value="0" maxlength=5></td></tr>    
+    </table>
+    </form></div>  
+    
+    
+    </table>
+<!---end  object element properties -->
+
+
+
+
+
+
+
+<!--- the game level screen iframe-->
+</td><td align="left">
+  <table width="100%" cellpadding="0" cellspacing="0" border=0 style="height:24px;table-layout:fixed; overflow-y:hidden;">
+    <tr><td align="left" valign="bottom" width="130">
+    <input type="text" id="MouseCoordsMsgSpan" style="border:0px solid #D6D3CE;background-color:#D6D3CE;font-family:tahoma,arial; font-size:8pt; font-weight:normal; color:#808080; width:110px; height:16px;" value="">
+    </td><td align="left">
+    <nobr>
+    <select id="level_select_debug" style="font-family:Verdana,Arial; font-size:10pt; color:black; background-color:#FFFFFF; border:0px solid;"  onChange="document.getElementById('MouseCoordsMsgSpan').value='';unselectobj();mainScreen.document.getElementById('current_level').innerHTML=this.value; unselectobj(); change_level=1;if(this.value>=0){window.status='Loading Level '+this.value;mainScreen.load_level_intocache();this.options[0].innerText='Level '+this.value;}this.selectedIndex=0;"><option value=1> Choose Level... </option><option value=1>1</option><option value=2>2</option><option value=3>3</option><option value=4>4</option><option value=5>5</option><option value=6>6</option><option value=7>7</option><option value=8>8</option><option value=9>9</option><option value=10>10</option></select>
+    <input class="tx" name="@@savehtml" type=button value=" Save Level " style="width:80px; height:22px;" onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="save_level();">
+    <input type=button id="pausegamechk" value="Animate!" class="tx" style="cursor:hand;font-size:8pt; width:57px; height:22px;"  onMouseOver="hiliborder(this,0);" onMouseOut="this.style.backgroundColor='#D6D3CE';hiliborder(this,1);" onClick="if(opiframe1Screen.bctr!=null){if(gameIsPaused==0){opiframe1Screen.clearTimeout(opiframe1Screen.update_timeout);gameIsPaused=1;this.value='Animate!';}else{gameIsPaused=0;opiframe1Screen.u1();this.value=' Pause ';gameScreen.document.body.focus=true;}}else{alert('No Level loaded.');}"></span>
+    </nobr>
+    </table>
+    <IFRAME id="debug_iframe" name="debug_iframe" FRAMEBORDER=0 scrolling="auto" marginwidth="0" marginheight="0" noresize width="100%" height="263" src="" style="position:relative; border:2px solid #808080; margin:0px; z-index:1;"><br></IFRAME>
+    <br><span id="LevelEditMsg" style="height:15px;font-family:tahoma,arial; font-size:8pt; font-weight:bold;"></span>
+
+</table>
+
+</table>
+
+  
+  </body>
+</html>
+
+  

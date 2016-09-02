@@ -1,0 +1,126 @@
+<html>
+	<head>
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bonus.css" />
+
+		<style>
+
+		</style>
+		<script type="text/javascript" src="../js/code.js"></script>
+
+		<script>
+			A_PATH = "../" + A_PATH;
+
+		</script>
+		<style>
+
+			.findlist {
+
+				background: white;
+				border: 1px solid black;
+				padding: 2px;
+				height: 310px;
+				width: 300px;
+				margin-bottom: 15px;
+			}
+
+			.gotbonus {
+
+				display: block;
+
+			}
+
+			.imgbonus {
+
+				display: block;
+
+			}
+
+			.reset {
+
+				display:none;
+
+			}
+
+			#ff1{
+				position:absolute;
+				cursor:default;
+				color:pink;
+				left:210px; /* m1 area x (when displayed reduced) - (25/2) 25=img width */
+				top:208px; 	/* m1 area y (when displayed reduced) - (26/2) 26=img height */
+				}
+
+			#ff2{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:152px;
+				top:222px;
+				}
+
+			#ff3{
+				position:absolute;
+				cursor:default;
+				color:yellow;
+				left:188px;
+				top:222px;
+				}
+
+			#ff4{
+				position:absolute;
+				cursor:default;
+				color:yellow;
+				left:218px;
+				top:129px;
+				}
+
+		</style>
+
+	</head>
+	<body onload="init('winner.html','<b>KEY COMPLETED!</b><br /><img src=images/key.jpg />')" onkeypress="keyhint(event,0,0,1)" onunload="reset_bg_music()" onclick="point(event)">
+		<div class="listdiv">
+			<div align="center" id="header">
+				<div class="findlist">
+					<h1><a href="#" onclick="$$('f5').style.display='block';this.innerHTML='Can You Make This?'">HINT</a></h1>
+					<h2 id="f1" class="hide"><img src="images/fff1.jpg" /> Bolt</h2>
+					<h2 id="f2" class="hide"><img src="images/fff2.jpg" /> Screw</h2>
+					<h2 id="f3" class="hide"><img src="images/fff3.jpg" /> Screw</h2>
+					<h2 id="f4" class="hide"><img src="images/fff4.jpg" /> Handle</h2>
+					<h2 id="f5" class="hide"><img src="images/key.jpg" /></h2>
+	
+				</div>
+			</div>
+			<div align="center" id="footer">
+				<div id="timerborder" class="timerOuter" onclick="pause()"><div id="timer" class="timerInner"></div></div>
+	
+				<div id="onePlayerContent" class="onePlayerStyle">
+					<span id="P" class="player">0</span>
+				</div>
+				<div>Escape the Toilet!</div>
+	
+			</div>
+		</div>
+		<div id="content" align="center">
+			<img name="normal" id="normal" class="landscape" src="images/L8.jpg" >
+
+			<div id="ff1" class="hide"><img src="images/ff1.jpg" /></div>
+			<div id="ff2" class="hide"><img src="images/ff2.jpg" /></div>
+			<div id="ff3" class="hide"><img src="images/ff3.jpg" /></div>
+			<div id="ff4" class="hide"><img src="images/ff4.jpg" /></div>
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("off","display:none")</script>
+
+			<map name="zoom">
+				<area shape ="circle" coords ="645,659,15" nohref id="m1" onclick="chkscore(1,this,event,true)" />
+				<area shape ="circle" coords ="456,669,15" nohref id="m2" onclick="chkscore(2,this,event,true)" />
+				<area shape ="circle" coords ="570,669,15" nohref id="m3" onclick="chkscore(3,this,event,true)" />
+				<area shape ="circle" coords ="675,422,15" nohref id="m4" onclick="chkscore(4,this,event,true)" />
+
+			</map>
+
+		</div>
+		<div id="preloader"><img src="images/ff1.jpg"/><img src="images/ff2.jpg" /><img src="images/ff3.jpg" /><img src="images/ff4.jpg" /><img src="images/fff1.jpg"/><img src="images/fff2.jpg" /><img src="images/fff3.jpg" /><img src="images/fff4.jpg" /><img src="images/key.jpg" /></div>
+	</body>
+</html>

@@ -1,0 +1,39 @@
+<html>
+	<head><title></title>
+		<style>
+			body {
+					background-color:#101010;
+					text-align:center;
+			}
+		</style>
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+
+			data=['0i1.jpg','1i2.jpg','0i3.jpg','0i4.jpg','0i5.jpg','0i6.jpg','0i7.jpg','0i8.jpg','0i9.jpg','0i10.jpg','0i11.jpg','0i12.jpg','0i13.jpg','0i14.jpg','0i15.jpg','0i16.jpg','0i5.jpg','0i6.jpg','0i7.jpg','0i8.jpg','0i9.jpg','0i10.jpg','0i11.jpg','0i12.jpg','0i17.jpg','0i18.jpg','0i19.jpg','0i20.jpg'];
+
+			// override wav's
+			A_MUSIC = "1.wav";
+			A_CORRECT = "2.wav";
+			A_WRONG = "3.wav";
+			A_HINT = "4.wav"
+			A_COMPLETED = "5.wav";
+			A_BONUS = "6.wav";
+
+			TIMEUP = "#";
+
+			TICK = 180;
+
+			LOOP = 2000;
+
+			I_PATH = "images_man_talking/";
+
+			A_PATH = "audio_man_talking/";
+			
+		</script>
+	</head>
+    <body onload="init()">
+        <div>
+            <img src="images/timer.gif" alt="" id="normal" onclick="INIT()" />
+        </div>
+    </body>
+</html>

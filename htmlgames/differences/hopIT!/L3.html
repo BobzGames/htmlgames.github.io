@@ -1,0 +1,247 @@
+<html>
+	<head>
+		<title>HopIT!</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bonus.css" />
+
+		<style>
+			.hint {border:0;color:yellow}
+			.rise{
+				position:absolute;
+				top:-15px;
+				left:-10px;
+			}
+			.landscape {
+
+				width: 403px;
+				height: 287px;
+			}
+
+			#ff1{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:6px;
+				top:8px;
+
+			}
+			#ff2{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:112px;
+				top:8px;
+
+			}
+			#ff3{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:218px;
+				top:8px;
+				display:none;
+			}
+			#ff4{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:58px;
+				top:58px;
+				display:none;
+			}
+			#ff5{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:162px;
+				top:58px;
+				display:none;
+			}
+			#ff6{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:6px;
+				top:118px;
+				display:none;
+			}
+			#ff7{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:112px;
+				top:118px;
+				display:none;
+			}
+			#ff8{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:218px;
+				top:118px;
+
+			}
+			#ff9{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:58px;
+				top:172px;
+				display:none;
+			}
+			#ff10{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:169px;
+				top:170px;
+				display:none;
+			}
+			#ff11{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:6px;
+				top:222px;
+				display:none;
+			}
+			#ff12{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:112px;
+				top:222px;
+
+			}
+			#ff13{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:218px;
+				top:222px;
+				display:none;
+			}
+
+			.imgbonus{display:block}
+
+		</style>
+		<script type="text/javascript" src="../js/code.js"></script>
+
+		<script>
+			A_PATH = "../" + A_PATH;
+			A_MUSIC = "";
+			TIMEUP = "#";
+			USE_FADE = 1;
+			HINTS_LEFT = 0;
+			FOUND_RISE = false;
+			BONUS_MSG = ""
+			WRONG_MSG = "";
+
+			function got_bonus(i){ // example of overriding hiding / showing of hotspot gfx
+
+				if(ORDER){
+
+					var iG;
+					var iL;
+					var iR;
+
+					var sd_g = "none";
+					var sd_l = "none";
+					var sd_r = "block";
+
+					if(i == 1){
+						iG = 2;
+						iL = 1;
+						iR = 3;
+					}
+
+					if(i == 2){
+						iG = 8;
+						iL = 3;
+						iR = 13;
+					}
+
+					if(i == 3){
+						iG = 12;
+						iL = 13;
+						iR = 11;
+					}
+
+					$$("ff"+iG).style.display = sd_g;
+					$$("ff"+iL).style.display = sd_l;
+					$$("ff"+iR).style.display = sd_r;
+				}
+			}
+
+			function CORRECT_ORDER()
+			{
+				return true;
+			}
+			function INCORRECT_ORDER()
+			{
+				return false;
+			}
+
+			function WRONG_GUESS()
+			{
+				playBonus();
+				setTimeout("document.location.reload();",3000);
+			}
+
+			function ZEROHINTS()
+			{
+				newdiv(80, 115, 120, 20, "hint", "<i><b>No Hints Here !!!<b><i>", "sd");
+				setTimeout("removeDiv();eval('ZEROHINTS = function(){}')",987);
+			}
+		</script>
+	</head>
+	<body onload="init('L4.html','')" onkeypress="keyhint(event,0,0,1)" onunload="reset_bg_music()" onclick="point(event)">
+		<div id="content" align="center">
+			<img name="normal" id="normal" class="landscape" src="images/background.jpg" ondragstart="return false" onselectstart="return false" >
+
+			<div id="ff1"><img src="images/r_frog.gif" /></div>
+			<div id="ff2"><img src="images/g_frog.gif" /></div>
+			<div id="ff3"><img src="images/r_frog.gif" /></div>
+			<div id="ff4"><img src="images/g_frog.gif" /></div>
+			<div id="ff5"><img src="images/g_frog.gif" /></div>
+			<div id="ff6"><img src="images/g_frog.gif" /></div>
+			<div id="ff7"><img src="images/g_frog.gif" /></div>
+			<div id="ff8"><img src="images/g_frog.gif" /></div>
+			<div id="ff9"><img src="images/g_frog.gif" /></div>
+			<div id="ff10"><img src="images/g_frog.gif" /></div>
+			<div id="ff11"><img src="images/r_frog.gif" /></div>
+			<div id="ff12"><img src="images/g_frog.gif" /></div>
+			<div id="ff13"><img src="images/r_frog.gif" /></div>
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("off","")</script>
+
+			<map name="zoom">
+				<!-- froggy is 52 x 52 px  #    X  Y  R -->
+				<area shape ="circle" coords ="738,106,64" nohref id="m1" onclick="chkscore(1,this,event)" />
+				<area shape ="circle" coords ="750,766,64" nohref id="m2" onclick="chkscore(2,this,event)" />
+				<area shape ="circle" coords ="81,761,64" nohref id="m3" onclick="chkscore(3,this,event)" />
+
+<!--
+				<area shape ="circle" coords ="94,105,32" nohref id="m1" onclick="chkscore(1,this,event)" />
+				<area shape ="circle" coords ="416,109,32" nohref id="m2" onclick="chkscore(2,this,event)" />
+				<area shape ="circle" coords ="738,106,32" nohref id="m3" onclick="chkscore(3,this,event)" />
+				<area shape ="circle" coords ="249,269,32" nohref id="m4" onclick="chkscore(4,this,event)" />
+				<area shape ="circle" coords ="582,266,32" nohref id="m5" onclick="chkscore(5,this,event)" />
+				<area shape ="circle" coords ="86,429,32" nohref id="m6" onclick="chkscore(6,this,event)" />
+				<area shape ="circle" coords ="412,432,32" nohref id="m7" onclick="chkscore(7,this,event)" />
+				<area shape ="circle" coords ="741,435,32" nohref id="m8" onclick="chkscore(8,this,event)" />
+				<area shape ="circle" coords ="251,593,32" nohref id="m9" onclick="chkscore(9,this,event)" />
+				<area shape ="circle" coords ="584,595,32" nohref id="m10" onclick="chkscore(10,this,event)" />
+				<area shape ="circle" coords ="81,761,32" nohref id="m11" onclick="chkscore(11,this,event)" />
+				<area shape ="circle" coords ="415,761,32" nohref id="m12" onclick="chkscore(12,this,event)" />
+				<area shape ="circle" coords ="750,766,32" nohref id="m13" onclick="chkscore(13,this,event)" />
+-->
+			</map>
+		</div>
+	</body>
+</html>
+
+
+
+

@@ -1,0 +1,16 @@
+ body {border:0px solid;  margin-top: 0px; margin-left: 0px; margin-right: 0px; background:none; }
+img{border:0px;}
+.Grass1Tbl{border:0px solid red;border-collapse: collapse;z-index:1; position:absolute;  padding:0; border-right:solid 1px black;border-left:solid 1px black;}
+.Hill1Tbl{border:0px solid;border-collapse: collapse;z-index:2; position:absolute;}
+.big_cube2Tbl{border:0px solid black;border-collapse: collapse;z-index:1; position:absolute;  padding: 0; table-layout:fixed; cell-padding:0; cell-spacing:0;}
+.Cube1Tbl{border:0px solid;border-collapse: collapse;z-index:1; position:absolute;} 
+.River1Tbl{border:0px solid;border-collapse: collapse;z-index:0; position:absolute;} 
+.Elevator1Tbl{border:0px solid black;border-collapse: collapse;z-index:1; position:absolute; padding:0;}
+.Projectile1Tbl{border:0px solid black;border-collapse: collapse;z-index:1; position:absolute; }
+.Platform_board1Tbl{border-collapse: collapse;z-index:1; position:absolute;  border-right:solid 1px black;border-left:solid 1px black;}
+.txt2{font-family:Verdana,Arial; font-size:8pt; align:left; height:22px; width:40px; border:1px solid #7F9DB9;}
+.tx{cursor:pointer;cursor:hand;font-family:Tahoma, Arial; font-size:8pt; align:left; height:22px; background-color:#D6D3CE; border: 1px solid #808080; text-valign:center;}
+.V{z-index:2; border:1px solid;cursor:pointer;cursor:hand;}
+.sidebar_td{cursor:pointer;cursor:hand;z-index:1; font-family: Tahoma,Arial; font-size: 8pt; font-weight:normal;  text-align:center; }
+.propBox{z-index:1;border-collapse: collapse; font-family: Tahoma,Arial; font-size: 8pt; font-weight:normal; color:black; text-align:left; border:2px groove; height:246; width:210; table-layout:fixed; overflow-y:auto;}
+.proptext{font-weight:bold; height:15px; background-color:#D6D3CE; border: 0px solid;  font-family: Tahoma,Arial; font-size: 8pt;color:black;}

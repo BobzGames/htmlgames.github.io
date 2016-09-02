@@ -1,0 +1,228 @@
+<html>
+   <head>
+
+     <title>SCOOT</title>
+
+	 <!--[if IE]><script src="../$/e.js"></script><![endif]-->
+
+     <style>
+		body {
+			overflow:hidden;
+			margin:0;
+			padding:0;
+		}
+     </style>
+
+     <!-- game -->
+     <script>
+     var ua = navigator.userAgent;
+	 var isIE = ua.match("MSIE");
+	 var bTouch = (ua.indexOf("(iP")==-1 && ua.indexOf("Android")==-1 && ua.indexOf("BlackBerry")==-1 && ua.indexOf("HTC")==-1 && ua.indexOf("PlayBook")==-1 && ua.indexOf("webOS")==-1 && ua.indexOf("IEMobile")==-1 && ua.indexOf("Silk")==-1)?false:true;
+
+		window.onload = function(){
+			setInterval(enterFrame,100/6.66);
+			setInterval(draw,1000/6.66);
+
+			scoot.image.src = "images/Scootaloo.png";
+			background.cloud.src = "images/Cloud.png";
+
+			setTimeout(function(){window.scrollTo(0, 1);}, 1);
+		}
+		function enterFrame(){
+			scoot.enterFrame();
+			background.enterFrame();
+		}
+		function draw(){
+			ctx.clearRect(0, 0, 320, 240); // Clear the canvas
+			background.draw(); // Background
+			terrain.draw(scoot.coord.x-150); // Terrain
+			scoot.draw(); // Scootaloo
+		}
+
+		var kCont = {};
+		kCont.down = false;
+		kCont.keyDownHandler = function(event){kCont.down = true;}
+		kCont.keyUpHandler = function(event){kCont.down = false;}
+
+		function BlockMove(event) {
+			event.preventDefault();
+		}
+
+		var background = {};
+		background.cloud = new Image();
+
+		background.cloudX = 675;
+		background.cloudY = -150;
+		background.enterFrame = function()
+		{
+			background.cloudX -= 1;
+			if(background.cloudX<-600){
+				background.cloudX = 1125;
+			}
+		}
+		background.draw = function()
+		{
+			// Background Blue
+			ctx.fillStyle = "rgb(200,230,240)";
+			ctx.fillRect(0,-300,1125,450+300);
+			// Background Clouds
+			ctx.globalAlpha = 0.8;
+			ctx.drawImage( background.cloud, background.cloudX, background.cloudY, background.cloud.width*2, background.cloud.height*2);
+			ctx.globalAlpha = 1;
+		}
+
+		var scoot = {};
+		scoot.image = new Image();
+		scoot.image.onload = function(){
+			scoot.width = 100; //scoot.image.width;
+			scoot.height = scoot.image.height;
+		}
+		scoot.coord = new Object();
+		scoot.vel = new Object();
+		scoot.coord.x = scoot.coord.y = scoot.vel.x = scoot.vel.y = 0;
+		scoot.width = scoot.height = scoot.rotation = 0;
+
+		scoot.draw = function()
+		{
+			ctx.translate(150,scoot.coord.y);
+			ctx.rotate(scoot.rotation);
+			if(touchGround){
+				ctx.drawImage( scoot.image, 0,0,100,100, -scoot.width/2, -scoot.height+10, scoot.width, scoot.height);
+			}else{
+				ctx.drawImage( scoot.image, 100,0,100,100, -scoot.width/2, -scoot.height+10, scoot.width, scoot.height);
+			}
+			ctx.rotate(-scoot.rotation);
+			ctx.translate(-150,-scoot.coord.y);
+		}
+
+		var touchGround = false;
+		scoot.enterFrame = function()
+		{
+			// Velocity Addition
+			if(kCont.down){
+				if(touchGround){
+					if(scoot.vel.y>0){
+						scoot.vel.y += 0.2; // jump
+					}else{
+						scoot.vel.x += 0.1; // moving (Should just be pushing fwd)
+					}
+				}else{
+					scoot.vel.y += 0.2;
+				}
+			}else{
+				scoot.vel.y += 0.05; // slow down (natural)
+			}
+
+			// Move coords
+			scoot.coord.x += scoot.vel.x;
+			var terrY = terrain.funct(scoot.coord.x);
+			scoot.coord.y += scoot.vel.y;
+
+			// Correct coords
+			touchGround = ( scoot.coord.y > terrY-2 );
+			if(touchGround)
+			{
+				scoot.coord.y = terrY;
+				// Slope & Projection
+				var terrSlope = terrain.functDiff(scoot.coord.x);
+				var terrLength = Math.sqrt(1*1+terrSlope*terrSlope);
+				var dotProduct = scoot.vel.x*1 + scoot.vel.y*terrSlope;
+				dotProduct = dotProduct/terrLength;
+				scoot.vel.x = dotProduct/Math.sqrt(1+terrSlope*terrSlope);
+				if(scoot.vel.x<0.1){
+					scoot.vel.x=0.1;
+				}
+				scoot.vel.y = scoot.vel.x*terrSlope;
+				scoot.vel.x*=0.995;
+				scoot.vel.y*=0.995;
+
+				if(kCont.down && (scoot.vel.x*terrSlope < 0) && (scoot.vel.x > 0.3)){
+					//scoot.vel.x -= 0.11; // slow down (bad key timing up hill)
+				}
+			}
+
+			scoot.rotation = Math.atan2(scoot.vel.y,scoot.vel.x);
+			if(scoot.vel.x<0){
+				scoot.rotation+=180;
+			}
+			// log
+			//document.getElementById("log").innerHTML=scoot.vel.x + " :: " + m; //(kCont.down && scoot.vel.x*terrSlope < 0 && scoot.vel.x > 0.3)
+		}
+
+		var terrain = {};
+		terrain.funct = function(xx)
+		{
+			return 300 + 50*Math.sin(xx*0.015)
+						- 25*Math.sin(xx*0.005+1)
+						+ 25*Math.sin(xx*0.001+2);
+		}
+		terrain.functDiff = function(xx)
+		{
+			return 50*0.015*Math.cos(xx*0.015)
+					- 25*0.005*Math.cos(xx*0.005+1)
+					+ 25*0.01*Math.cos(xx*0.01+2);
+		}
+		terrain.draw = function( starttt )
+		{
+			// Top layer
+			ctx.fillStyle = "rgb(170,200,47)";
+			terrain.drawFrom(starttt,1);
+			// Middle layer
+			ctx.fillStyle = "rgb(152,179,43)";
+			terrain.drawFrom(starttt,0.8);
+			// Bottom layer
+			ctx.fillStyle = "rgb(143,169,39)";
+			terrain.drawFrom(starttt,0.5);
+		}
+		terrain.drawFrom = function( starttt, scale )
+		{
+			ctx.beginPath();
+			var tmpTerrYDraw = terrain.funct(starttt);
+			ctx.moveTo( 0, (1-scale)*450+tmpTerrYDraw*scale );
+			var i;
+			for( i=30; i<=1140; i+=30 ){
+				tmpTerrYDraw = terrain.funct(starttt+i);
+				ctx.lineTo( i, (1-scale)*450+tmpTerrYDraw*scale);
+			}
+			ctx.lineTo(1125,450);
+			ctx.lineTo(0,450);
+			ctx.fill();
+		}
+
+	 </script>
+
+   </head>
+
+   <body
+   		ontouchstart="BlockMove(event);"
+   		onkeydown="kCont.keyDownHandler(event);"
+   		onkeyup="kCont.keyUpHandler(event);"
+   		onblur="kCont.down=false;">
+
+	   <div>
+
+	   	   <!-- CANVAS DOM -->
+	   	   <canvas id="canvas" width="320" height="240"
+	   	   			ontouchstart="kCont.keyDownHandler(event)"
+	   	   			ontouchend="kCont.keyUpHandler(event)"
+	   	   			ontouchcancel="kCont.keyUpHandler(event)">
+	   	   </canvas>
+
+			<!--<span id="log">???</span>-->
+
+	   	   <!-- Set up Canvas -->
+		   <script type="text/javascript">
+			 var canvas = document.getElementById('canvas');
+			 if(isIE)G_vmlCanvasManager.initElement(canvas);
+			 var ctx = canvas.getContext('2d');
+			 ctx.fillStyle = "rgb(200,0,0)";
+			 ctx.fillRect(0,0,320,240);
+			 ctx.scale(0.7111,0.7111);
+			 ctx.scale(0.4,0.4);
+			 ctx.translate( 0, 320/(0.7111*0.6)-450 );
+		   </script>
+
+		</div>
+   </body>
+
+</html>

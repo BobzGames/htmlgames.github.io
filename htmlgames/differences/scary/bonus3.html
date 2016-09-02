@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<title>Bonus Level 3</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bonus.css" />
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+			A_PATH = "../" + A_PATH;
+		</script>
+		<style>
+
+		#normal {
+
+			width: 423px;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			border-style: none;
+			visibility: hidden;
+
+		}
+
+		</style>
+
+	</head>
+	<body onload="init('bonus4.html','')" onunload="reset_bg_music()" onclick="point(event)">
+	<div class="listdiv">
+		<div align="center" id="header">
+			<div class="findlist">
+				<h1>It's a bit foggy here</h1>
+				<h2 id="f1">Find 1 Hoshi Saga</h2>
+			</div>
+		</div>
+		<div align="center" id="footer">
+			<div id="timerborder" class="timerOuter"><div id="timer" class="timerInner"></div></div>
+		</div>
+
+		<div id="onePlayerContent" class="onePlayerStyle">
+			<span id="P" class="player">0</span>
+			<span><input type="button" onclick="Loupe('off')" value="OFF" /></span>
+			<span><input type="button" onclick="Loupe('star')" value="STAR" /></span>
+			<span><input type="button" onclick="Loupe('circle','display:none')" value="CIRCLE" /></span>
+		</div>
+
+	</div>
+		<div align="center">
+			<img name="normal" id="normal" src="images/B3.jpg">
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("star")</script>
+
+			<map name="zoom">
+			  	   <area coords="80,850,10" id="m1" nohref onclick="chkscore(1,this,event)" shape=circle>
+			</map>
+
+		</div>
+	</body>
+</html>

@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<title>Level 2</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+			A_PATH = "../" + A_PATH;
+			ZEROPOINTS = "zero.html"; // example of end game override if score < 0
+		</script>
+	</head>
+	<body onload="init('level3.html')" onunload="reset_bg_music()" onkeypress="keyhint(event)" onclick="point(event)">
+		<div align="center" id="header">
+			<h2>Level 2: Silly Bones <i><b><span id="remaining">0</span></b> Difference<span id="s">s</span> Left</i> <input type="button" value="Hint" id ="btnH" onclick="hint()" /></h2>
+		</div>
+		<div id="timerborder" class="timerOuter"><div id="timer" class="timerInner"></div></div>
+		<div id="content" align="center">
+			<img src ="images/L2mod.jpg" id = "il" class="landscape" usemap="#TBmap" onclick="bClickedImage=true;" />
+
+			<map name="TBmap">
+				<area shape ="circle" coords ="44,178,15"
+				nohref id="m1" onclick="chkscore(1,this,event)" />
+
+				<area shape ="circle" coords ="121,240,10"
+				nohref id="m2" onclick="chkscore(2,this,event)" />
+
+				<area shape ="circle" coords ="170,196,18"
+				nohref id="m3" onclick="chkscore(3,this,event)" />
+
+				<area shape ="circle" coords ="293,142,20"
+				nohref id="m4" onclick="chkscore(4,this,event)" />
+
+				<area shape ="circle" coords ="156,140,15"
+				nohref id="m5" onclick="chkscore(5,this,event)" />
+			</map>
+
+			<img src ="images/L2.jpg" id="ir" class="landscape" usemap="#TBmap" onclick="bClickedImage=true;" />
+
+			<div id="twoPlayerContent" class="twoPlayerStyle">
+				<span id="P1" class="player1">0</span>
+				<span id="P2" class="player2">0</span>
+			</div>
+
+			<div id="onePlayerContent" class="onePlayerStyle">
+				<span id="P" class="player">0</span>
+			</div>
+
+		</div>
+	</body>
+</html>

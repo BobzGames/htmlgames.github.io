@@ -1,0 +1,7 @@
+[InternetShortcut]
+URL=javascript:c=prompt("Support Call Number?","");if(c)window.open("http://tesseract/RetailReports/FSR_Details.aspx?CallNum="+c); void 0
+Modified=D06E2490407EC40175
+HotKey=0
+IDList=
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,15

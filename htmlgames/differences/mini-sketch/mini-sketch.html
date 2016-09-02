@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <title>mini-sketch</title>
+    <!--[if IE]><script src="js/excanvas.js"></script><![endif]-->
+    <script>
+
+	function p(){
+		// get the canvas element and its context
+		var canvas = document.getElementById('c');
+		var context = canvas.getContext('2d');
+		// create a drawer which tracks touch movements
+		var drawer = {
+			isDrawing: false,
+			touchstart: function(coors){
+				context.beginPath();
+				context.moveTo(coors.x, coors.y);
+				this.isDrawing = true;
+			},
+			mousedown: function(coors){
+				context.beginPath();
+				context.moveTo(coors.x, coors.y);
+				this.isDrawing = true;
+			},
+			touchmove: function(coors){
+				if (this.isDrawing) {
+			        context.lineTo(coors.x, coors.y);
+			        context.stroke();
+				}
+			},
+			mousemove: function(coors){
+				if (this.isDrawing) {
+			        context.lineTo(coors.x, coors.y);
+			        context.stroke();
+				}
+			},
+			touchend: function(coors){
+				if (this.isDrawing) {
+			        this.touchmove(coors);
+			        this.isDrawing = false;
+				}
+			},
+			mouseup: function(coors){
+				if (this.isDrawing) {
+			        this.touchmove(coors);
+			        this.isDrawing = false;
+				}
+			}
+		};
+		// create a function to pass touch events and coordinates to drawer
+		function draw(event){
+			// get the touch coordinates
+			var coors = (document.all)?
+			{
+				x: event.x,
+				y: event.y
+			}
+			:
+			{
+				x: event.touches?event.targetTouches[0].pageX:event.pageX,
+				y: event.touches?event.targetTouches[0].pageY:event.pageY
+			};
+			// pass the coordinates to the appropriate handler
+			drawer[event.type](coors);
+		}
+
+		// attach the touchstart, touchmove, touchend event listeners.
+		if(navigator.userAgent.indexOf("MSIE") != -1){
+			canvas.attachEvent('onmousedown',draw);
+			canvas.attachEvent('onmousemove',draw);
+			canvas.attachEvent('onmouseup',draw);
+		}else{
+			canvas.addEventListener('touchstart',draw, false);
+			canvas.addEventListener('touchmove',draw, false);
+			canvas.addEventListener('touchend',draw, false);
+			canvas.addEventListener('mousedown',draw, false);
+			canvas.addEventListener('mousemove',draw, false);
+			canvas.addEventListener('mouseup',draw, false);
+
+			// prevent elastic scrolling
+			document.body.addEventListener('touchmove',function(event){event.preventDefault();});
+			document.body.addEventListener('touchstart',function(event){event.preventDefault();});
+
+            		setTimeout(function(){window.scrollTo(0, 1);}, 1);
+		}
+	}
+
+    </script>
+
+    <style type="text/css">
+
+	body{margin:0;padding:0;background-color:#EEE}
+	#container{position:relative;}
+	#c{border:1px solid #CCC;background-color:white}
+
+    </style>
+
+  </head>
+  <body onload="p()">
+	<div id="container">
+ 		<canvas id="c" width="800" height="550">Sorry, your browser is not supported.</canvas>
+	</div>
+  </body>
+</html>

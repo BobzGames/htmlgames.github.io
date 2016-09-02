@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/bonus.css" />
+		<style>
+
+			body{background-color:#CFCFCF}
+
+			.landscape {
+
+					width: 640px;
+					height: 512px;
+					position: absolute;
+					top: 0px;
+					left: 0px;
+					border-style: none;
+					cursor: default;
+			}
+
+			.title {position:absolute;top: 0px;left: 175px}
+			#l1 {position:absolute;top: 125px;left: 276px}
+			#l2 {position:absolute;top: 239px;left: 43px}
+			#l3 {position:absolute;top: 375px;left: 377px}
+
+			h4 {color: yellow;padding:0;margin:0;top:0}
+			#msg{color: yellow}
+
+		</style>
+		<script type="text/javascript" src="js/code.js"></script>
+		<script>
+
+			TIMEUP = "#";
+			A_MUSIC = "";
+
+		</script>
+	<head>
+	<body onload="inits('You have another # dream levels...')">
+		<div id="content" align="center">
+			<img name="normal" id="normal" class="landscape" src="images/background.jpg" ondragstart="return false" onselectstart="return false">
+
+			<div class="title">
+				<h4>Watch out for dream warriors... <span id="s"> </span></h4>
+				<p><span id="msg"></span></p>
+			</div>
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("off","display:none")</script>
+
+		<map name="zoom">
+			<area shape="circle" coords="289,135,32" href="#" id="L1" /><div id="l1"><img id="ll1" src="images/i.gif" style="display:none" /></div>
+			<area shape="circle" coords="56,249,32" href="#" id="L2" /><div id="l2"><img id="ll2" src="images/i.gif" style="display:none" /></div>
+			<area shape="circle" coords="390,385,32" href="#" id="L3" /><div id="l3"><img id="ll3" src="images/i.gif" style="display:none" /></div>
+		</map>
+
+	</div>
+
+	</body>
+</html>

@@ -1,0 +1,178 @@
+<html>
+	<head>
+	<title>Piano Star</title>
+	<script>
+
+	// FREE HTML GAMES @ http://goo.gl/zI6A
+
+	t=(document.all)?"bgsound":"audio";
+	n=(window.location.search!="")?unescape(window.location.search).replace("?","").split("|")[0].split(";"):"81+gs;65+a;87+as;83+b;68+c;82+cs;70+d;84+ds;71+e;72+f;85+fs;74+g;73+gsH;75+aH;79+asH;76+bH;59+cH;8+cH;186+cH".split(";"); // 186 = 59?
+	w=(window.location.search!="")?unescape(window.location.search).replace("?","").split("|")[1]:"a b c d e f g a b c";
+	s=(window.location.search!="")?unescape(window.location.search).replace("?","").split("|")[2]:"Tutorial";
+	l=(window.location.search!="")?unescape(window.location.search).replace("?","").split("|")[3]:"level2.html";
+	v=(window.location.search!="")?unescape(window.location.search).replace("?","").split("|")[4]:"";
+
+	function piano(event)
+	{
+		try{event.preventDefault();}catch(e){}
+		for(i in n)if(n[i].split("+")[0]==event.keyCode.toString())playNote(n[i].split("+")[1]);
+	}
+
+	function playNote(f)
+	{
+		$$("x").innerHTML+=f.replace("s","#").replace("H","").replace("H","")+" ";
+		$$("p").contentWindow.document.write("<"+t+" src='audio/"+v+f+".wav' autoplay />");
+		if($$("h") && $$("x").innerHTML.replace(/ /g,"").match($$("h").innerHTML.replace(/ /g,"")))setTimeout("win();",100);
+	}
+
+	function win()
+	{
+		msg = "Winner!";
+		if(!w)return
+		if(!s)s="unknown";
+		if( $$("x").innerHTML.replace(/ /g,"") == $$("h").innerHTML.replace(/ /g,"") ){
+			msg="Perfect!";
+		}else{
+			msg="You got there in the end :)";
+		}
+		alert(msg+"\nSong was "+s);
+		$$("x").innerHTML="";
+		if(l&&l!="#")document.location.href=l;
+	}
+
+	function go()
+	{
+		if(!v)v="";
+		if(w){
+			$$('h').innerHTML=w.replace(/s/g,"#");
+		}else{
+			if(n+w+s+l == "")document.location.href="index.html?81+gs;65+a;87+as;83+b;68+c;82+cs;70+d;84+ds;71+e;72+f;85+fs;74+g;73+gsH;75+aH;79+asH;76+bH;59+cH;8+cH;186+cH||||"+v;
+			$$('g').innerHTML="<h4>@PianoStar, have fun creating some groovy tunes! <a href='#' title='*** COMING SOON ! *** \nClick for instructions on how to make a new level (Opens&#160;a&#160;new&#160;window)' style='text-decoration:none;font-size:x-small'>Create a new level</a></h4>";
+			$$('kd').style.display="block";
+			$$('ku').style.display="block";
+		}
+
+		if(n[0].split("+")[1]){
+			try{$$("k").src="images/keys_"+n[0].split("+")[1]+".gif";}catch(e){}
+			showNotes(n[0].split("+")[1]);
+		}
+	}
+
+	function showNotes(kn)
+	{
+		var ii=(document.all)?"&#160;":"&#160;"; // TODO
+		for(lp=0;lp<28;lp++)
+		{
+			var o=$$("a"+lp);
+			for(lp2=0;lp2<18;lp2++)
+			{
+				if(n[lp2] && n[lp2].split("+")[1] == o.innerHTML){
+					o.innerHTML = "" + String.fromCharCode(n[lp2].split("+")[0]).replace("I",ii+"I"); //.replace("J","&#160;J");
+					o.style.display="block";
+				}
+			}
+		}
+		window.status=kn;
+	}
+
+	function key(sk)
+	{
+		var nk="";
+
+		keys={
+			"gs":"81+gs;65+a;87+as;83+b;68+c;82+cs;70+d;84+ds;71+e;72+f;85+fs;74+g;73+gsH;75+aH;79+asH;76+bH;59+cH;186+cH;8+cH",
+			"a":"65+a;87+as;83+b;68+c;82+cs;70+d;84+ds;71+e;72+f;85+fs;74+g;73+gsH;75+aH;79+asH;76+bH;59+cH;186+cH;8+cH",
+			"as":"81+as;65+b;83+c;69+cs;68+d;82+ds;70+e;71+f;89+fs;72+g;85+gsH;74+aH;73+asH;75+bH;76+cH;80+csH;59+dH;186+dH;8+dH",
+			"b":"65+b;83+c;69+cs;68+d;82+ds;70+e;71+f;89+fs;72+g;85+gsH;74+aH;73+asH;75+bH;76+cH;80+csH;59+dH;186+dH;8+dH",
+			"c":"65+c;87+cs;83+d;69+ds;68+e;70+f;84+fs;71+g;89+gsH;72+aH;85+asH;74+bH;75+cH;79+csH;76+dH;80+dsH;59+eH;186+eH;8+eH",
+			"cs":"81+cs;65+d;87+ds;83+e;68+f;82+fs;70+g;84+gsH;71+aH;89+asH;72+bH;74+cH;73+csH;75+dH;79+dsH;76+eH;59+fH;186+fH;8+fH",
+			"d":"65+d;87+ds;83+e;68+f;82+fs;70+g;84+gsH;71+aH;89+asH;72+bH;74+cH;73+csH;75+dH;79+dsH;76+eH;59+fH;186+fH;8+fH",
+			"ds":"81+ds;65+e;83+f;69+fs;68+g;82+gsH;70+aH;84+asH;71+bH;72+cH;85+csH;74+dH;73+dsH;75+eH;76+fH;80+fsH;59+gH;186+gH;8+gH",
+			"e":"65+e;83+f;69+fs;68+g;82+gsH;70+aH;84+asH;71+bH;72+cH;85+csH;74+dH;73+dsH;75+eH;76+fH;80+fsH;59+gH;186+gH;8+gH",
+			"f":"65+f;87+fs;83+g;69+gsH;68+aH;82+asH;70+bH;71+cH;89+csH;72+dH;85+dsH;74+eH;75+fH;79+fsH;76+gH;80+gsHH;59+aHH;186+aHH;8+aHH",
+			"fs":"81+fs;65+g;87+gsH;83+aH;69+asH;68+bH;70+cH;84+csH;71+dH;89+dsH;72+eH;74+fH;73+fsH;75+gH;79+gsHH;76+aHH;80+asHH;59+bHH;186+bHH;8+bHH",
+			"g":"65+g;87+gsH;83+aH;69+asH;68+bH;70+cH;84+csH;71+dH;89+dsH;72+eH;74+fH;73+fsH;75+gH;79+gsHH;76+aHH;80+asHH;59+bHH;186+bHH;8+bHH"
+		}
+
+		if($$("k").src.indexOf("_")==-1)return
+		if(sk){ // up
+			switch($$("k").src.split("_")[1].replace(".gif",""))
+			{
+				case "gs":nk="a";break
+				case "a":nk="as";break
+				case "as":nk="b";break
+				case "b":nk="c";break
+				case "c":nk="cs";break
+				case "cs":nk="d";break
+				case "d":nk="ds";break
+				case "ds":nk="e";break
+				case "e":nk="f";break
+				case "f":nk="fs";break
+				case "fs":nk="g";break
+				case "g":nk="gs";break
+			}
+		}else{ // down
+			switch($$("k").src.split("_")[1].replace(".gif",""))
+			{
+				case "gs":nk="g";break
+				case "g":nk="fs";break
+				case "fs":nk="f";break
+				case "f":nk="e";break
+				case "e":nk="ds";break
+				case "ds":nk="d";break
+				case "d":nk="cs";break
+				case "cs":nk="c";break
+				case "c":nk="b";break
+				case "b":nk="as";break
+				case "as":nk="a";break
+				case "a":nk="gs";break
+			}
+		}
+
+		document.location.href="index.html"+"?"+keys[nk];
+	}
+
+	function $$(id){return document.getElementById(id)}
+
+	</script>
+	</head>
+	<body onkeydown="piano(event)" onload="go()">
+		<img src="images/keys.gif" id="k" title="" alt="Piano Keyboard" xstyle="position:absolute;top:14px;left:10px" />
+		<div id="a0" onclick="playNote('gs')" ontouchstart="playNote('gs')" title="g#" style="display:none;color:red;cursor:pointer;position:absolute;top:55px;left:43px">gs</div>
+		<div id="a1" onclick="playNote('a')" ontouchstart="playNote('a')" title="a" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:55px">a</div>
+		<div id="a2" onclick="playNote('as')" ontouchstart="playNote('as')" title="a#" style="display:none;color:red;cursor:pointer;position:absolute;top:55px;left:65px">as</div>
+		<div id="a3" onclick="playNote('b')" ontouchstart="playNote('b')" title="b" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:80px">b</div>
+		<div id="a4" onclick="playNote('c')" ontouchstart="playNote('c')" title="c" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:105px">c</div>
+		<div id="a5" onclick="playNote('cs')" ontouchstart="playNote('cs')" title="c#" style="display:none;color:red;cursor:pointer;position:absolute;top:55px;left:114px">cs</div>
+		<div id="a6" onclick="playNote('d')" ontouchstart="playNote('d')" title="d" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:130px">d</div>
+		<div id="a7" onclick="playNote('ds')" ontouchstart="playNote('ds')" title="d#" style="display:none;color:red;cursor:pointer;position:absolute;top:55px;left:139px">ds</div>
+		<div id="a8" onclick="playNote('e')" ontouchstart="playNote('e')" title="e" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:150px">e</div>
+		<div id="a9" onclick="playNote('f')" ontouchstart="playNote('f')" title="f" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:175px">f</div>
+		<div id="a10" onclick="playNote('fs')" ontouchstart="playNote('fs')" title="f#" style="display:none;color:red;cursor:pointer;position:absolute;top:55px;left:185px">fs</div>
+		<div id="a11" onclick="playNote('g')" ontouchstart="playNote('g')" title="g" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:200px">g</div>
+		<div id="a12" onclick="playNote('gsH')" ontouchstart="playNote('gsH')" title="g#" style="display:none;color:red;cursor:pointer;position:absolute;top:55px;left:207px">gsH</div>
+		<div id="a13" onclick="playNote('aH')" ontouchstart="playNote('aH')" title="a" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:220px">aH</div>
+		<div id="a14" onclick="playNote('asH')" ontouchstart="playNote('asH')" title="a#" style="display:none;color:red;cursor:pointer;position:absolute;top:55px;left:233px">asH</div>
+		<div id="a15" onclick="playNote('bH')" ontouchstart="playNote('bH')" title="b" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:245px">bH</div>
+		<div id="a16" onclick="playNote('cH')" ontouchstart="playNote('cH')" title="c" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:270px">cH</div>
+		<div id="a17" onclick="playNote('csH')" ontouchstart="playNote('csH')" title="c#" style="display:none;color:red;cursor:pointer;position:absolute;top:55px;left:282px">csH</div>
+		<div id="a18" onclick="playNote('dH')" ontouchstart="playNote('dH')" title="d" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:290px">dH</div>
+		<div id="a19" onclick="playNote('dsH')" ontouchstart="playNote('dsH')" title="d#" style="display:none;color:red;cursor:pointer;position:absolute;top:55px;left:303px">dsH</div>
+		<div id="a20" onclick="playNote('eH')" ontouchstart="playNote('eH')" title="e" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:315px">eH</div>
+		<div id="a21" onclick="playNote('fH')" ontouchstart="playNote('fH')" title="f" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:339px">fH</div>
+		<div id="a22" onclick="playNote('fsH')" ontouchstart="playNote('fsH')" title="f#" style="display:none;color:red;cursor:pointer;position:absolute;top:55px;left:350px">fsH</div>
+		<div id="a23" onclick="playNote('gH')" ontouchstart="playNote('gH')" title="g" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:360px">gH</div>
+		<div id="a24" onclick="playNote('gsHH')" ontouchstart="playNote('gsHH')" title="g#" style="display:none;color:red;cursor:pointer;position:absolute;top:55px;left:374px">gsHH</div>
+		<div id="a25" onclick="playNote('aHH')" ontouchstart="playNote('aHH')" title="a" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:385px">aHH</div>
+		<div id="a26" onclick="playNote('asHH')" ontouchstart="playNote('asHH')" title="a#" style="display:none;color:red;cursor:pointer;position:absolute;top:55px;left:397px">asHH</div>
+		<div id="a27" onclick="playNote('bHH')" ontouchstart="playNote('bHH')" title="b" style="display:none;color:red;cursor:pointer;position:absolute;top:95px;left:410px">bHH</div>
+		<div id="kd" onclick="key(0)" title="key down" style="display:none;position:absolute;top:55px;left:2px;color:gray;cursor:pointer;font-weight:bold;"><</div>
+		<div id="ku" onclick="key(1)" title="key up" style="display:none;position:absolute;top:55px;left:450px;color:gray;cursor:pointer;font-weight:bold;">></div>
+		<div id="g">
+			<h4>@PianoStar, can you play these musical notes and guess the tune?</h4>
+			<div id="h"></div>
+		</div>
+		<iframe id="p" name="p" style="display:none"></iframe>
+		<div id="x"></div>
+	</body>
+</html>

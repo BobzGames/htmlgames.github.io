@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<title>Level 4</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+			A_PATH = "../" + A_PATH;
+		</script>
+		<style>
+
+		</style>
+	</head>
+	<body onload="init('level5.html')" onunload="reset_bg_music()" onkeypress="keyhint(event)" onclick="point(event)">
+		<div align="center" id="header">
+			<h2>Level 4: Shape Japer <i><b><span id="remaining">0</span></b> Difference<span id="s">s</span> Left</i> <input type="button" value="Hint" id ="btnH" onclick="hint()" /></h2>
+		</div>
+		<div id="timerborder" class="timerOuter"><div id="timer" class="timerInner"></div></div>
+		<div id="content" align="center">
+
+			<img src ="images/L4mod.gif" id = "il" class="landscape" usemap="#TBmap" onclick="bClickedImage=true" />
+
+			<map name="TBmap">
+				<area shape ="circle" coords ="62,37,10"
+				nohref id="m1" onclick="chkscore(1,this,event)" />
+				<area shape ="circle" coords ="76,60,10"
+				nohref id="m1" onclick="chkscore(1,this,event)" />
+
+				<area shape ="circle" coords ="327,38,10"
+				nohref id="m2" onclick="chkscore(2,this,event)" />
+
+				<area shape ="circle" coords ="152,104,10"
+				nohref id="m3" onclick="chkscore(3,this,event)" />
+
+				<area shape ="circle" coords ="119,226,10"
+				nohref id="m4" onclick="chkscore(4,this,event)" />
+				<area shape ="circle" coords ="115,236,10"
+				nohref id="m4" onclick="chkscore(4,this,event)" />
+
+				<area shape ="circle" coords ="285,202,10"
+				nohref id="m5" onclick="chkscore(5,this,event)" />
+			</map>
+
+			<img src ="images/L4.gif" id="ir" class="landscape" usemap="#TBmap" onclick="bClickedImage=true" />
+
+			<div id="twoPlayerContent" class="twoPlayerStyle">
+				<span id="P1" class="player1">0</span>
+				<span id="P2" class="player2">0</span>
+			</div>
+
+			<div id="onePlayerContent" class="onePlayerStyle">
+				<span id="P" class="player">0</span>
+			</div>
+
+		</div>
+	</body>
+</html>

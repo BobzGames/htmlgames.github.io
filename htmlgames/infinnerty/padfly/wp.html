@@ -1,0 +1,32 @@
+<html>
+<head>
+
+<script>
+function p()
+{
+	// get text...
+	url="http://d.padfly.com/infinnerty?download";
+	var xml = new ActiveXObject("Microsoft.XMLHTTP");
+	xml.open("GET", url, false);
+	xml.send();
+	if(xml.status == 200){
+		document.getElementById("t").innerHTML = xml.responseText;
+	}
+}
+
+function s()
+{
+	// send text...
+	alert("Use Ctrl + y for now");
+
+}
+</script>
+</head>
+<body onload="p()">
+<iframe id="f" src="http://padfly.com/infinnerty" width="891px" height="842px" scrolling="no" style="margin-top: -273px;margin-left:-24px"></iframe>
+<p>
+<textarea id="t"></textarea>
+<input type="button" value="send" onclick="s()" />
+</p>
+</body>
+</html>

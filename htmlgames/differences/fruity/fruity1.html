@@ -1,0 +1,260 @@
+<html>
+	<head>
+		<title>Fruit Hunt (level 1)</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bonus.css" />
+
+		<style>
+			.hint {border:0;color:orange}
+
+			.rise{
+				position:absolute;
+				top:-15px;
+				left:-10px;
+			}
+
+			.landscape {
+
+				width: 529px;
+				height: 397px;
+			}
+
+			.imgbonus{display:block}
+
+			#ff1{position:absolute;left:34px;top:133px;display:none;}
+			#ff2{position:absolute;left:34px;top:100px;display:none;}
+			#ff3{position:absolute;left:34px;top:67px;display:none;}
+			#ff4{position:absolute;left:34px;top:34px;display:none;}
+			#ff5{position:absolute;left:67px;top:34px;display:none;}
+			#ff6{position:absolute;left:67px;top:100px;display:none;}
+			#ff7{position:absolute;left:133px;top:133px;display:none;}
+			#ff8{position:absolute;left:133px;top:100px;display:none;}
+			#ff9{position:absolute;left:133px;top:67px;display:none;}
+			#ff10{position:absolute;left:166px;top:67px;display:none;}
+			#ff11{position:absolute;left:232px;top:67px;display:none;}
+			#ff12{position:absolute;left:232px;top:100px;display:none;}
+			#ff13{position:absolute;left:232px;top:133px;display:none;}
+			#ff14{position:absolute;left:265px;top:133px;display:none;}
+			#ff15{position:absolute;left:298px;top:133px;display:none;}
+			#ff16{position:absolute;left:298px;top:100px;display:none;}
+			#ff17{position:absolute;left:298px;top:67px;display:none;}
+			#ff18{position:absolute;left:364px;top:67px;display:none;}
+			#ff19{position:absolute;left:364px;top:100px;display:none;}
+			#ff20{position:absolute;left:364px;top:133px;display:none;}
+			#ff21{position:absolute;left:430px;top:133px;display:none;}
+			#ff22{position:absolute;left:430px;top:100px;display:none;}
+			#ff23{position:absolute;left:430px;top:67px;display:none;}
+			#ff24{position:absolute;left:430px;top:34px;display:none;}
+			#ff25{position:absolute;left:463px;top:67px;display:none;}
+			#ff26{position:absolute;left:463px;top:133px;display:none;}
+			#ff27{position:absolute;left:34px;top:331px;display:none;}
+			#ff28{position:absolute;left:34px;top:298px;display:none;}
+			#ff29{position:absolute;left:34px;top:265px;display:none;}
+			#ff30{position:absolute;left:34px;top:232px;display:none;}
+			#ff31{position:absolute;left:67px;top:265px;display:none;}
+			#ff32{position:absolute;left:100px;top:265px;display:none;}
+			#ff33{position:absolute;left:100px;top:298px;display:none;}
+			#ff34{position:absolute;left:100px;top:331px;display:none;}
+			#ff35{position:absolute;left:166px;top:265px;display:none;}
+			#ff36{position:absolute;left:166px;top:298px;display:none;}
+			#ff37{position:absolute;left:166px;top:331px;display:none;}
+			#ff38{position:absolute;left:199px;top:331px;display:none;}
+			#ff39{position:absolute;left:232px;top:331px;display:none;}
+			#ff40{position:absolute;left:232px;top:298px;display:none;}
+			#ff41{position:absolute;left:232px;top:265px;display:none;}
+			#ff42{position:absolute;left:298px;top:331px;display:none;}
+			#ff43{position:absolute;left:298px;top:298px;display:none;}
+			#ff44{position:absolute;left:298px;top:265px;display:none;}
+			#ff45{position:absolute;left:331px;top:265px;display:none;}
+			#ff46{position:absolute;left:364px;top:265px;display:none;}
+			#ff47{position:absolute;left:364px;top:298px;display:none;}
+			#ff48{position:absolute;left:364px;top:331px;display:none;}
+			#ff49{position:absolute;left:430px;top:331px;display:none;}
+			#ff50{position:absolute;left:430px;top:298px;display:none;}
+			#ff51{position:absolute;left:430px;top:265px;display:none;}
+			#ff52{position:absolute;left:430px;top:232px;display:none;}
+			#ff53{position:absolute;left:463px;top:265px;display:none;}
+			#ff54{position:absolute;left:463px;top:331px;display:none;}
+
+		</style>
+		<script type="text/javascript" src="../js/code.js"></script>
+
+		<script>
+			A_PATH = "../" + A_PATH;
+			A_MUSIC = "";
+			TIMEUP = "#";
+			USE_FADE = 1;
+			HINTS_LEFT = 0;
+			FOUND_RISE = false;
+			BONUS_MSG = ""
+			WRONG_MSG = "";
+
+			window.status="Done";
+
+			function got_bonus(i){ // example of overriding hiding / showing of hotspot gfx
+
+				if(ORDER){
+					window.name="1";
+				}else{
+					window.name="0";
+				}
+
+				$$("ff"+i).style.display = "block";
+
+				window.status=(window.name=="1")?"So far so good... :)":"Ooops... never mind!";
+
+			}
+
+			function CORRECT_ORDER()
+			{
+				return true
+			}
+			function INCORRECT_ORDER()
+			{
+				return !false
+			}
+
+			function WRONG_GUESS()
+			{
+				window.status="Doh! try again...";
+				playBonus();
+				setTimeout("document.location.reload();",3000);
+			}
+
+			function ZEROHINTS()
+			{
+				newdiv(375, 84, 400, 20, "hint", "<i><b>Think Logo, and try to find the order of hidden fruits!<b><i>", "sd");
+				setTimeout("removeDiv();eval('ZEROHINTS = function(){}')",3987);
+			}
+
+		</script>
+	</head>
+	<body onload="init('win.html','')" onkeypress="keyhint(event,0,0,1)" onunload="reset_bg_music()" onclick="point(event)">
+		<div id="content" align="center">
+			<img name="normal" id="normal" class="landscape" src="images/16grid12.gif" ondragstart="return false" onselectstart="return false" >
+
+			<div id="ff1"><img src="images/f1.gif" width="32px" /></div>
+			<div id="ff2"><img src="images/f2.gif" width="32px" /></div>
+			<div id="ff3"><img src="images/f3.gif" width="32px" /></div>
+			<div id="ff4"><img src="images/f4.gif" width="32px" /></div>
+			<div id="ff5"><img src="images/f5.gif" width="32px" /></div>
+			<div id="ff6"><img src="images/f6.gif" width="32px" /></div>
+			<div id="ff7"><img src="images/f7.gif" width="32px" /></div>
+			<div id="ff8"><img src="images/f8.gif" width="32px" /></div>
+			<div id="ff9"><img src="images/f1.gif" width="32px" /></div>
+			<div id="ff10"><img src="images/f2.gif" width="32px" /></div>
+			<div id="ff11"><img src="images/f3.gif" width="32px" /></div>
+			<div id="ff12"><img src="images/f4.gif" width="32px" /></div>
+			<div id="ff13"><img src="images/f5.gif" width="32px" /></div>
+			<div id="ff14"><img src="images/f6.gif" width="32px" /></div>
+			<div id="ff15"><img src="images/f7.gif" width="32px" /></div>
+			<div id="ff16"><img src="images/f8.gif" width="32px" /></div>
+			<div id="ff17"><img src="images/f1.gif" width="32px" /></div>
+			<div id="ff18"><img src="images/f2.gif" width="32px" /></div>
+			<div id="ff19"><img src="images/f3.gif" width="32px" /></div>
+			<div id="ff20"><img src="images/f4.gif" width="32px" /></div>
+			<div id="ff21"><img src="images/f5.gif" width="32px" /></div>
+			<div id="ff22"><img src="images/f6.gif" width="32px" /></div>
+			<div id="ff23"><img src="images/f7.gif" width="32px" /></div>
+			<div id="ff24"><img src="images/f8.gif" width="32px" /></div>
+			<div id="ff25"><img src="images/f1.gif" width="32px" /></div>
+			<div id="ff26"><img src="images/f2.gif" width="32px" /></div>
+			<div id="ff27"><img src="images/f3.gif" width="32px" /></div>
+			<div id="ff28"><img src="images/f4.gif" width="32px" /></div>
+			<div id="ff29"><img src="images/f5.gif" width="32px" /></div>
+			<div id="ff30"><img src="images/f6.gif" width="32px" /></div>
+			<div id="ff31"><img src="images/f7.gif" width="32px" /></div>
+			<div id="ff32"><img src="images/f8.gif" width="32px" /></div>
+			<div id="ff33"><img src="images/f1.gif" width="32px" /></div>
+			<div id="ff34"><img src="images/f2.gif" width="32px" /></div>
+			<div id="ff35"><img src="images/f3.gif" width="32px" /></div>
+			<div id="ff36"><img src="images/f4.gif" width="32px" /></div>
+			<div id="ff37"><img src="images/f5.gif" width="32px" /></div>
+			<div id="ff38"><img src="images/f6.gif" width="32px" /></div>
+			<div id="ff39"><img src="images/f7.gif" width="32px" /></div>
+			<div id="ff40"><img src="images/f8.gif" width="32px" /></div>
+			<div id="ff41"><img src="images/f1.gif" width="32px" /></div>
+			<div id="ff42"><img src="images/f2.gif" width="32px" /></div>
+			<div id="ff43"><img src="images/f3.gif" width="32px" /></div>
+			<div id="ff44"><img src="images/f4.gif" width="32px" /></div>
+			<div id="ff45"><img src="images/f5.gif" width="32px" /></div>
+			<div id="ff46"><img src="images/f6.gif" width="32px" /></div>
+			<div id="ff47"><img src="images/f7.gif" width="32px" /></div>
+			<div id="ff48"><img src="images/f8.gif" width="32px" /></div>
+			<div id="ff49"><img src="images/f1.gif" width="32px" /></div>
+			<div id="ff50"><img src="images/f2.gif" width="32px" /></div>
+			<div id="ff51"><img src="images/f3.gif" width="32px" /></div>
+			<div id="ff52"><img src="images/f4.gif" width="32px" /></div>
+			<div id="ff53"><img src="images/f5.gif" width="32px" /></div>
+			<div id="ff54"><img src="images/f6.gif" width="32px" /></div>
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("off","")</script>
+
+			<map name="zoom">
+				<!-- grid is 32 x 32 px  #    X  Y  R -->
+				<!-- NOTE: only one route allowed here as coords CANNOT overlap (API limitation) -->
+
+				<area shape ="circle" coords ="49,148,15" nohref id="m1" onclick="chkscore(1,this,event)" />
+				<area shape ="circle" coords ="49,115,15" nohref id="m2" onclick="chkscore(2,this,event)" />
+				<area shape ="circle" coords ="49,82,15" nohref id="m3" onclick="chkscore(3,this,event)" />
+				<area shape ="circle" coords ="49,49,15" nohref id="m4" onclick="chkscore(4,this,event)" />
+				<area shape ="circle" coords ="82,49,15" nohref id="m5" onclick="chkscore(5,this,event)" />
+				<area shape ="circle" coords ="82,115,15" nohref id="m6" onclick="chkscore(6,this,event)" />
+				<area shape ="circle" coords ="148,148,15" nohref id="m7" onclick="chkscore(7,this,event)" />
+				<area shape ="circle" coords ="148,115,15" nohref id="m8" onclick="chkscore(8,this,event)" />
+				<area shape ="circle" coords ="148,82,15" nohref id="m9" onclick="chkscore(9,this,event)" />
+				<area shape ="circle" coords ="181,82,15" nohref id="m10" onclick="chkscore(10,this,event)" />
+				<area shape ="circle" coords ="247,82,15" nohref id="m11" onclick="chkscore(11,this,event)" />
+				<area shape ="circle" coords ="247,115,15" nohref id="m12" onclick="chkscore(12,this,event)" />
+				<area shape ="circle" coords ="247,148,15" nohref id="m13" onclick="chkscore(13,this,event)" />
+				<area shape ="circle" coords ="280,148,15" nohref id="m14" onclick="chkscore(14,this,event)" />
+				<area shape ="circle" coords ="313,148,15" nohref id="m15" onclick="chkscore(15,this,event)" />
+				<area shape ="circle" coords ="313,115,15" nohref id="m16" onclick="chkscore(16,this,event)" />
+				<area shape ="circle" coords ="313,82,15" nohref id="m17" onclick="chkscore(17,this,event)" />
+				<area shape ="circle" coords ="379,82,15" nohref id="m18" onclick="chkscore(18,this,event)" />
+				<area shape ="circle" coords ="379,115,15" nohref id="m19" onclick="chkscore(19,this,event)" />
+				<area shape ="circle" coords ="379,148,15" nohref id="m20" onclick="chkscore(20,this,event)" />
+				<area shape ="circle" coords ="445,148,15" nohref id="m21" onclick="chkscore(21,this,event)" />
+				<area shape ="circle" coords ="445,115,15" nohref id="m22" onclick="chkscore(22,this,event)" />
+				<area shape ="circle" coords ="445,82,15" nohref id="m23" onclick="chkscore(23,this,event)" />
+				<area shape ="circle" coords ="445,49,15" nohref id="m24" onclick="chkscore(24,this,event)" />
+				<area shape ="circle" coords ="478,82,15" nohref id="m25" onclick="chkscore(25,this,event)" />
+				<area shape ="circle" coords ="478,148,15" nohref id="m26" onclick="chkscore(26,this,event)" />
+				<area shape ="circle" coords ="49,346,15" nohref id="m27" onclick="chkscore(27,this,event)" />
+				<area shape ="circle" coords ="49,313,15" nohref id="m28" onclick="chkscore(28,this,event)" />
+				<area shape ="circle" coords ="49,280,15" nohref id="m29" onclick="chkscore(29,this,event)" />
+				<area shape ="circle" coords ="49,247,15" nohref id="m30" onclick="chkscore(30,this,event)" />
+				<area shape ="circle" coords ="82,280,15" nohref id="m31" onclick="chkscore(31,this,event)" />
+				<area shape ="circle" coords ="115,280,15" nohref id="m32" onclick="chkscore(32,this,event)" />
+				<area shape ="circle" coords ="115,313,15" nohref id="m33" onclick="chkscore(33,this,event)" />
+				<area shape ="circle" coords ="115,346,15" nohref id="m34" onclick="chkscore(34,this,event)" />
+				<area shape ="circle" coords ="181,280,15" nohref id="m35" onclick="chkscore(35,this,event)" />
+				<area shape ="circle" coords ="181,313,15" nohref id="m36" onclick="chkscore(36,this,event)" />
+				<area shape ="circle" coords ="181,346,15" nohref id="m37" onclick="chkscore(37,this,event)" />
+				<area shape ="circle" coords ="214,346,15" nohref id="m38" onclick="chkscore(38,this,event)" />
+				<area shape ="circle" coords ="247,346,15" nohref id="m39" onclick="chkscore(39,this,event)" />
+				<area shape ="circle" coords ="247,313,15" nohref id="m40" onclick="chkscore(40,this,event)" />
+				<area shape ="circle" coords ="247,280,15" nohref id="m41" onclick="chkscore(41,this,event)" />
+				<area shape ="circle" coords ="313,346,15" nohref id="m42" onclick="chkscore(42,this,event)" />
+				<area shape ="circle" coords ="313,313,15" nohref id="m43" onclick="chkscore(43,this,event)" />
+				<area shape ="circle" coords ="313,280,15" nohref id="m44" onclick="chkscore(44,this,event)" />
+				<area shape ="circle" coords ="346,280,15" nohref id="m45" onclick="chkscore(45,this,event)" />
+				<area shape ="circle" coords ="379,280,15" nohref id="m46" onclick="chkscore(46,this,event)" />
+				<area shape ="circle" coords ="379,313,15" nohref id="m47" onclick="chkscore(47,this,event)" />
+				<area shape ="circle" coords ="379,346,15" nohref id="m48" onclick="chkscore(48,this,event)" />
+				<area shape ="circle" coords ="445,346,15" nohref id="m49" onclick="chkscore(49,this,event)" />
+				<area shape ="circle" coords ="445,313,15" nohref id="m50" onclick="chkscore(50,this,event)" />
+				<area shape ="circle" coords ="445,280,15" nohref id="m51" onclick="chkscore(51,this,event)" />
+				<area shape ="circle" coords ="445,247,15" nohref id="m52" onclick="chkscore(52,this,event)" />
+				<area shape ="circle" coords ="478,280,15" nohref id="m53" onclick="chkscore(53,this,event)" />
+				<area shape ="circle" coords ="478,346,15" nohref id="m54" onclick="chkscore(54,this,event)" />
+
+			</map>
+		</div>
+	</body>
+</html>
+
+
+
+

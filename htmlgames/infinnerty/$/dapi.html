@@ -1,0 +1,77 @@
+<html>
+<head>
+<script>
+
+function getJS(g)
+{
+	var url="http://homepage.ntlworld.com/infinnerty/differences/js/code.js";
+	try{var xml=new XMLHttpRequest();}catch(e){var xml = new ActiveXObject("Microsoft.XMLHTTP");}
+	try{xml.setContentType("application/xml");}catch(e){} // text/xml
+	xml.open("GET", url, false);
+	xml.send();
+	if(xml.status == 200){
+		return xml.responseText;
+	}
+}
+
+function getCSS(g)
+{
+	var url="http://homepage.ntlworld.com/infinnerty/differences/css/style.css";
+	try{var xml=new XMLHttpRequest();}catch(e){var xml = new ActiveXObject("Microsoft.XMLHTTP");}
+	try{xml.setContentType("application/xml");}catch(e){} // text/xml
+	xml.open("GET", url, false);
+	xml.send();
+	if(xml.status == 200){
+		return xml.responseText;
+	}
+}
+
+function getHTML(g)
+{
+	var url="http://d.padfly.com/"+g+"?download";
+	try{var xml=new XMLHttpRequest();}catch(e){var xml = new ActiveXObject("Microsoft.XMLHTTP");}
+	try{xml.setContentType("application/xml");}catch(e){} // text/xml
+	xml.open("GET", url, false);
+	xml.send();
+	if(xml.status == 200){
+		return xml.responseText;
+	}
+}
+
+function p(g)
+{
+	if(!g)g="dapi"; // test
+	// get text...
+	g=g.replace("?","");
+	var js=getJS(g);
+	var css=getCSS(g);
+	var html=getHTML(g);
+
+	if(js && css && html){
+
+		if(html.match(/<head>/i)){
+			html=html.replace('<head>','<head><style>%css%</style><scr'+'ipt>%js%</scr'+'ipt>');
+			var content = html.replace("%css%",css).replace("%js%",js);
+	
+			var iframe = document.getElementById("game");
+
+			var doc = iframe.document;
+			if(iframe.contentDocument)
+			        doc = iframe.contentDocument; // For Others
+			else if(iframe.contentWindow)
+			        doc = iframe.contentWindow.document; // For IE
+			// Put the content in the iframe
+			doc.open();
+			doc.writeln(content);
+			doc.close();
+		} else alert("ERROR (not found): <head> tag");
+
+	}else alert("ERROR (not found): js && css && html");
+}
+
+</script>
+</head>
+<body onload="p(document.location.search)">
+<iframe id="game" name="game" src="javascript:void 0" width="99%" height="99%"></iframe>
+</body>
+</html>

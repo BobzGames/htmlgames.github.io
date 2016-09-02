@@ -1,0 +1,8 @@
+[InternetShortcut]
+URL=javascript:try{var m="fn name?";r=prompt("find","function ");if(r){xmlReq=new XMLHttpRequest();var s=document.getElementsByTagName("script");for(a=0;a<s.length;a++){if(s[a].src != ""){m=s[a].src;xmlReq.open('GET',m,false);xmlReq.send(null);if(xmlReq.responseText.indexOf(r) != -1)break}else{m="fn on page?";}}};alert(m);(function(){ function htmlEscape(s){s=s.replace(/&/g,'&amp;');s=s.replace(/>/g,'&gt;');s=s.replace(/</g,'&lt;');return s;} x=window.open(); x.document.write('<pre>' + htmlEscape('<script>\n' + eval(r.replace("function ","")) + '\n</script>')); x.document.close(); })();}catch(e){}
+IDList=
+HotKey=0
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,15
+[Branding]
+IEAKCreated=3

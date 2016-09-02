@@ -1,0 +1,8 @@
+[InternetShortcut]
+URL=javascript:s=prompt("UNID of spec to show","");if(confirm("Click Ok for specs.nsf, Cancel for masterspecs.nsf")){d=""}else{d="master"};if(s){u=document.location.href.split('specs.nsf')[0]+d+"specs.nsf/0/"+s+"?OpenDocument";with(window.open()){document.location.href=u}}void 0
+IDList=
+HotKey=0
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,15
+[Branding]
+IEAKCreated=3

@@ -1,0 +1,111 @@
+<html>
+	<head>
+		<title>TEST</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bonus.css" />
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+			A_PATH = "../" + A_PATH;
+
+			A_MUSIC = "audio/bonus.wav"; // override
+
+			TIMEUP = "#"; // override timer
+
+			TIMEPLUS = 12; // override
+
+			FOUND_RISE = false; // override
+
+			BONUS_MSG = "<img src='images/bang.gif' class='rise' />"; // override
+
+			WRONG_MSG = "<div style='position:absolute;top:-9px;left:-5px;cursor:default'>+</div>";
+
+			function CORRECT_ORDER(){ // override
+
+				//alert("Correct Order...");
+				return true;
+			}
+
+			function INCORRECT_ORDER(){ // override
+
+				//alert("Sorry Incorrect Order...");
+				document.write("<center><a href='bonus7.html'>Sorry Wrong Order...(click to continue to next level)<a></center>");
+				return false;
+			}
+
+
+		</script>
+		<style>
+			#ff1{
+				position:absolute;
+				cursor:default;
+				color:pink;
+				left:156px;
+				top:101px;
+				}
+
+			#ff2{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:236px;
+				top:311px;
+				}
+
+			#ff3{
+				position:absolute;
+				cursor:default;
+				color:yellow;
+				left:156px;
+				top:311px;
+				}
+
+			.imgbonus {
+
+				display: none;
+
+			}
+
+			.rise{
+				position:absolute;
+				top:-15px;
+				left:-10px;
+			}
+
+		</style>
+
+	</head>
+	<body onload="init('bonus7.html','<h1>Test Complete</h1>')" onunload="reset_bg_music()" onclick="point(event)">
+	<div class="listdiv">
+		<div align="center" id="header">
+			<div class="findlist">
+				<h1>In Order Test</h1>
+				<h2 id="f1">1</h2>
+				<h2 id="f2">2</h2>
+				<h2 id="f3">3</h2>
+			</div>
+		</div>
+		<div align="center" id="footer">
+			<div id="timerborder" class="timerOuter"><div id="timer" class="timerInner"></div></div>
+		</div>
+	</div>
+		<div align="center">
+			<img name="normal" id="normal" class="landscape" src="images/B6.jpg">
+
+			<div id="ff1">1</div>
+			<div id="ff2">2</div>
+			<div id="ff3">3</div>
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("off","")</script>
+
+			<map name="zoom">
+			  	   <area coords="484,338,25" id="m1" nohref onclick="chkscore(1,this,event,true)" shape=circle>
+			  	   <area coords="713,985,25" id="m2" nohref onclick="chkscore(2,this,event,true)" shape=circle>
+			  	   <area coords="484,985,25" id="m3" nohref onclick="add2Time(3,this,event,true)" shape=circle>
+			</map>
+
+
+		</div>
+
+	</body>
+</html>

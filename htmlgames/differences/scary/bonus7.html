@@ -1,0 +1,97 @@
+<html>
+	<head>
+		<title>TEST</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bonus.css" />
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+			A_PATH = "../" + A_PATH;
+
+			A_MUSIC = "../audio/bonus.wav"; // override
+
+			TIMEUP = "#"; // override timer
+
+			TIMEPLUS = 12; // override
+
+			HINTS_LEFT = 3; // override
+
+			//BONUS_MSG = ""; // override
+		</script>
+		<style>
+
+			#ff1{
+				position:absolute;
+				cursor:default;
+				color:pink;
+				left:148px; /* m1 area x (when displayed reduced) - (25/2) 25=img width */
+				top:99px; 	/* m1 area y (when displayed reduced) - (26/2) 26=img height */
+				}
+
+			#ff2{
+				position:absolute;
+				cursor:default;
+				color:white;
+				left:226px;
+				top:311px;
+				}
+
+			#ff3{
+				position:absolute;
+				cursor:default;
+				color:yellow;
+				left:156px;
+				top:311px;
+				}
+
+			.rise{
+				position:absolute;
+				top:-5px;
+				left:-10px;
+				}
+
+		</style>
+
+	</head>
+	<body onload="init('bonus8.html','<h1>Test Complete</h1>')" onkeypress="keyhint(event,0,0,1)" onunload="reset_bg_music()" onclick="point(event)">
+
+		<div class="listdiv">
+			<div align="center" id="header">
+				<div class="findlist">
+					<h1>Find these images</h1>
+					<h2 id="f1"><img src="images/ff1.jpg" /></h2>
+					<h2 id="f2"><img src="images/ff2.jpg" /></h2>
+					<h2 id="f3"><img src="images/ff3.jpg" /></h2>
+				</div>
+			</div>
+			<div align="center" id="footer">
+				<div id="timerborder" class="timerOuter"><div id="timer" class="timerInner"></div></div>
+			</div>
+		</div>
+
+		<div id="content" align="center">
+			<img name="normal" id="normal" class="landscape" src="images/B7.jpg">
+
+			<div id="ff1"><img src="images/ff1.jpg" /></div>
+			<div id="ff2"><img src="images/ff2.jpg" /></div>
+			<div id="ff3"><img src="images/ff3.jpg" /></div>
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>
+				createLoupe("off","")
+			</script>
+
+			<map name="zoom">
+			  	   <area coords="484,338,35" id="m1" nohref onclick="chkscore(1,this,event,true)" shape=circle>
+			  	   <area coords="713,985,35" id="m2" nohref onclick="chkscore(2,this,event,true)" shape=circle>
+			  	   <area coords="484,985,35" id="m3" nohref onclick="add2Time(3,this,event,true)" shape=circle>
+			</map>
+
+		</div>
+
+		<span class="hintContent" />
+		<span id="hints_left1" name="hints_left" class="hintleft">H</span>
+		<span id="hints_left2" name="hints_left" class="hintleft">H</span>
+		<span id="hints_left3" name="hints_left" class="hintleft">H</span>
+
+	</body>
+</html>

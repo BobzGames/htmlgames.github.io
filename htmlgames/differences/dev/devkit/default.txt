@@ -1,0 +1,46 @@
+<html>
+	<title>%title%</title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		%link%
+		<style>
+			%style%
+		</style>
+		<script type="text/javascript" src="js/code.js"></script>
+		%include%
+		<script>
+			%script%
+		</script>
+	</head>
+	<body onload="init('%next%')" onunload="reset_bg_music()" onkeypress="keyhint(event)" onclick="point(event)">
+
+		<div align="center" id="header">
+			<h2>%header% <i><b><span id="remaining">0</span></b> Difference<span id="s">s</span> Left</i> <input type="button" value="Hint" id ="btnH" onclick="hint()" /></h2>
+		</div>
+		<div id="timerborder" class="timerOuter" %pause%><div id="timer" class="timerInner"></div></div>
+		<div id="content" align="center">
+
+			<img src ="%imageMod%" id = "il" class="%class%" usemap="#TBmap" onclick="bClickedImage=true" ondragstart="return false" onselectstart="return false" />
+
+			<map name="TBmap">
+				%map%
+			</map>
+
+			<img src ="%image%" id="ir" class="%class%" usemap="#TBmap" onclick="bClickedImage=true" />
+
+			<div id="twoPlayerContent" class="twoPlayerStyle">
+				<span id="P1" class="player1">0</span>
+				<span id="P2" class="player2">0</span>
+			</div>
+
+			<div id="onePlayerContent" class="onePlayerStyle">
+				<span id="P" class="player">0</span>
+			</div>
+
+		</div>
+
+		<span class="hintContent" />
+		%hint%
+		
+	</body>
+</html>

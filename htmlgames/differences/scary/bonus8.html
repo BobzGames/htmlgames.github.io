@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<title>Bonus Level 2</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bonus.css" />
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+			A_PATH = "../" + A_PATH;
+		</script>
+		<style>
+
+		</style>
+
+	</head>
+	<body onload="init('winner.html','')" onunload="reset_bg_music()" onclick="point(event)">
+	<div class="listdiv">
+		<div align="center" id="header">
+			<div class="findlist">
+				<h1>Mysteriez Nightmare!</h1>
+				<h2 id="f1">14</h2>
+				<h2 id="f2">21</h2>
+				<h2 id="f3">33</h2>
+				<h2 id="f4">47</h2>
+			</div>
+		</div>
+		<div align="center" id="footer">
+			<div id="timerborder" class="timerOuter"><div id="timer" class="timerInner"></div></div>
+		</div>
+	</div>
+		<div align="center">
+			<img name="normal" id="normal" class="landscape" src="images/B8.gif" >
+
+			<!-- magnifier : shape attribute can be 'rect' 'circle' 'star' -->
+			<script>createLoupe("circle")</script>
+
+			<map name="zoom">
+			  	   <area coords="620,674,12" id="m1" nohref onclick="BONUS_MSG='<b style=font-size:28px>14</b>';chkscore(1,this,event)" shape=circle>
+			  	   <area coords="642,94,25" id="m2" nohref onclick="BONUS_MSG='<b style=font-size:28px>21</b>';chkscore(2,this,event)" shape=circle>
+			  	   <area coords="1138,578,25" id="m3" nohref onclick="BONUS_MSG='<b style=font-size:28px>33</b>';chkscore(3,this,event)" shape=circle>
+			  	   <area coords="239,856,35" id="m4" nohref onclick="BONUS_MSG='<b style=font-size:28px>47</b>';chkscore(4,this,event)" shape=circle>
+			</map>
+
+		</div>
+	</body>
+</html>

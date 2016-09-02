@@ -1,0 +1,7 @@
+[InternetShortcut]
+URL=javascript:f=prompt("Column Name? (max size is 32765 bytes)","");if(f){s="";for(l=0;l<999;l++){if(document.getElementById(f+l)){s+=document.getElementById(f+l).value}else{l=999}}alert(s.length)}else{void 0}
+Modified=D06E2490407EC40175
+HotKey=0
+IDList=
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,15

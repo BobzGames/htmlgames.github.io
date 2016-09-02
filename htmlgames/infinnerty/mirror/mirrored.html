@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>Mirrored</title>
+    <style>
+    	#_live{
+    		-webkit-transform: scaleX(-1);
+    		-moz-transform: scaleX(-1);
+    		-ms-transform: scaleX(-1);
+    		-o-transform: scaleX(-1);
+    		transform: scaleX(-1);
+    	}
+    </style>
+  </head>
+  <body>
+    <video id="live" autoplay onclick="window.location.href='mirror.html'"></video>
+    <script type="text/javascript">
+    err_msg = "Uh oh, it appears your browser doesn't fully support the camera feature.";
+	video = document.getElementById("live");
+	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+	window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+	if(navigator.getUserMedia){
+		var gumOptions = {video: true, toString: function(){return 'video';}};
+		navigator.getUserMedia(gumOptions,function(stream){video.src = window.URL.createObjectURL(stream) || stream;},function(err){alert(err_msg);});
+    }else{document.body.innerHTML = "<center>" + err_msg + "</center>";}
+    </script>
+  </body>
+</html>

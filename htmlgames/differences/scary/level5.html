@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<title>Level 5</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<script type="text/javascript" src="../js/code.js"></script>
+		<script>
+			A_PATH = "../" + A_PATH;
+		</script>
+	</head>
+	<body onload="init('level6.html')" onunload="reset_bg_music()" onkeypress="keyhint(event)" onclick="point(event)">
+		<div align="center" id="header">
+			<h2>Level 5: Can you find the Letter A ?</h2>
+		</div>
+		<div id="timerborder" class="timerOuter"><div id="timer" class="timerInner"></div></div>
+		<div id="content" align="center">
+			<img src ="images/letters.gif" id = "il" class="none" border="0" usemap="#TBmap" onclick="bClickedImage=true;" />
+
+			<map name="TBmap">
+				<area shape ="circle" coords ="124,87,150"
+				nohref id="m1" onclick="chkscore(1,this,event)" />
+				<area shape ="circle" coords ="145,290,150"
+				nohref id="m1" onclick="singleshot()" />
+				<area shape ="circle" coords ="393,82,150"
+				nohref id="m1" onclick="singleshot()" />
+				<area shape ="circle" coords ="396,294,150"
+				nohref id="m1" onclick="singleshot()" />
+			</map>
+		</div>
+	</body>
+</html>

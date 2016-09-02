@@ -1,0 +1,31 @@
+<html>
+	<title></title>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/bonus.css" />
+		<style>
+
+			#F {
+				border:0;
+				width:640px;
+				height:512px;
+				background-color:white;
+				background-image:url(images/1x1.gif)
+			}
+
+		</style>
+		<script type="text/javascript" src="js/code.js"></script>
+		<script>
+
+			// change all mandatory overrides here!
+			WAIT = true;
+
+		</script>
+	</head>
+	<body>
+		<div id="info">
+			<a href="#" onclick="showLevels(300)">START</a>	
+		</div>
+		<iframe id="F" name="F" src="select.html" style="display:none" frameborder="none"></iframe>
+	</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>night rock</title>
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<link rel="Shortcut Icon" href="/favicon.ico" />
+	<style type="text/css">
+		html,body {
+			background-color: #000;
+			color: #fff;
+			font-family: helvetica, arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			font-size: 12pt;
+			min-height: 416px;
+			position: relative;
+		}
+
+		#canvas {
+			image-rendering: optimizeSpeed;
+			-webkit-interpolation-mode: nearest-neighbor;
+
+		}
+
+		@media screen and (-webkit-min-device-pixel-ratio:2){
+            #canvas {
+				width: 320px;
+				height: 320px;
+			}
+		}
+
+		.button {
+			background-image: url(media/iphone-buttons2.png);
+			background-repeat: no-repeat;
+			width: 60px;
+			height: 72px;
+			position: absolute;
+			bottom: 0px;
+
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-webkit-tap-highlight-color: rgba(0,0,0,0);
+			-webkit-text-size-adjust: none;
+		}
+		#buttonFPS { position: absolute; top: 0; left: 0; width: 32px; height: 32px; }
+		#buttonLeft { left: 0; background-position: 0, 0; }
+		#buttonRight { left: 60px; background-position: -60px, 0; }
+		#buttonShoot { right: 60px; background-position: -120px, 0; }
+		#buttonJump { right: 0px; background-position: -180px, 0; }
+
+		#game {
+			text-align: center;
+			display: none;
+		}
+		#go {
+			margin: 0 auto;
+			width: 300px;
+			padding: 10px;
+		}
+		a {
+			color: #F47920;
+			text-decoration: none;
+		}
+		div {margin-top: 5px}
+	</style>
+	<link rel="apple-touch-icon" href="media/touch-icon.png"/>
+
+	<meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1; user-scalable=0;"/>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<script type="text/javascript" src="v116x.js"></script>
+	<script type="text/javascript">
+		function startgame()
+		{
+			
+			document.getElementById('go').style.display = 'none';
+			document.getElementById('game').style.display = 'block';
+			try{document.body.addEventListener('touchmove', function(e) { e.preventDefault(); window.scrollTo(0,1); });}catch(e){}
+
+			ig.module('main').requires('rock.rock').defines(function(){
+				RockGame.start();
+				window.scrollTo(0,1);
+			});
+			return false;
+		}
+	</script>
+</head>
+<body>
+	<div id="go">
+		<strong><a href="#" id="play" onclick="return startgame();">Click to Play</a></strong>
+		<img src="images/logo2.jpg"/>
+		<div><center><a href="http://goo.gl/zI6A">Click for more HTML games</a></center></div>
+	</div>
+	<div id="game">
+		<canvas id="canvas" onclick="if(confirm('Would you like to quit this game?\n\nClick Ok to return to the menu.\n\nClick Cancel to continue playing.'))top.document.location.href='http://goo.gl/zI6A'"><a href="rocky/Game START.htm" title="Please consider updating to a newer browser">Click to continue to older version</a></canvas>
+		<div id="buttonFPS"></div>
+		<div class="button" id="buttonLeft"></div>
+		<div class="button" id="buttonRight"></div>
+		<div class="button" id="buttonShoot"></div>
+		<div class="button" id="buttonJump"></div>
+	</div>
+</body>
+</html>

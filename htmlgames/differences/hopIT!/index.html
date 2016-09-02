@@ -1,0 +1,34 @@
+<html>
+	<head>
+		<title>HopIT!</title>
+		<script>
+
+			function go()
+			{
+				if(parent.document.getElementById('title'))parent.document.getElementById("title").style.display = "block";
+				if(parent.document.getElementById('break'))parent.document.getElementById("break").style.display = "none";
+				document.location.href = "L1.html" + document.location.search;
+			}
+
+			function typer(rate){setTimeout('if(document.getElementById("typer"))document.getElementById("typer").innerHTML=TYPER.substr(0,(!'+rate+')?currentChar=TYPER.length:(typeof currentChar != "undefined")?currentChar++:currentChar=1);typer('+rate+')',rate);}
+
+			var TYPER = "<br>Instructions:<p>Click an empty lilypad to make the red frog jump</p><p>onto it - but you must pass over all green frogs!</p>"; // holds text to 'type out'. Can hold html tags
+
+		</script>
+	</head>
+	<body onload="typer(64)" onclick="typer(0)" style="overflow-y:hidden;background-color:black;color:yellow;font-size:14px">
+		<center>
+
+		<img src="images/logo.jpg" />
+
+		<div id="typer" style="width:300px;height:102px"></div>
+
+		<p><a href="#" onclick="go()"><b>Click to Start</b></a></p>
+
+		</center>
+	</body>
+</html>
+
+
+
+

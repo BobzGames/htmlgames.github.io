@@ -1,0 +1,34 @@
+<html>
+	<head>
+		<title>D.O.T.T.Y</title>
+		<script>
+
+			function go()
+			{
+				document.location.href = "dotty1.html" + document.location.search;
+			}
+
+			function typer(rate){setTimeout('if(document.getElementById("typer"))document.getElementById("typer").innerHTML=TYPER.substr(0,(!'+rate+')?currentChar=TYPER.length:(typeof currentChar != "undefined")?currentChar++:currentChar=1);typer('+rate+')',rate);}
+
+			var TYPER = "<br>Instructions:<p>Draw with your mouse by clicking, or finger (by tapping) all the dots of the puzzle</p><p> in order - including all the inbetween 'hidden' dots as well.  Depending on the level</p><p> these 'hidden' dots will shrink away making your task even harder........Good Luck!</p>"; // holds text to 'type out'. Can hold html tags
+
+		</script>
+	</head>
+	<body onload="typer(64)" onclick="typer(0)" style="overflow-y:hidden;background-color:black;color:yellow;font-size:14px">
+		<center>
+
+		<img src="images/logo.jpg" />
+
+		<div id="typer" style="width:500px;height:142px"></div>
+
+		<p><a href="#" onclick="go()"><b>Click to Start</b></a></p>
+
+		</center>
+	</body>
+</html>
+
+
+
+
+
+
