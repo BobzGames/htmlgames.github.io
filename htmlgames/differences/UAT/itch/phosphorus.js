@@ -2747,7 +2747,7 @@ P.compile = (function() {
         source += 'VISUAL = true;\n';
       }
       // PF new block below - for show / hide trick some projects use (like manic miner)      
-	else if (1||that.bInProcDef) {
+	else if (window.location.href.match("102592962")||that.bInProcDef) {
         source += 'VISUAL = false;\n';
       }
       
