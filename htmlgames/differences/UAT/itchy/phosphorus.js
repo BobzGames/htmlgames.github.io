@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.005)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.006)
 var that; // PF
 
 var P = (function() {
@@ -1832,7 +1832,7 @@ if (!svg) return
       var y = this.stage.mouseY;
     } else {
       var sprite = this.stage.getObject(thing);
-      if (!sprite) return 0;
+      if (!sprite) return 10000; // Nathan
       x = sprite.scratchX;
       y = sprite.scratchY;
     }
@@ -1860,7 +1860,7 @@ if (!svg) return
       //this.direction = Math.atan2(x - this.scratchX, y - this.scratchY) * 180 / Math.PI;
     } else {
       var sprite = this.stage.getObject(thing);
-      if (!sprite) return 0; // pf 10000 (Nathan)
+      if (!sprite) return 0;
       x = sprite.scratchX;
       y = sprite.scratchY;
       //this.direction = Math.atan2(y - this.scratchY, x - this.scratchX) * 180 / Math.PI + 90;
