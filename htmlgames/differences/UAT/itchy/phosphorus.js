@@ -1433,7 +1433,7 @@ if (!svg) return
 
     Sprite.parent.call(this);
 
-    this.direction = 90;
+    this.direction = 180; // pf
     this.indexInLibrary = -1;
     this.isDraggable = false;
     this.isDragging = false;
