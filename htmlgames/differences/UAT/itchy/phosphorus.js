@@ -1433,7 +1433,7 @@ if (!svg) return
 
     Sprite.parent.call(this);
 
-    this.direction = 180; // pf 90
+    this.direction = 90; // pf 90
     this.indexInLibrary = -1;
     this.isDraggable = false;
     this.isDragging = false;
@@ -1860,7 +1860,7 @@ if (!svg) return
       //this.direction = Math.atan2(x - this.scratchX, y - this.scratchY) * 180 / Math.PI;
     } else {
       var sprite = this.stage.getObject(thing);
-      if (!sprite) return 0; // pf 10000
+      if (!sprite) return 10000; // pf 0
       x = sprite.scratchX;
       y = sprite.scratchY;
       //this.direction = Math.atan2(y - this.scratchY, x - this.scratchX) * 180 / Math.PI + 90;
@@ -1868,7 +1868,7 @@ if (!svg) return
     var dx = x - this.scratchX;
     var dy = y - this.scratchY;
     if (dx === 0 && dy === 0) {
-      this.direction = 180; // pf 90
+      this.direction = 90; // pf 90
     } else {
       this.direction = Math.atan2(dx, dy) * 180 / Math.PI;
     }
