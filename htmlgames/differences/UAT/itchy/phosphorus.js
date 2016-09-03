@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.004)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.005)
 var that; // PF
 
 var P = (function() {
@@ -1867,7 +1867,6 @@ if (!svg) return
     }
     var dx = x - this.scratchX;
     var dy = y - this.scratchY;
-    console.log(dx+":"+dy);
     if (dx === 0 && dy === 0) {
       this.direction = 90; // pf 90
     } else {
