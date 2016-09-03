@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.002)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.004)
 var that; // PF
 
 var P = (function() {
@@ -1433,7 +1433,7 @@ if (!svg) return
 
     Sprite.parent.call(this);
 
-    this.direction = 180; // pf 90
+    this.direction = 90; // pf 90
     this.indexInLibrary = -1;
     this.isDraggable = false;
     this.isDragging = false;
@@ -1867,8 +1867,9 @@ if (!svg) return
     }
     var dx = x - this.scratchX;
     var dy = y - this.scratchY;
+    console.log(dx+":"+dy);
     if (dx === 0 && dy === 0) {
-      this.direction = 180; // pf 90
+      this.direction = 90; // pf 90
     } else {
       this.direction = Math.atan2(dx, dy) * 180 / Math.PI;
     }
