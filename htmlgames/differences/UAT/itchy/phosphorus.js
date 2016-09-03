@@ -1860,7 +1860,7 @@ if (!svg) return
       //this.direction = Math.atan2(x - this.scratchX, y - this.scratchY) * 180 / Math.PI;
     } else {
       var sprite = this.stage.getObject(thing);
-      if (!sprite) return 10000; // pf 0
+      if (!sprite) return 0; // pf 10000 (Nathan)
       x = sprite.scratchX;
       y = sprite.scratchY;
       //this.direction = Math.atan2(y - this.scratchY, x - this.scratchX) * 180 / Math.PI + 90;
