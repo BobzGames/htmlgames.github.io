@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.009)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.010)
 var that; // PF
 
 var P = (function() {
@@ -2353,7 +2353,7 @@ P.compile = (function() {
     var seq = function(script) {
       if (!script) return;
       for (var i = 0; i < script.length; i++) {
-      	console.log("$$$$$ " + script[i].split(" ")); // pf debug
+      	 if (script) console.log("$$$$$ " + script[i].toString().split(" ")); // pf debug
         compile(script[i]);
       }
     };
