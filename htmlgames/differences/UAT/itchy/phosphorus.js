@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.006)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.007)
 var that; // PF
 
 var P = (function() {
