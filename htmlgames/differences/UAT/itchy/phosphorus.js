@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.034)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.035)
 var that; // PF
 
 var P = (function() {
@@ -3311,7 +3311,7 @@ P.compile = (function() {
     if (script[0][0] === 'procDef') {
       //var warp = script[0][4]; // pf manic miner
       that.bInProcDef = script[0][4]; //warp;
-      //console.log("Run Without Screen Refresh: " + warp);
+      console.log("Run Without Screen Refresh: " + warp);
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
