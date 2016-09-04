@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.039)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.040)
 var that; // PF
 
 var P = (function() {
@@ -296,7 +296,8 @@ var P = (function() {
     var request = new CompositeRequest;
 
     request.defer = true;
-    request.add(P.IO.load('http://crossorigin.me/http://scratch.mit.edu/projects/' + id + '/').onLoad(function(data) {
+    // pf changed to use https
+    request.add(P.IO.load('https://crossorigin.me/https://scratch.mit.edu/projects/' + id + '/').onLoad(function(data) {
       var m = /<title>\s*(.+?)(\s+on\s+Scratch)?\s*<\/title>/.exec(data);
       if (callback) request.onLoad(callback.bind(self));
       if (m) {
@@ -2750,8 +2751,8 @@ P.compile = (function() {
       	  source += 'VISUAL = false;\n';
       }
 */
-
-	source += 'if (S.visible) VISUAL = ';
+	console.log(">>>>>>>>> " + that.bInProcDef);
+	source += 'if (S.visible || S.isPenDown) VISUAL = ';
 	if (that.bInProcDef) {
 		source += 'false\n';
 	} else {
