@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.045)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.046)
 var that; // PF
 
 var P = (function() {
@@ -3336,7 +3336,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      //that.bInProcDef = false; // pf0 delay ? (ie flag in pipeline)
+      that.bInProcDef = false; // pf0 delay ? (ie flag in pipeline)
       source += 'endCall();\n';
       source += 'return;\n';
     }
