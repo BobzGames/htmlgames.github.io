@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.017)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.019)
 var that; // PF
 
 var P = (function() {
@@ -2745,7 +2745,11 @@ P.compile = (function() {
       } else if (['forward:', 'gotoX:y:', 'gotoSpriteOrMouse:', 'changeXposBy:', 'xpos:', 'changeYposBy:', 'ypos:', 'bounceOffEdge', 'glideSecs:toX:y:elapsed:from:'].indexOf(block[0]) !== -1) {
           source += 'if (S.visible || S.isPenDown) {VISUAL = true;} else {VISUAL = false;}';
       } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
-          source += 'VISUAL = true;\n';
+      	  if (that.bInProcDef) {
+      	  	source += 'VISUAL = false;\n'; // pf
+      	  } else {
+          	source += 'VISUAL = true;\n';
+      	  }
       }
       // PF new block below - for show / hide trick some projects use (like manic miner)
       
