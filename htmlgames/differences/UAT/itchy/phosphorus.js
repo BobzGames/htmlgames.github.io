@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.015)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.017)
 var that; // PF
 
 var P = (function() {
@@ -2748,9 +2748,10 @@ P.compile = (function() {
           source += 'VISUAL = true;\n';
       }
       // PF new block below - for show / hide trick some projects use (like manic miner)
-      console.log("££££££ " + that.bInProcDef);
+      
 	else if (that.bInProcDef) {
         source += 'VISUAL = false;\n';
+        console.log("££££££ " + that.bInProcDef);
       }
       
       if (block[0] === 'forward:') { /* Motion */
