@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.038)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.039)
 var that; // PF
 
 var P = (function() {
@@ -2751,7 +2751,7 @@ P.compile = (function() {
       }
 */
 
-	source += 'if (S.visible || S.isPenDown) VISUAL = ';
+	source += 'if (S.visible) VISUAL = ';
 	if (that.bInProcDef) {
 		source += 'false\n';
 	} else {
