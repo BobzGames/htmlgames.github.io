@@ -1,6 +1,6 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.054)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.055)
 var that; // PF
-var bFast = 1 && window.location.href.match("109591705");
+var bFast = 1 && window.location.href.match("109591705"); // pf hack for testing only!
 console.log("### " + bFast);
 
 var P = (function() {
