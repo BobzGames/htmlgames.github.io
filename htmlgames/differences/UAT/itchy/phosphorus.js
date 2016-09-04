@@ -2744,7 +2744,12 @@ P.compile = (function() {
       } else if (['forward:', 'gotoX:y:', 'gotoSpriteOrMouse:', 'changeXposBy:', 'xpos:', 'changeYposBy:', 'ypos:', 'bounceOffEdge', 'glideSecs:toX:y:elapsed:from:'].indexOf(block[0]) !== -1) {
           source += 'if (S.visible || S.isPenDown) VISUAL = true;\n';
       } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
-        source += 'VISUAL = true;\n';
+        // PF new block below - for show / hide trick some projects use (like manic miner)      
+	if (that.bInProcDef) {
+        	source += 'VISUAL = false;\n';
+	} else {
+        	source += 'VISUAL = true;\n';
+	}
       }
       // PF new block below - for show / hide trick some projects use (like manic miner)      
 	else if (that.bInProcDef) {
@@ -3310,6 +3315,7 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
+      var warp = script[0][4]; // pf manic miner
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
