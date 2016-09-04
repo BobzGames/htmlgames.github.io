@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.040)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.041)
 var that; // PF
 
 var P = (function() {
@@ -296,7 +296,7 @@ var P = (function() {
     var request = new CompositeRequest;
 
     request.defer = true;
-    // pf changed to use https
+    // pf changed to use https...
     request.add(P.IO.load('https://crossorigin.me/https://scratch.mit.edu/projects/' + id + '/').onLoad(function(data) {
       var m = /<title>\s*(.+?)(\s+on\s+Scratch)?\s*<\/title>/.exec(data);
       if (callback) request.onLoad(callback.bind(self));
@@ -3427,7 +3427,7 @@ P.compile = (function() {
       var key = script[0][1].toLowerCase();
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') { 
-      that.bInProcDef = script[0][4]; // pf1 - this enables a faster screen redraw (has side effects?)
+      //that.bInProcDef = script[0][4]; // pf1 - this enables a faster screen redraw (has side effects?)
       //console.log("Run without screen refresh: " + script[0][4] + ", in Function Block:  " + script[0][1].split(" ")); // pf debug - dm
       object.procedures[script[0][1]] = {
         inputs: inputs,
