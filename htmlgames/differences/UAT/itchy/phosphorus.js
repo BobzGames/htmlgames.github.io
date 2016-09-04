@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.037)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.038)
 var that; // PF
 
 var P = (function() {
@@ -2751,11 +2751,11 @@ P.compile = (function() {
       }
 */
 
-	source += 'if (S.visible || S.isPenDown) {VISUAL = true}';
+	source += 'if (S.visible || S.isPenDown) VISUAL = ';
 	if (that.bInProcDef) {
-		source += ' else {VISUAL = false}\n';
+		source += 'false\n';
 	} else {
-		source += '\n';
+		source += 'true\n';
 	}
 
       if (block[0] === 'forward:') { /* Motion */
