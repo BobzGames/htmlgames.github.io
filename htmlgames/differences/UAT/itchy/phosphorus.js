@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.042)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.043)
 var that; // PF
 
 var P = (function() {
@@ -2754,9 +2754,9 @@ P.compile = (function() {
 	console.log(">>>>>>>>> " + that.bInProcDef);
 	source += 'if (S.visible || S.isPenDown) VISUAL = ';
 	if (that.bInProcDef) {
-		source += 'false\n';
+		source += 'false;\n';
 	} else {
-		source += 'true\n';
+		source += 'true;\n';
 	}
 
       if (block[0] === 'forward:') { /* Motion */
@@ -3318,7 +3318,7 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
-      //that.bInProcDef = script[0][4]; //warp;
+      that.bInProcDef = script[0][4]; //warp;
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
