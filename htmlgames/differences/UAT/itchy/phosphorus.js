@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.029)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.030)
 var that; // PF
 
 var P = (function() {
@@ -2746,7 +2746,7 @@ P.compile = (function() {
           source += 'if (S.visible || S.isPenDown) VISUAL = true;\n';
       } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
           source += 'if (S.visible) VISUAL = true;\n'; // pf manic miner
-      } else if (that.bInProcDef || window.location.href.match("102592962")) {
+      } else if (that.bInProcDef) { // || window.location.href.match("102592962")) {
       	  // pf manic miner
       	  source += 'VISUAL = false;\n';
       }
