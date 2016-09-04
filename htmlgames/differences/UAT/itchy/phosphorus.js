@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.046)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.047)
 var that; // PF
 
 var P = (function() {
@@ -2739,7 +2739,7 @@ P.compile = (function() {
       if (LOG_PRIMITIVES) {
         source += 'console.log(' + val(block[0]) + ');\n';
       }
-/*
+
       if (['turnRight:', 'turnLeft:', 'heading:', 'pointTowards:', 'setRotationStyle', 'lookLike:', 'nextCostume', 'say:duration:elapsed:from:', 'say:', 'think:duration:elapsed:from:', 'think:', 'changeGraphicEffect:by:', 'setGraphicEffect:to:', 'filterReset', 'changeSizeBy:', 'setSizeTo:', 'comeToFront', 'goBackByLayers:'].indexOf(block[0]) !== -1) {
           source += 'if (S.visible) VISUAL = true\n'; // 1 0
       } else if (['forward:', 'gotoX:y:', 'gotoSpriteOrMouse:', 'changeXposBy:', 'xpos:', 'changeYposBy:', 'ypos:', 'bounceOffEdge', 'glideSecs:toX:y:elapsed:from:'].indexOf(block[0]) !== -1) {
@@ -2750,15 +2750,15 @@ P.compile = (function() {
       	  // pf manic miner
       	  source += 'VISUAL = false;\n';
       }
-*/
-	console.log(">>>>>>>>> " + that.bInProcDef);
+
+/*
 	source += 'if (S.visible || S.isPenDown) VISUAL = ';
 	if (that.bInProcDef) {
 		source += 'false;\n';
 	} else {
 		source += 'true;\n';
 	}
-
+*/
       if (block[0] === 'forward:') { /* Motion */
 
         source += 'S.forward(' + num(block[1]) + ');\n';
