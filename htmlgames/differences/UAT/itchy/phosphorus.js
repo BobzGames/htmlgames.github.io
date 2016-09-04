@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.027)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.028)
 var that; // PF
 
 var P = (function() {
@@ -3421,7 +3421,7 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') { 
       if (P.player.bFast) that.bInProcDef = script[0][4]; // pf1 - this enables a faster screen redraw (has side effects!)
-      console.log(script[0][4] + "in Function Block:  " + script[0][1].split(" ")); // pf debug - dm
+      console.log("in Function Block:  " + script[0][1].split(" ")); // pf debug - dm
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
