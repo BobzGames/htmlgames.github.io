@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.043)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.044)
 var that; // PF
 
 var P = (function() {
@@ -1209,7 +1209,7 @@ if (!svg) return
   inherits(Stage, Base);
 
   Stage.prototype.isStage = true;
-  Stage.prototype.bInProcDef = false; // pf - for speeding up rendered procdef's with run without screen refresh enabled
+  //Stage.prototype.bInProcDef = false; // pf - for speeding up rendered procdef's with run without screen refresh enabled
 
   Stage.prototype.fromJSON = function(data) {
     Stage.parent.prototype.fromJSON.call(this, data);
@@ -3336,7 +3336,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      that.bInProcDef = false; // pf0
+      that.bInProcDef = false; // pf0 delay ? (ie flag in pipeline)
       source += 'endCall();\n';
       source += 'return;\n';
     }
