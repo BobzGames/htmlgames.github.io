@@ -1,10 +1,9 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.033)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.034)
 var that; // PF
 
 var P = (function() {
   'use strict';
 
-  var bFast = true;
   var SCALE = window.devicePixelRatio || 1;
   var hasTouchEvents = 'ontouchstart' in document;
   
@@ -1209,7 +1208,7 @@ if (!svg) return
   inherits(Stage, Base);
 
   Stage.prototype.isStage = true;
-  Stage.prototype.bInProcDef = false; // pf - for speeding up rendered procdef's
+  Stage.prototype.bInProcDef = false; // pf - for speeding up rendered procdef's with run without screen refresh enabled
 
   Stage.prototype.fromJSON = function(data) {
     Stage.parent.prototype.fromJSON.call(this, data);
@@ -3310,9 +3309,9 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
-      var warp = script[0][4]; // pf manic miner
-      that.bInProcDef = warp;
-      console.log("Run Without Screen Refresh: " + warp);
+      //var warp = script[0][4]; // pf manic miner
+      that.bInProcDef = script[0][4]; //warp;
+      //console.log("Run Without Screen Refresh: " + warp);
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
@@ -3422,7 +3421,7 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') { 
       that.bInProcDef = script[0][4]; // pf1 - this enables a faster screen redraw (has side effects!)
-      console.log("in Function Block:  " + script[0][1].split(" ")); // pf debug - dm
+      //console.log("in Function Block:  " + script[0][1].split(" ")); // pf debug - dm
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
