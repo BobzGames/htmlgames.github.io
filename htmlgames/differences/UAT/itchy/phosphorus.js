@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.025)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.026)
 var that; // PF
 
 var P = (function() {
@@ -2353,7 +2353,7 @@ P.compile = (function() {
     var seq = function(script) {
       if (!script) return;
       for (var i = 0; i < script.length; i++) {
-      	 if (script) console.log("$$$$$ " + script[i].toString().split(" ")); // pf debug
+      	 //if (script) console.log("$$$$$ " + script[i].toString().split(" ")); // pf debug - dm
         compile(script[i]);
       }
     };
@@ -2739,7 +2739,7 @@ P.compile = (function() {
       if (LOG_PRIMITIVES) {
         source += 'console.log(' + val(block[0]) + ');\n';
       }
-        console.log("££££££ " + that.bInProcDef);
+
       if (['turnRight:', 'turnLeft:', 'heading:', 'pointTowards:', 'setRotationStyle', 'lookLike:', 'nextCostume', 'say:duration:elapsed:from:', 'say:', 'think:duration:elapsed:from:', 'think:', 'changeGraphicEffect:by:', 'setGraphicEffect:to:', 'filterReset', 'changeSizeBy:', 'setSizeTo:', 'comeToFront', 'goBackByLayers:'].indexOf(block[0]) !== -1) {
           source += 'if (S.visible) VISUAL = true;\n';
       } else if (['forward:', 'gotoX:y:', 'gotoSpriteOrMouse:', 'changeXposBy:', 'xpos:', 'changeYposBy:', 'ypos:', 'bounceOffEdge', 'glideSecs:toX:y:elapsed:from:'].indexOf(block[0]) !== -1) {
@@ -3311,7 +3311,7 @@ P.compile = (function() {
 
     if (script[0][0] === 'procDef') {
       var warp = script[0][4]; // pf manic miner
-      console.log("@@@@ " + warp);
+      console.log("Run Without Screen Refresh: " + warp);
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
@@ -3421,7 +3421,7 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') { 
       if (P.player.bFast) that.bInProcDef = script[0][4]; // pf1 - this enables a faster screen redraw (has side effects!)
-      console.log(script[0][4] + " ### " + script[0][1].split(" ")); // pf debug
+      console.log(script[0][4] + " #RWSR# " + script[0][1].split(" ")); // pf debug - dm
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
