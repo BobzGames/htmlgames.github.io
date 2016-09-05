@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.075)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.076)
 var that; // PF
 var bFast = 1 && window.location.href.match("109591705"); // pf hack for testing only!
 
@@ -2743,9 +2743,6 @@ P.compile = (function() {
       }
 
       if (bFast) {
-      	if (that.bInProcDef) {
-      	//source += 'WARP++;\n';
-      	}
         //source += 'VISUAL = ';
         //if (that.bInProcDef) {
         //    source += 'false;\n';
@@ -3014,7 +3011,7 @@ P.compile = (function() {
 
         source += 'self.tempoBPM = ' + num(block[1]) + ';\n';
 
-      } else if (block[0] === 'clearPenTrails') { /* Pen */
+      } else if (block[0] === 'c_learPenTrails') { /* Pen */
 
         source += 'self.penCanvas.width = 480 * self.maxZoom;\n';
         source += 'self.penContext.scale(self.maxZoom, self.maxZoom);\n';
@@ -3328,7 +3325,6 @@ P.compile = (function() {
       that.bInProcDef = script[0][4]; //warp;
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
-      if (that.bInProcDef) source += 'WARP++;\n';
       for (var i = types.length; i--;) {
         var t = types[i];
         if (t === '%d' || t === '%n' || t === '%c') {
@@ -3344,7 +3340,6 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      if (that.bInProcDef) source += 'WARP--;\n';
       that.bInProcDef = false; // pf0 delay ? (ie flag in pipeline)
       source += 'endCall();\n';
       source += 'return;\n';
