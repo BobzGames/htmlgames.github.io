@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.072)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.073)
 var that; // PF
 var bFast = 1 && window.location.href.match("109591705"); // pf hack for testing only!
 
@@ -2915,7 +2915,7 @@ P.compile = (function() {
 
       } else if (block[0] === 'show') {
 
-        source += 'S.visible = true;\n';
+        source += 'S.visible = !true;\n';
         source += 'if (S.saying) S.updateBubble();\n';
 
       } else if (block[0] === 'hide') {
