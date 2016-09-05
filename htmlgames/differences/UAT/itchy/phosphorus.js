@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.071)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.072)
 var that; // PF
 var bFast = 1 && window.location.href.match("109591705"); // pf hack for testing only!
 
@@ -2743,14 +2743,14 @@ P.compile = (function() {
       }
 
       if (bFast) {
-        source += 'VISUAL = ';
-        if (that.bInProcDef) {
-            source += 'false;\n';
-        } else {
-            if (['show'].indexOf(block[0]) !== -1) {
-                source += '!true;\n';
-            }
-        }
+        //source += 'VISUAL = ';
+        //if (that.bInProcDef) {
+        //    source += 'false;\n';
+        //} else {
+        //   if (['show'].indexOf(block[0]) !== -1) {
+        //        source += '!true;\n';
+        //    }
+        //}
       } else {
         if (['turnRight:', 'turnLeft:', 'heading:', 'pointTowards:', 'setRotationStyle', 'lookLike:', 'nextCostume', 'say:duration:elapsed:from:', 'say:', 'think:duration:elapsed:from:', 'think:', 'changeGraphicEffect:by:', 'setGraphicEffect:to:', 'filterReset', 'changeSizeBy:', 'setSizeTo:', 'comeToFront', 'goBackByLayers:'].indexOf(block[0]) !== -1) {
             source += 'if (S.visible) VISUAL = true\n'; // 1 0
