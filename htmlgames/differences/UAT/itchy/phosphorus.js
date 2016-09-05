@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.070)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.071)
 var that; // PF
 var bFast = 1 && window.location.href.match("109591705"); // pf hack for testing only!
 
@@ -2748,7 +2748,7 @@ P.compile = (function() {
             source += 'false;\n';
         } else {
             if (['show'].indexOf(block[0]) !== -1) {
-                source += 'true;\n';
+                source += '!true;\n';
             }
         }
       } else {
