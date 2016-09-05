@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.076)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.077)
 var that; // PF
 var bFast = 1 && window.location.href.match("109591705"); // pf hack for testing only!
 
@@ -1271,8 +1271,8 @@ if (!svg) return
     if (this.maxZoom < zoom * SCALE) {
       this.maxZoom = zoom * SCALE;
       var canvas = document.createElement('canvas');
-      canvas.width = this.penCanvas.width;
-      canvas.height = this.penCanvas.height;
+      canvas.width = this.penCanvas.width/2;
+      canvas.height = this.penCanvas.height/2;
       canvas.getContext('2d').drawImage(this.penCanvas, 0, 0);
       this.penCanvas.width = 480 * zoom * SCALE;
       this.penCanvas.height = 360 * zoom * SCALE;
@@ -3011,7 +3011,7 @@ P.compile = (function() {
 
         source += 'self.tempoBPM = ' + num(block[1]) + ';\n';
 
-      } else if (block[0] === 'c_learPenTrails') { /* Pen */
+      } else if (block[0] === 'clearPenTrails') { /* Pen */
 
         source += 'self.penCanvas.width = 480 * self.maxZoom;\n';
         source += 'self.penContext.scale(self.maxZoom, self.maxZoom);\n';
