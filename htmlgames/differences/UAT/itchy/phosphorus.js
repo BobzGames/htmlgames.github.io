@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.074)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.075)
 var that; // PF
 var bFast = 1 && window.location.href.match("109591705"); // pf hack for testing only!
 
@@ -2744,9 +2744,7 @@ P.compile = (function() {
 
       if (bFast) {
       	if (that.bInProcDef) {
-      	source += 'WARP++;\n';
-        seq(block[1]);
-        source += 'WARP--;\n';
+      	//source += 'WARP++;\n';
       	}
         //source += 'VISUAL = ';
         //if (that.bInProcDef) {
@@ -3330,6 +3328,7 @@ P.compile = (function() {
       that.bInProcDef = script[0][4]; //warp;
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
+      if (that.bInProcDef) source += 'WARP++;\n';
       for (var i = types.length; i--;) {
         var t = types[i];
         if (t === '%d' || t === '%n' || t === '%c') {
@@ -3345,6 +3344,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
+      if (that.bInProcDef) source += 'WARP--;\n';
       that.bInProcDef = false; // pf0 delay ? (ie flag in pipeline)
       source += 'endCall();\n';
       source += 'return;\n';
