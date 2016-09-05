@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.062)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.063)
 var that; // PF
 var bFast = 1 && window.location.href.match("109591705"); // pf hack for testing only!
 
@@ -2743,7 +2743,7 @@ P.compile = (function() {
       }
 
       if (bFast) {
-        source += 'if ((S.visible || S.isPenDown)) VISUAL = ';
+        source += 'if (S.visible) VISUAL = ';
         if (that.bInProcDef) {
             source += 'false;\n';
         } else {
