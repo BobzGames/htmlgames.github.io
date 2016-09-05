@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.077)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.078)
 var that; // PF
 var bFast = 1 && window.location.href.match("109591705"); // pf hack for testing only!
 
@@ -1271,8 +1271,8 @@ if (!svg) return
     if (this.maxZoom < zoom * SCALE) {
       this.maxZoom = zoom * SCALE;
       var canvas = document.createElement('canvas');
-      canvas.width = this.penCanvas.width/2;
-      canvas.height = this.penCanvas.height/2;
+      canvas.width = this.penCanvas.width;
+      canvas.height = this.penCanvas.height;
       canvas.getContext('2d').drawImage(this.penCanvas, 0, 0);
       this.penCanvas.width = 480 * zoom * SCALE;
       this.penCanvas.height = 360 * zoom * SCALE;
