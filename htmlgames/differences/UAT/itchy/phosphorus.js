@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.069)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.070)
 var that; // PF
 var bFast = 1 && window.location.href.match("109591705"); // pf hack for testing only!
 
@@ -2747,7 +2747,7 @@ P.compile = (function() {
         if (that.bInProcDef) {
             source += 'false;\n';
         } else {
-            if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'h_i_d_e', 'p_u_t_P_e_n_D_o_w_n', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
+            if (['show'].indexOf(block[0]) !== -1) {
                 source += 'true;\n';
             }
         }
@@ -2759,7 +2759,7 @@ P.compile = (function() {
         } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
             source += 'VISUAL = true;\n'; // 1 0
         } else if (that.bInProcDef) {
-      	    // pf run without screen refresh (like manic miner)
+      	    // pf run without screen refresh (warp stuff)
       	    source += 'VISUAL = false;\n';
         }
       }
