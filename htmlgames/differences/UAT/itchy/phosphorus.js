@@ -1,7 +1,6 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.055)
+// additional bugfixes by PF. Please visit: goo.gl/zI6A (v0.056)
 var that; // PF
 var bFast = 1 && window.location.href.match("109591705"); // pf hack for testing only!
-console.log("### " + bFast);
 
 var P = (function() {
   'use strict';
@@ -2747,6 +2746,7 @@ P.compile = (function() {
         if (that.bInProcDef) {
             source += 'false;\n';
         } else {
+            if (that.bInProcDef) source += '!';
             source += 'true;\n';
         }    	
       } else {
