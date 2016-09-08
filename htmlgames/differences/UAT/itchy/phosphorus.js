@@ -297,7 +297,7 @@ var P = (function() {
 
     request.defer = true;
     // pf changed to use https...
-    request.add(P.IO.load('https://crossorigin.me/https://scratch.mit.edu/projects/' + id + '/').onLoad(function(data) {
+    request.add(P.IO.load('http://crossorigin.me/https://scratch.mit.edu/projects/' + id + '/').onLoad(function(data) {
       var m = /<title>\s*(.+?)(\s+on\s+Scratch)?\s*<\/title>/.exec(data);
       if (callback) request.onLoad(callback.bind(self));
       if (m) {
