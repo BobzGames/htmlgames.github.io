@@ -246,8 +246,12 @@
     bugLink.href = P.player.projectId ? 'https://github.com/nathan/phosphorus/issues/new?title=' + encodeURIComponent(P.player.projectTitle || P.player.projectURL) + '&body=' + encodeURIComponent('\n\n\n' + P.player.projectURL + '\nhttp://phosphorus.github.io/#' + P.player.projectId + '\n' + navigator.userAgent) : 'https://github.com/nathan/phosphorus/issues/new?body=' + encodeURIComponent('\n\n\n' + navigator.userAgent);
   }
 
-  function updatePackageLink() {
+  function _updatePackageLink() {
     packageLink.href = P.player.projectId ? window.location.href.split("/#")[0] + '/app.html?id=' + P.player.projectId + '&turbo=' + packageTurbo.checked + '&full-screen=' + packageFullScreen.checked : 'about:blank';
+  }
+  
+    function updatePackageLink() {
+    packageLink.href = P.player.projectId ? '/app.html?id=' + P.player.projectId + '&turbo=' + packageTurbo.checked + '&full-screen=' + packageFullScreen.checked : 'about:blank';
   }
 
   packageTurbo.addEventListener('change', updatePackageLink);
