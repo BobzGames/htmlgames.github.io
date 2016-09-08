@@ -2741,7 +2741,7 @@ P.compile = (function() {
         source += 'console.log(' + val(block[0]) + ');\n';
       }
       var bFast = 1 && window.location.href.match("117879477"); // pf hack for testing only!
-      if (bFast) {
+      if (bFast && that.bInProcDef) {
         //source += 'VISUAL = ';
         //if (that.bInProcDef) {
         //    source += 'false;\n';
