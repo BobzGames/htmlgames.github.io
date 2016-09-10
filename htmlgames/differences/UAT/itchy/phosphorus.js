@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.125)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.126)
 var that; // PF
 
 var P = (function() {
@@ -2754,7 +2754,7 @@ P.compile = (function() {
       	    // pf run without screen refresh (warp stuff)
       	    source += 'VISUAL = false;\n';
       	    if (true) {
-      	    	source += 'console.log(WARP);'; // C.Warp does nothing here...
+      	    	source += 'if(!WARP) WARP = true;'; // C.Warp does nothing here...
       	    }
         }
       }
