@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.097)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.098)
 var that; // PF
 
 var P = (function() {
@@ -3339,7 +3339,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      that.bInProcDef = false; // pf0 delay ? (ie flag in pipeline)
+      //that.bInProcDef = false; // pf0 delay ? (ie flag in pipeline)
       source += 'endCall();\n';
       source += 'return;\n';
     }
@@ -3895,6 +3895,7 @@ P.runtime = (function() {
       STACK = C.stack;
       R = STACK.pop();
     }
+    that.bInProcDef = false;
   };
 
   var sceneChange = function() {
