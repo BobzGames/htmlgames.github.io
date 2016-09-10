@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.098)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.099)
 var that; // PF
 
 var P = (function() {
@@ -1209,9 +1209,8 @@ if (!svg) return
   inherits(Stage, Base);
 
   Stage.prototype.isStage = true;
-  //Stage.prototype.bInProcDef = false; // pf - for speeding up rendered procdef's with run without screen refresh enabled
-
-  Stage.prototype.fromJSON = function(data) {
+  
+   Stage.prototype.fromJSON = function(data) {
     Stage.parent.prototype.fromJSON.call(this, data);
 
     data.children.forEach(function(d) {
@@ -3266,7 +3265,7 @@ P.compile = (function() {
 
         wait(num(block[1]));
 
-      } else if (block[0] === 'warpSpeed' || block[0] === 'procDef' ) { // || that.bInProcDef) { // pf warp
+      } else if (block[0] === 'warpSpeed' || (block[0] === 'procDef' && script[0][4] && !!script[0][4])) { // || that.bInProcDef) { // pf warp
         source += 'WARP++;\n';
         seq(block[1]);
         source += 'WARP--;\n';
@@ -3339,7 +3338,6 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      //that.bInProcDef = false; // pf0 delay ? (ie flag in pipeline)
       source += 'endCall();\n';
       source += 'return;\n';
     }
@@ -3430,7 +3428,7 @@ P.compile = (function() {
       var key = script[0][1].toLowerCase();
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') { 
-      that.bInProcDef = script[0][4]; // pf1 - this enables a faster screen redraw (has side effects?)
+      //that.bInProcDef = script[0][4]; // pf1 - this enables a faster screen redraw (has side effects?)
       //console.log("Run without screen refresh: " + script[0][4] + ", in Function Block:  " + script[0][1].split(" ")); // pf debug - dm
       object.procedures[script[0][1]] = {
         inputs: inputs,
