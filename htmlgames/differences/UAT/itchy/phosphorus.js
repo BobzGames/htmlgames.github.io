@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.092)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.093)
 var that; // PF
 
 var P = (function() {
@@ -3863,14 +3863,9 @@ P.runtime = (function() {
       R = {};
       if (C.warp || WARP) {
         WARP++;
-        WARP++;
-        WARP++;
-        WARP++; 
-        WARP++; 
         IMMEDIATE = procedure.fn;
-        console.log("! " + WARP);
       } else {
-        for (var i = CALLS.length, j = 5; i-- && j--;) {
+        for (var i = CALLS.length, j = 15; i-- && j--;) {
           if (CALLS[i].base === procedure.fn) {
             var recursive = true;
             break;
