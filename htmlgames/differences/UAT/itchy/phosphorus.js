@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.107)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.108)
 var that; // PF
 
 var P = (function() {
@@ -3320,13 +3320,11 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
-      // that.bInProcDef = script[0][4];
-      
+      // that.bInProcDef = script[0][4]; // pf warp *
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
         var t = types[i];
-        source += "C.warp = " + script[0][4] + ";\n"; // pf warp *;
         if (t === '%d' || t === '%n' || t === '%c') {
           source += 'C.numargs[' + i + '] = +C.args[' + i + '] || 0;\n';
         } else if (t === '%b') {
@@ -3431,7 +3429,7 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') { 
       //that.bInProcDef = script[0][4]; // pf1 - this enables a faster screen redraw (has side effects?)
-      //console.log("Run without screen refresh: " + script[0][4] + ", in Function Block:  " + script[0][1].split(" ")); // pf debug - dm
+      console.log("Run without screen refresh: " + script[0][4] + ", in Function Block:  " + script[0][1].split(" ")); // pf debug - dm
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
