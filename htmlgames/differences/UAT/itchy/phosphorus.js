@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.102)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.103)
 var that; // PF
 
 var P = (function() {
@@ -3267,6 +3267,7 @@ P.compile = (function() {
 
       } else if (block[0] === 'warpSpeed' || (block[0] === 'procDef' && script[0][4] && !!script[0][4])) { // || that.bInProcDef) { // pf warp
         that.bInProcDef = true; // pf warp
+        console.log("warpSpeed");
         source += 'WARP++;\n';
         seq(block[1]);
         source += 'WARP--;\n';
