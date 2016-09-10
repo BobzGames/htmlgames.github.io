@@ -2752,7 +2752,7 @@ P.compile = (function() {
             source += 'VISUAL = true;\n'; // 1 0
         } else if (!bFast && that.bInProcDef) {
       	    // pf run without screen refresh (warp stuff)
-      	    console.log(WARP + " :: " + C.warp);
+      	    console.log(C.warp);
       	    source += 'VISUAL = false;\n'; // C.Warp = true; WARP = true;\n';
         }
       }
