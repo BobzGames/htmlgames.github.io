@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.127)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.128)
 var that; // PF
 
 var P = (function() {
@@ -981,7 +981,6 @@ if (!svg) return
 
   var Stage = function() {
     that = this; // PF global!
-    that.noWarpSpeed = true;
     this.stage = this;
 
     Stage.parent.call(this);
@@ -2754,12 +2753,14 @@ P.compile = (function() {
         } else if (!bFast && that.bInProcDef) {
       	    // pf run without screen refresh (warp stuff)
       	    source += 'VISUAL = false;\n';
-      	    if (that.noWarpSpeed || 0) {
+      	    if (!!that.noWarpSpeed) {
       	    	source += 'WARP = true;\n'; // C.Warp does nothing here...
       	    }
         }
       }
       
+      that.noWarpSpeed = true; // pf stop this interference
+       
       if (block[0] === 'forward:') { /* Motion */
 
         source += 'S.forward(' + num(block[1]) + ');\n';
