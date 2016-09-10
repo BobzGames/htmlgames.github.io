@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.129)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.130)
 var that; // PF
 
 var P = (function() {
@@ -2753,14 +2753,12 @@ P.compile = (function() {
         } else if (!bFast && that.bInProcDef) {
       	    // pf run without screen refresh (warp stuff)
       	    source += 'VISUAL = false;\n';
-      	    if (!!that.noWarpSpeed) {
-      	    	//source += 'WARP = true;\n'; // C.Warp does nothing here...
+      	    if (true) {
+      	    	source += 'WARP++;\n'; // C.Warp does nothing here...
       	    }
         }
       }
       
-      that.noWarpSpeed = true; // pf stop this interference
-       
       if (block[0] === 'forward:') { /* Motion */
 
         source += 'S.forward(' + num(block[1]) + ');\n';
@@ -3269,7 +3267,6 @@ P.compile = (function() {
         source += 'WARP++;\n';
         seq(block[1]);
         source += 'WARP--;\n';
-        that.noWarpSpeed = false;
 
       } else if (block[0] === 'createCloneOf') {
 
@@ -3896,6 +3893,7 @@ P.runtime = (function() {
       STACK = C.stack;
       R = STACK.pop();
     }
+    if (WARP) WARP--;
     that.bInProcDef = false;
   };
 
