@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.106)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.107)
 var that; // PF
 
 var P = (function() {
@@ -3321,11 +3321,12 @@ P.compile = (function() {
 
     if (script[0][0] === 'procDef') {
       // that.bInProcDef = script[0][4];
-      source = "C.warp = " + script[0][4] + ";\n"; // pf warp *;
+      
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
         var t = types[i];
+        source += "C.warp = " + script[0][4] + ";\n"; // pf warp *;
         if (t === '%d' || t === '%n' || t === '%c') {
           source += 'C.numargs[' + i + '] = +C.args[' + i + '] || 0;\n';
         } else if (t === '%b') {
