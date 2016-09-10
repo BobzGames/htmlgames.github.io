@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.096)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.097)
 var that; // PF
 
 var P = (function() {
@@ -2740,7 +2740,7 @@ P.compile = (function() {
       if (LOG_PRIMITIVES) {
         source += 'console.log(' + val(block[0]) + ');\n';
       }
-      var bFast = 0 && window.location.href.match("117879477"); // pf hack for testing only!
+      var bFast = 1 && window.location.href.match("117879477"); // pf hack for testing only!
       if (bFast && that.bInProcDef) {
         //source += 'VISUAL = ';
         //if (that.bInProcDef) {
@@ -2758,7 +2758,7 @@ P.compile = (function() {
             source += 'VISUAL = true;\n'; // 1 0
         } else if (!bFast && that.bInProcDef) {
       	    // pf run without screen refresh (warp stuff)
-      	    //source += 'VISUAL = false;\n';
+      	    source += 'VISUAL = false;\n';
         }
       }
     
