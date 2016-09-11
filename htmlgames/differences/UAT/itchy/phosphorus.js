@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.135)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.136)
 var that; // PF
 
 var P = (function() {
@@ -3429,9 +3429,10 @@ P.compile = (function() {
       var key = script[0][1].toLowerCase();
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
-      // pf initial run only (not game loop) ie when green flag clicked block. Removed warp: script[0][4]
+      // pf initial run only (not game loop) ie when green flag clicked block
       object.procedures[script[0][1]] = {
         inputs: inputs,
+        warp: script[0][4],
         fn: f
       };
     } else {
