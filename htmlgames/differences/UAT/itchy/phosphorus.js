@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.152)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.153)
 var that; // PF
 
 var P = (function() {
@@ -2739,11 +2739,11 @@ P.compile = (function() {
       if (LOG_PRIMITIVES) {
         source += 'console.log(' + val(block[0]) + ');\n';
       }
-      var bFast = 1 && window.location.href.match("55416430");//("117879477"); // 3D X-Wing
+      var bFast = 1 && window.location.href.match("117879477"); // 3D X-Wing
       if (bFast && that.bInProcDef) {
 	 // pf hack for testing only! x
       } else {
-      	// pf - S.visible is set true / false, depending if block is show / hide
+      	// pf - S.visible is set true / false, depending if block is show / hide (WARP tests need adding)
         if (['turnRight:', 'turnLeft:', 'heading:', 'pointTowards:', 'setRotationStyle', 'lookLike:', 'nextCostume', 'say:duration:elapsed:from:', 'say:', 'think:duration:elapsed:from:', 'think:', 'changeGraphicEffect:by:', 'setGraphicEffect:to:', 'filterReset', 'changeSizeBy:', 'setSizeTo:', 'comeToFront', 'goBackByLayers:'].indexOf(block[0]) !== -1) {
             source += 'if (S.visible) VISUAL = true\n'; // 1 0 x
         } else if (['forward:', 'gotoX:y:', 'gotoSpriteOrMouse:', 'changeXposBy:', 'xpos:', 'changeYposBy:', 'ypos:', 'bounceOffEdge', 'glideSecs:toX:y:elapsed:from:'].indexOf(block[0]) !== -1) {
@@ -3430,9 +3430,9 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
       // pf initial run only (not game loop) ie when green flag clicked block
-      if (typeof that.bWarp == "undefined" && script[0][4]) {
+      if (typeof that.bWarp == "undefined" && script[0][4] && !window.location.href.match("55416430")) { // pf hack test only !
       	that.bWarp = true;
-      	//console.log("bWarp enabled");
+      	console.log("bWarp enabled - watch out :)");
       } else {
       	if (!that.bWarp) that.bWarp = false;
       }
