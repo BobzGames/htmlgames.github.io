@@ -3253,7 +3253,10 @@ P.compile = (function() {
 
       } else if (block[0] === 'wait:elapsed:from:') {
 
-	if (!!Number(block[1])) {
+	if (isNaN(Number(block[1]))) {
+	  wait(num(block[1]));
+	} else {
+	  if (!!Number(block[1])) {
           wait(num(block[1]));
 	}
 
