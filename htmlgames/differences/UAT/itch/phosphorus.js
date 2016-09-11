@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A ....
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A ...
 var that; // PF
 
 var P = (function() {
@@ -2747,7 +2747,6 @@ P.compile = (function() {
         source += 'VISUAL = true;\n';
       }
       // PF new block below - for show / hide trick some projects use (like manic miner)      
-	//else if (window.location.href.match("102592962")||that.bInProcDef) {
 	else if (that.bInProcDef) {
         source += 'VISUAL = false;\n';
       }
