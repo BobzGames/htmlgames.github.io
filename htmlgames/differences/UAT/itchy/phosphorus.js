@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.144)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.145)
 var that; // PF
 
 var P = (function() {
@@ -2742,9 +2742,19 @@ P.compile = (function() {
       var bFast = 1 && window.location.href.match("117879477"); // 3D X-Wing
       if (bFast && that.bInProcDef) {
 	 // pf hack for testing only!
+        if (['turnRight:', 'turnLeft:', 'heading:', 'pointTowards:', 'setRotationStyle', 'lookLike:', 'nextCostume', 'say:duration:elapsed:from:', 'say:', 'think:duration:elapsed:from:', 'think:', 'changeGraphicEffect:by:', 'setGraphicEffect:to:', 'filterReset', 'changeSizeBy:', 'setSizeTo:', 'comeToFront', 'goBackByLayers:'].indexOf(block[0]) !== -1) {
+            //source += 'if (S.visible) VISUAL = true\n'; // 1 0
+        } else if (['forward:', 'gotoX:y:', 'gotoSpriteOrMouse:', 'changeXposBy:', 'xpos:', 'changeYposBy:', 'ypos:', 'bounceOffEdge', 'glideSecs:toX:y:elapsed:from:'].indexOf(block[0]) !== -1) {
+            //source += 'if (S.visible || S.isPenDown) VISUAL = true\n'; // 1 0
+        } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
+            //source += 'VISUAL = true;\n'; // 1 0
+        } else if (that.bInProcDef) {
+      	    // pf run without screen refresh (warp stuff)
+      	    //source += 'VISUAL = false;\n'; // pf makes a small speed increase ?        	
       	    if (that.bWarp) {
       	    	source += 'WARP = true;\n'; // C.Warp does nothing here...
       	    }	 
+        }      	    
       } else {
       	// pf - S.visible is set true / false, depending if block is show / hide
         if (['turnRight:', 'turnLeft:', 'heading:', 'pointTowards:', 'setRotationStyle', 'lookLike:', 'nextCostume', 'say:duration:elapsed:from:', 'say:', 'think:duration:elapsed:from:', 'think:', 'changeGraphicEffect:by:', 'setGraphicEffect:to:', 'filterReset', 'changeSizeBy:', 'setSizeTo:', 'comeToFront', 'goBackByLayers:'].indexOf(block[0]) !== -1) {
