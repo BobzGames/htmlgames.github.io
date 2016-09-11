@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.142)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.143)
 var that; // PF
 
 var P = (function() {
@@ -2739,7 +2739,7 @@ P.compile = (function() {
       if (LOG_PRIMITIVES) {
         source += 'console.log(' + val(block[0]) + ');\n';
       }
-      var bFast = 1 && window.location.href.match("117879477"); // 3D X-Wing
+      var bFast = 0 && window.location.href.match("117879477"); // 3D X-Wing
       if (bFast && that.bInProcDef) {
 	 // pf hack for testing only!
       } else {
@@ -2752,7 +2752,7 @@ P.compile = (function() {
             source += 'VISUAL = true;\n'; // 1 0
         } else if (!bFast && that.bInProcDef) {
       	    // pf run without screen refresh (warp stuff)
-      	    //source += 'VISUAL = false;\n';
+      	    //source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	    if (that.bWarp) {
       	    	source += 'WARP = true;\n'; // C.Warp does nothing here...
       	    }
