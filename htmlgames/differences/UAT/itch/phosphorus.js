@@ -3257,7 +3257,8 @@ P.compile = (function() {
 	  wait(num(block[1]));
 	} else {
 	  if (!!Number(block[1])) {
-          wait(num(block[1]));
+            wait(num(block[1]));
+	  }
 	}
 
       } else if (block[0] === 'warpSpeed') {
