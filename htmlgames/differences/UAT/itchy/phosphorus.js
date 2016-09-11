@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.143)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.144)
 var that; // PF
 
 var P = (function() {
@@ -2739,9 +2739,12 @@ P.compile = (function() {
       if (LOG_PRIMITIVES) {
         source += 'console.log(' + val(block[0]) + ');\n';
       }
-      var bFast = 0 && window.location.href.match("117879477"); // 3D X-Wing
+      var bFast = 1 && window.location.href.match("117879477"); // 3D X-Wing
       if (bFast && that.bInProcDef) {
 	 // pf hack for testing only!
+      	    if (that.bWarp) {
+      	    	source += 'WARP = true;\n'; // C.Warp does nothing here...
+      	    }	 
       } else {
       	// pf - S.visible is set true / false, depending if block is show / hide
         if (['turnRight:', 'turnLeft:', 'heading:', 'pointTowards:', 'setRotationStyle', 'lookLike:', 'nextCostume', 'say:duration:elapsed:from:', 'say:', 'think:duration:elapsed:from:', 'think:', 'changeGraphicEffect:by:', 'setGraphicEffect:to:', 'filterReset', 'changeSizeBy:', 'setSizeTo:', 'comeToFront', 'goBackByLayers:'].indexOf(block[0]) !== -1) {
