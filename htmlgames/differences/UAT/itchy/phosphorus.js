@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.164)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.165)
 var that; // PF
 
 var P = (function() {
@@ -2755,6 +2755,7 @@ P.compile = (function() {
       	    // pf run without screen refresh (warp stuff)
       	    //source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	    if (that.bWarp) {
+      	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	    	source += 'WARP = true;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	    }
         }
