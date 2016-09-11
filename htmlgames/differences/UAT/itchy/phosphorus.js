@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.133)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.134)
 var that; // PF
 
 var P = (function() {
@@ -2754,7 +2754,7 @@ P.compile = (function() {
       	    // pf run without screen refresh (warp stuff)
       	    source += 'VISUAL = false;\n';
       	    if (true) {
-      	    	source += 'WARP = 1;\n'; // C.Warp does nothing here...
+      	    	source += 'if (!WARP) WARP = 1;\n'; // C.Warp does nothing here...
       	    }
         }
       }
@@ -3429,10 +3429,9 @@ P.compile = (function() {
       var key = script[0][1].toLowerCase();
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
-      // pf initial run only (not game loop) ie when green flag clicked block
+      // pf initial run only (not game loop) ie when green flag clicked block. Removed warp: script[0][4]
       object.procedures[script[0][1]] = {
         inputs: inputs,
-        warp: script[0][4],
         fn: f
       };
     } else {
@@ -3893,7 +3892,6 @@ P.runtime = (function() {
       STACK = C.stack;
       R = STACK.pop();
     }
-    if (WARP) WARP--;
     that.bInProcDef = false;
   };
 
