@@ -3434,7 +3434,7 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
       // pf initial run only (not game loop) ie when green flag clicked block
-      if (typeof that.bWarp == "undefined" && script[0][4]) { //&& (!window.location.href.match("55416430") && !window.location.href.match("54931060"))) {
+      if (typeof that.bWarp == "undefined" && script[0][4] && (!window.location.href.match("55416430") && !window.location.href.match("54931060"))) {
       	// pf hack test only ! (locks: shovel knight / super hexagon)
       	that.bWarp = true;
       	console.log("bWarp enabled - watch out :)");
