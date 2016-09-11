@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.160)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.161)
 var that; // PF
 
 var P = (function() {
@@ -2741,10 +2741,10 @@ P.compile = (function() {
       if (LOG_PRIMITIVES) {
         source += 'console.log(' + val(block[0]) + ');\n';
       }
-      var bFast = 0 && window.location.href.match("117879477"); // 3D X-Wing
-      if (bFast && that.bInProcDef) {
+      //var bFast = 0 && window.location.href.match("117879477"); // 3D X-Wing
+      //if (bFast && that.bInProcDef) {
 	 // pf hack for testing only! x
-      } else {
+      //} else {
       	// pf - S.visible is set true / false, depending if block is show / hide (WARP tests need adding)
         if (['turnRight:', 'turnLeft:', 'heading:', 'pointTowards:', 'setRotationStyle', 'lookLike:', 'nextCostume', 'say:duration:elapsed:from:', 'say:', 'think:duration:elapsed:from:', 'think:', 'changeGraphicEffect:by:', 'setGraphicEffect:to:', 'filterReset', 'changeSizeBy:', 'setSizeTo:', 'comeToFront', 'goBackByLayers:'].indexOf(block[0]) !== -1) {
             source += 'if (S.visible) VISUAL = true\n'; // 1 0 x
@@ -2752,14 +2752,15 @@ P.compile = (function() {
             source += 'if (S.visible || S.isPenDown) VISUAL = true\n'; // 1 0
         } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
             source += 'VISUAL = true;\n'; // 1 0 i
-        } else if (!bFast && that.bInProcDef) {
+        //} else if (!bFast && that.bInProcDef) {
+          } else if (that.bInProcDef) {
       	    // pf run without screen refresh (warp stuff)
       	    source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	    if (that.bWarp) {
       	    	source += 'WARP = true;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	    }
         }
-      }
+      //}
       
       if (block[0] === 'forward:') { /* Motion */
 
