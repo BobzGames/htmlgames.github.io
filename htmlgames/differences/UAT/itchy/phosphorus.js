@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.149)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.150)
 var that; // PF
 
 var P = (function() {
@@ -2750,9 +2750,9 @@ P.compile = (function() {
             source += 'if (S.visible || S.isPenDown) VISUAL = true\n'; // 1 0
         } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
             source += 'VISUAL = true;\n'; // 1 0
-        } else if (!bFast && that.bInProcDef) {
+        } else if (that.bWarp && that.bInProcDef) {
       	    // pf run without screen refresh (warp stuff)
-      	    //source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
+      	    source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	    if (that.bWarp) {
       	    	source += 'WARP = true;\n'; // C.Warp does nothing here...
       	    }
