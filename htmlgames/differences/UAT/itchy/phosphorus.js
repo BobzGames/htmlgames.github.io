@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.157)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.158)
 var that; // PF
 
 var P = (function() {
@@ -2739,7 +2739,7 @@ P.compile = (function() {
       if (LOG_PRIMITIVES) {
         source += 'console.log(' + val(block[0]) + ');\n';
       }
-      var bFast = 0 && window.location.href.match("117879477"); // 3D X-Wing
+      var bFast = 1 && window.location.href.match("117879477"); // 3D X-Wing
       if (bFast && that.bInProcDef) {
 	 // pf hack for testing only! x
       } else {
@@ -3323,7 +3323,7 @@ P.compile = (function() {
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       if (warp) {
       	that.bInProcDef = true;
-      	source += 'WARP++;\n'; // ! alt method
+      	//source += 'WARP++;\n'; // ! alt method
       }
       for (var i = types.length; i--;) {
         var t = types[i];
@@ -3340,7 +3340,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      source += 'WARP--;\n'; // ! alt method
+      //source += 'WARP--;\n'; // ! alt method
       source += 'endCall();\n';
       source += 'return;\n';
     }
