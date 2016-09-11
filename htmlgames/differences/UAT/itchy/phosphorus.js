@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.139)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.140)
 var that; // PF
 
 var P = (function() {
@@ -3434,9 +3434,9 @@ P.compile = (function() {
       if (typeof that.bWarp == "undefined" && script[0][4]) {
       	that.bWarp = true;
       } else {
-      	if (!bWarp) that.bWarp = false;
+      	if (!that.bWarp) that.bWarp = false;
       }
-      console.log(bWarp);
+      console.log(that.bWarp);
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
