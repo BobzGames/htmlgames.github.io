@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.151)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.152)
 var that; // PF
 
 var P = (function() {
@@ -2739,7 +2739,7 @@ P.compile = (function() {
       if (LOG_PRIMITIVES) {
         source += 'console.log(' + val(block[0]) + ');\n';
       }
-      var bFast = 1 && window.location.href.match("117879477"); // 3D X-Wing
+      var bFast = 1 && window.location.href.match("55416430");//("117879477"); // 3D X-Wing
       if (bFast && that.bInProcDef) {
 	 // pf hack for testing only! x
       } else {
@@ -2754,7 +2754,7 @@ P.compile = (function() {
       	    // pf run without screen refresh (warp stuff)
       	    source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	    if (that.bWarp) {
-      	    	//source += 'WARP = true;\n'; // C.Warp does nothing here...
+      	    	source += 'WARP = true;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	    }
         }
       }
