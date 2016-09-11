@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.161)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.162)
 var that; // PF
 
 var P = (function() {
@@ -2711,7 +2711,6 @@ P.compile = (function() {
     };
 
     var wait = function(dur) {
-      if (dur > 0) { // pf
         source += 'save();\n';
         source += 'R.start = self.now();\n';
         source += 'R.duration = ' + dur + ';\n';
@@ -2724,7 +2723,6 @@ P.compile = (function() {
         source += '}\n';
 
         source += 'restore();\n';
-      }
     };
 
     var noRGB = '';
@@ -3263,8 +3261,9 @@ P.compile = (function() {
         source += '}\n';
 
       } else if (block[0] === 'wait:elapsed:from:') {
-
-        wait(num(block[1]));
+	if (!!Number(block[1])) {
+          wait(num(block[1]));
+	}
 
       } else if (block[0] === 'warpSpeed') {
         source += 'WARP++;\n';
