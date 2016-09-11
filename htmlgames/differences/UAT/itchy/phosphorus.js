@@ -2752,8 +2752,8 @@ P.compile = (function() {
             source += 'VISUAL = true;\n'; // 1 0
         } else if (!bFast && that.bInProcDef) {
       	    // pf run without screen refresh (warp stuff)
-      	    source += 'VISUAL = false;\n';
-      	    if (false) {
+      	    //source += 'VISUAL = false;\n';
+      	    if (!false) {
       	    	source += 'WARP = true;\n'; // C.Warp does nothing here...
       	    }
         }
