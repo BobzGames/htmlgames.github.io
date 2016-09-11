@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.137)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.138)
 var that; // PF
 
 var P = (function() {
@@ -2740,7 +2740,7 @@ P.compile = (function() {
         source += 'console.log(' + val(block[0]) + ');\n';
       }
       var bFast = 1 && window.location.href.match("117879477"); // 3D X-Wing
-      var bWarp = 1 && !window.location.href.match("11397100"); // 3D space demo
+      //var bWarp = 1 && !window.location.href.match("11397100"); // 3D space demo
       if (bFast && that.bInProcDef) {
 	 // pf hack for testing only!
       } else {
@@ -2754,7 +2754,7 @@ P.compile = (function() {
         } else if (!bFast && that.bInProcDef) {
       	    // pf run without screen refresh (warp stuff)
       	    source += 'VISUAL = false;\n';
-      	    if (bWarp) {
+      	    if (that.bWarp) {
       	    	source += 'WARP = true;\n'; // C.Warp does nothing here...
       	    }
         }
@@ -3431,7 +3431,11 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
       // pf initial run only (not game loop) ie when green flag clicked block
-      console.log(script[0][4]);
+      if (typeof that.bWarp == "undefined" && script[0][4]) {
+      	that.bWarp = true;
+      } else {
+      	that.bWarp = false;
+      }
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
