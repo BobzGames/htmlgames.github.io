@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A ...
 var that; // PF
 
 var P = (function() {
@@ -2748,7 +2748,7 @@ P.compile = (function() {
       }
       // PF new block below - for show / hide trick some projects use (like manic miner)      
 	else if (that.bInProcDef) {
-        //source += 'VISUAL = false;\n';
+        source += 'VISUAL = false;\n'; // needs to be WARP here instead (eg WARP = 1)
       }
       
       if (block[0] === 'forward:') { /* Motion */
