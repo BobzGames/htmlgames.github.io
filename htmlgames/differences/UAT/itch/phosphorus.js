@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please visit: goo.gl/zI6A
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A
 var that; // PF
 
 var P = (function() {
@@ -2711,6 +2711,7 @@ P.compile = (function() {
     };
 
     var wait = function(dur) {
+    if (dur > 0) {
       source += 'save();\n';
       source += 'R.start = self.now();\n';
       source += 'R.duration = ' + dur + ';\n';
@@ -2723,6 +2724,7 @@ P.compile = (function() {
       source += '}\n';
 
       source += 'restore();\n';
+    }
     };
 
     var noRGB = '';
