@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.178)
+// additional bugfixes by PF... (v0.179)
 var that; // PF
 
 var P = (function() {
@@ -2750,7 +2750,7 @@ P.compile = (function() {
       	  // pf run without screen refresh (warp stuff)
       	  //if (that.bWarp) {
       	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
-      	    	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
+      	    	source += 'if (!WARP) WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	  //}
       }
 
@@ -3263,7 +3263,7 @@ P.compile = (function() {
             wait(num(block[1]));
 	  }
 	}
-      } else if (block[0] === '_warpSpeed') {
+      } else if (block[0] === 'warpSpeed') {
         source += 'WARP++;\n';
         seq(block[1]);
         source += 'WARP--;\n';
