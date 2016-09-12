@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.175)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.176)
 var that; // PF
 
 var P = (function() {
@@ -3892,6 +3892,7 @@ P.runtime = (function() {
   };
 
   var endCall = function() {
+    that.bInProcDef = false;
     if (CALLS.length) {
       if (WARP) WARP--;
       IMMEDIATE = C.fn;
@@ -3899,7 +3900,7 @@ P.runtime = (function() {
       STACK = C.stack;
       R = STACK.pop();
     }
-    that.bInProcDef = false;
+    
   };
 
   var sceneChange = function() {
