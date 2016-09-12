@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.177)
+// additional bugfixes by PF... (v0.178)
 var that; // PF
 
 var P = (function() {
@@ -3263,7 +3263,7 @@ P.compile = (function() {
             wait(num(block[1]));
 	  }
 	}
-      } else if (block[0] === 'warpSpeed') {
+      } else if (block[0] === '_warpSpeed') {
         source += 'WARP++;\n';
         seq(block[1]);
         source += 'WARP--;\n';
