@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.167)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.168)
 var that; // PF
 
 var P = (function() {
@@ -2756,7 +2756,7 @@ P.compile = (function() {
       	    //source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	    if (that.bWarp) {
       	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
-      	    	//source += 'WARP = true;\n'; // can cause 'lockup', note C.Warp does nothing here...
+      	    	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	    }
         }
       //}
