@@ -2756,7 +2756,7 @@ P.compile = (function() {
       	    //source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	    if (that.bWarp) {
       	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
-      	    	source += 'WARP = true;\n'; // can cause 'lockup', note C.Warp does nothing here...
+      	    	//source += 'WARP = true;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	    }
         }
       //}
