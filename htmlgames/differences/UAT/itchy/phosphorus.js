@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.183x)
+// additional bugfixes by PF... (v0.183xx)
 var that; // PF
 
 var P = (function() {
@@ -1640,16 +1640,16 @@ if (!svg) return
       if (x < bounds.left || y < bounds.bottom || x > bounds.right || y > bounds.top) {
         return false;
       }
-      var cx = (x - this.scratchX) / this.scale
-      var cy = (this.scratchY - y) / this.scale
+      var cx = (x - this.scratchX) / this.scale;
+      var cy = (this.scratchY - y) / this.scale;
       if (this.rotationStyle === 'normal' && this.direction !== 90) {
-        var d = (90 - this.direction) * Math.PI / 180
-        var ox = cx
-        var s = Math.sin(d), c = Math.cos(d)
-        cx = c * ox - s * cy
-        cy = s * ox + c * cy
+        var d = (90 - this.direction) * Math.PI / 180;
+        var ox = cx;
+        var s = Math.sin(d), c = Math.cos(d);
+        cx = c * ox - s * cy;
+        cy = s * ox + c * cy;
       } else if (this.rotationStyle === 'leftRight' && this.direction < 0) {
-        cx = -cx
+        cx = -cx;
       }
       var d = costume.context.getImageData(cx * costume.bitmapResolution + costume.rotationCenterX, cy * costume.bitmapResolution + costume.rotationCenterY, 1, 1).data;
       return d[3] !== 0;
@@ -1867,7 +1867,7 @@ if (!svg) return
     var dx = x - this.scratchX;
     var dy = y - this.scratchY;
     if (dx === 0 && dy === 0) {
-      this.direction = 90; // pf 90
+      this.direction = 90;
     } else {
       this.direction = Math.atan2(dx, dy) * 180 / Math.PI;
     }
@@ -2748,9 +2748,8 @@ P.compile = (function() {
           source += 'VISUAL = true;\n'; // 1 0 i
       } else if (that.bInProcDef) {
       	  // pf run without screen refresh (warp stuff)
-      	  source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	  if (that.bWarp) {
-      	    	//source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
+      	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	    	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	  }
       }
@@ -3320,6 +3319,7 @@ P.compile = (function() {
 
     if (script[0][0] === 'procDef') {
       that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
+      that.bWarp = false; // pf test
       
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
@@ -3338,7 +3338,6 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      //source += 'WARP--;\n'; // ! alt method
       source += 'endCall();\n';
       source += 'return;\n';
     }
