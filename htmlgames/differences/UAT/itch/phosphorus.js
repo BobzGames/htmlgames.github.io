@@ -1548,7 +1548,7 @@ if (!svg) return
   };
 
   Sprite.prototype.forward = function(steps) {
-    var d = (90 - this.direction) * 0.01745329251;
+    var d = (90 - this.direction) * Math.PI / 180;
     this.moveTo(this.scratchX + steps * Math.cos(d), this.scratchY + steps * Math.sin(d));
   };
 
@@ -1585,7 +1585,7 @@ if (!svg) return
     var y = this.scratchY;
     context.fillStyle = this.penCSS || 'hsl(' + this.penHue + ',' + this.penSaturation + '%,' + (this.penLightness > 100 ? 200 - this.penLightness : this.penLightness) + '%)';
     context.beginPath();
-    context.arc(240 + x, 180 - y, this.penSize / 2, 0, 2 * 3.14159265359, false);
+    context.arc(240 + x, 180 - y, this.penSize / 2, 0, 2 * Math.PI, false);
     context.fill();
   };
 
@@ -1604,7 +1604,7 @@ if (!svg) return
       var z = this.stage.zoom * SCALE;
       context.translate(((this.scratchX + 240) * z | 0) / z, ((180 - this.scratchY) * z | 0) / z);
       if (this.rotationStyle === 'normal') {
-        context.rotate((this.direction - 90) * 0.01745329251);
+        context.rotate((this.direction - 90) * Math.PI / 180);
       } else if (this.rotationStyle === 'leftRight' && this.direction < 0) {
         context.scale(-1, 1);
       }
@@ -1641,16 +1641,16 @@ if (!svg) return
       if (x < bounds.left || y < bounds.bottom || x > bounds.right || y > bounds.top) {
         return false;
       }
-      var cx = (x - this.scratchX) / this.scale
-      var cy = (this.scratchY - y) / this.scale
+      var cx = (x - this.scratchX) / this.scale;
+      var cy = (this.scratchY - y) / this.scale;
       if (this.rotationStyle === 'normal' && this.direction !== 90) {
-        var d = (90 - this.direction) * 0.01745329251
-        var ox = cx
-        var s = Math.sin(d), c = Math.cos(d)
-        cx = c * ox - s * cy
-        cy = s * ox + c * cy
+        var d = (90 - this.direction) * Math.PI / 180;
+        var ox = cx;
+        var s = Math.sin(d), c = Math.cos(d);
+        cx = c * ox - s * cy;
+        cy = s * ox + c * cy;
       } else if (this.rotationStyle === 'leftRight' && this.direction < 0) {
-        cx = -cx
+        cx = -cx;
       }
       var d = costume.context.getImageData(cx * costume.bitmapResolution + costume.rotationCenterX, cy * costume.bitmapResolution + costume.rotationCenterY, 1, 1).data;
       return d[3] !== 0;
@@ -1746,7 +1746,7 @@ if (!svg) return
     var d = Math.min(dl, dt, dr, db);
     if (d > 0) return;
 
-    var dir = this.direction * 0.01745329251;
+    var dir = this.direction * Math.PI / 180;
     var dx = Math.sin(dir);
     var dy = -Math.cos(dir);
 
@@ -1757,7 +1757,7 @@ if (!svg) return
       case db: dy = -Math.max(0.2, Math.abs(dy)); break;
     }
 
-    this.direction = Math.atan2(dy, dx) * 57.2957795131 + 90;
+    this.direction = Math.atan2(dy, dx) * 180 / Math.PI + 90;
     if (this.saying) this.updateBubble();
 
     b = this.rotatedBounds();
@@ -1791,8 +1791,8 @@ if (!svg) return
       };
     }
 
-    var mSin = Math.sin(this.direction * 0.01745329251);
-    var mCos = Math.cos(this.direction * 0.01745329251);
+    var mSin = Math.sin(this.direction * Math.PI / 180);
+    var mCos = Math.cos(this.direction * Math.PI / 180);
 
     var tlX = mSin * left - mCos * top;
     var tlY = mCos * left + mSin * top;
@@ -1832,7 +1832,7 @@ if (!svg) return
       var y = this.stage.mouseY;
     } else {
       var sprite = this.stage.getObject(thing);
-      if (!sprite) return 0;
+      if (!sprite) return 10000; // ND
       x = sprite.scratchX;
       y = sprite.scratchY;
     }
@@ -1857,20 +1857,20 @@ if (!svg) return
     if (thing === '_mouse_') {
       var x = this.stage.mouseX;
       var y = this.stage.mouseY;
-      //this.direction = Math.atan2(x - this.scratchX, y - this.scratchY) * 57.2957795131;
+      //this.direction = Math.atan2(x - this.scratchX, y - this.scratchY) * 180 / Math.PI;
     } else {
       var sprite = this.stage.getObject(thing);
       if (!sprite) return 0;
       x = sprite.scratchX;
       y = sprite.scratchY;
-      //this.direction = Math.atan2(y - this.scratchY, x - this.scratchX) * 57.2957795131 + 90;
+      //this.direction = Math.atan2(y - this.scratchY, x - this.scratchX) * 180 / Math.PI + 90;
     }
     var dx = x - this.scratchX;
     var dy = y - this.scratchY;
     if (dx === 0 && dy === 0) {
       this.direction = 90;
     } else {
-      this.direction = Math.atan2(dx, dy) * 57.2957795131;
+      this.direction = Math.atan2(dx, dy) * 180 / Math.PI;
     }
     if (this.saying) this.updateBubble();
   };
@@ -2181,10 +2181,10 @@ if (!svg) return
       context.fillStyle = 'rgb(193, 196, 199)';
       context.lineWidth = 2;
       context.beginPath();
-      context.arc(r + 1, r + 1, r, 3.14159265359, 4.71238898038, false);
-      context.arc(w - r - 1, r + 1, r, 4.71238898038, 0, false);
-      context.arc(w - r - 1, h - r - 1, r, 0, 1.57079632679, false);
-      context.arc(r + 1, h - r - 1, r, 1.57079632679, 3.14159265359, false);
+      context.arc(r + 1, r + 1, r, Math.PI, Math.PI * 3/2, false);
+      context.arc(w - r - 1, r + 1, r, Math.PI * 3/2, 0, false);
+      context.arc(w - r - 1, h - r - 1, r, 0, Math.PI/2, false);
+      context.arc(r + 1, h - r - 1, r, Math.PI/2, Math.PI, false);
       context.closePath();
       context.stroke();
       context.fill();
@@ -2204,10 +2204,10 @@ if (!svg) return
       context.fillStyle = this.color;
       context.lineWidth = 2;
       context.beginPath();
-      context.arc(dr + 1, dr + 1, dr, 3.14159265359, 4.71238898038, false);
-      context.arc(dw - dr - 1, dr + 1, dr, 4.71238898038, 0, false);
-      context.arc(dw - dr - 1, dh - dr - 1, dr, 0, 1.57079632679, false);
-      context.arc(dr + 1, dh - dr - 1, dr, 1.57079632679, 3.14159265359, false);
+      context.arc(dr + 1, dr + 1, dr, Math.PI, Math.PI * 3/2, false);
+      context.arc(dw - dr - 1, dr + 1, dr, Math.PI * 3/2, 0, false);
+      context.arc(dw - dr - 1, dh - dr - 1, dr, 0, Math.PI/2, false);
+      context.arc(dr + 1, dh - dr - 1, dr, Math.PI/2, Math.PI, false);
       context.closePath();
       context.stroke();
       context.fill();
@@ -2231,10 +2231,10 @@ if (!svg) return
         context.fillStyle = 'rgb(213, 216, 219)';
         context.lineWidth = 2;
         context.beginPath();
-        context.arc(sr + 1, sr + 1, sr, 3.14159265359, 4.71238898038, false);
-        context.arc(sw - sr - 1, sr + 1, sr, 4.71238898038, 0, false);
-        context.arc(sw - sr - 1, sh - sr - 1, sr, 0, 1.57079632679, false);
-        context.arc(sr + 1, sh - sr - 1, sr, 1.57079632679, 3.14159265359, false);
+        context.arc(sr + 1, sr + 1, sr, Math.PI, Math.PI * 3/2, false);
+        context.arc(sw - sr - 1, sr + 1, sr, Math.PI * 3/2, 0, false);
+        context.arc(sw - sr - 1, sh - sr - 1, sr, 0, Math.PI/2, false);
+        context.arc(sr + 1, sh - sr - 1, sr, Math.PI/2, Math.PI, false);
         context.closePath();
         context.stroke();
         context.fill();
@@ -2243,7 +2243,7 @@ if (!svg) return
         context.strokeStyle = 'rgb(108, 105, 105)';
         context.fillStyle = 'rgb(233, 236, 239)';
         context.beginPath();
-        context.arc(x + sh / 2, sh / 2, br - 1, 0, 3.14159265359 * 2, false);
+        context.arc(x + sh / 2, sh / 2, br - 1, 0, Math.PI * 2, false);
         context.stroke();
         context.fill();
 
@@ -2260,10 +2260,10 @@ if (!svg) return
       context.fillStyle = this.color;
       context.lineWidth = 2;
       context.beginPath();
-      context.arc(dr + 1, dr + 1, dr, 3.14159265359, 4.71238898038, false);
-      context.arc(dw - dr - 1, dr + 1, dr, 4.71238898038, 0, false);
-      context.arc(dw - dr - 1, dh - dr - 1, dr, 0, 1.57079632679, false);
-      context.arc(dr + 1, dh - dr - 1, dr, 1.57079632679, 3.14159265359, false);
+      context.arc(dr + 1, dr + 1, dr, Math.PI, Math.PI * 3/2, false);
+      context.arc(dw - dr - 1, dr + 1, dr, Math.PI * 3/2, 0, false);
+      context.arc(dw - dr - 1, dh - dr - 1, dr, 0, Math.PI/2, false);
+      context.arc(dr + 1, dh - dr - 1, dr, Math.PI/2, Math.PI, false);
       context.closePath();
       context.stroke();
       context.fill();
@@ -3687,17 +3687,17 @@ P.runtime = (function() {
       case 'ceiling':
         return Math.ceil(x);
       case 'cos':
-        return Math.cos(x * 0.01745329251);
+        return Math.cos(x * Math.PI / 180);
       case 'sin':
-        return Math.sin(x * 0.01745329251);
+        return Math.sin(x * Math.PI / 180);
       case 'tan':
-        return Math.tan(x * 0.01745329251);
+        return Math.tan(x * Math.PI / 180);
       case 'asin':
-        return isNaN(Math.asin(x)) ? Math.asin(x * 0.01745329251) : Math.asin(x) * 57.2957795131; // pf
+        return isNaN(Math.asin(x)) ? Math.asin(x * Math.PI / 180) : Math.asin(x) * 180 / Math.PI; // pf
       case 'acos':
-        return isNaN(Math.acos(x)) ? Math.acos(x * 0.01745329251) : Math.acos(x) * 57.2957795131; // pf
+        return isNaN(Math.acos(x)) ? Math.acos(x * Math.PI / 180) : Math.acos(x) * 180 / Math.PI; // pf
       case 'atan':
-        return Math.atan(x) * 57.2957795131;
+        return Math.atan(x) * 180 / Math.PI;
       case 'ln':
         return Math.log(x);
       case 'log':
