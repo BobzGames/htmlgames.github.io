@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.176)
+// additional bugfixes by PF... (v0.177)
 var that; // PF
 
 var P = (function() {
@@ -2748,10 +2748,10 @@ P.compile = (function() {
           source += 'VISUAL = true;\n'; // 1 0 i
       } else if (that.bInProcDef) {
       	  // pf run without screen refresh (warp stuff)
-      	  if (that.bWarp) {
+      	  //if (that.bWarp) {
       	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	    	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
-      	  }
+      	  //}
       }
 
       if (block[0] === 'forward:') { /* Motion */
@@ -3428,16 +3428,8 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
       // pf initial run only (not game loop) ie when green flag clicked block
-      if (typeof that.bWarp == "undefined" && script[0][4]) {
-      	// pf hack test only ! (locks: shovel knight / super hexagon)
-      	that.bWarp = true;
-      	console.log("bWarp enabled - watch out :)");
-      } else {
-      	if (!that.bWarp) that.bWarp = false;
-      }
       object.procedures[script[0][1]] = {
         inputs: inputs,
-        warp: that.bWarp,
         old_warp: script[0][4],
         fn: f
       };
