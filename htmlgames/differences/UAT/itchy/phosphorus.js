@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.180)
+// additional bugfixes by PF... (v0.181)
 var that; // PF
 
 var P = (function() {
@@ -2748,10 +2748,10 @@ P.compile = (function() {
           source += 'VISUAL = true;\n'; // 1 0 i
       } else if (that.bInProcDef) {
       	  // pf run without screen refresh (warp stuff)
-      	  //if (that.bWarp) {
+      	  if (that.bWarp) {
       	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
-      	    	source += 'if (!WARP) WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
-      	  //}
+      	    	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
+      	  }
       }
 
       if (block[0] === 'forward:') { /* Motion */
@@ -3318,7 +3318,8 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
-      that.bInProcDef = script[0][4]; // pf warp *
+      that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
+      
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
@@ -3428,6 +3429,8 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
       // pf initial run only (not game loop) ie when green flag clicked block
+      that.bWarp = false;
+      console.log(script[0][4]);
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
@@ -3885,6 +3888,7 @@ P.runtime = (function() {
 
   var endCall = function() {
     that.bInProcDef = false;
+    that.bWarp = false;
     if (CALLS.length) {
       if (WARP) WARP--;
       IMMEDIATE = C.fn;
