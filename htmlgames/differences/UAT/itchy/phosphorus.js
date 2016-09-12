@@ -1,4 +1,4 @@
-// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.174)
+// additional bugfixes by PF. Please don't visit: goo.gl/zI6A (v0.175)
 var that; // PF
 
 var P = (function() {
@@ -2750,7 +2750,7 @@ P.compile = (function() {
       	  // pf run without screen refresh (warp stuff)
       	  if (that.bWarp) {
       	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
-      	    	source += 'WARP = true;\n'; // can cause 'lockup', note C.Warp does nothing here...
+      	    	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	  }
       }
 
@@ -3318,13 +3318,9 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
-      var warp = script[0][4]; // pf warp *
+      that.bInProcDef =  = script[0][4]; // pf warp *
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
-      if (warp) {
-      	that.bInProcDef = true;
-      	//source += 'WARP++;\n'; // ! alt method
-      }
       for (var i = types.length; i--;) {
         var t = types[i];
         if (t === '%d' || t === '%n' || t === '%c') {
