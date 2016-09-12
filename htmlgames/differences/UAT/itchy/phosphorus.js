@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.182)
+// additional bugfixes by PF... (v0.183)
 var that; // PF
 
 var P = (function() {
@@ -3430,7 +3430,6 @@ P.compile = (function() {
     } else if (script[0][0] === 'procDef') {
       // pf initial run only (not game loop) ie when green flag clicked block
       that.bWarp = false;
-      console.log(script[0][4]);
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
