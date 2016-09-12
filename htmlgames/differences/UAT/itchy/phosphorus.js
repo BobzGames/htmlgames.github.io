@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.179)
+// additional bugfixes by PF... (v0.180)
 var that; // PF
 
 var P = (function() {
@@ -3430,7 +3430,7 @@ P.compile = (function() {
       // pf initial run only (not game loop) ie when green flag clicked block
       object.procedures[script[0][1]] = {
         inputs: inputs,
-        old_warp: script[0][4],
+        warp: script[0][4],
         fn: f
       };
     } else {
