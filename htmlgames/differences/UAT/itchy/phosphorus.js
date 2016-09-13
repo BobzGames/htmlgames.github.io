@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.183x)
+// additional bugfixes by PF... (v0.183xx)
 var that; // PF
 
 var P = (function() {
@@ -3322,7 +3322,7 @@ P.compile = (function() {
     if (script[0][0] === 'procDef') {
       that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
       if (that.procDefCount++ > 32) that.bWarp = false; // pf to many blocks
-      console.log(that.proceDefCount);
+      console.log(that.procDefCount);
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
