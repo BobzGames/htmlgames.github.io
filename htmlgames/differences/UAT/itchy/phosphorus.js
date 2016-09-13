@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.183xx)
+// additional bugfixes by PF... (v0.183x)
 var that; // PF
 
 var P = (function() {
@@ -981,7 +981,6 @@ if (!svg) return
 
   var Stage = function() {
     that = this; // PF global!
-    that.procDefCount = 0;
     console.log("!");
     this.stage = this;
 
@@ -3321,8 +3320,6 @@ P.compile = (function() {
 
     if (script[0][0] === 'procDef') {
       that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
-      if (that.procDefCount++ > 32) that.bWarp = false; // pf to many blocks
-      console.log(that.procDefCount);
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
@@ -3431,7 +3428,7 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
       // pf initial run only (not game loop) ie when green flag clicked block
-      that.bWarp = false;
+      that.bWarp = script[0][4];
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: false,
