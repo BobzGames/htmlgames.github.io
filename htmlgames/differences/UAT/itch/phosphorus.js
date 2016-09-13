@@ -1,4 +1,4 @@
-// additional bugfixes by PF.
+// additional bugfixes by PF...
 var that; // PF
 
 var P = (function() {
@@ -1209,8 +1209,7 @@ if (!svg) return
   inherits(Stage, Base);
 
   Stage.prototype.isStage = true;
-  //Stage.prototype.bInProcDef = false; // pf - for speeding up rendered procdef's
-
+ 
   Stage.prototype.fromJSON = function(data) {
     Stage.parent.prototype.fromJSON.call(this, data);
 
@@ -2735,20 +2734,23 @@ P.compile = (function() {
     noRGB += '}\n';
 
     var compile = function(block) {
+      // PF - code here run only once during stage setup...
       if (LOG_PRIMITIVES) {
         source += 'console.log(' + val(block[0]) + ');\n';
       }
-
+      // pf - S.visible is set true / false, depending if block is show / hide (WARP tests need adding)
       if (['turnRight:', 'turnLeft:', 'heading:', 'pointTowards:', 'setRotationStyle', 'lookLike:', 'nextCostume', 'say:duration:elapsed:from:', 'say:', 'think:duration:elapsed:from:', 'think:', 'changeGraphicEffect:by:', 'setGraphicEffect:to:', 'filterReset', 'changeSizeBy:', 'setSizeTo:', 'comeToFront', 'goBackByLayers:'].indexOf(block[0]) !== -1) {
-          source += 'if (S.visible) VISUAL = true;\n';
+          source += 'if (S.visible) VISUAL = true\n';
       } else if (['forward:', 'gotoX:y:', 'gotoSpriteOrMouse:', 'changeXposBy:', 'xpos:', 'changeYposBy:', 'ypos:', 'bounceOffEdge', 'glideSecs:toX:y:elapsed:from:'].indexOf(block[0]) !== -1) {
-          source += 'if (S.visible || S.isPenDown) VISUAL = true;\n';
+          source += 'if (S.visible || S.isPenDown) VISUAL = true\n';
       } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
-        source += 'VISUAL = true;\n';
-      }
-      // PF new block below - for show / hide trick some projects use (like manic miner)      
-	else if (that.bInProcDef) {
-        source += 'VISUAL = false;\n'; // needs to be WARP here instead (eg WARP = 1)
+          source += 'VISUAL = true;\n';
+      } else if (that.bInProcDef) {
+      	  // pf run without screen refresh (warp stuff)
+      	  //if (that.bWarp) {
+      	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
+      	    	//source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
+      	  //}
       }
       
       if (block[0] === 'forward:') { /* Motion */
