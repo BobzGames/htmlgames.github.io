@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.184!!)
+// additional bugfixes by PF... (v0.184!)
 var that; // PF
 
 var P = (function() {
@@ -2745,7 +2745,7 @@ P.compile = (function() {
           source += 'if (S.visible || S.isPenDown) VISUAL = true\n';
       } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
           source += 'VISUAL = true;\n';
-      } else if (that.bInProcDef) {
+      } else if (that.bInProcDef||WARP) {
       	  // pf run without screen refresh (warp stuff)
       	  if (WARP) {
       	    	//source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
