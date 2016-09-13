@@ -3319,7 +3319,6 @@ P.compile = (function() {
 
     if (script[0][0] === 'procDef') {
       that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
-      source += 'C.bWarp = ' + that.bWarp.toString() + ';\n';console.log(source);
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
