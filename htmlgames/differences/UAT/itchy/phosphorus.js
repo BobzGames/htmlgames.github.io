@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.183)
+// additional bugfixes by PF... (v0.184)
 var that; // PF
 
 var P = (function() {
@@ -296,8 +296,8 @@ var P = (function() {
     var request = new CompositeRequest;
 
     request.defer = true;
-    // pf changed to use https...
-    request.add(P.IO.load('http://crossorigin.me/https://scratch.mit.edu/projects/' + id + '/').onLoad(function(data) {
+    // pf changed both to use https...
+    request.add(P.IO.load('https://crossorigin.me/https://scratch.mit.edu/projects/' + id + '/').onLoad(function(data) {
       var m = /<title>\s*(.+?)(\s+on\s+Scratch)?\s*<\/title>/.exec(data);
       if (callback) request.onLoad(callback.bind(self));
       if (m) {
