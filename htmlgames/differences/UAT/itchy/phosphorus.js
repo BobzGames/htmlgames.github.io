@@ -1432,7 +1432,7 @@ if (!svg) return
 
     Sprite.parent.call(this);
 
-    this.direction = 90; // pf 90
+    this.direction = 90;
     this.indexInLibrary = -1;
     this.isDraggable = false;
     this.isDragging = false;
@@ -1831,7 +1831,7 @@ if (!svg) return
       var y = this.stage.mouseY;
     } else {
       var sprite = this.stage.getObject(thing);
-      if (!sprite) return 10000; // Nathan
+      if (!sprite) return 10000; // ND
       x = sprite.scratchX;
       y = sprite.scratchY;
     }
