@@ -1,4 +1,4 @@
-// additional bugfixes by PF.
+// additional bugfixes by PF..
 var that; // PF
 
 var P = (function() {
@@ -2747,10 +2747,11 @@ P.compile = (function() {
           source += 'VISUAL = true;\n';
       } else if (that.bInProcDef) {
       	  // pf run without screen refresh (warp stuff)
-      	  //if (that.bWarp) {
-      	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
-      	    	//source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
-      	  //}
+      	  source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
+      	  if (that.bWarp) {
+      	    	
+      	    	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
+      	  }
       }
       
       if (block[0] === 'forward:') { /* Motion */
@@ -3318,7 +3319,7 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
-      that.bInProcDef = script[0][4]; // pf warp *
+      that.bWarp = script[0][4]; // pf warp *
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
@@ -3336,7 +3337,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      that.bInProcDef = false; // pf0
+      that.bWarp = that.bInProcDef = false; // pf0
       source += 'endCall();\n';
       source += 'return;\n';
     }
