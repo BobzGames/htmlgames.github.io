@@ -4,7 +4,6 @@ var that; // PF
 var P = (function() {
   'use strict';
 
-  var bFast = true;
   var SCALE = window.devicePixelRatio || 1;
   var hasTouchEvents = 'ontouchstart' in document;
   
@@ -3423,8 +3422,9 @@ P.compile = (function() {
     } else if (script[0][0] === 'whenSceneStarts') {
       var key = script[0][1].toLowerCase();
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
-    } else if (script[0][0] === 'procDef') { 
-      if (P.player.bFast) that.bInProcDef = script[0][4]; // pf1 - this enables a faster screen redraw (has side effects!)
+    } else if (script[0][0] === 'procDef') {
+      // pf initial run only (not game loop) ie when green flag clicked block
+      that.bInProcDef = script[0][4]; // pf1 - this enables a faster screen redraw (has side effects!)
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
