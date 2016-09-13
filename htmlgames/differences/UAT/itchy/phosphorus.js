@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.184)
+// additional bugfixes by PF... (v0.184!)
 var that; // PF
 
 var P = (function() {
@@ -3862,7 +3862,7 @@ P.runtime = (function() {
         WARP++;
         IMMEDIATE = procedure.fn;
       } else {
-        for (var i = CALLS.length, j = 5; i-- && j--;) {
+        for (var i = CALLS.length, j = 50; i-- && j--;) { // race to zero
           if (CALLS[i].base === procedure.fn) {
             var recursive = true;
             break;
