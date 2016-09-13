@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.182!)
+// additional bugfixes by PF... (v0.183)
 var that; // PF
 
 var P = (function() {
@@ -3695,9 +3695,11 @@ P.runtime = (function() {
       case 'tan':
         return Math.tan(x * Math.PI / 180);
       case 'asin':
-        return Math.asin(x) * 180 / Math.PI;
+      	//return Math.asin(x) * 180 / Math.PI;
+        return isNaN(Math.asin(x)) ? Math.asin(x * Math.PI / 180) : Math.asin(x) * 180 / Math.PI; // pf
       case 'acos':
-        return Math.acos(x) * 180 / Math.PI;
+      	//return Math.acos(x) * 180 / Math.PI
+        return isNaN(Math.acos(x)) ? Math.acos(x * Math.PI / 180) : Math.acos(x) * 180 / Math.PI; // pf
       case 'atan':
         return Math.atan(x) * 180 / Math.PI;
       case 'ln':
