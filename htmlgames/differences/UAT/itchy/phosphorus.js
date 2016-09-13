@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.183x)
+// additional bugfixes by PF... (v0.183xx)
 var that; // PF
 
 var P = (function() {
@@ -981,7 +981,6 @@ if (!svg) return
 
   var Stage = function() {
     that = this; // PF global!
-    console.log("!");
     this.stage = this;
 
     Stage.parent.call(this);
@@ -3431,7 +3430,7 @@ P.compile = (function() {
       that.bWarp = script[0][4];
       object.procedures[script[0][1]] = {
         inputs: inputs,
-        warp: false,
+        warp: script[0][4],
         fn: f
       };
     } else {
