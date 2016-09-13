@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.186)
+// additional bugfixes by PF... (v0.185!)
 var that; // PF
 
 var P = (function() {
@@ -6,6 +6,7 @@ var P = (function() {
 
   var SCALE = window.devicePixelRatio || 1;
   var hasTouchEvents = 'ontouchstart' in document;
+  var bInProcDef;
   
   if (hasTouchEvents && document.getElementById("touchscreen")) document.getElementById("touchscreen").style.display = "block";
 
@@ -2745,7 +2746,7 @@ P.compile = (function() {
           source += 'if (S.visible || S.isPenDown) VISUAL = true\n';
       } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
           source += 'VISUAL = true;\n';
-      } else if (this.bInProcDef) {
+      } else if (P.bInProcDef) {
       	  // pf run without screen refresh (warp stuff)
       	  source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	  source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
@@ -3315,7 +3316,7 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
-      this.bInProcDef = script[0][4]; // pf warp *
+      P.bInProcDef = script[0][4]; // pf warp *
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
@@ -3457,7 +3458,7 @@ P.compile = (function() {
 P.runtime = (function() {
   'use strict';
 
-  var self, S, R, STACK, C, WARP, CALLS, BASE, THREAD, IMMEDIATE, VISUAL, bInProcDef;
+  var self, S, R, STACK, C, WARP, CALLS, BASE, THREAD, IMMEDIATE, VISUAL;
 
   var bool = function(v) {
     return +v !== 0 && v !== '' && v !== 'false' && v !== false;
@@ -3890,7 +3891,7 @@ P.runtime = (function() {
       STACK = C.stack;
       R = STACK.pop();
     }
-    this.bInProcDef = false;
+    P.bInProcDef = false;
   };
 
   var sceneChange = function() {
