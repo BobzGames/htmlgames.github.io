@@ -1,4 +1,4 @@
-// additional bugfixes by PF...
+// additional bugfixes by PF.
 var that; // PF
 
 var P = (function() {
@@ -3318,6 +3318,7 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
+      that.bInProcDef = script[0][4]; // pf warp *
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
