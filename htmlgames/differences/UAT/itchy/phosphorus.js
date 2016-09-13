@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.184!!!)
+// additional bugfixes by PF... (v0.184!!)
 var that; // PF
 
 var P = (function() {
@@ -2748,7 +2748,7 @@ P.compile = (function() {
       } else if (that.bInProcDef) {
       	  // pf run without screen refresh (warp stuff)
       	  if (WARP) {
-      	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
+      	    	//source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	    	//source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	  }
       }
