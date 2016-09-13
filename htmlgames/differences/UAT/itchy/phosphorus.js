@@ -2750,7 +2750,7 @@ P.compile = (function() {
       	  // pf run without screen refresh (warp stuff)
       	  if (that.bWarp) {
       	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
-      	    	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
+      	    	source += 'if (that.bWarp) WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	  }
       }
 
@@ -3319,7 +3319,7 @@ P.compile = (function() {
 
     if (script[0][0] === 'procDef') {
       that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
-      
+      source += 'that.bWarp = ' + that.bWarp.toString();
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
