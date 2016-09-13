@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.183)
+// additional bugfixes by PF... (v0.183x)
 var that; // PF
 
 var P = (function() {
@@ -981,6 +981,8 @@ if (!svg) return
 
   var Stage = function() {
     that = this; // PF global!
+    that.procDefCount = 0;
+    console.log("!");
     this.stage = this;
 
     Stage.parent.call(this);
@@ -3319,9 +3321,8 @@ P.compile = (function() {
 
     if (script[0][0] === 'procDef') {
       that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
-      console.log(script.length);
-      //if (script.length > 32) that.bWarp = false; // pf to many blocks
-
+      if (that.procDefCount++ > 32) that.bWarp = false; // pf to many blocks
+      console.log(that.proceDefCount);
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
