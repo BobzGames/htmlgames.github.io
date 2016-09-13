@@ -1,4 +1,4 @@
-// additional bugfixes by PF..
+// additional bugfixes by PF...
 var that; // PF
 
 var P = (function() {
@@ -296,7 +296,7 @@ var P = (function() {
     var request = new CompositeRequest;
 
     request.defer = true;
-    // pf changed both to use https...
+    // pf changed to use https...
     request.add(P.IO.load('https://crossorigin.me/https://scratch.mit.edu/projects/' + id + '/').onLoad(function(data) {
       var m = /<title>\s*(.+?)(\s+on\s+Scratch)?\s*<\/title>/.exec(data);
       if (callback) request.onLoad(callback.bind(self));
@@ -1209,7 +1209,7 @@ if (!svg) return
   inherits(Stage, Base);
 
   Stage.prototype.isStage = true;
- 
+  
   Stage.prototype.fromJSON = function(data) {
     Stage.parent.prototype.fromJSON.call(this, data);
 
@@ -2747,11 +2747,10 @@ P.compile = (function() {
           source += 'VISUAL = true;\n';
       } else if (that.bInProcDef) {
       	  // pf run without screen refresh (warp stuff)
-      	  source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
-      	  if (that.bWarp) {
-      	    	
-      	    	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
-      	  }
+      	  //if (that.bWarp) {
+      	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
+      	  //  	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
+      	  //}
       }
       
       if (block[0] === 'forward:') { /* Motion */
@@ -3319,7 +3318,6 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
-      that.bWarp = script[0][4]; // pf warp *
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
@@ -3337,7 +3335,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      that.bWarp = that.bInProcDef = false; // pf0
+      that.bInProcDef = false; // pf0
       source += 'endCall();\n';
       source += 'return;\n';
     }
@@ -3429,7 +3427,7 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
       // pf initial run only (not game loop) ie when green flag clicked block
-      that.bInProcDef = script[0][4]; // pf1 - this enables a faster screen redraw (has side effects!)
+      that.bInProcDef = script[0][4];
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
