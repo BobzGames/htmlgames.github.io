@@ -2352,7 +2352,6 @@ P.compile = (function() {
     var seq = function(script) {
       if (!script) return;
       for (var i = 0; i < script.length; i++) {
-      	 //if (script) console.log("$$$$$ " + script[i].toString().split(" ")); // pf debug - dm
         compile(script[i]);
       }
     };
