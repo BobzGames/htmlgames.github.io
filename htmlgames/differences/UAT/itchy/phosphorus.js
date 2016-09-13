@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.184!)
+// additional bugfixes by PF... (v0.184!!)
 var that; // PF
 
 var P = (function() {
@@ -3318,7 +3318,7 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
-      that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
+      that.bWarp = script[0][4]; // pf warp *
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
@@ -3427,7 +3427,8 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
       // pf initial run only (not game loop) ie when green flag clicked block
-      that.bWarp = false;
+      that.bInProcDef = script[0][4];
+      //that.bWarp = false;
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: false,
