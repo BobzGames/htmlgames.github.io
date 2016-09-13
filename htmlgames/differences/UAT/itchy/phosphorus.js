@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.184!)
+// additional bugfixes by PF... (v0.184!!)
 var that; // PF
 
 var P = (function() {
@@ -2747,7 +2747,7 @@ P.compile = (function() {
           source += 'VISUAL = true;\n';
       } else if (that.bInProcDef) {
       	  // pf run without screen refresh (warp stuff)
-      	  if (that.bWarp) {
+      	  if (WARP) {
       	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	    	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	  }
@@ -3317,7 +3317,7 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
-      that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
+      WARP = that.bInProcDef = script[0][4]; // pf warp *
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
@@ -3862,7 +3862,7 @@ P.runtime = (function() {
         WARP++;
         IMMEDIATE = procedure.fn;
       } else {
-        for (var i = CALLS.length, j = 0; i-- && j--;) { // race to zero
+        for (var i = CALLS.length, j = 5; i-- && j--;) { // race to zero
           if (CALLS[i].base === procedure.fn) {
             var recursive = true;
             break;
