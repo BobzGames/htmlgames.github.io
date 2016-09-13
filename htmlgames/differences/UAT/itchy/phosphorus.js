@@ -3319,7 +3319,7 @@ P.compile = (function() {
 
     if (script[0][0] === 'procDef') {
       that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
-      if (script[0][1] == 'Get Cart Name') console.log(that.romWARP = false); // pf hack!
+      if (window.location.href.match("31903442") || window.location.href.match("34791164")) {console.log("!");that.romWARP = false}; // pf hack!
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
