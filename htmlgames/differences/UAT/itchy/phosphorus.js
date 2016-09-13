@@ -2745,10 +2745,10 @@ P.compile = (function() {
           source += 'if (S.visible || S.isPenDown) VISUAL = true\n';
       } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
           source += 'VISUAL = true;\n';
-      } else if (WARP) {
+      } //else if (WARP) {
       	  // pf run without screen refresh (warp stuff)
-      	  source += 'VISUAL = false;\n';
-      }
+      	  //source += 'VISUAL = false;\n';
+      //}
 
       if (block[0] === 'forward:') { /* Motion */
 
@@ -3314,7 +3314,7 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
-      //WARP = script[0][4]; // pf warp *
+      var warp = script[0][4]; // pf warp *
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
@@ -3328,7 +3328,9 @@ P.compile = (function() {
     }
 
     for (var i = 1; i < script.length; i++) {
+      source += 'WARP++;\n';
       compile(script[i]);
+      source += 'WARP--;\n';      
     }
 
     if (script[0][0] === 'procDef') {
