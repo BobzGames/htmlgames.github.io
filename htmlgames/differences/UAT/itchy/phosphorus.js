@@ -3432,7 +3432,7 @@ P.compile = (function() {
       that.bWarp = false;
       object.procedures[script[0][1]] = {
         inputs: inputs,
-        warp: false;
+        warp: false,
         old_warp: script[0][4],
         fn: f
       };
