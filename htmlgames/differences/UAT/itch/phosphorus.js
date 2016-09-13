@@ -1209,7 +1209,7 @@ if (!svg) return
   inherits(Stage, Base);
 
   Stage.prototype.isStage = true;
-  Stage.prototype.bInProcDef = false; // pf - for speeding up rendered procdef's
+  //Stage.prototype.bInProcDef = false; // pf - for speeding up rendered procdef's
 
   Stage.prototype.fromJSON = function(data) {
     Stage.parent.prototype.fromJSON.call(this, data);
