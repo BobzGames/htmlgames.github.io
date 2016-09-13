@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.182x)
+// additional bugfixes by PF... (v0.182xxx)
 var that; // PF
 
 var P = (function() {
@@ -3320,6 +3320,7 @@ P.compile = (function() {
     if (script[0][0] === 'procDef') {
       that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
       // if (?) that.bWarp = false; // pf todo?
+      console.log(script[0][1] + " :: " + script[0][2] + " :: " + script[0][3] + " :: " + script[0][4]);
       
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
@@ -3433,7 +3434,6 @@ P.compile = (function() {
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: false,
-        old_warp: script[0][4],
         fn: f
       };
     } else {
