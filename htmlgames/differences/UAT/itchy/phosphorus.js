@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.184!f)
+// additional bugfixes by PF... (v0.184!g)
 var that; // PF
 
 var P = (function() {
@@ -3331,6 +3331,7 @@ P.compile = (function() {
     for (var i = 1; i < script.length; i++) {
       compile(script[i]);
     }
+    source += 'WARP--;\n';
 
     if (script[0][0] === 'procDef') {
       source += 'endCall();\n';
