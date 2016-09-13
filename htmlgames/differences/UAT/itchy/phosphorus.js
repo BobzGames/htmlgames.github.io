@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.184!)
+// additional bugfixes by PF... (v0.184!!)
 var that; // PF
 
 var P = (function() {
@@ -2745,10 +2745,10 @@ P.compile = (function() {
           source += 'if (S.visible || S.isPenDown) VISUAL = true\n';
       } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
           source += 'VISUAL = true;\n';
-      } else if (WARP) {
+      }// else if (WARP) {
       	  // pf run without screen refresh (warp stuff)
 
-      }
+      //}
 
       if (block[0] === 'forward:') { /* Motion */
 
@@ -3259,7 +3259,7 @@ P.compile = (function() {
             wait(num(block[1]));
 	  }
 	}
-      } else if (block[0] === 'warpSpeed') {
+      } else if (block[0] === 'warpSpeed' || block[0] === "procDef") {
         source += 'WARP++;\n';
         seq(block[1]);
         source += 'WARP--;\n';
