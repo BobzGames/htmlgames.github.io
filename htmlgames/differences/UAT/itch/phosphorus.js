@@ -1,4 +1,4 @@
-var P = (function() { // 0.008
+var P = (function() { // 0.009
   'use strict';
 
   var SCALE = window.devicePixelRatio || 1;
@@ -3121,6 +3121,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
+      source += 'C.warp = false;\n';
       source += 'endCall();\n';
       source += 'return;\n';
     }
