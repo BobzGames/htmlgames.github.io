@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.184)
+// additional bugfixes by PF... (v0.185)
 var that; // PF
 
 var P = (function() {
@@ -2747,9 +2747,15 @@ P.compile = (function() {
           source += 'VISUAL = true;\n';
       } else if (that.bInProcDef) {
       	  // pf run without screen refresh (warp stuff)
-      	  if (that.bWarp) {
-      	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
-      	    	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
+      	  if (self.isTurbo) {
+      	      if (that.bWarp) {
+      	      	    // WE ARE IN TURBO MODE!
+      	    	    source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
+      	    	    source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
+      	      }
+      	  } else {
+      	  	 // WE ARE IN NORMAL MODE!
+      		 source += 'VISUAL = false;\n'; // pf makes a small speed increase ?	
       	  }
       }
 
@@ -3317,7 +3323,10 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
-      that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
+      if (self.isTurbo) {
+      	// WE ARE IN TURBO MODE!
+        that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
+      }
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
       for (var i = types.length; i--;) {
@@ -3426,10 +3435,17 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
       // pf initial run only (not game loop) ie when green flag clicked block
-      that.bWarp = false;
+      
+      if (self.isTurbo) {
+      	// WE ARE IN TURBO MODE!
+        that.bWarp = that.bInProcDef = false;	
+      } else {
+      	// WE ARE IN NORMAL MODE!
+        that.bInProcDef = script[0][4];
+      }
       object.procedures[script[0][1]] = {
         inputs: inputs,
-        warp: false,
+        warp: that.bInProcDef,
         fn: f
       };
     } else {
@@ -4067,7 +4083,7 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-      } while ((self.isTurbo || !VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length);
+      } while ((!VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length); // pf removed self.isTurbo || 
       this.draw();
       S = null;
       // PF
