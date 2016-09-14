@@ -1,4 +1,4 @@
-var P = (function() { // 0.002
+var P = (function() { // 0.002 
   'use strict';
 
   var SCALE = window.devicePixelRatio || 1;
