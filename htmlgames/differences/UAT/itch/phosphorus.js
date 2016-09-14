@@ -1,4 +1,4 @@
-var Cwarp = false; // 0.001
+var Cwarp = false; // 0.001 
 var P = (function() {
   'use strict';
 
@@ -3114,7 +3114,7 @@ P.compile = (function() {
           source += 'C.boolargs[' + i + '] = bool(C.args[' + i + ']);\n';
         }
       }
-      source += 'Cwarp = ' + warp + ';\n';
+      //source += 'Cwarp = ' + warp + ';\n';
     }
 
     for (var i = 1; i < script.length; i++) {
