@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.186)
+// additional bugfixes by PF... (v0.186+)
 var that; // PF
 var TurboMode = false; // 100% compatibility for starters (use at your own risk!) 
 
@@ -2750,13 +2750,11 @@ P.compile = (function() {
       	  // pf run without screen refresh (warp stuff)
       	  if (TurboMode) {
       	      if (that.bWarp) {
-      	      	    // WE ARE IN TURBO MODE!
-      	    	    source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
-      	    	    source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
+      	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
+      	    	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	      }
       	  } else {
-      	  	 // WE ARE IN NORMAL MODE!
-      		 source += 'VISUAL = false;\n'; // pf makes a small speed increase ?	
+      	        source += 'VISUAL = false;\n'; // pf makes a small speed increase ?	
       	  }
       }
 
@@ -3345,6 +3343,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
+      that.bWarp = that.bInProcDef = false;	
       source += 'endCall();\n';
       source += 'return;\n';
     }
@@ -3435,17 +3434,8 @@ P.compile = (function() {
       var key = script[0][1].toLowerCase();
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
-      // pf initial run only (not game loop) ie when green flag clicked block
-      if (TurboMode) {
-      	// WE ARE IN TURBO MODE!
-        that.bWarp =  false;
-      	object.procedures[script[0][1]] = {
-          inputs: inputs,
-          warp: false,
-          fn: f
-        };        
-      } else {
-      	// WE ARE IN NORMAL MODE!
+      	// ARE WE IN TURBO or NORMAL MODE? - pf initial run only (not game loop) ie when green flag clicked block
+        that.bWarp = that.bInProcDef = ? (TurboMode) ? false : script[0][4];
         that.bInProcDef = script[0][4];
       	object.procedures[script[0][1]] = {
           inputs: inputs,
@@ -3915,8 +3905,8 @@ P.runtime = (function() {
       STACK = C.stack;
       R = STACK.pop();
     }
-    that.bInProcDef = false;
-    that.bWarp = false;
+    //that.bInProcDef = false;
+    //that.bWarp = false;
   };
 
   var sceneChange = function() {
