@@ -1,4 +1,4 @@
-var P = (function() { // 0.003
+var P = (function() { // 0.004
   'use strict';
 
   var SCALE = window.devicePixelRatio || 1;
@@ -3113,6 +3113,7 @@ P.compile = (function() {
           source += 'C.boolargs[' + i + '] = bool(C.args[' + i + ']);\n';
         }
       }
+      source += 'C.warp = ' + warp + ';/n';
     }
 
     for (var i = 1; i < script.length; i++) {
