@@ -1,6 +1,6 @@
-// additional bugfixes by PF... (v0.185x)
+// additional bugfixes by PF... (v0.185)
 var that; // PF
-var TurboMode = false;
+var TurboMode = !false;
 
 var P = (function() {
   'use strict';
