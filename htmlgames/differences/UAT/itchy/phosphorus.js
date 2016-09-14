@@ -1,6 +1,6 @@
 // additional bugfixes by PF... (v0.185)
 var that; // PF
-var TurboMode = !false;
+var TurboMode = false; // 100% compatibility for starters (use at your own risk!)
 
 var P = (function() {
   'use strict';
@@ -4062,7 +4062,7 @@ P.runtime = (function() {
 
     P.Stage.prototype.step = function() {
       self = this;
-      //TurboMode = self.isTurbo; // pf
+      TurboMode = self.isTurbo; // pf - only set after loading sb2 file, as 'recompile' required!
       VISUAL = false;
       var start = Date.now();
       do {
