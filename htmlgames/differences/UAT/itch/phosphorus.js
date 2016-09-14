@@ -1,4 +1,5 @@
-var P = (function() { // 0.018
+var Cwarp = false;
+var P = (function() { // 0.019
   'use strict';
 
   var SCALE = window.devicePixelRatio || 1;
@@ -3102,7 +3103,7 @@ P.compile = (function() {
 
     if (script[0][0] === 'procDef') {
       var inputs = script[0][2];
-      var warp = script[0][4];
+      Cwarp = script[0][4];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
 
       for (var i = types.length; i--;) {
@@ -3113,7 +3114,6 @@ P.compile = (function() {
           source += 'C.boolargs[' + i + '] = bool(C.args[' + i + ']);\n';
         }
       }
-      source += 'C.warp = ' + warp + ';\n';
     }
 
     for (var i = 1; i < script.length; i++) {
@@ -3121,7 +3121,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      //source += 'C.warp = false;\n';
+      Cwarp = false;
       source += 'endCall();\n';
       source += 'return;\n';
     }
@@ -3845,7 +3845,7 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-      } while ((self.isTurbo || !VISUAL || C.warp) && Date.now() - start < 1000 / this.framerate && queue.length);
+      } while ((self.isTurbo || !VISUAL || Cwarp) && Date.now() - start < 1000 / this.framerate && queue.length);
       this.draw();
       S = null;
     };
