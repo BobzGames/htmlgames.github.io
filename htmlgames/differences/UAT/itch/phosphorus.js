@@ -1,5 +1,5 @@
-var Cwarp = false;
-var P = (function() { // 0.002
+var C.warp = false;
+var P = (function() { // 0.003
   'use strict';
 
   var SCALE = window.devicePixelRatio || 1;
