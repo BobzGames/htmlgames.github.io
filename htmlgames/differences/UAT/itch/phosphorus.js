@@ -1,4 +1,4 @@
-var P = (function() { // 0.010
+var P = (function() { // 0.012
   'use strict';
 
   var SCALE = window.devicePixelRatio || 1;
@@ -2532,7 +2532,9 @@ P.compile = (function() {
       } else if (['forward:', 'gotoX:y:', 'gotoSpriteOrMouse:', 'changeXposBy:', 'xpos:', 'changeYposBy:', 'ypos:', 'bounceOffEdge', 'glideSecs:toX:y:elapsed:from:'].indexOf(block[0]) !== -1) {
         source += 'if (S.visible || S.isPenDown) VISUAL = true;\n';
       } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
-        source += '(!C.warp) VISUAL = true;\n';
+        source += 'VISUAL = true;\n';
+      } else {
+      	source += 'if (C.warp) VISUAL = false;\n';
       }
 
       if (block[0] === 'forward:') { /* Motion */
