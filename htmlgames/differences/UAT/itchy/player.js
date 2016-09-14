@@ -188,8 +188,13 @@ P.player = (function() {
       stage.pause();
     }
     while (player.firstChild) player.removeChild(player.lastChild);
-    turbo.style.display = 'none';
-    flag.title = 'Shift+click to enable turbo mode.'; // pf
+    if (!!window.location.search.match("turbo=true")) {
+      turbo.style.display = 'block';
+      flag.title = 'Turbo mode enabled. Shift+click to disable.'; // pf   	
+    } else {
+      turbo.style.display = 'none';
+      flag.title = 'Shift+click to enable turbo mode.'; // pf
+    }
     error.style.display = 'none';
     pause.className = 'pause';
     progressBar.style.display = 'none';
