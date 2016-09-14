@@ -3121,6 +3121,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
+      source += 'C.warp = false;\n';
       source += 'endCall();\n';
       source += 'return;\n';
     }
