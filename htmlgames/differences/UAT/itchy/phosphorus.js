@@ -1,5 +1,6 @@
-// additional bugfixes by PF... (v0.185)
+// additional bugfixes by PF... (v0.185x)
 var that; // PF
+var TurboMode = false;
 
 var P = (function() {
   'use strict';
@@ -2747,7 +2748,7 @@ P.compile = (function() {
           source += 'VISUAL = true;\n';
       } else if (that.bInProcDef) {
       	  // pf run without screen refresh (warp stuff)
-      	  if (self.isTurbo) {
+      	  if (TurboMode) {
       	      if (that.bWarp) {
       	      	    // WE ARE IN TURBO MODE!
       	    	    source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
@@ -3323,7 +3324,7 @@ P.compile = (function() {
     var fns = [0];
 
     if (script[0][0] === 'procDef') {
-      if (self.isTurbo) {
+      if (TurboMode) {
       	// WE ARE IN TURBO MODE!
         that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
       }
@@ -3435,19 +3436,23 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
       // pf initial run only (not game loop) ie when green flag clicked block
-      
-      if (self.isTurbo) {
+      if (TurboMode) {
       	// WE ARE IN TURBO MODE!
-        that.bWarp = that.bInProcDef = false;	
+        that.bWarp =  false;
+      	object.procedures[script[0][1]] = {
+          inputs: inputs,
+          warp: false,
+          fn: f
+        };        
       } else {
       	// WE ARE IN NORMAL MODE!
         that.bInProcDef = script[0][4];
+      	object.procedures[script[0][1]] = {
+          inputs: inputs,
+          warp: script[0][4],
+          fn: f
+        };        
       }
-      object.procedures[script[0][1]] = {
-        inputs: inputs,
-        warp: that.bInProcDef,
-        fn: f
-      };
     } else {
       warn('Undefined event: ' + script[0][0]);
     }
@@ -3901,7 +3906,8 @@ P.runtime = (function() {
   };
 
   var endCall = function() {
-
+    //that.bInProcDef = false;
+    //that.bWarp = false;
     if (CALLS.length) {
       if (WARP) WARP--;
       IMMEDIATE = C.fn;
@@ -4056,6 +4062,7 @@ P.runtime = (function() {
 
     P.Stage.prototype.step = function() {
       self = this;
+      TurboMode = self.isTurbo; // pf
       VISUAL = false;
       var start = Date.now();
       do {
