@@ -1,6 +1,7 @@
-// additional bugfixes by PF... (v0.186++) 
+// additional bugfixes by PF (v0.187++) 
 var that; // PF
-var TurboMode = false; // 100% compatibility for starters (use at your own risk!) 
+var TurboMode = !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
+console.log("TurboMode: " + TurboMode);
 
 var P = (function() {
   'use strict';
