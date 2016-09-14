@@ -1,6 +1,6 @@
-// additional bugfixes by PF... (v0.186) 
+// additional bugfixes by PF... (v0.186+) 
 var that; // PF
-var TurboMode = false; // 100% compatibility for starters (use at your own risk!) 
+var TurboMode = !false; // 100% compatibility for starters (use at your own risk!) 
 
 var P = (function() {
   'use strict';
@@ -3343,7 +3343,9 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      if (!TurboMode) {
+      if (TurboMode) {
+      	that.bWarp = that.bInProcDef = false;
+      } else {
         that.bInProcDef = false;
       }
       source += 'endCall();\n';
