@@ -1,4 +1,4 @@
-// additional bugfixes by PF
+// additional bugfixes by PF .
 var that; // PF
 
 var P = (function() {
@@ -2745,13 +2745,13 @@ P.compile = (function() {
           source += 'if (S.visible || S.isPenDown) VISUAL = true\n';
       } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
           source += 'VISUAL = true;\n';
-      } else if (that.bInProcDef) {
+      //} else if (that.bInProcDef) {
       	  // pf run without screen refresh (warp stuff)
       	  //if (that.bWarp) {
-      	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
+      //	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	  //  	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	  //}
-      }
+      //}
       
       if (block[0] === 'forward:') { /* Motion */
 
@@ -3335,7 +3335,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      that.bInProcDef = false; // pf0
+      //that.bInProcDef = false; // pf0
       source += 'endCall();\n';
       source += 'return;\n';
     }
@@ -3427,7 +3427,7 @@ P.compile = (function() {
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
       // pf initial run only (not game loop) ie when green flag clicked block
-      that.bInProcDef = script[0][4];
+      //that.bInProcDef = script[0][4];
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
