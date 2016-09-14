@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.187++) 
+// additional bugfixes by PF (v0.187+++) 
 var that; // PF
 var TurboMode = !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 console.log("TurboMode: " + TurboMode);
@@ -3880,7 +3880,7 @@ P.runtime = (function() {
         WARP++;
         IMMEDIATE = procedure.fn;
       } else {
-        for (var i = CALLS.length, j = 5; i-- && j--;) {
+        for (var i = CALLS.length, j = 15; i-- && j--;) {
           if (CALLS[i].base === procedure.fn) {
             var recursive = true;
             break;
