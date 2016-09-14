@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.185x)
+// additional bugfixes by PF... (v0.185xx)
 var that; // PF
 var TurboMode = false;
 
@@ -4061,8 +4061,8 @@ P.runtime = (function() {
     };
 
     P.Stage.prototype.step = function() {
-      self = this;
-      TurboMode = self.isTurbo; // pf
+      //self = this;
+      //TurboMode = self.isTurbo; // pf
       VISUAL = false;
       var start = Date.now();
       do {
