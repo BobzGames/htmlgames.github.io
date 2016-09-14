@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.186++) 
+// additional bugfixes by PF... (v0.186) 
 var that; // PF
 var TurboMode = false; // 100% compatibility for starters (use at your own risk!) 
 
@@ -3436,15 +3436,22 @@ P.compile = (function() {
       var key = script[0][1].toLowerCase();
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
-      	// ARE WE IN TURBO or NORMAL MODE? - pf initial run only (not game loop) ie when green flag clicked block
-        that.bWarp = that.bInProcDef = ? (TurboMode) ? false : script[0][4];
-        that.bInProcDef = script[0][4];
-      	object.procedures[script[0][1]] = {
-          inputs: inputs,
-          warp: that.bInProcDef,
-          fn: f
-        };        
-      }
+      	// pf initial run only (not game loop) ie when green flag clicked block
+      	if (TurboMode) {
+      	  that.bWarp = false;
+      	  object.procedures[script[0][1]] = {
+            inputs: inputs,
+            warp: false,
+            fn: f
+          };       	  
+      	} else {
+          that.bInProcDef = script[0][4];
+      	  object.procedures[script[0][1]] = {
+            inputs: inputs,
+            warp: script[0][4],
+            fn: f
+          };        
+       }
     } else {
       warn('Undefined event: ' + script[0][0]);
     }
