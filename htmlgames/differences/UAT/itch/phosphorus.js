@@ -1,5 +1,5 @@
-var C.warp = false;
-var P = (function() { // 0.003
+var warp = false;
+var P = (function() { // 0.004
   'use strict';
 
   var SCALE = window.devicePixelRatio || 1;
@@ -3114,7 +3114,7 @@ P.compile = (function() {
           source += 'C.boolargs[' + i + '] = bool(C.args[' + i + ']);\n';
         }
       }
-      source += 'C.warp = ' + warp + ';\n';
+      source += 'warp = ' + warp + ';\n';
     }
 
     for (var i = 1; i < script.length; i++) {
@@ -3122,7 +3122,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      source += 'C.warp = false;\n';
+      source += 'warp = false;\n';
       source += 'endCall();\n';
       source += 'return;\n';
     }
@@ -3847,7 +3847,7 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-      } while ((self.isTurbo || !VISUAL || C.warp) && Date.now() - start < 1000 / this.framerate && queue.length);
+      } while ((self.isTurbo || !VISUAL || warp) && Date.now() - start < 1000 / this.framerate && queue.length);
       this.draw();
       S = null;
     };
