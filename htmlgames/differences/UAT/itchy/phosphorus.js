@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.186+) 
+// additional bugfixes by PF... (v0.186++) 
 var that; // PF
 var TurboMode = !false; // 100% compatibility for starters (use at your own risk!) 
 
@@ -3344,9 +3344,9 @@ P.compile = (function() {
 
     if (script[0][0] === 'procDef') {
       if (TurboMode) {
-      	that.bWarp = that.bInProcDef = false;
+      	//that.bWarp = that.bInProcDef = false;
       } else {
-        that.bInProcDef = false;
+        //that.bInProcDef = false;
       }
       source += 'endCall();\n';
       source += 'return;\n';
@@ -3907,8 +3907,6 @@ P.runtime = (function() {
   };
 
   var endCall = function() {
-    //that.bInProcDef = false;
-    //that.bWarp = false;
     if (CALLS.length) {
       if (WARP) WARP--;
       IMMEDIATE = C.fn;
@@ -3916,8 +3914,8 @@ P.runtime = (function() {
       STACK = C.stack;
       R = STACK.pop();
     }
-    //that.bInProcDef = false;
-    //that.bWarp = false;
+    that.bInProcDef = false;
+    that.bWarp = false;
   };
 
   var sceneChange = function() {
