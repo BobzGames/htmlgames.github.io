@@ -1,4 +1,4 @@
-var P = (function() {
+var P = (function() { // 0.001
   'use strict';
 
   var SCALE = window.devicePixelRatio || 1;
@@ -3102,7 +3102,11 @@ P.compile = (function() {
 
     if (script[0][0] === 'procDef') {
       var inputs = script[0][2];
+      var warp = script[0][4];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
+      if (warp) {
+      	source += 'VISUAL = false;\n';
+      }
       for (var i = types.length; i--;) {
         var t = types[i];
         if (t === '%d' || t === '%n' || t === '%c') {
