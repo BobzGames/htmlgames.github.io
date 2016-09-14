@@ -1,4 +1,4 @@
-// additional bugfixes by PF.
+// additional bugfixes by PF...
 var that; // PF
 
 var P = (function() {
@@ -3430,7 +3430,7 @@ P.compile = (function() {
       that.bInProcDef = script[0][4];
       object.procedures[script[0][1]] = {
         inputs: inputs,
-        warp: that.bInProcDef,
+        warp: script[0][4],
         fn: f
       };
     } else {
