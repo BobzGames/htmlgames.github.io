@@ -1,4 +1,4 @@
-// additional bugfixes by PF ..
+// additional bugfixes by PF ...
 var that; // PF
 
 var P = (function() {
@@ -3328,6 +3328,11 @@ P.compile = (function() {
         } else if (t === '%b') {
           source += 'C.boolargs[' + i + '] = bool(C.args[' + i + ']);\n';
         }
+      }
+      if (warp) {
+      	source += 'VISUAL = false;\n';
+      } else {
+      	source += 'VISUAL = true;\n';
       }
     }
 
