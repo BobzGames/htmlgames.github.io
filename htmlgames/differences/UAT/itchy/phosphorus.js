@@ -1,6 +1,6 @@
 // additional bugfixes by PF... (v0.186++) 
 var that; // PF
-var TurboMode = !false; // 100% compatibility for starters (use at your own risk!) 
+var TurboMode = false; // 100% compatibility for starters (use at your own risk!) 
 
 var P = (function() {
   'use strict';
@@ -3323,8 +3323,7 @@ P.compile = (function() {
 
     if (script[0][0] === 'procDef') {
       if (TurboMode) {
-      	// WE ARE IN TURBO MODE!
-        that.bWarp = that.bInProcDef = script[0][4]; // pf warp *
+        that.bWarp = that.bInProcDef = script[0][4]; // pf turbo warp *
       }
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
@@ -3343,11 +3342,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      if (TurboMode) {
-      	//that.bWarp = that.bInProcDef = false;
-      } else {
-        //that.bInProcDef = false;
-      }
+      // seem slightly faster reseting bWarp and bInProcDef within endCall() rather than here.
       source += 'endCall();\n';
       source += 'return;\n';
     }
