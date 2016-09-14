@@ -1,4 +1,4 @@
-var P = (function() { // 0.002 
+var P = (function() { // 0.003
   'use strict';
 
   var SCALE = window.devicePixelRatio || 1;
@@ -3114,13 +3114,13 @@ P.compile = (function() {
         }
       }
     }
-      if (warp) {
-      	source += 'VISUAL = false;\n';
-      }
+
     for (var i = 1; i < script.length; i++) {
       compile(script[i]);
     }
-
+      if (warp) {
+      	source += 'VISUAL = false;\n';
+      }
     if (script[0][0] === 'procDef') {
       source += 'endCall();\n';
       source += 'return;\n';
