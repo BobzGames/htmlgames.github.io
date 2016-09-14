@@ -1,5 +1,5 @@
 var Cwarp = false;
-var P = (function() { // 0.019
+var P = (function() { // 0.020
   'use strict';
 
   var SCALE = window.devicePixelRatio || 1;
@@ -3211,6 +3211,7 @@ P.compile = (function() {
       var key = script[0][1].toLowerCase();
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
+    	Cwarp = script[0][4];
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
