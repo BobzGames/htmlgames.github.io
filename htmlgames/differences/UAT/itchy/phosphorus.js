@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.186x)
+// additional bugfixes by PF... (v0.186xx)
 var that; // PF
 var TurboMode = false; // 100% compatibility for starters (use at your own risk!)
 
@@ -3449,7 +3449,7 @@ P.compile = (function() {
         that.bInProcDef = script[0][4];
       	object.procedures[script[0][1]] = {
           inputs: inputs,
-          warp: false,
+          xwarp: false,
           fn: f
         };        
       }
