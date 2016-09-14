@@ -1,6 +1,6 @@
 // additional bugfixes by PF... (v0.186xx)
 var that; // PF
-var TurboMode = false; // 100% compatibility for starters (use at your own risk!)
+var TurboMode = false; // 100% compatibility for starters (use at your own risk!) 
 
 var P = (function() {
   'use strict';
