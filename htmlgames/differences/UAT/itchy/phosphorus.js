@@ -1,4 +1,4 @@
-// additional bugfixes by PF... (v0.186+)
+// additional bugfixes by PF... (v0.186+) 
 var that; // PF
 var TurboMode = false; // 100% compatibility for starters (use at your own risk!) 
 
