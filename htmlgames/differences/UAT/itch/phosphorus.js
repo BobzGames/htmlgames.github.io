@@ -1,4 +1,4 @@
-// additional bugfixes by PF.
+// additional bugfixes by PF..
 var that; // PF
 
 var P = (function() {
@@ -3335,7 +3335,6 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      that.bInProcDef = false; // pf0
       source += 'endCall();\n';
       source += 'return;\n';
     }
@@ -3894,7 +3893,7 @@ P.runtime = (function() {
       STACK = C.stack;
       R = STACK.pop();
     }
-    
+    that.bInProcDef = false; // pf0
   };
 
   var sceneChange = function() {
