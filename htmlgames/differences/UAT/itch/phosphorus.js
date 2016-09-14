@@ -1,5 +1,5 @@
 var Cwarp = false;
-var P = (function() { // 0.020
+var P = (function() { // 0.001
   'use strict';
 
   var SCALE = window.devicePixelRatio || 1;
@@ -3103,7 +3103,7 @@ P.compile = (function() {
 
     if (script[0][0] === 'procDef') {
       var inputs = script[0][2];
-      Cwarp = script[0][4];
+      var warp = script[0][4];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
 
       for (var i = types.length; i--;) {
@@ -3114,6 +3114,7 @@ P.compile = (function() {
           source += 'C.boolargs[' + i + '] = bool(C.args[' + i + ']);\n';
         }
       }
+      source += 'Cwarp = ' + warp + ';\n';
     }
 
     for (var i = 1; i < script.length; i++) {
@@ -3121,7 +3122,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      Cwarp = false;
+      source += 'Cwarp = false;\n';
       source += 'endCall();\n';
       source += 'return;\n';
     }
