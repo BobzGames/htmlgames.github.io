@@ -3880,7 +3880,7 @@ P.runtime = (function() {
         WARP++;
         IMMEDIATE = procedure.fn;
       } else {
-        for (var i = CALLS.length, j = 32; i-- && j--;) {
+        for (var i = CALLS.length, j = 5; i-- && j--;) {
           if (CALLS[i].base === procedure.fn) {
             var recursive = true;
             break;
