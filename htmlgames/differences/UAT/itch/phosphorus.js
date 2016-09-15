@@ -1,4 +1,4 @@
-// 7 
+// 7
 var P = (function() {
   'use strict';
 
