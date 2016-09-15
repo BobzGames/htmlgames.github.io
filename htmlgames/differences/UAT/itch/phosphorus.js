@@ -3826,6 +3826,8 @@ P.runtime = (function() {
       self = this;
       VISUAL =  false;
       var start = Date.now();
+      var draw = false;
+      var skip = 1000;
       do {
         var queue = this.queue;
         for (THREAD = 0; THREAD < queue.length; THREAD++) {
@@ -3851,7 +3853,9 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-      } while ((self.isTurbo || self.Cwarp || !VISUAL) && Date.now() - start < (((self.isTurbo || self.Cwarp || !VISUAL) ? 3000 : 1000) / this.framerate && queue.length); // 
+        draw = (self.isTurbo || self.Cwarp || !VISUAL);
+        skip = (draw) ? 3000 : 1000;
+      } while ( draw && Date.now() - start < skip / this.framerate && queue.length ); // 
       this.draw();
       S = null;
     };
