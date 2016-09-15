@@ -1,9 +1,9 @@
-// 2  
-var Cwarp = false;
+// 3  
+//var Cwarp = false;
 var P = (function() {
   'use strict';
 
-  //var Cwarp = false;
+  var Cwarp = false;
 
   var SCALE = window.devicePixelRatio || 1;
 
@@ -906,6 +906,7 @@ var P = (function() {
 
     // hardware acceleration
     this.root.style.WebkitTransform = 'translateZ(0)';
+    this.Cwarp = Cwarp;
 
     this.root.addEventListener('keydown', function(e) {
       if (e.ctrlKey || e.altKey || e.metaKey || e.keyCode === 27) {
@@ -3117,7 +3118,7 @@ P.compile = (function() {
           source += 'C.boolargs[' + i + '] = bool(C.args[' + i + ']);\n';
         }
       }
-      source += 'Cwarp = ' + warp + ';\n';
+      source += 'self.Cwarp = ' + warp + ';\n';
     }
 
     for (var i = 1; i < script.length; i++) {
@@ -3125,7 +3126,7 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      source += 'Cwarp = false;\n';
+      source += 'self.Cwarp = false;\n';
       source += 'endCall();\n';
       source += 'return;\n';
     }
@@ -3215,7 +3216,7 @@ P.compile = (function() {
       var key = script[0][1].toLowerCase();
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
-      Cwarp = script[0][4];
+      self.Cwarp = script[0][4];
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
@@ -3851,7 +3852,7 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-      } while ((self.isTurbo || Cwarp || !VISUAL) && Date.now() - start < 2000 / this.framerate && queue.length); // 
+      } while ((self.isTurbo || self.Cwarp || !VISUAL) && Date.now() - start < 2000 / this.framerate && queue.length); // 
       this.draw();
       S = null;
     };
