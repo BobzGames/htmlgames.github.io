@@ -3820,7 +3820,7 @@ P.runtime = (function() {
 
     P.Stage.prototype.step = function() {
       self = this;
-      VISUAL = false;
+      VISUAL = !Cwarp; // false
       var start = Date.now();
       do {
         var queue = this.queue;
@@ -3847,7 +3847,7 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-      } while ((self.isTurbo || !VISUAL || Cwarp) && Date.now() - start < 1000 / this.framerate && queue.length);
+      } while ((self.isTurbo || !VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length);
       this.draw();
       S = null;
     };
