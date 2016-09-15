@@ -1,4 +1,4 @@
-// 9
+// 6
 var Cwarp = false;
 var P = (function() {
   'use strict';
@@ -3851,7 +3851,7 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-      } while ((self.isTurbo || Cwarp) && Date.now() - start < 1000 / this.framerate && queue.length); //  || !VISUAL
+      } while ((self.isTurbo || Cwarp) && Date.now() - start < 2000 / this.framerate && queue.length); //  || !VISUAL
       this.draw();
       S = null;
     };
