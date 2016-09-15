@@ -1,4 +1,4 @@
-// 7
+// 7x
 var P = (function() {
   'use strict';
 
@@ -3108,7 +3108,7 @@ P.compile = (function() {
     if (script[0][0] === 'procDef') {
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
-
+      source += 'self.Cwarp = ' + script[0][4] + ';\n';
       for (var i = types.length; i--;) {
         var t = types[i];
         if (t === '%d' || t === '%n' || t === '%c') {
@@ -3117,7 +3117,7 @@ P.compile = (function() {
           source += 'C.boolargs[' + i + '] = bool(C.args[' + i + ']);\n';
         }
       }
-      source += 'self.Cwarp = ' + script[0][4] + ';\n';
+      
     }
 
     for (var i = 1; i < script.length; i++) {
@@ -3125,8 +3125,9 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-      source += 'self.Cwarp = false;\n';
+
       source += 'endCall();\n';
+      source += 'self.Cwarp = false;\n';      
       source += 'return;\n';
     }
 
@@ -3658,7 +3659,6 @@ P.runtime = (function() {
             sprite: S,
             base: BASE,
             fn: procedure.fn,
-            warp: procedure.warp,
             calls: CALLS
           };
         } else {
