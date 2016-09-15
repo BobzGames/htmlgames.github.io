@@ -1,4 +1,4 @@
-// 4
+// 5
 var P = (function() {
   'use strict';
 
@@ -905,7 +905,7 @@ var P = (function() {
 
     // hardware acceleration
     this.root.style.WebkitTransform = 'translateZ(0)';
-    this.Cwarp = Cwarp;
+    //this.Cwarp = Cwarp;
 
     this.root.addEventListener('keydown', function(e) {
       if (e.ctrlKey || e.altKey || e.metaKey || e.keyCode === 27) {
