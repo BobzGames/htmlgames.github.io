@@ -1,4 +1,4 @@
-// 7
+// 8
 var P = (function() {
   'use strict';
 
@@ -3105,7 +3105,6 @@ P.compile = (function() {
 
     if (script[0][0] === 'procDef') {
       var inputs = script[0][2];
-      var warp = script[0][4];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
 
       for (var i = types.length; i--;) {
@@ -3116,7 +3115,7 @@ P.compile = (function() {
           source += 'C.boolargs[' + i + '] = bool(C.args[' + i + ']);\n';
         }
       }
-      source += 'self.Cwarp = ' + warp + ';\n';
+      source += 'self.Cwarp = ' + script[0][4] + ';\n';
     }
 
     for (var i = 1; i < script.length; i++) {
@@ -3214,7 +3213,6 @@ P.compile = (function() {
       var key = script[0][1].toLowerCase();
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
-      //self.Cwarp = script[0][4];
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
@@ -3640,7 +3638,7 @@ P.runtime = (function() {
         numargs: [],
         boolargs: [],
         stack: STACK = [],
-        warp: procedure.warp
+        xwarp: procedure.warp
       };
       R = {};
       if (C.warp || WARP) {
@@ -3658,7 +3656,7 @@ P.runtime = (function() {
             sprite: S,
             base: BASE,
             fn: procedure.fn,
-            warp: procedure.warp,
+            xwarp: procedure.warp,
             calls: CALLS
           };
         } else {
