@@ -2752,7 +2752,7 @@ P.compile = (function() {
       	  if (TurboMode) {
       	      if (that.bWarp) {
       	    	source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
-      	    	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
+      	    	//source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	      }
       	  } else {
       	        source += 'VISUAL = false;\n'; // pf makes a small speed increase ?	
