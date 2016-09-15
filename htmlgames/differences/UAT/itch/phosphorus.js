@@ -1,4 +1,4 @@
-// 7
+// 7x
 var P = (function() {
   'use strict';
 
@@ -3213,6 +3213,7 @@ P.compile = (function() {
       var key = script[0][1].toLowerCase();
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
+    	self.Cwarp = script[0][4];
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
