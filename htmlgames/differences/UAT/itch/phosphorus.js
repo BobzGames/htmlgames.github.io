@@ -1,4 +1,4 @@
-var Cwarp = false; // 0.004
+var Cwarp = false; // 0.005
 var P = (function() {
   'use strict';
 
@@ -3822,7 +3822,7 @@ P.runtime = (function() {
       self = this;
       VISUAL =  false;
       var start = Date.now();
-      this.draw();
+      if (!Cwarp) {this.draw();}
       do {
         var queue = this.queue;
         for (THREAD = 0; THREAD < queue.length; THREAD++) {
