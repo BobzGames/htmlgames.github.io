@@ -1,4 +1,4 @@
-var Cwarp = false; // 0.002
+var Cwarp = false; // 0.001
 var P = (function() {
   'use strict';
 
@@ -3820,7 +3820,7 @@ P.runtime = (function() {
 
     P.Stage.prototype.step = function() {
       self = this;
-      VISUAL = !Cwarp; // false
+      VISUAL =  false;
       var start = Date.now();
       do {
         var queue = this.queue;
@@ -3847,8 +3847,8 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-      } while ((self.isTurbo || !VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length);
-      this.draw();
+      } while ((self.isTurbo || !VISUAL || Cwarp) && Date.now() - start < 1000 / this.framerate && queue.length);
+      if (!Cwarp) this.draw();
       S = null;
     };
 
