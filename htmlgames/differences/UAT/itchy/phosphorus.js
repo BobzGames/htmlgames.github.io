@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.187++)
+// additional bugfixes by PF (v0.188++)
 var that; // PF
 var TurboMode = !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 console.log("TurboMode: " + TurboMode);
@@ -1045,6 +1045,7 @@ if (!svg) return
     this.context = this.canvas.getContext('2d');
 
     this.context.imageSmoothingEnabled = false; // PF
+    this.context.msImageSmoothingEnabled = false;
 
     this.canvas.tabIndex = 0;
     this.canvas.style.outline = 'none';
@@ -1364,6 +1365,7 @@ if (!svg) return
     var context = this.context;
 
     this.context.imageSmoothingEnabled = false; // PF
+    this.context.msImageSmoothingEnabled = false;
 
     this.canvas.width = 480 * this.zoom * SCALE; // clear
     this.canvas.height = 360 * this.zoom * SCALE;
@@ -1601,6 +1603,7 @@ if (!svg) return
       context.save();
 
       context.imageSmoothingEnabled = false;
+      context.msImageSmoothingEnabled = false;
 
       var z = this.stage.zoom * SCALE;
       context.translate(((this.scratchX + 240) * z | 0) / z, ((180 - this.scratchY) * z | 0) / z);
@@ -1980,6 +1983,7 @@ if (!svg) return
     this.context = this.image.getContext('2d');
 
     this.context.imageSmoothingEnabled = false; // PF
+    this.context.msImageSmoothingEnabled = false;
 
     this.render();
     
@@ -2001,6 +2005,7 @@ if (!svg) return
     this.image.height = (this.baseLayer) ? this.baseLayer.height : 0; // PF
     
     this.context.imageSmoothingEnabled = false; // PF
+    this.context.msImageSmoothingEnabled = false;
 
     if (this.baseLayer) { // PF
     this.context.drawImage(this.baseLayer, 0, 0);
