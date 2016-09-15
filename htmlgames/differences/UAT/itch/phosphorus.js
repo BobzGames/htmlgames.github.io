@@ -1,6 +1,8 @@
-var Cwarp = false; // 0.006
+// 7
 var P = (function() {
   'use strict';
+
+  var Cwarp = false;
 
   var SCALE = window.devicePixelRatio || 1;
 
@@ -3656,6 +3658,7 @@ P.runtime = (function() {
             sprite: S,
             base: BASE,
             fn: procedure.fn,
+            warp: procedure.warp,
             calls: CALLS
           };
         } else {
@@ -3822,8 +3825,6 @@ P.runtime = (function() {
       self = this;
       VISUAL =  false;
       var start = Date.now();
-      //if (!Cwarp) {this.draw();}
-      if (Cwarp) {WARP = 1;}
       do {
         var queue = this.queue;
         for (THREAD = 0; THREAD < queue.length; THREAD++) {
