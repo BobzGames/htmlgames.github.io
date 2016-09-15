@@ -1,4 +1,4 @@
-var Cwarp = false; // 0.003
+var Cwarp = false; // 0.004
 var P = (function() {
   'use strict';
 
@@ -3822,6 +3822,7 @@ P.runtime = (function() {
       self = this;
       VISUAL =  false;
       var start = Date.now();
+      this.draw();
       do {
         var queue = this.queue;
         for (THREAD = 0; THREAD < queue.length; THREAD++) {
@@ -3848,7 +3849,7 @@ P.runtime = (function() {
           if (!queue[i]) queue.splice(i, 1);
         }
       } while ((self.isTurbo || !VISUAL || Cwarp) && Date.now() - start < 1000 / this.framerate && queue.length);
-      this.draw();
+      //this.draw();
       S = null;
     };
 
