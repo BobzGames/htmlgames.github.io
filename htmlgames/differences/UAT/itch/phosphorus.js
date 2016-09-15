@@ -1,4 +1,4 @@
-// 8
+// 7
 var P = (function() {
   'use strict';
 
@@ -3638,7 +3638,7 @@ P.runtime = (function() {
         numargs: [],
         boolargs: [],
         stack: STACK = [],
-        xwarp: procedure.warp
+        warp: procedure.warp
       };
       R = {};
       if (C.warp || WARP) {
@@ -3656,7 +3656,7 @@ P.runtime = (function() {
             sprite: S,
             base: BASE,
             fn: procedure.fn,
-            xwarp: procedure.warp,
+            warp: procedure.warp,
             calls: CALLS
           };
         } else {
