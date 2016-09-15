@@ -1,4 +1,4 @@
-// 7x
+// 7
 var P = (function() {
   'use strict';
 
@@ -3108,7 +3108,7 @@ P.compile = (function() {
     if (script[0][0] === 'procDef') {
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
-      source += 'self.Cwarp = ' + script[0][4] + ';\n';
+      //source += 'self.Cwarp = ' + script[0][4] + ';\n';
       for (var i = types.length; i--;) {
         var t = types[i];
         if (t === '%d' || t === '%n' || t === '%c') {
@@ -3127,7 +3127,7 @@ P.compile = (function() {
     if (script[0][0] === 'procDef') {
 
       source += 'endCall();\n';
-      source += 'self.Cwarp = false;\n';      
+      //source += 'self.Cwarp = false;\n';      
       source += 'return;\n';
     }
 
@@ -3216,6 +3216,7 @@ P.compile = (function() {
       var key = script[0][1].toLowerCase();
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
     } else if (script[0][0] === 'procDef') {
+      self.Cwarp = script[0][4];
       object.procedures[script[0][1]] = {
         inputs: inputs,
         warp: script[0][4],
@@ -3678,6 +3679,7 @@ P.runtime = (function() {
       STACK = C.stack;
       R = STACK.pop();
     }
+    self.Cwarp = false;
   };
 
   var sceneChange = function() {
