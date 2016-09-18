@@ -1791,12 +1791,11 @@ var P = (function() {
   addEvents(Costume, 'load');
 
   Costume.prototype.render = function() {
-    if (!(this.baseLayer.width || this.textLayer.width)) {
-      return;
-    }
+
+  try {
     this.image.width = this.baseLayer.width;
     this.image.height = this.baseLayer.height;
-
+  } catch(e) { return }
     this.context.drawImage(this.baseLayer, 0, 0);
     if (this.textLayer) {
       this.context.drawImage(this.textLayer, 0, 0);
