@@ -1,4 +1,4 @@
-// 8
+// 7
 var P = (function() {
   'use strict';
 
@@ -1792,6 +1792,7 @@ var P = (function() {
 
   Costume.prototype.render = function() {
 
+  if (!this.baseLayer) return
   try {
     this.image.width = this.baseLayer.width;
     this.image.height = this.baseLayer.height;
