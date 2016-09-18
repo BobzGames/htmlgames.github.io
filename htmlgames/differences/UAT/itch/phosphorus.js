@@ -1791,7 +1791,7 @@ var P = (function() {
   addEvents(Costume, 'load');
 
   Costume.prototype.render = function() {
-    if (!(this.baseLayer || this.textLayer)) {
+    if (!(this.baseLayer.width || this.textLayer.width)) {
       return;
     }
     this.image.width = this.baseLayer.width;
