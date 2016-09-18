@@ -1,4 +1,4 @@
-// 7
+// 8
 var P = (function() {
   'use strict';
 
@@ -1791,7 +1791,7 @@ var P = (function() {
   addEvents(Costume, 'load');
 
   Costume.prototype.render = function() {
-    if ((this.baseLayer && !this.baseLayer.width) || (this.textLayer && !this.textLayer.width)) {
+    if (!(this.baseLayer || this.textLayer)) {
       return;
     }
     this.image.width = this.baseLayer.width;
