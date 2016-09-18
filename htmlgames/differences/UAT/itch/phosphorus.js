@@ -1781,9 +1781,11 @@ var P = (function() {
     this.context = this.image.getContext('2d');
 
     this.render();
-    this.baseLayer.onload = function() {
-      this.render();
-    }.bind(this);
+    if (this.baseLayer) {
+      this.baseLayer.onload = function() {
+        this.render();
+      }.bind(this);
+    }
     if (this.textLayer) {
       this.textLayer.onload = this.baseLayer.onload;
     }
