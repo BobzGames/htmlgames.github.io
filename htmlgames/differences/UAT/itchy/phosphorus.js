@@ -4089,7 +4089,7 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-      } while ((!self.isTurbo || !VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length); // pf removed 
+      } while ((!VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length); // pf removed self.isTurbo || 
       this.draw();
       S = null;
       // PF
