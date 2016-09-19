@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.188++)
+// additional bugfixes by PF (v0.188+)
 var that; // PF
 var TurboMode = !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 console.log("TurboMode: " + TurboMode);
@@ -4090,7 +4090,7 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-      } while ((!VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length); // pf removed self.isTurbo || 
+      } while (Date.now() - start < 1000 / this.framerate && queue.length); // pf removed self.isTurbo || (!VISUAL) && 
       this.draw();
       S = null;
       // PF
