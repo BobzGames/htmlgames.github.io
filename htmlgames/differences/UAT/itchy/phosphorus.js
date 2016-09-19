@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.188++)
+// additional bugfixes by PF (v0.189++)
 var that; // PF
 var TurboMode = !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 console.log("TurboMode: " + TurboMode);
@@ -2756,6 +2756,7 @@ P.compile = (function() {
       	  // pf run without screen refresh (warp stuff)
       	  if (TurboMode) {
       	      if (that.bWarp) {
+      	      	console.log(WARP+"\n");
       	    	//source += 'VISUAL = false;\n'; // pf makes a small speed increase ?
       	    	source += 'WARP = 1;\n'; // can cause 'lockup', note C.Warp does nothing here...
       	      }
