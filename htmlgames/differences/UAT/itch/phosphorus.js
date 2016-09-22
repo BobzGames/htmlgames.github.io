@@ -1,4 +1,4 @@
-// 9
+// 8
 var P = (function() {
   'use strict';
 
@@ -548,8 +548,8 @@ var P = (function() {
           ignoreMouse: true,
           ignoreAnimation: true,
           ignoreClear: true,
-          offsetX: 0,
-          offsety: 0,
+          offsetX: 480/4,
+          offsety: 360/4,
           scaleWidth: 480/4,
           scaleHeight: 360/4,
           renderCallback: function() {
