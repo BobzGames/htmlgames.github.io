@@ -483,7 +483,7 @@ var P = (function() {
       }
       var bb = element.getBBox();
       var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a;
-      var y = (element.getAttribute('y') - bb.y) * 1.1; // pf svg text
+      var y = (element.getAttribute('y') - bb.y * 1.1) * 1.1; // pf svg text
       element.setAttribute('x', x);
       element.setAttribute('y', y);
       var lines = element.textContent.split('\n');
