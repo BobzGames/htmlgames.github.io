@@ -1,4 +1,4 @@
-// 8
+// 9
 var P = (function() {
   'use strict';
 
@@ -543,10 +543,13 @@ var P = (function() {
         callback(image);
         // svg.style.cssText = '';
         // console.log(md5, 'data:image/svg+xml;base64,' + btoa(div.innerHTML.trim()));
+        // pf svg
         canvg(canvas, div.innerHTML.trim(), {
           ignoreMouse: true,
           ignoreAnimation: true,
           ignoreClear: true,
+          scaleWidth: 480,
+          scaleHeight: 360,
           renderCallback: function() {
             image.src = canvas.toDataURL();
           }
