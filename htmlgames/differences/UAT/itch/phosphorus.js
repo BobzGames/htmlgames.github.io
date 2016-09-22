@@ -549,9 +549,9 @@ var P = (function() {
           ignoreAnimation: true,
           ignoreClear: true,
           offsetX: 0.01,
-          offsety: 0.01
-          scaleWidth: 100.01
-          scaleHeight: 100.01
+          offsety: 0.01,
+          scaleWidth: 100.01,
+          scaleHeight: 100.01,
           renderCallback: function() {
             image.src = canvas.toDataURL();
           }
