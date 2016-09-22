@@ -1,4 +1,4 @@
-// 9 
+// 8 
 var P = (function() {
   'use strict';
 
@@ -548,10 +548,10 @@ var P = (function() {
           ignoreMouse: true,
           ignoreAnimation: true,
           ignoreClear: true,
-          offsetX: 480/4,
-          offsety: 360/4,
-          scaleWidth: 480/2,
-          scaleHeight: 360/2,
+          offsetX: 0.01,
+          offsety: 0.01
+          scaleWidth: 100.01
+          scaleHeight: 100.01
           renderCallback: function() {
             image.src = canvas.toDataURL();
           }
