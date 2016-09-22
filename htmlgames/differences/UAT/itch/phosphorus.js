@@ -482,8 +482,8 @@ var P = (function() {
         element.setAttribute('font-size', size = 18);
       }
       var bb = element.getBBox();
-      var x = (4 - .6 * element.transform.baseVal.consolidate().matrix.a) * 1.044;
-      var y = (element.getAttribute('y') - bb.y * 1.044) * 1.1; // pf svg text
+      var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a;
+      var y = (element.getAttribute('y') - bb.y * 1.044) * 1.044; // pf svg text
       element.setAttribute('x', x);
       element.setAttribute('y', y);
       var lines = element.textContent.split('\n');
