@@ -483,12 +483,12 @@ var P = (function() {
       }
       var bb = element.getBBox();
       var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a;
-      var y = (element.getAttribute('y') - bb.height * 1.028); // pf svg text 1.1
+      var y = (element.getAttribute('y') - bb.y * 1.028); // pf svg text 1.1
       
-      //bb.x =  x;
-      //bb.y =  y;
-      bb.width = bb.width;
-      bb.height = bb.height * 1.028;
+      bb.x =  bb.x;
+      bb.y =  bb.y;
+      bb.width = bb.width + 100;
+      bb.height = bb.height + 100;
       
       element.setAttribute('x', x);
       element.setAttribute('y', y);
