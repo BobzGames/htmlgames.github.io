@@ -471,25 +471,10 @@ var P = (function() {
   IO.fixSVG = function(svg, element) {
     if (element.nodeType !== 1) return;
     if (element.nodeName === 'text') {
-      var font = element.getAttribute('font-family') || '';
-      font = IO.FONTS[font] || font;
-      if (font) {
-        element.setAttribute('font-family', font);
-        if (font === 'Helvetica') element.style.fontWeight = 'bold';
-      }
-      var size = +element.getAttribute('font-size');
-      if (!size) {
-        element.setAttribute('font-size', size = 18);
-      }
+
       var bb = element.getBBox();
       var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a;
       var y = (element.getAttribute('y') - bb.y * 1.028); // pf svg text 1.1
-      
-      bb.x =  bb.x + 18;
-      bb.y =  bb.y + 18;
-      bb.width = bb.width;
-      bb.height = bb.height;
-      
       element.setAttribute('x', x);
       element.setAttribute('y', y);
       var lines = element.textContent.split('\n');
