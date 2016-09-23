@@ -473,7 +473,7 @@ var P = (function() {
     if (element.nodeName === 'text') {
 
       var bb = element.getBBox();
-      var x = 4 - (0.44 * element.transform.baseVal.consolidate().matrix.a);
+      var x = (element.getAttribute('x') - bb.x * 1.044);//4 - (0.44 * element.transform.baseVal.consolidate().matrix.a);
       var y = (element.getAttribute('y') - bb.y * 1.044); // pf svg text 1.1
       element.setAttribute('x', x);
       element.setAttribute('y', y);
