@@ -485,8 +485,8 @@ var P = (function() {
       var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a;
       var y = (element.getAttribute('y') - bb.y * 1.028); // pf svg text 1.1
       
-      bb.x = bb.x - x;
-      bb.y = bb.y - y;
+      bb.x =  x;
+      bb.y =  y;
       bb.width = bb.width + x;
       bb.height = bb.height + y;
       
