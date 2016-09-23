@@ -618,10 +618,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       var bb = element.getBBox();
       var x = 4 - (0.44 * element.transform.baseVal.consolidate().matrix.a);
       var y = (element.getAttribute('y') - bb.y * 1.044); // pf svg text
-      element.setAttribute('x', (element.getAttribute('x') - bb.x));
-      element.setAttribute('y', (element.getAttribute('y') - bb.y));
-      //element.setAttribute('x', x);
-      //element.setAttribute('y', y);
+      element.setAttribute('x', x-10);
+      element.setAttribute('y', y);
       var lines = element.textContent.split('\n');
       if (lines.length > 1) {
         element.textContent = lines[0];
@@ -631,51 +629,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           tspan.textContent = lines[i];
           tspan.setAttribute('x', x);
           tspan.setAttribute('y', y + size * i * lineHeight);
-          element.appendChild(tspan);
-        }
-      }
-      // svg.style.cssText = '';
-      // console.log(element.textContent, 'data:image/svg+xml;base64,' + btoa(svg.outerHTML));
-    } else if ((element.hasAttribute('x') || element.hasAttribute('y')) && element.hasAttribute('transform')) {
-      element.setAttribute('x', 0);
-      element.setAttribute('y', 0);
-    }
-    [].forEach.call(element.childNodes, IO.fixSVG.bind(null, svg));
-  };
-
-  IO.fixSVG_OLD = function(svg, element) {
-    if (element.nodeType !== 1) return;
-    if (element.nodeName === 'text') { 
-      var font = element.getAttribute('font-family') || '';
-      font = IO.FONTS[font] || font;
-      if (font) {
-        element.setAttribute('font-family', font);
-        if (font === 'Helvetica') element.style.fontWeight = 'bold';
-      }
-      var size = element.getAttribute('font-size');
-
-      if (!size) {
-        element.setAttribute('font-size', size = 18);
-      }
-      var bb = element.getBBox();
-
-      // 2 lines below 'magic numbers' will be affected by font-size      
-      var x = 4 - 0.6 * element.transform.baseVal.consolidate().matrix.a;
-      var y = (element.getAttribute('y') - bb.y) * 1.1;
-
-      // PF below seems better?
-      element.setAttribute('x', (element.getAttribute('x') - bb.x));
-      element.setAttribute('y', (element.getAttribute('y') - bb.y));
-
-      var lines = element.textContent.split('\n');
-      if (lines.length > 1) {
-        element.textContent = lines[0];
-        var lineHeight = IO.LINE_HEIGHTS[font] || 1;
-        for (var i = 1, l = lines.length; i < l; i++) {
-          var tspan = document.createElementNS(null, 'tspan');
-          tspan.textContent = lines[i];
-          tspan.setAttribute('x', x/2);
-          tspan.setAttribute('y', y/2 + size * i * lineHeight);
           element.appendChild(tspan);
         }
       }
