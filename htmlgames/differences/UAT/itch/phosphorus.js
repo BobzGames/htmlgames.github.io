@@ -487,8 +487,8 @@ var P = (function() {
       
       bb.x =  x;
       bb.y =  y;
-      bb.width = bb.width + x;
-      bb.height = bb.height + y;
+      bb.width = bb.width;
+      bb.height = bb.height * 1.028;
       
       element.setAttribute('x', x);
       element.setAttribute('y', y);
