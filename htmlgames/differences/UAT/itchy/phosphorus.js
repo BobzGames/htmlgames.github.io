@@ -618,7 +618,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       var bb = element.getBBox();
       var x = 4 - (0.44 * element.transform.baseVal.consolidate().matrix.a);
       var y = (element.getAttribute('y') - bb.y * 1.044); // pf svg text
-      element.setAttribute('x', x-10);
+      element.setAttribute('x', x);
       element.setAttribute('y', y);
       var lines = element.textContent.split('\n');
       if (lines.length > 1) {
