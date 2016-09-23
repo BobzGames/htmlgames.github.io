@@ -471,7 +471,6 @@ var P = (function() {
   IO.fixSVG = function(svg, element) {
     if (element.nodeType !== 1) return;
     if (element.nodeName === 'text') {
-
       var bb = element.getBBox();
       var x = 4 - (0.44 * element.transform.baseVal.consolidate().matrix.a);
       var y = (element.getAttribute('y') - bb.y * 1.044); // pf svg text 1.1
