@@ -483,13 +483,15 @@ var P = (function() {
       }
       var bb = element.getBBox();
       
+      var x = bb.x;
+      var y = bb.y;
       bb.x = bb.width;
       bb.y = bb.height;
       bb.width = 0;
       bb.height = 0;
       
-      var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a;
-      var y = (element.getAttribute('y') - bb.y * 1.028); // pf svg text 1.1
+      //var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a;
+      //var y = (element.getAttribute('y') - bb.y * 1.028); // pf svg text 1.1
       element.setAttribute('x', x);
       element.setAttribute('y', y);
       var lines = element.textContent.split('\n');
