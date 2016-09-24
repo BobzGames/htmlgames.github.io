@@ -185,9 +185,9 @@
 				this.height = function() { return this.Current().height; }
 				this.ComputeSize = function(d) {
 					if (d != null && typeof(d) == 'number') return d;
-					if (d == 'x') return this.width()+26;
-					if (d == 'y') return this.height()+26;
-					return Math.sqrt(Math.pow(this.width()+26, 2) + Math.pow(this.height()+26, 2)) / Math.sqrt(2);
+					if (d == 'x') return this.width();
+					if (d == 'y') return this.height();
+					return Math.sqrt(Math.pow(this.width(), 2) + Math.pow(this.height(), 2)) / Math.sqrt(2);
 				}
 			});
 		}
@@ -335,7 +335,7 @@
 					var fontSize = new svg.Property('fontSize', svg.Font.Parse(svg.ctx.font).fontSize);
 					if (fontSize.hasValue()) em = fontSize.toPixels(viewPort);
 
-					return em;
+					return 12; //em;
 				}
 
 				svg.Property.prototype.getUnits = function() {
