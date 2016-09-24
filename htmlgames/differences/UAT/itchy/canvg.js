@@ -329,13 +329,13 @@
 					return 96.0; // TODO: compute?
 				}
 
-				svg.Property.prototype.getEM = function(viewPort) {
+				svg.Property.prototype.getEM = function(viewPort) { // PF FA!
 					var em = 12;
 
 					var fontSize = new svg.Property('fontSize', svg.Font.Parse(svg.ctx.font).fontSize);
 					if (fontSize.hasValue()) em = fontSize.toPixels(viewPort);
 
-					return 12; //em;
+					return em;
 				}
 
 				svg.Property.prototype.getUnits = function() {
@@ -2149,7 +2149,7 @@
 				var x = this.attribute('x').toPixels('x');
 				var y = this.attribute('y').toPixels('y');
 				var fontSize = this.parent.style('font-size').numValueOrDefault(svg.Font.Parse(svg.ctx.font).fontSize);
-				return new svg.BoundingBox(x, y - fontSize, x + Math.floor(fontSize * 2.0 / 3.0) * this.children[0].getText().length, y);
+				return new svg.BoundingBox(x, y - fontSize, x + Math.floor(fontSize * 1.0 / 3.0) * this.children[0].getText().length, y);
 			}
 
 			this.renderChildren = function(ctx) {
