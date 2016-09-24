@@ -2150,7 +2150,7 @@
 				var y = this.attribute('y').toPixels('y');
 				var fontSize = this.parent.style('font-size').numValueOrDefault(svg.Font.Parse(svg.ctx.font).fontSize);
 				//return new svg.BoundingBox(x, y - fontSize, x + Math.floor(fontSize * 2.0 / 3.0) * this.children[0].getText().length, y);
-				return new svg.BoundingBox(x, y - fontSize, x + Math.floor(fontSize * 2.0 / 3.0) * this.children[0].getText().length * 2, y);
+				return new svg.BoundingBox(x, y - (fontSize * 2), x + Math.floor(fontSize * 2.0 / 3.0) * this.children[0].getText().length * 2, y);
 			}
 
 			this.renderChildren = function(ctx) {
