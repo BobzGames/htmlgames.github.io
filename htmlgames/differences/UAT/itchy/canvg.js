@@ -178,7 +178,7 @@
 			svg.ViewPort = new (function () {
 				this.viewPorts = [];
 				this.Clear = function() { this.viewPorts = []; }
-				this.SetCurrent = function(width, height) { this.viewPorts.push({ width: width*2, height: height }); }
+				this.SetCurrent = function(width, height) { this.viewPorts.push({ width: width, height: height }); }
 				this.RemoveCurrent = function() { this.viewPorts.pop(); }
 				this.Current = function() { return this.viewPorts[this.viewPorts.length - 1]; }
 				this.width = function() { return this.Current().width; }
