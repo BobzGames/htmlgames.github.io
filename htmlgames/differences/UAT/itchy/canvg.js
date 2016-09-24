@@ -351,7 +351,7 @@
 					if (s.match(/ex$/)) return this.numValue() * this.getEM(viewPort) / 2.0;
 					if (s.match(/px$/)) return this.numValue();
 					if (s.match(/pt$/)) return this.numValue() * this.getDPI(viewPort) * (1.0 / 96.0); // 72
-					if (s.match(/pc$/)) return this.numValue() * 15; // 15
+					if (s.match(/pc$/)) return this.numValue() * 22; // 15
 					if (s.match(/cm$/)) return this.numValue() * this.getDPI(viewPort) / 2.54;
 					if (s.match(/mm$/)) return this.numValue() * this.getDPI(viewPort) / 25.4;
 					if (s.match(/in$/)) return this.numValue() * this.getDPI(viewPort);
