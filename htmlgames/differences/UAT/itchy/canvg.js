@@ -326,7 +326,7 @@
 
 			// length extensions
 				svg.Property.prototype.getDPI = function(viewPort) {
-					return 96.0; // TODO: compute?
+					return 96.0/2; // TODO: compute?
 				}
 
 				svg.Property.prototype.getEM = function(viewPort) {
