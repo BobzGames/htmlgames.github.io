@@ -348,7 +348,7 @@
 					if (!this.hasValue()) return 0;
 					var s = this.value+'';
 					if (s.match(/em$/)) return this.numValue() * this.getEM(viewPort);
-					if (s.match(/ex$/)) return this.numValue() * this.getEM(viewPort) / 2.0;
+					if (s.match(/ex$/)) return this.numValue() * this.getEM(viewPort) / 1.0; // 2
 					if (s.match(/px$/)) return this.numValue();
 					if (s.match(/pt$/)) return this.numValue() * this.getDPI(viewPort) * (1.0 / 96.0); // 72
 					if (s.match(/pc$/)) return this.numValue() * 22; // 15
