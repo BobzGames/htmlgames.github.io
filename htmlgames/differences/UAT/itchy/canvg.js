@@ -2235,8 +2235,8 @@
 
 			this.renderChildren = function(ctx) {
 				var customFont = this.parent.style('font-family').getDefinition();
-				if (customFont != null) { // PF !
-					var fontSize = 50 + this.parent.style('font-size').numValueOrDefault(svg.Font.Parse(svg.ctx.font).fontSize);
+				if (customFont != null) { // PF FA!
+					var fontSize = this.parent.style('font-size').numValueOrDefault(svg.Font.Parse(svg.ctx.font).fontSize);
 					var fontStyle = this.parent.style('font-style').valueOrDefault(svg.Font.Parse(svg.ctx.font).fontStyle);
 					var text = this.getText();
 					if (customFont.isRTL) text = text.split("").reverse().join("");
@@ -2244,7 +2244,7 @@
 					var dx = svg.ToNumberArray(this.parent.attribute('dx').value);
 					for (var i=0; i<text.length; i++) {
 						var glyph = this.getGlyph(customFont, text, i);
-						var scale = 0.5; //fontSize / customFont.fontFace.unitsPerEm;
+						var scale = fontSize / customFont.fontFace.unitsPerEm;
 						ctx.translate(this.x, this.y);
 						ctx.scale(scale, -scale);
 						var lw = ctx.lineWidth;
