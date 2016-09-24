@@ -178,7 +178,7 @@
 			svg.ViewPort = new (function () {
 				this.viewPorts = [];
 				this.Clear = function() { this.viewPorts = []; }
-				this.SetCurrent = function(width, height) { this.viewPorts.push({ width: width, height: height }); }
+				this.SetCurrent = function(width, height) { this.viewPorts.push({ width: width*2, height: height }); }
 				this.RemoveCurrent = function() { this.viewPorts.pop(); }
 				this.Current = function() { return this.viewPorts[this.viewPorts.length - 1]; }
 				this.width = function() { return this.Current().width; }
@@ -2149,8 +2149,7 @@
 				var x = this.attribute('x').toPixels('x');
 				var y = this.attribute('y').toPixels('y');
 				var fontSize = this.parent.style('font-size').numValueOrDefault(svg.Font.Parse(svg.ctx.font).fontSize);
-				//return new svg.BoundingBox(x, y - fontSize, x + Math.floor(fontSize * 2.0 / 3.0) * this.children[0].getText().length, y);
-				return new svg.BoundingBox(x, y - (fontSize * 2), x + Math.floor(fontSize * 2.0 / 3.0) * this.children[0].getText().length * 2, y);
+				return new svg.BoundingBox(x, y - fontSize, x + Math.floor(fontSize * 2.0 / 3.0) * this.children[0].getText().length, y);
 			}
 
 			this.renderChildren = function(ctx) {
