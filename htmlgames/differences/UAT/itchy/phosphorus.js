@@ -623,7 +623,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       }	    
       var size = element.getAttribute('font-size'); // +
       if (!size) {
-	element.setAttribute('font-size', size = 22); // 18 || 22 FIX TODO! - if font-size > 22 in bind then use 18 (hack?)
+        element.setAttribute('font-size', size = 22); // 18 || 22 FIX TODO! - if font-size > 22 in bind then use 18 (hack?)
       }
       var bb = element.getBBox();
       //var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a;
