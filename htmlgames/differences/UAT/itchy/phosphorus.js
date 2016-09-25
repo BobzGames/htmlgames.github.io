@@ -611,6 +611,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   IO.fixSVG = function(svg, element) {
+	  console.log(element.nodeName + " ## " + element.nodeType);
     if (element.nodeType !== 1) return;
     if (element.nodeName === 'text') {
       var size = element.getAttribute('font-size');
