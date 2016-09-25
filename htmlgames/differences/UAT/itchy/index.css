@@ -142,3 +142,8 @@ code {
   box-sizing: border-box;
   color: rgba(0, 0, 0, .7);
 }
+
+@font-face {
+   font-family: Scratch; 
+   src: url('scr.ttf');
+} 
