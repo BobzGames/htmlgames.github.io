@@ -612,7 +612,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   IO.fixSVG = function(svg, element) {
 	  //console.log(element.nodeName + " ## " + element.nodeType);
-    if (element.nodeType !== 1) return true;
+    if (element.nodeType !== 1) return
     if (element.nodeName === 'text') {
       var size = element.getAttribute('font-size');
       if (!size) element.setAttribute('font-size', size = 22); 
@@ -638,7 +638,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     } else if ((element.hasAttribute('x') || element.hasAttribute('y')) && element.hasAttribute('transform')) {
       element.setAttribute('x', 0);
       element.setAttribute('y', 0);
-      return true;
     }
     [].forEach.call(element.childNodes, IO.fixSVG.bind(null, svg));
   };
@@ -666,7 +665,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         if (viewBox && (viewBox.x || viewBox.y)) {
           svg.width.baseVal.value = viewBox.width - viewBox.x;
           svg.height.baseVal.value = viewBox.height - viewBox.y;
-	  if (!!IO.fixSVG(svg, svg)) {
+	  IO.fixSVG(svg, svg);
+	  if (svg.toString().match("text id")) {
             viewBox.x = 0;
             viewBox.y = 0;
             viewBox.width = 0;
