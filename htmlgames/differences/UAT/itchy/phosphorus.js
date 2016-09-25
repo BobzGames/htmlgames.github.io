@@ -666,7 +666,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           svg.width.baseVal.value = viewBox.width - viewBox.x;
           svg.height.baseVal.value = viewBox.height - viewBox.y;
 	  IO.fixSVG(svg, svg);
-	  if (svg.toString().match("text id")) {
+	  if (svg.querySelector("text") == null) {
             viewBox.x = 0;
             viewBox.y = 0;
             viewBox.width = 0;
