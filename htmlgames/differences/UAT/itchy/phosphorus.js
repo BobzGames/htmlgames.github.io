@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.191++) 
+// additional bugfixes by PF (v0.192++) 
 var that; // PF
 var TurboMode = !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 console.log("TurboMode: " + TurboMode);
@@ -660,6 +660,10 @@ if (!svg) return
 
         document.body.appendChild(svg);
         var viewBox = svg.viewBox.baseVal;
+	if (viewBox && (viewBox.x < 0 || viewBox.y < 0)) {
+	  viewBox.x = 1;
+	  viewBox.y = 1;
+	}
         if (viewBox && (viewBox.x || viewBox.y)) {
           svg.width.baseVal.value = viewBox.width - viewBox.x;
           svg.height.baseVal.value = viewBox.height - viewBox.y;
