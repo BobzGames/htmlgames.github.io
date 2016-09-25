@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.191++)
+// additional bugfixes by PF (v0.191++) 
 var that; // PF
 var TurboMode = !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 console.log("TurboMode: " + TurboMode);
@@ -613,11 +613,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   IO.fixSVG = function(svg, element) {
     if (element.nodeType !== 1) return;
     if (element.nodeName === 'text') {
-      var viewBox = element.getAttribute('viewBoxString');
-      if (viewBox) {
-	element.setAttribute('viewBox', width = 480);
-	element.setAttribute('viewBox', height = 360);
-      }
       var size = element.getAttribute('font-size');
       if (!size) element.setAttribute('font-size', size = 22); 
       var bb = element.getBBox();
@@ -669,10 +664,10 @@ if (!svg) return
         if (viewBox && (viewBox.x || viewBox.y)) {
           svg.width.baseVal.value = viewBox.width - viewBox.x;
           svg.height.baseVal.value = viewBox.height - viewBox.y;
-          viewBox.x = 0;
-          viewBox.y = 0;
-          viewBox.width = 0;
-          viewBox.height = 0;
+          viewBox.x = 1;
+          viewBox.y = 1;
+          viewBox.width = 480;
+          viewBox.height = 360;
 
         }
         IO.fixSVG(svg, svg);
