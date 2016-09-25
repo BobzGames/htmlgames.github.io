@@ -478,9 +478,9 @@ var P = (function() {
         if (font === 'Helvetica') element.style.fontWeight = 'bold';
       }
       var size = +element.getAttribute('font-size');
-      if (!size) {
+      //if (!size) {
         element.setAttribute('font-size', size = 18);
-      }
+      //}
       var bb = element.getBBox();
       var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a;
       var y = (element.getAttribute('y') - bb.y) * 1.1;
