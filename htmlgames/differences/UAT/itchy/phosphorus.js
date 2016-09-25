@@ -622,7 +622,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         if (font === 'Helvetica') element.style.fontWeight = 'bold';
       }	    
       var size = element.getAttribute('font-size'); // +
-      if (!size || font === 'Scratch') {
+      if (!size || font === 'Scratch_') {
 	      element.setAttribute('font-size', size = 18); // 18 || 22 FIX TODO! - if font-size > 22 in bind then use 18 (hack?)
       }
       var bb = element.getBBox();
