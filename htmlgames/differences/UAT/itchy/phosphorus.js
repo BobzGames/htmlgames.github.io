@@ -700,19 +700,17 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
         document.body.appendChild(svg);
         var viewBox = svg.viewBox.baseVal;
-
         if (viewBox && (viewBox.x || viewBox.y)) {
-          svg.width.baseVal.value = viewBox.width - viewBox.x;
-          svg.height.baseVal.value = viewBox.height - viewBox.y;
-	  IO.fixSVG(svg, svg);
-	  if (svg.querySelector("text") == null) {
+	  if (svg.querySelector("text") == null) {		
+            svg.width.baseVal.value = viewBox.width - viewBox.x;
+            svg.height.baseVal.value = viewBox.height - viewBox.y;
             viewBox.x = 0;
             viewBox.y = 0;
             viewBox.width = 0;
             viewBox.height = 0;
 	  }
 	}
-        //IO.fixSVG(svg, svg);
+        IO.fixSVG(svg, svg);
         while (div.firstChild) div.removeChild(div.lastChild);
         div.appendChild(svg);
         svg.style.visibility = 'visible';
