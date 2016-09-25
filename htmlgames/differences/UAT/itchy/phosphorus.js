@@ -191,6 +191,7 @@ var P = (function() {
 
   IO.LINE_HEIGHTS = {
     Helvetica: 1.13,
+    'Scratch': 1.22,	  
     'Donegal One': 1.25,
     'Gloria Hallelujah': 1.97,
     'Permanent Marker': 1.43,
