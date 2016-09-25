@@ -613,7 +613,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   IO.fixSVG = function(svg, element) {
     if (element.nodeType !== 1) return;
     if (element.nodeName === 'text') {
-      var viewBox = element.getAttribute('viewBox');
+      var viewBox = element.getAttribute('viewBoxString');
       if (viewBox) {
 	element.setAttribute('viewBox', width = 480);
 	element.setAttribute('viewBox', height = 360);
