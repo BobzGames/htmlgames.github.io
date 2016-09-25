@@ -2,8 +2,6 @@
 var P = (function() {
   'use strict';
 
-  var Cwarp = false;
-
   var SCALE = window.devicePixelRatio || 1;
 
   var hasTouchEvents = 'ontouchstart' in document;
@@ -3111,7 +3109,6 @@ P.compile = (function() {
     if (script[0][0] === 'procDef') {
       var inputs = script[0][2];
       var types = script[0][1].match(/%[snmdcb]/g) || [];
-      source += 'self.Cwarp = ' + script[0][4] + ';\n';
       for (var i = types.length; i--;) {
         var t = types[i];
         if (t === '%d' || t === '%n' || t === '%c') {
@@ -3130,7 +3127,6 @@ P.compile = (function() {
     if (script[0][0] === 'procDef') {
 
       source += 'endCall();\n';
-      source += 'self.Cwarp = false;\n';      
       source += 'return;\n';
     }
 
@@ -3853,7 +3849,7 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-      } while ( (self.isTurbo || self.Cwarp || !VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length ); // 
+      } while ( (self.isTurbo || !VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length ); // 
       this.draw();
       S = null;
     };
