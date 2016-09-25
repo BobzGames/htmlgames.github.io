@@ -639,7 +639,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       element.setAttribute('x', 0);
       element.setAttribute('y', 0);
       return true;
-    } else { return true; }
+    }
     [].forEach.call(element.childNodes, IO.fixSVG.bind(null, svg));
   };
 
