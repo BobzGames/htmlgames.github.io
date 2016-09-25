@@ -668,10 +668,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  if (svg.nodeName === 'text' && svg.nodeType === 1) {
 	    // :)
 	  } else {
-            viewBox.x = 0;
-            viewBox.y = 0;
-            viewBox.width = 0;
-            viewBox.height = 0;
+            //viewBox.x = 0;
+            //viewBox.y = 0;
+            //viewBox.width = 0;
+            //viewBox.height = 0;
 	  }
 	}
         //IO.fixSVG(svg, svg);
