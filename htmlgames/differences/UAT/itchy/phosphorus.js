@@ -621,8 +621,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       //  if (font === 'Helvetica') element.style.fontWeight = 'bold';
       //}	    
       var size = element.getAttribute('font-size'); // +
-      //if (!size) {
-	      element.setAttribute('font-size', size = 12); // 18
+      if (!size) { console.log ("!!!"); }
+	      element.setAttribute('font-size', size = 18); // 18 // 22
       //}
       var bb = element.getBBox();
       //var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a;
