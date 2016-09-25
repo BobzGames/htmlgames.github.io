@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.192++)
+// additional bugfixes by PF (v0.192++) 
 var that; // PF
 var TurboMode = !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 console.log("TurboMode: " + TurboMode);
@@ -671,7 +671,7 @@ if (!svg) return
           //viewBox.height = 0;
 
         }
-        //IO.fixSVG(svg, svg);
+        IO.fixSVG(svg, svg);
         while (div.firstChild) div.removeChild(div.lastChild);
         div.appendChild(svg);
         svg.style.visibility = 'visible';
