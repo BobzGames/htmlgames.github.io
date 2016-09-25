@@ -182,6 +182,7 @@ var P = (function() {
 
   IO.FONTS = {
     '': 'Helvetica',
+    Scratch: 'Scratch',	  
     Donegal: 'Donegal One',
     Gloria: 'Gloria Hallelujah',
     Marker: 'Permanent Marker',
