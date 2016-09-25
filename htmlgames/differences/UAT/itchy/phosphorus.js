@@ -614,15 +614,15 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  //console.log(element.nodeName + " ## " + element.nodeType);
     if (element.nodeType !== 1) return
     if (element.nodeName === 'text') {
-      //var font = element.getAttribute('font-family') || '';
-      //font = IO.FONTS[font] || font;
-      //if (font) {
-      //  element.setAttribute('font-family', font);
-      //  if (font === 'Helvetica') element.style.fontWeight = 'bold';
-      //}	    
+      var font = element.getAttribute('font-family') || '';
+      font = IO.FONTS[font] || font;
+      if (font) {
+        element.setAttribute('font-family', font);
+        if (font === 'Helvetica') element.style.fontWeight = 'bold';
+      }	    
       var size = element.getAttribute('font-size'); // +
       //if (!size) {
-	      element.setAttribute('font-size', size = 19); // 18 // 22 
+	      element.setAttribute('font-size', size = 18); // 18 // 22 
       //}
       var bb = element.getBBox();
       //var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a;
