@@ -479,7 +479,7 @@ var P = (function() {
       }
       var size = +element.getAttribute('font-size');
       //if (!size) {
-        element.setAttribute('font-size', size = 18);
+        element.setAttribute('font-size', size = 19);
       //}
       var bb = element.getBBox();
       var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a;
@@ -491,7 +491,7 @@ var P = (function() {
         element.textContent = lines[0];
         var lineHeight = IO.LINE_HEIGHTS[font] || 1;
         for (var i = 1, l = lines.length; i < l; i++) {
-          var tspan = document.createElementNS(null, 'tspan');
+          var tspan = document.createElementNS(null, 'tspan'); 
           tspan.textContent = lines[i];
           tspan.setAttribute('x', x);
           tspan.setAttribute('y', y + size * i * lineHeight);
