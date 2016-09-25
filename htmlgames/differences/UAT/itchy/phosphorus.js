@@ -611,7 +611,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   IO.fixSVG = function(svg, element) {
-	  //console.log(element.nodeName + " ## " + element.nodeType);
     if (element.nodeType !== 1) return
     if (element.nodeName === 'text') {
       var font = element.getAttribute('font-family') || '';
@@ -672,14 +671,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         document.body.appendChild(svg);
         var viewBox = svg.viewBox.baseVal;
         if (viewBox && (viewBox.x || viewBox.y)) {
-	  if (svg.querySelector("text") == null) {		
+          if (svg.querySelector("text") == null) {		
             svg.width.baseVal.value = viewBox.width - viewBox.x;
             svg.height.baseVal.value = viewBox.height - viewBox.y;
             viewBox.x = 0;
             viewBox.y = 0;
             viewBox.width = 0;
             viewBox.height = 0;
-	  }
+          }
 	}
         IO.fixSVG(svg, svg);
         while (div.firstChild) div.removeChild(div.lastChild);
