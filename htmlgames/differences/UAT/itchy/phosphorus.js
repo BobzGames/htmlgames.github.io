@@ -664,10 +664,10 @@ if (!svg) return
         if (viewBox && (viewBox.x || viewBox.y)) {
           svg.width.baseVal.value = viewBox.width - viewBox.x;
           svg.height.baseVal.value = viewBox.height - viewBox.y;
-          viewBox.x = 1;
-          viewBox.y = 1;
-          viewBox.width = 480;
-          viewBox.height = 360;
+          //viewBox.x = 1;
+          //viewBox.y = 1;
+          //viewBox.width = 480;
+          //viewBox.height = 360;
 
         }
         IO.fixSVG(svg, svg);
