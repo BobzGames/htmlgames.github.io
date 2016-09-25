@@ -611,8 +611,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   IO.fixSVG = function(svg, element) {
-	  console.log(element.nodeName + " ## " + element.nodeType);
-    if (element.nodeType !== 1) return;
+	  //console.log(element.nodeName + " ## " + element.nodeType);
+    if (element.nodeType !== 1) return true;
     if (element.nodeName === 'text') {
       var size = element.getAttribute('font-size');
       if (!size) element.setAttribute('font-size', size = 22); 
@@ -665,15 +665,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         if (viewBox && (viewBox.x || viewBox.y)) {
           svg.width.baseVal.value = viewBox.width - viewBox.x;
           svg.height.baseVal.value = viewBox.height - viewBox.y;
-	  IO.fixSVG(svg, svg);
-		console.log(svg.nodeName + " :: " + svg.nodeType);
-	  if (svg.nodeName === 'text' && svg.nodeType === 1) {
-	    // :)
-	  } else {
-            //viewBox.x = 0;
-            //viewBox.y = 0;
-            //viewBox.width = 0;
-            //viewBox.height = 0;
+	  if (IO.fixSVG(svg, svg)) {
+            viewBox.x = 0;
+            viewBox.y = 0;
+            viewBox.width = 0;
+            viewBox.height = 0;
 	  }
 	}
         //IO.fixSVG(svg, svg);
