@@ -638,7 +638,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     } else if ((element.hasAttribute('x') || element.hasAttribute('y')) && element.hasAttribute('transform')) {
       element.setAttribute('x', 0);
       element.setAttribute('y', 0);
-    }
+    } else { return false }
     [].forEach.call(element.childNodes, IO.fixSVG.bind(null, svg));
   };
 
