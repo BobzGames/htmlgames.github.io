@@ -526,10 +526,9 @@ var P = (function() {
         document.body.appendChild(svg);
         var viewBox = svg.viewBox.baseVal;
         if (viewBox && (viewBox.x || viewBox.y)) {
-            svg.width.baseVal.value = viewBox.width - viewBox.x;
-            svg.height.baseVal.value = viewBox.height - viewBox.y;		
           if (svg.querySelector("text") == null) {	
-
+            svg.width.baseVal.value = viewBox.width - viewBox.x;
+            svg.height.baseVal.value = viewBox.height - viewBox.y;
             viewBox.x = 0;
             viewBox.y = 0;
             viewBox.width = 0;
