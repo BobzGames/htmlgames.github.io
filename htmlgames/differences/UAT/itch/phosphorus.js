@@ -293,7 +293,7 @@ var P = (function() {
     var request = new CompositeRequest;
 
     request.defer = true;
-    request.add(P.IO.load('https://crossorigin.me/https://scratch.mit.edu/projects/' + id + '/').onLoad(function(data) {
+    request.add(P.IO.load('http://crossorigin.me/http://scratch.mit.edu/projects/' + id + '/').onLoad(function(data) {
       var m = /<title>\s*(.+?)(\s+on\s+Scratch)?\s*<\/title>/.exec(data);
       if (callback) request.onLoad(callback.bind(self));
       if (m) {
@@ -3849,7 +3849,7 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-      } while ( (self.isTurbo || !VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length ); // 
+      } while ((self.isTurbo || !VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length ); 
       this.draw();
       S = null;
     };
