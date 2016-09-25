@@ -1,4 +1,4 @@
-// 9.3
+// 9.4
 var P = (function() {
   'use strict';
 
@@ -471,9 +471,19 @@ var P = (function() {
   IO.fixSVG = function(svg, element) {
     if (element.nodeType !== 1) return;
     if (element.nodeName === 'text') {
+      var font = element.getAttribute('font-family') || '';
+      font = IO.FONTS[font] || font;
+      if (font) {
+        element.setAttribute('font-family', font);
+        if (font === 'Helvetica') element.style.fontWeight = 'bold';
+      }
+      var size = +element.getAttribute('font-size');
+      if (!size) {
+        element.setAttribute('font-size', size = 18);
+      }
       var bb = element.getBBox();
-      var x = 4 - (0.44 * element.transform.baseVal.consolidate().matrix.a);
-      var y = (element.getAttribute('y') - bb.y * 1.044); // pf svg text 1.1
+      var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a;
+      var y = (element.getAttribute('y') - bb.y) * 1.1;
       element.setAttribute('x', x);
       element.setAttribute('y', y);
       var lines = element.textContent.split('\n');
@@ -516,12 +526,14 @@ var P = (function() {
         document.body.appendChild(svg);
         var viewBox = svg.viewBox.baseVal;
         if (viewBox && (viewBox.x || viewBox.y)) {
-          svg.width.baseVal.value = viewBox.width - viewBox.x;
-          svg.height.baseVal.value = viewBox.height - viewBox.y;
-          viewBox.x = 0;
-          viewBox.y = 0;
-          viewBox.width = 0;
-          viewBox.height = 0;
+	  if (svg.querySelector("text") == null) {	
+            svg.width.baseVal.value = viewBox.width - viewBox.x;
+            svg.height.baseVal.value = viewBox.height - viewBox.y;
+            viewBox.x = 0;
+            viewBox.y = 0;
+            viewBox.width = 0;
+            viewBox.height = 0;
+	  }
         }
         IO.fixSVG(svg, svg);
         while (div.firstChild) div.removeChild(div.lastChild);
