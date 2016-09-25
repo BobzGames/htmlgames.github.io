@@ -1659,7 +1659,7 @@ var P = (function() {
       this.moveTo(x, y);
     } else {
       var sprite = this.stage.getObject(thing);
-      if (!sprite) return 0;
+      if (!sprite) return 10000;
       this.moveTo(sprite.scratchX, sprite.scratchY);
     }
   };
