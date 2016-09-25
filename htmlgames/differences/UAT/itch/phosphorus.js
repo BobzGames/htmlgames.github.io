@@ -468,7 +468,7 @@ var P = (function() {
     }, true);
   };
 
-  IO.fixSVG = function(svg, element) {
+  IO.fixSVG = function(svg, element) { 
     if (element.nodeType !== 1) return;
     if (element.nodeName === 'text') {
       var font = element.getAttribute('font-family') || '';
