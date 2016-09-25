@@ -652,7 +652,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         var div = document.createElement('div');
         div.innerHTML = source;
         var svg = div.getElementsByTagName('svg')[0];
-if (!svg) return
+	if (!svg) return
         svg.style.visibility = 'hidden';
         svg.style.position = 'absolute';
         svg.style.left = '-10000px';
@@ -664,13 +664,13 @@ if (!svg) return
         if (viewBox && (viewBox.x || viewBox.y)) {
           svg.width.baseVal.value = viewBox.width - viewBox.x;
           svg.height.baseVal.value = viewBox.height - viewBox.y;
-	  // !if svgtextnode
-          //viewBox.x = 0;
-          //viewBox.y = 0;
-          //viewBox.width = 0;
-          //viewBox.height = 0;
-
-        }
+	  if (svg.nodeName !== 'text') { // svg.nodeType !== 1
+            viewBox.x = 0;
+            viewBox.y = 0;
+            viewBox.width = 0;
+            viewBox.height = 0;
+	  }
+	}
         IO.fixSVG(svg, svg);
         while (div.firstChild) div.removeChild(div.lastChild);
         div.appendChild(svg);
