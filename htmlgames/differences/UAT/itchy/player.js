@@ -29,7 +29,11 @@ P.player = (function() {
   }
   function turboClick() {
     stage.isTurbo = !stage.isTurbo;
-    flag.title = stage.isTurbo ? 'Turbo mode enabled. Shift+click to disable.' : 'Shift+click to enable turbo mode.';
+    if (!!window.location.search.match("turbo=true")) {
+      flag.title = stage.isTurbo ? 'Turbo++ mode enabled. Shift+click to disable.' : 'Shift+click to enable Turbo++ mode.';
+    } else {
+      flag.title = stage.isTurbo ? 'Turbo mode enabled. Shift+click to disable.' : 'Shift+click to enable Turbo mode.';	    
+    }
     turbo.style.display = stage.isTurbo ? 'block' : 'none';
   }
   function flagClick(e) {
@@ -190,7 +194,7 @@ P.player = (function() {
     while (player.firstChild) player.removeChild(player.lastChild);
     if (!!window.location.search.match("turbo=true")) {
       turbo.style.display = 'block';
-      flag.title = 'Turbo mode enabled. Shift+click to disable.'; // pf   	
+      flag.title = 'Turbo mode enabled. Shift+click for Turbo++.'; // pf   	
     } else {
       turbo.style.display = 'none';
       flag.title = 'Shift+click to enable turbo mode.'; // pf
