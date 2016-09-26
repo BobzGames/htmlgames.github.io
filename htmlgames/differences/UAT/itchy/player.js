@@ -271,4 +271,4 @@ P.player = (function() {
     showProgress: showProgress
   };
 
-}());
+}()); 
