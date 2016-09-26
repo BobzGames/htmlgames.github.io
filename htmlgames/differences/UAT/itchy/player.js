@@ -31,7 +31,7 @@ P.player = (function() {
     stage.isTurbo = !stage.isTurbo;
     if (!!window.location.search.match("turbo=true")) {
       flag.title = stage.isTurbo ? 'Turbo++ mode enabled. Shift+click to disable.' : 'Shift+click to enable Turbo++ mode.';
-      turbo.style.fontWeight = "bold";
+      turbo.style.fontWeight = "800";
     } else {
       flag.title = stage.isTurbo ? 'Turbo mode enabled. Shift+click to disable.' : 'Shift+click to enable Turbo mode.';
       turbo.style.fontWeight = "normal";
@@ -271,4 +271,4 @@ P.player = (function() {
     showProgress: showProgress
   };
 
-}()); 
+}());  
