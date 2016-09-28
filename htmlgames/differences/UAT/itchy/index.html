@@ -321,6 +321,45 @@
     }
   });
 
+  document.body.addEventListener('onload', function(e) {
+    if (typeof b64Data != "undefined") { // pf here we autoload a project if exists as a base64 var
+      e.preventDefault();
+      location.hash = '#zip';
+      show('zip');
+      var blob = b64toBlob(b64Data);
+      var request = P.IO.loadSB2File(blob); 
+      if (request) {
+	console.log("Local project detected");
+        P.player.showProgress(request, function(stage) {
+          stage.triggerGreenFlag();
+        });
+      }
+    } else {console.log("Ready!");}
+  });
+	
+  function b64toBlob(b64Data) { // pf
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+    var sliceSize = 512;
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      var byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+    
+    var blob = new Blob(byteArrays, {type: 'application/sb2'});
+    return blob;
+  }
+
 }());
 
 </script>
