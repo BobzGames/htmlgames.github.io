@@ -329,7 +329,7 @@
       var blob = b64toBlob(b64Data);
       var request = P.IO.loadSB2File(blob); 
       if (request) {
-	console.log("Local project detected");
+        console.log("Local project detected");
         P.player.showProgress(request, function(stage) {
           stage.triggerGreenFlag();
         });
