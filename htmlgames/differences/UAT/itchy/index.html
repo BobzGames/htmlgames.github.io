@@ -306,6 +306,15 @@
     var f = e.dataTransfer.files[0];
 
     if (f) {
+      // if you drop a sb2 file onto the index page, the console.log will generate a base64 var for you to use in autoload.js
+      // This allows you to play the scratch project offline, or create an APK using a webview... let the fun begin!
+      var reader = new window.FileReader();
+      reader.readAsDataURL(f); 
+      reader.onloadend = function() {
+        var base64data = reader.result;                
+        console.log('var b64Data = "' + base64data + '";\n');
+      }
+      
       location.hash = '#zip';
       show('zip');
       var ext = f.name.split('.').pop();
