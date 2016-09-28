@@ -223,10 +223,14 @@ var P = (function() {
       request.progress(e.loaded, e.total, e.lengthComputable);
     };
     xhr.onload = function() {
-      if (xhr.status === 200) {
-        request.load(xhr.response);
-      } else {
-        request.error(new Error('HTTP ' + xhr.status + ': ' + xhr.statusText));
+      if (location.hash.substr(1) === 'zip') { // pf: branch local / dragdrop zip stuff here...
+          request.load(xhr.response);
+      } else {	      
+        if (xhr.status === 200) { 
+          request.load(xhr.response);
+        } else {
+          request.error(new Error('HTTP ' + xhr.status + ': ' + xhr.statusText)); //
+        }
       }
     };
     xhr.onerror = function() {
