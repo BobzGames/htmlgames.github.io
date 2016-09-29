@@ -187,6 +187,7 @@
     if (examples.value && !location.hash.length) { // pf
       TurboMode = !!window.location.search.match("turbo=true"); // reset
       console.log("turbo=" + TurboMode + "#" + examples.value);
+      turbo.style.fontWeight = "normal";
       location.hash = '#' + examples.value;
       examples.selectedIndex = 0;
     }
