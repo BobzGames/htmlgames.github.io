@@ -186,7 +186,7 @@
   examples.addEventListener('change', function() {
     if (examples.value && !location.hash.length) { // pf
       TurboMode = !!window.location.search.match("turbo=true"); // reset
-      console.log("Project: " + examples.value + ", TurboMode: " + TurboMode);
+      console.log("turbo=" + TurboMode + "#" + examples.value);
       location.hash = '#' + examples.value;
       examples.selectedIndex = 0;
     }
