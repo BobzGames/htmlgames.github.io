@@ -196,9 +196,11 @@ P.player = (function() {
     while (player.firstChild) player.removeChild(player.lastChild);
     if (!!window.location.search.match("turbo=true")) {
       turbo.style.display = 'block';
+      turbo.style.fontWeight = "normal";
       flag.title = 'Turbo mode enabled. Shift+click for Turbo++.'; // pf   	
     } else {
       turbo.style.display = 'none';
+      turbo.style.fontWeight = "normal";
       flag.title = 'Shift+click to enable turbo mode.'; // pf
     }
     error.style.display = 'none';
