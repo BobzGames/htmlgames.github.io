@@ -150,6 +150,7 @@
   var packageLink = document.querySelector('#package-link');
   var packageTurbo = document.querySelector('#package-turbo');
   var packageFullScreen = document.querySelector('#package-full-screen');
+  var packageApk = document.querySelector('#package-apk');
 
   var embedCode = document.querySelector('#embed-code');
   var embedAutoStart = document.querySelector('#embed-auto-start');
@@ -255,10 +256,21 @@
     bugLink.href = P.player.projectId ? 'https://github.com/nathan/phosphorus/issues/new?title=' + encodeURIComponent(P.player.projectTitle || P.player.projectURL) + '&body=' + encodeURIComponent('\n\n\n' + P.player.projectURL + '\nhttp://phosphorus.github.io/#' + P.player.projectId + '\n' + navigator.userAgent) : 'https://github.com/nathan/phosphorus/issues/new?body=' + encodeURIComponent('\n\n\n' + navigator.userAgent);
   }
 
+  function updatePackageApk() {
+    if (packageApk.checked) {
+      sb2apk(true); // generate full apk :)
+    }
+  }
+
   function updatePackageLink() {
-    packageLink.href = P.player.projectId ? window.location.href.split("/index.html#")[0] + '/app.html?id=' + P.player.projectId + '&turbo=' + packageTurbo.checked + '&full-screen=' + packageFullScreen.checked : 'about:blank';
+    //if (packageApk.checked) {
+    //  sb2apk(false); // generate autoload.js instead    
+    //} else {
+      packageLink.href = P.player.projectId ? window.location.href.split("/index.html#")[0] + '/app.html?id=' + P.player.projectId + '&turbo=' + packageTurbo.checked + '&full-screen=' + packageFullScreen.checked : 'about:blank';
+    //}
   }
   
+  packageApk.addEventListener('change', updatePackageApk);
   packageTurbo.addEventListener('change', updatePackageLink);
   packageFullScreen.addEventListener('change', updatePackageLink);
 
@@ -370,20 +382,23 @@
     }
   } else {console.log("Ready!");}
  
-  function sb2apk() {
+  function sb2apk(bFull) {
     // PF: helper functions for apk creation (for Chrome and Android Webview only)
       var zip = new JSZip();
-      if (apkBase64 == null || apkBase64.length == 0) return console.log("NOT FOUND: apk 'skeleton' webview container. PROCESS ABORTED!");
-      if (apkData64 == null || apkData64.length == 0) return console.log("NOT FOUND: apk autoload data; drop sb2 file. PROCESS ABORTED!");
-      zip.load(apkBase64, {base64: true}); // apk 'skeleton' webview container
-      zip.file("autoload.js", apkData64); // overwrite this file in zip with our one!
-      var base64 = zip.generate({type:"base64"}); // was blob
-      apk = document.createElement("a");
-      apk.href ="data:application/zip;base64," + base64;
-      apk.download = "sb2.apk"; // for now...
-      apk.textContent = "";
-      document.body.appendChild(apk); // using a link
-      apk.click();
+      bFull = bFull || 0;
+      if (bFull) {
+        if (apkBase64 == null || apkBase64.length == 0) return console.log("NOT FOUND: apk 'skeleton' webview container. PROCESS ABORTED!");
+        if (apkData64 == null || apkData64.length == 0) return console.log("NOT FOUND: apk autoload data; drop sb2 file. PROCESS ABORTED!");
+        zip.load(apkBase64, {base64: true}); // apk 'skeleton' webview container
+        zip.file("autoload.js", apkData64); // overwrite this file in zip with our one!
+        var base64 = zip.generate({type:"base64"}); // was blob
+        apk = document.createElement("a");
+        apk.href ="data:application/zip;base64," + base64;
+        apk.download = "sb2.apk"; // for now...
+        apk.textContent = "";
+        document.body.appendChild(apk); // using a link
+        apk.click();
+      }
   }
 	
 }());
