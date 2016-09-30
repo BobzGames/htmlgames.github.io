@@ -157,6 +157,7 @@
   var embedHideControls = document.querySelector('#embed-hide-controls');
 
   var timeout;
+  var apkData64;
   urlInput.addEventListener('input', function() {
     var ss = urlInput.selectionStart;
     var se = urlInput.selectionEnd;
@@ -312,8 +313,8 @@
       var reader = new window.FileReader();
       reader.readAsDataURL(f); 
       reader.onloadend = function() {
-        var base64data = reader.result.replace("data:;base64,","");                
-        console.log('var b64Data = "' + base64data + '";\n\n');
+        apkData64 = reader.result.replace("data:;base64,","");                
+        console.log('var sb2Data64 = "' + apkData64 + '";\n\n');
       }
       location.hash = '#zip';
       show('zip');
@@ -331,9 +332,9 @@
     }
   });
 
-  function b64toBlob(b64Data) { // pf :)
+  function b64toBlob(sb2Data64) { // pf :)
 
-    var byteCharacters = atob(b64Data);
+    var byteCharacters = atob(sb2Data64);
     var byteArrays = [];
     var sliceSize = 512;
 
@@ -355,11 +356,11 @@
   }
 
   // pf here we autoload a project if exists as a base64 var...
-  if (typeof b64Data != "undefined") { 
+  if (typeof sb2Data64 != "undefined") { 
     //e.preventDefault();
     location.hash = '#zip';
     show('zip');
-    var blob = b64toBlob(b64Data);
+    var blob = b64toBlob(sb2Data64);
     var request = P.IO.loadSB2File(blob); 
     if (request) {
       console.log("Local project detected");
@@ -369,6 +370,22 @@
     }
   } else {console.log("Ready!");}
  
+  function sb2apk() {
+    // PF: helper functions for apk creation (for Chrome and Android Webview only)
+      var zip = new JSZip();
+      if (apkBase64 == null || apkBase64.length == 0) return console.log("NOT FOUND: apk 'skeleton' webview container. PROCESS ABORTED!");
+      if (apkData64 == null || apkData64.length == 0) return console.log("NOT FOUND: apk autoload data. PROCESS ABORTED!");
+      zip.load(apkBase64, {base64: true}); // apk 'skeleton' webview container
+      zip.file("autoload.js", apkData64); // overwrite this file in zip with our one!
+      var base64 = zip.generate({type:"base64"}); // was blob
+      apk = document.createElement("a");
+      apk.href ="data:application/zip;base64," + base64;
+      apk.download = "sb2.apk"; // for now...
+      apk.textContent = "";
+      document.body.appendChild(apk); // using a link
+      apk.click();
+  }
+	
 }());
 
 </script>
