@@ -384,7 +384,7 @@ var apkData64;
       var zip = new JSZip();
       bFull = bFull || 0;
       if (bFull) {
-	console.log("Generating Apk...");
+        console.log("Generating Apk...");
         if (typeof apkBase64 == 'undefined' || apkBase64.length == 0) return console.log("NOT FOUND: apk 'skeleton' webview container. PROCESS ABORTED!");
         if (typeof apkData64 == 'undefined' || apkData64.length == 0) return console.log("NOT FOUND: apk autoload data; drop sb2 file. PROCESS ABORTED!");
         zip.load(apkBase64, {base64: true}); // apk 'skeleton' webview container
@@ -397,8 +397,8 @@ var apkData64;
         document.body.appendChild(apk); // using a link
         apk.click();
       } else {
-	console.log("Generating autoloader..."); // for offline use too! 
-	if (typeof apkData64 == 'undefined' || apkData64.length == 0) return console.log("NOT FOUND: apk autoload data; drop sb2 file. PROCESS ABORTED!");
+        console.log("Generating autoloader..."); // for offline use too! 
+        if (typeof apkData64 == 'undefined' || apkData64.length == 0) return console.log("NOT FOUND: apk autoload data; drop sb2 file. PROCESS ABORTED!");
         var ajs = document.createElement("a");
         ajs.href ="data:text/html;charset=utf-8," + base64;
         ajs.download = "autoload.js"; // for now...
