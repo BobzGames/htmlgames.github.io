@@ -263,11 +263,8 @@ var apkData64;
   }
 
   function updatePackageLink() {
-    //if (packageApk.checked) {
-    //  sb2apk(false); // generate autoload.js instead    
-    //} else {
-      packageLink.href = P.player.projectId ? window.location.href.split("/index.html#")[0] + '/app.html?id=' + P.player.projectId + '&turbo=' + packageTurbo.checked + '&full-screen=' + packageFullScreen.checked : 'about:blank';
-    //}
+    if (location.hash.substr(1) === 'zip') sb2apk(false); // generate autoload.js instead  
+    packageLink.href = P.player.projectId ? window.location.href.split("/index.html#")[0] + '/app.html?id=' + P.player.projectId + '&turbo=' + packageTurbo.checked + '&full-screen=' + packageFullScreen.checked : 'about:blank';
   }
   
   packageApk.addEventListener('change', updatePackageApk);
@@ -387,17 +384,27 @@ var apkData64;
       var zip = new JSZip();
       bFull = bFull || 0;
       if (bFull) {
+	console.log("Generating Apk...");
         if (typeof apkBase64 == 'undefined' || apkBase64.length == 0) return console.log("NOT FOUND: apk 'skeleton' webview container. PROCESS ABORTED!");
         if (typeof apkData64 == 'undefined' || apkData64.length == 0) return console.log("NOT FOUND: apk autoload data; drop sb2 file. PROCESS ABORTED!");
         zip.load(apkBase64, {base64: true}); // apk 'skeleton' webview container
         zip.file("autoload.js", apkData64); // overwrite this file in zip with our one!
         var base64 = zip.generate({type:"base64"}); // was blob
-        apk = document.createElement("a");
+        var apk = document.createElement("a");
         apk.href ="data:application/zip;base64," + base64;
         apk.download = "sb2.apk"; // for now...
         apk.textContent = "";
         document.body.appendChild(apk); // using a link
         apk.click();
+      } else
+	console.log("Generating autoloader..."); // for offline use too! 
+	if (typeof apkData64 == 'undefined' || apkData64.length == 0) return console.log("NOT FOUND: apk autoload data; drop sb2 file. PROCESS ABORTED!");
+        var ajs = document.createElement("a");
+        ajs.href ="data:text/html;charset=utf-8," + base64;
+        ajs.download = "autoload.js"; // for now...
+        ajs.textContent = "";
+        document.body.appendChild(ajs); // using a link
+        ajs.click();	  
       }
   }
 	
