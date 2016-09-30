@@ -50,3 +50,8 @@ p {
 .error a {
   color: #fff;
 }
+
+@font-face {
+   font-family: Scratch; 
+   src: url('scr.ttf');
+} 
