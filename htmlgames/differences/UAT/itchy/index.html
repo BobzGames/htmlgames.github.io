@@ -404,7 +404,7 @@ function sb2apk(bFull) {
       console.log("Generating autoloader..."); // for offline use too! 
       if (typeof apkData64 == 'undefined' || apkData64.length == 0) return console.log("NOT FOUND: apk autoload data; drop sb2 file. PROCESS ABORTED!");
       var ajs = document.createElement("a");
-      ajs.href ="data:text/html;charset=utf-8," + apkData64;
+      ajs.href = 'data:text/html;charset=utf-8,' + 'var sb2Data64 = "' + apkData64 + '";';
       ajs.download = "autoload.js"; // for now...
       ajs.textContent = "";
       document.body.appendChild(ajs); // using a link
