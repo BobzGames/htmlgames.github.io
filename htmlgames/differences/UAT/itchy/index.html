@@ -265,7 +265,7 @@
 
   function updatePackageLink() {
     // pf: mod - if we have dropped an sb2 file and click package it will generate autoload.js instead...
-    var packageLinkhref = P.player.projectId ? window.location.href.split("/index.html#")[0] + '/app.html?id=' + P.player.projectId + '&turbo=' + packageTurbo.checked + '&full-screen=' + packageFullScreen.checked : 'about:blank';
+    var packageLinkhref = P.player.projectId ? window.location.href.split("/index.html")[0] + '/app.html?id=' + P.player.projectId + '&turbo=' + packageTurbo.checked + '&full-screen=' + packageFullScreen.checked : 'about:blank';
     packageLink.href = "javascript:if (location.hash.substr(1) === 'zip') {sb2apk(false);} else {window.location.href = '" + packageLinkhref + "'}"; // generate autoload.js instead  
   }
   
