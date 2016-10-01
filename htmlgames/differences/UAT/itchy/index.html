@@ -371,7 +371,7 @@
   }
 
   // pf here we autoload a project if exists as a base64 var...
-  if (typeof sb2Data64 != "undefined") { 
+  if (typeof sb2Data64 != "undefined" && isNaN(window.location.hash.substr(1))) { pf f
     //e.preventDefault();
     location.hash = '#zip';
     show('zip');
