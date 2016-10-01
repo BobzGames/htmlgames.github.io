@@ -3075,8 +3075,8 @@ P.compile = (function() {
 
       } else if (block[0] === 'stampCostume') {
 
-        source += 'self.penCanvas.width = 480 * self.maxZoom;\n'; // pf fix z
-        source += 'self.penContext.scale(self.maxZoom, self.maxZoom);\n'; // pf fix z
+        //source += 'self.penCanvas.width = 480 * self.maxZoom;\n'; // pf fix z
+        //source += 'self.penContext.scale(self.maxZoom, self.maxZoom);\n'; // pf fix z
         source += 'S.draw(self.penContext);\n';
 
       } else if (block[0] === 'setVar:to:') { /* Data */
