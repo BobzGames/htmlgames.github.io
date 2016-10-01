@@ -660,7 +660,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   IO.loadMD5 = function(md5, id, callback, isAudio) {
     if (IO.zip) {
       var f = isAudio ? IO.zip.file(id + '.wav') : IO.zip.file(id + '.gif') || IO.zip.file(id + '.png') || IO.zip.file(id + '.jpg') || IO.zip.file(id + '.svg');
-      md5 = (f) ? f.name : ""; // pf
+      md5 = (f) ? f.name : ""; // pf f
     }
     var ext = md5.split('.').pop();
     if (ext === 'svg') {
@@ -734,7 +734,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           if (callback) callback(image);
           request.load();
         };
-        image.src = 'data:image/' + (ext === 'jpg' ? 'jpeg' : ext) + ';base64,' + btoa(f.asBinary());
+        if (f) image.src = 'data:image/' + (ext === 'jpg' ? 'jpeg' : ext) + ';base64,' + btoa(f.asBinary()); // pf f
         IO.projectRequest.add(request);
       } else {
         IO.projectRequest.add(
