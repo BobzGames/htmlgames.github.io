@@ -1271,6 +1271,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   Stage.prototype.setZoom = function(zoom) {
+    zoom += 0.001; // pf fix z
     if (this.zoom === zoom) return;
     if (this.maxZoom < zoom * SCALE) {
       this.maxZoom = zoom * SCALE;
