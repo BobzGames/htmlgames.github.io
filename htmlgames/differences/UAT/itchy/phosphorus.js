@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.192++)#
+// additional bugfixes by PF (v0.192++)
 var that; // PF
 var TurboMode = !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 console.log("TurboMode: " + TurboMode);
@@ -3075,6 +3075,7 @@ P.compile = (function() {
 
       } else if (block[0] === 'stampCostume') {
 
+        source += 'self.penContext.scale(self.maxZoom, self.maxZoom);\n'; // pf fix
         source += 'S.draw(self.penContext);\n';
 
       } else if (block[0] === 'setVar:to:') { /* Data */
