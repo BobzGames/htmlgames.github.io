@@ -162,6 +162,8 @@
 
   var timeout;
 
+  if (!!window.location.search.match("turbo=true")) packageTurbo.checked = true;
+	
   urlInput.addEventListener('input', function() {
     var ss = urlInput.selectionStart;
     var se = urlInput.selectionEnd;
