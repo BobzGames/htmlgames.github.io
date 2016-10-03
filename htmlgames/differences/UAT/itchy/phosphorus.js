@@ -1103,7 +1103,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         if (e.target === this.canvas) {
 	  this.updateMouse(e.changedTouches[0]);
 	}
-      , {passive:true}}.bind(this)); // pf pc
+      }.bind(this), {passive:true}); // pf pc
 
       document.addEventListener('touchend', function(e) {
 	if (e.target === this.canvas) {
