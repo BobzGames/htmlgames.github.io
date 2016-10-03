@@ -4179,6 +4179,7 @@ var g_b = false;
 var g_a = false;
 
 function checkGamepad(usingTouch) {
+	/*
 	if (!usingTouch) {
 		var gp = navigator.getGamepads()[0];
 		if (gp) {
@@ -4189,7 +4190,7 @@ function checkGamepad(usingTouch) {
 			var start = gp.buttons[11];
 		}
 	}
-	
+	*/
 	if (usingTouch && (!g_b&&!g_a)) { // B,A not yet defined!
 		g_b = (document.getElementById("touch_B").value) ? document.getElementById("touch_B").value : 13; // hardcoded to enter
 		g_a = (document.getElementById("touch_A").value) ? document.getElementById("touch_A").value : 32; // hardcoded to space
