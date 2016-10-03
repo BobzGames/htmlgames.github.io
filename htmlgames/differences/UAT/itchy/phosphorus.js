@@ -4178,7 +4178,7 @@ var usingGamepad = false;
 var g_b = false;
 var g_a = false;
 
-function checkGamepad(usingTouch) { return;
+function checkGamepad(usingTouch) {
 	
 	if (!usingTouch) {
 		var gp = navigator.getGamepads()[0];
