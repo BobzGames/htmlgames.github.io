@@ -64,7 +64,7 @@
 
   <div>
     <img src="../jsnes/images/down_arrow.png" id="touch_down" oncontextmenu="return false;" ontouchstart="checkGamepad('down')" ontouchend="checkGamepad('down_cancel')" ontouchcancel="checkGamepad('down_cancel')">
-    <img id="touch_A" src="../jsnes/images/a_button.png" oncontextmenu="return false;" ontouchstart="checkGamepad('a')" ontouchend="checkGamepad('none')" ontouchcancel="checkGamepad('none')">
+    <img id="touch_A" src="../jsnes/images/a_button.png" oncontextmenu="return false;" ontouchstart="checkGamepad('a'); return false" ontouchend="checkGamepad('none'); return false" ontouchcancel="checkGamepad('none'); return false">
   </div>
 </div>
 
