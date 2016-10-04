@@ -3034,7 +3034,7 @@ P.compile = (function() {
       } else if (block[0] === 'penColor:') {
 
         source += 'var c = ' + num(block[1]) + ';\n';
-        source += 'S.penColor = (c & 0xffffff);\n'; // pf fix
+        source += 'S.penColor = (c < 0) ? 0xffffff : c;\n'; // pf fix
         source += 'var a = (c >> 24 & 0xff) / 0xff;\n';
         source += 'S.penCSS = "rgba(" + (c >> 16 & 0xff) + "," + (c >> 8 & 0xff) + "," + (c & 0xff) + ", " + (a || 1) + ")";\n';
 
