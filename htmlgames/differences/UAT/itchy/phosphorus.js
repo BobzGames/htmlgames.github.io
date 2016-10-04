@@ -1097,13 +1097,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           }
         }
         if (e.target === this.canvas) e.preventDefault(); // if done off canvas, we cannot scroll screen
-      }.bind(this), {passive:true});
+      }.bind(this), {passive:false}); // pf pc
 
       document.addEventListener('touchmove', function(e) {
         if (e.target === this.canvas) {
 	  this.updateMouse(e.changedTouches[0]);
 	}
-      }.bind(this)); // pf pc - , {passive:false} ???
+      }.bind(this), {passive:false}); // pf pc
 
       document.addEventListener('touchend', function(e) {
 	if (e.target === this.canvas) {
