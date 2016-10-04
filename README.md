@@ -1,4 +1,4 @@
-# htmlgames.github.io
+# htmlgames.github.io - all your phosphorus fixes in one place
 
 NEWS
 ====
