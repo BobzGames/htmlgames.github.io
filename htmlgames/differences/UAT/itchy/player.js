@@ -53,10 +53,11 @@ P.player = (function() {
       pause.className = 'pause';
       stage.stopAll();
       stage.triggerGreenFlag();
+      if (turbo.style.display == 'block') stage.isTurbo = true; // pf	    
     }
     stage.focus();
     e.preventDefault();
-    if (turbo.style.display == 'block') stage.isTurbo = true; // pf
+
   }
 
   function pauseClick(e) {
@@ -200,7 +201,8 @@ P.player = (function() {
     if (!!window.location.search.match("turbo=true")) {
 
       turbo.style.display = 'block';
-      turbo.style.fontWeight = "normal";
+      turbo.style.fontWeight = "800";
+      //turbo.style.fontWeight = "normal";
       flag.title = 'Turbo mode enabled.'; // Shift+click for Turbo++.'; // pf   	
     } else {
 
