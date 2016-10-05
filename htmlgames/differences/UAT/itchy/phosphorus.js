@@ -4068,7 +4068,7 @@ P.runtime = (function() {
 
     P.Stage.prototype.step = function() {
       self = this;
-      TurboMode = self.isTurbo; // pf - only set after loading sb2 file, as 'recompile' required!
+      TurboMode = true; //self.isTurbo; // pf - only set after loading sb2 file, as 'recompile' required!
       VISUAL = false;
       var start = Date.now();
       do {
