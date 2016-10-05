@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width, initial-scale=1.0">
 <title>phosphorus++</title>
@@ -192,7 +192,7 @@
 
   examples.addEventListener('change', function() {
     if (examples.value && !location.hash.length) { // pf
-      TurboMode = !!window.location.search.match("turbo=true"); // reset
+      TurboMode = true; // hardcoded (see comment in js) !!window.location.search.match("turbo=true"); // reset
       console.log("turbo=" + TurboMode + "#" + examples.value);
       location.hash = '#' + examples.value;
       examples.selectedIndex = 0;
