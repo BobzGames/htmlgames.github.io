@@ -34,7 +34,7 @@ P.player = (function() {
       flag.title = 'Turbo++ mode enabled. Shift+click to disable.';
       turbo.style.fontWeight = "800";
     } else {
-      //flag.title = stage.isTurbo ? 'Turbo mode enabled. Shift+click to disable.' : 'Shift+click to enable Turbo mode.';
+      //flag.title = stage.isTurbo ? 'Turbo mode enabled. Shift+click to disable.' : 'Shift+click to enable Turbo mode.'; 
       flag.title = 'Shift+click to enable turbo mode.';
       turbo.style.fontWeight = "normal";
     }
