@@ -1,7 +1,7 @@
-// additional bugfixes by PF (v0.193++)
+// additional bugfixes by PF (v0.194++)
 var that; // PF
-var TurboMode = !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
-console.log("TurboMode: " + TurboMode);
+var TurboMode = true; // !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
+console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
 
 var P = (function() {
   'use strict';
