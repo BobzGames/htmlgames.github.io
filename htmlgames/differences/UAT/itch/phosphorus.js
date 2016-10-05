@@ -1,4 +1,3 @@
-// 9.4
 var P = (function() {
   'use strict';
 
@@ -175,21 +174,27 @@ var P = (function() {
   IO.ASSET_URL = 'http://cdn.assets.scratch.mit.edu/internalapi/asset/';
   IO.SOUNDBANK_URL = 'https://cdn.rawgit.com/LLK/scratch-flash/v429/src/soundbank/';
 
+  // pf fix added Scratch font (make sure you have the .ttf file)
   IO.FONTS = {
     '': 'Helvetica',
+    Scratch: 'Scratch',
     Donegal: 'Donegal One',
     Gloria: 'Gloria Hallelujah',
     Marker: 'Permanent Marker',
     Mystery: 'Mystery Quest'
   };
-
+  // pf fix added Scratch font height
   IO.LINE_HEIGHTS = {
     Helvetica: 1.13,
+    'Scratch': 1.22,
     'Donegal One': 1.25,
     'Gloria Hallelujah': 1.97,
     'Permanent Marker': 1.43,
     'Mystery Quest': 1.37
   };
+
+  IO.ADPCM_STEPS = [7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 19, 21, 23, 25, 28, 31, 34, 37, 41, 45, 50, 55, 60, 66, 73, 80, 88, 97, 107, 118, 130, 143, 157, 173, 190, 209, 230, 253, 279, 307, 337, 371, 408, 449, 494, 544, 598, 658, 724, 796, 876, 963, 1060, 1166, 1282, 1411, 1552, 1707, 1878, 2066, 2272, 2499, 2749, 3024, 3327, 3660, 4026, 4428, 4871, 5358, 5894, 6484, 7132, 7845, 8630, 9493, 10442, 11487, 12635, 13899, 15289, 16818, 18500, 20350, 22385, 24623, 27086, 29794, 32767];
+  IO.ADPCM_INDEX = [-1, -1, -1, -1, 2, 4, 6, 8, -1, -1, -1, -1, 2, 4, 6, 8];
 
   IO.init = function(request) {
     IO.projectRequest = request;
@@ -330,12 +335,12 @@ var P = (function() {
     return request;
   };
 
-  IO.loadSB2Project = function(ab, callback, self) {
+  IO.loadSB2Object = function(zip, callback, self) {
     var request = new CompositeRequest;
     IO.init(request);
 
     try {
-      IO.zip = new JSZip(ab);
+      IO.zip = zip;
       var json = IO.parseJSONish(IO.zip.file('project.json').asText());
 
       IO.loadProject(json);
@@ -353,6 +358,26 @@ var P = (function() {
     }
 
     return request;
+  };
+
+  IO.loadSB2Project = function(ab, callback, self) {
+    var cr = new CompositeRequest;
+    try {
+      var zip = new JSZip(ab);
+
+      cr.defer = true;
+      cr.add(IO.loadSB2Object(zip, function(result) {
+        cr.defer = false;
+        cr.getResult = function() {
+          return result;
+        };
+        cr.update();
+      }));
+    } catch (e) {
+      cr.error(e);
+    }
+    if (callback) cr.onLoad(callback.bind(self));
+    return cr;
   };
 
   IO.loadSB2File = function(f, callback, self) {
@@ -376,6 +401,23 @@ var P = (function() {
       request.progress(e.loaded, e.total, e.lengthComputable);
     };
     reader.readAsArrayBuffer(f);
+    if (callback) cr.onLoad(callback.bind(self));
+    return cr;
+  };
+
+  IO.loadSB2fromTosh = function(zip, callback, self) {
+    var cr = new CompositeRequest;
+    cr.defer = true;
+    var request = new Request;
+    cr.add(request);
+    cr.add(IO.loadSB2Object(zip, function(result) {
+      cr.defer = false;
+      cr.getResult = function() {
+        return result;
+      };
+      cr.update();
+    }));
+    request.load();
     if (callback) cr.onLoad(callback.bind(self));
     return cr;
   };
@@ -419,12 +461,90 @@ var P = (function() {
       audioContext.decodeAudioData(ab, function(buffer) {
         cb(buffer);
       }, function(err) {
-        console.warn('Failed to load audio');
-        cb(null);
+        IO.decodeADPCMAudio(ab, cb);
       });
     } else {
       setTimeout(cb);
     }
+  };
+
+  IO.decodeADPCMAudio = function(ab, cb) {
+    var dv = new DataView(ab);
+    if (dv.getUint32(0) !== 0x52494646 || dv.getUint32(8) !== 0x57415645) {
+      console.warn('Unrecognized audio format');
+      return cb(null);
+    }
+
+    var blocks = {};
+    var i = 12;
+    while (i < dv.byteLength) {
+      blocks[
+        String.fromCharCode(dv.getUint8(i)) +
+        String.fromCharCode(dv.getUint8(i + 1)) +
+        String.fromCharCode(dv.getUint8(i + 2)) +
+        String.fromCharCode(dv.getUint8(i + 3))] = i;
+      i += 8 + dv.getUint32(i + 4, true);
+    }
+
+    var format        = dv.getUint16(20, true);
+    var channels      = dv.getUint16(22, true);
+    var sampleRate    = dv.getUint32(24, true);
+    var byteRate      = dv.getUint32(28, true);
+    var blockAlign    = dv.getUint16(32, true);
+    var bitsPerSample = dv.getUint16(34, true);
+
+    if (format === 17) {
+      var samplesPerBlock = dv.getUint16(38, true);
+      var blockSize = ((samplesPerBlock - 1) / 2) + 4;
+
+      var frameCount = dv.getUint32(blocks.fact + 8, true);
+
+      var buffer = audioContext.createBuffer(1, frameCount, sampleRate);
+      var channel = buffer.getChannelData(0);
+
+      var sample, index = 0;
+      var step, code, delta;
+      var lastByte = -1;
+
+      var offset = blocks.data + 8;
+      i = offset;
+      var j = 0;
+      while (true) {
+        if ((((i - offset) % blockSize) == 0) && (lastByte < 0)) {
+          if (i >= dv.byteLength) break;
+          sample = dv.getInt16(i, true); i += 2;
+          index = dv.getUint8(i); i += 1;
+          i++;
+          if (index > 88) index = 88;
+          channel[j++] = sample / 32767;
+        } else {
+          if (lastByte < 0) {
+            if (i >= dv.byteLength) break;
+            lastByte = dv.getUint8(i); i += 1;
+            code = lastByte & 0xf;
+          } else {
+            code = (lastByte >> 4) & 0xf;
+            lastByte = -1;
+          }
+          step = IO.ADPCM_STEPS[index];
+          delta = 0;
+          if (code & 4) delta += step;
+          if (code & 2) delta += step >> 1;
+          if (code & 1) delta += step >> 2;
+          delta += step >> 3;
+          index += IO.ADPCM_INDEX[code];
+          if (index > 88) index = 88;
+          if (index < 0) index = 0;
+          sample += (code & 8) ? -delta : delta;
+          if (sample > 32767) sample = 32767;
+          if (sample < -32768) sample = -32768;
+          channel[j++] = sample / 32768;
+        }
+      }
+      return cb(buffer);
+    }
+    console.warn('Unrecognized WAV format ' + format);
+    cb(null);
   };
 
   IO.loadBase = function(data) {
@@ -466,7 +586,7 @@ var P = (function() {
     }, true);
   };
 
-  IO.fixSVG = function(svg, element) { 
+  IO.fixSVG = function(svg, element) {
     if (element.nodeType !== 1) return;
     if (element.nodeName === 'text') {
       var font = element.getAttribute('font-family') || '';
@@ -475,13 +595,15 @@ var P = (function() {
         element.setAttribute('font-family', font);
         if (font === 'Helvetica') element.style.fontWeight = 'bold';
       }
-      var size = +element.getAttribute('font-size');
+      var size = element.getAttribute('font-size'); // pf fix - once the font has been loaded 
       if (!size) {
-        element.setAttribute('font-size', size = 18);
+        element.setAttribute('font-size', size = 22); // pf fix - and the canvas coordinates corrected
       }
       var bb = element.getBBox();
-      var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a;
-      var y = (element.getAttribute('y') - bb.y) * 1.1;
+      //var x = 4 - .6 * element.transform.baseVal.consolidate().matrix.a; // pf fix - this code isn't needed
+      //var y = (element.getAttribute('y') - bb.y) * 1.1; // pf fix - ...
+      var x = (element.transform.baseVal.consolidate().matrix.a); // pf fix - and can just be
+      var y = (element.getAttribute('y') - bb.y); // pf fix - left without 'fudges'
       element.setAttribute('x', x);
       element.setAttribute('y', y);
       var lines = element.textContent.split('\n');
@@ -489,7 +611,7 @@ var P = (function() {
         element.textContent = lines[0];
         var lineHeight = IO.LINE_HEIGHTS[font] || 1;
         for (var i = 1, l = lines.length; i < l; i++) {
-          var tspan = document.createElementNS(null, 'tspan'); 
+          var tspan = document.createElementNS(null, 'tspan');
           tspan.textContent = lines[i];
           tspan.setAttribute('x', x);
           tspan.setAttribute('y', y + size * i * lineHeight);
@@ -516,7 +638,7 @@ var P = (function() {
         var div = document.createElement('div');
         div.innerHTML = source;
         var svg = div.getElementsByTagName('svg')[0];
-        if (!svg) return
+        if (!svg) return // pf fix
         svg.style.visibility = 'hidden';
         svg.style.position = 'absolute';
         svg.style.left = '-10000px';
@@ -524,7 +646,7 @@ var P = (function() {
         document.body.appendChild(svg);
         var viewBox = svg.viewBox.baseVal;
         if (viewBox && (viewBox.x || viewBox.y)) {
-          if (svg.querySelector("text") == null) {	
+          if (svg.querySelector("text") == null) { // PF fix svg image but not text nodes
             svg.width.baseVal.value = viewBox.width - viewBox.x;
             svg.height.baseVal.value = viewBox.height - viewBox.y;
             viewBox.x = 0;
@@ -1022,7 +1144,7 @@ var P = (function() {
     this.promptButton.style.right = '4em';
     this.promptButton.style.bottom = '4em';
     this.promptButton.style.background = 'url(icons.svg) -165em -37em';
-    this.promptButton.style.backgroundSize = '320em 96em';
+    this.promptButton.style.backgroundSize = '448em 96em';
 
     this.prompt.addEventListener('keydown', function(e) {
       if (e.keyCode === 13) {
@@ -1643,7 +1765,7 @@ var P = (function() {
       var y = this.stage.mouseY;
     } else {
       var sprite = this.stage.getObject(thing);
-      if (!sprite) return 10000;
+      if (!sprite) return 0;
       x = sprite.scratchX;
       y = sprite.scratchY;
     }
@@ -1659,7 +1781,7 @@ var P = (function() {
       this.moveTo(x, y);
     } else {
       var sprite = this.stage.getObject(thing);
-      if (!sprite) return 10000;
+      if (!sprite) return 0;
       this.moveTo(sprite.scratchX, sprite.scratchY);
     }
   };
@@ -1710,9 +1832,11 @@ var P = (function() {
       this.bubblePointer.style.height = ''+(21/14)+'em';
       this.bubblePointer.style.width = ''+(44/14)+'em';
       this.bubblePointer.style.background = 'url(icons.svg) '+(-195/14)+'em '+(-4/14)+'em';
-      this.bubblePointer.style.backgroundSize = ''+(320/14)+'em '+(96/14)+'em';
-      this.stage.root.appendChild(this.bubble);
+      this.bubblePointer.style.backgroundSize = ''+(448/14)+'em '+(96/14)+'em';
+    } else {
+      this.stage.root.removeChild(this.bubble);
     }
+    this.stage.root.appendChild(this.bubble);
     this.bubblePointer.style.backgroundPositionX = ((thinking ? -259 : -195)/14)+'em';
     this.bubble.style.display = 'block';
     this.bubbleText.nodeValue = text;
@@ -1781,11 +1905,9 @@ var P = (function() {
     this.context = this.image.getContext('2d');
 
     this.render();
-    if (this.baseLayer) {
-      this.baseLayer.onload = function() {
-        this.render();
-      }.bind(this);
-    }
+    this.baseLayer.onload = function() {
+      this.render();
+    }.bind(this);
     if (this.textLayer) {
       this.textLayer.onload = this.baseLayer.onload;
     }
@@ -1793,12 +1915,12 @@ var P = (function() {
   addEvents(Costume, 'load');
 
   Costume.prototype.render = function() {
-
-  //if (!this.baseLayer) return
-  try {
+    if (!this.baseLayer.width || this.textLayer && !this.textLayer.width) {
+      return;
+    }
     this.image.width = this.baseLayer.width;
     this.image.height = this.baseLayer.height;
-  } catch(e) { return }
+
     this.context.drawImage(this.baseLayer, 0, 0);
     if (this.textLayer) {
       this.context.drawImage(this.textLayer, 0, 0);
@@ -2808,7 +2930,7 @@ P.compile = (function() {
       } else if (block[0] === 'penColor:') {
 
         source += 'var c = ' + num(block[1]) + ';\n';
-        source += 'S.penColor = (c & 0xff);\n';
+        source += 'S.penColor = (c & 0xff);\n'; // pf fix for -1 values
         source += 'var a = (c >> 24 & 0xff) / 0xff;\n';
         source += 'S.penCSS = "rgba(" + (c >> 16 & 0xff) + "," + (c >> 8 & 0xff) + "," + (c & 0xff) + ", " + (a || 1) + ")";\n';
 
@@ -3041,16 +3163,15 @@ P.compile = (function() {
         source += '    break;\n';
         source += '}\n';
 
-  	} else if (block[0] === 'wait:elapsed:from:') {
+      } else if (block[0] === 'wait:elapsed:from:') {
 
-	if (isNaN(Number(block[1]))) {
+	if (isNaN(Number(block[1]))) { // pf fix wait's defined as vars rather than a number
 	  wait(num(block[1]));
 	} else {
 	  if (!!Number(block[1])) {
             wait(num(block[1]));
 	  }
 	}
-
       } else if (block[0] === 'warpSpeed') {
 
         source += 'WARP++;\n';
@@ -3117,7 +3238,6 @@ P.compile = (function() {
           source += 'C.boolargs[' + i + '] = bool(C.args[' + i + ']);\n';
         }
       }
-      
     }
 
     for (var i = 1; i < script.length; i++) {
@@ -3125,7 +3245,6 @@ P.compile = (function() {
     }
 
     if (script[0][0] === 'procDef') {
-
       source += 'endCall();\n';
       source += 'return;\n';
     }
@@ -3822,7 +3941,7 @@ P.runtime = (function() {
 
     P.Stage.prototype.step = function() {
       self = this;
-      VISUAL =  false;
+      VISUAL = false;
       var start = Date.now();
       do {
         var queue = this.queue;
@@ -3849,7 +3968,7 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-      } while ((self.isTurbo || !VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length); 
+      } while ((self.isTurbo || !VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length);
       this.draw();
       S = null;
     };
