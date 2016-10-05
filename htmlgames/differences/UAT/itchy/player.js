@@ -53,7 +53,7 @@ P.player = (function() {
       pause.className = 'pause';
       stage.stopAll();
       stage.triggerGreenFlag();
-      if (turbo.style.display == 'block') stage.isTurbo = true; // pf	    
+    
     }
     stage.focus();
     e.preventDefault();
@@ -218,7 +218,7 @@ P.player = (function() {
       showProgress(P.IO.loadScratchr2Project(id), cb);
       P.IO.loadScratchr2ProjectTitle(id, function(title) {
         if (titleCallback) titleCallback(P.player.projectTitle = title);
-	P.player.bFast = (title.match("!")) ? true : false;
+	//P.player.bFast = (title.match("!")) ? true : false; // pf ??? hack not used anymore
       });
     } else {
       if (titleCallback) setTimeout(function() {
