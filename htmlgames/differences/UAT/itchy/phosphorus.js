@@ -4018,6 +4018,7 @@ P.runtime = (function() {
     };
 
     P.Stage.prototype.triggerGreenFlag = function() {
+      this.isTurbo = (!!turbo.style.display == 'block'); // pf @
       this.timerStart = this.now();
       this.trigger('whenGreenFlag');
     };
