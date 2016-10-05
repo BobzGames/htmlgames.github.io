@@ -56,6 +56,7 @@ P.player = (function() {
     }
     stage.focus();
     e.preventDefault();
+    if (turbo.style.display == 'block') stage.isTurbo = true; // pf
   }
 
   function pauseClick(e) {
