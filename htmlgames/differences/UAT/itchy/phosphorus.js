@@ -220,7 +220,7 @@ var P = (function() {
     var xhr = new XMLHttpRequest;
     xhr.open('GET', url, true);
     xhr.onprogress = function(e) {
-      //request.progress(e.loaded, e.total, e.lengthComputable); // pf h2
+      request.progress(e.loaded, e.total, e.lengthComputable);
     };
     xhr.onload = function() {
       if (location.hash.substr(1) === 'zip') { // pf: branch local / dragdrop zip stuff here...
@@ -263,7 +263,7 @@ var P = (function() {
     var request = new CompositeRequest;
     IO.init(request);
 
-    request.defer = true; // pf h
+    request.defer = true;
     var url = IO.PROJECT_URL + id + '/get/';
     request.add(IO.load(url).onLoad(function(contents) {
       try {
