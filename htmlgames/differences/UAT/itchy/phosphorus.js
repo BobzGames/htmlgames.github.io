@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.196++) 
+// additional bugfixes by PF (v0.197++) 
 var that; // PF
 var TurboMode = true; // !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
@@ -176,8 +176,8 @@ var P = (function() {
 
   var IO = {};
 
-  IO.PROJECT_URL = 'https://projects.scratch.mit.edu/internalapi/project/';
-  IO.ASSET_URL = 'https://cdn.assets.scratch.mit.edu/internalapi/asset/';
+  IO.PROJECT_URL = 'http://projects.scratch.mit.edu/internalapi/project/';
+  IO.ASSET_URL = 'http://cdn.assets.scratch.mit.edu/internalapi/asset/';
   IO.SOUNDBANK_URL = "" + 'soundbank/';
 
   IO.FONTS = {
