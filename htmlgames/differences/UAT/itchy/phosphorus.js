@@ -262,7 +262,7 @@ var P = (function() {
     var request = new CompositeRequest;
     IO.init(request);
 
-    request.defer = !true; // pf h
+    request.defer = true; // pf h
     var url = IO.PROJECT_URL + id + '/get/';
     request.add(IO.load(url).onLoad(function(contents) {
       try {
