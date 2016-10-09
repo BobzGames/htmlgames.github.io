@@ -227,7 +227,6 @@ var P = (function() {
           request.load(xhr.response);
       } else {	      
         if (xhr.status === 200) { 
-		console.log(xhr.response);
           request.load(xhr.response);
         } else {
           request.error(new Error('HTTPS ' + xhr.status + ': ' + xhr.statusText)); //
