@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.196++) 
+// additional bugfixes by PF (v0.197++) 
 var that; // PF
 var TurboMode = true; // !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
@@ -262,7 +262,7 @@ var P = (function() {
     var request = new CompositeRequest;
     IO.init(request);
 
-    request.defer = true;
+    request.defer = !true; // pf h
     var url = IO.PROJECT_URL + id + '/get/';
     request.add(IO.load(url).onLoad(function(contents) {
       try {
