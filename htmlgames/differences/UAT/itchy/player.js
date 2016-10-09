@@ -187,7 +187,7 @@ P.player = (function() {
        return
     }
     P.player.projectId = id;
-    P.player.projectURL = id ? 'http://scratch.mit.edu/projects/' + id + '/' : '';
+    P.player.projectURL = id ? 'https://scratch.mit.edu/projects/' + id + '/' : ''; // pf https
 
     if (stage) {
       stage.stopAll();
