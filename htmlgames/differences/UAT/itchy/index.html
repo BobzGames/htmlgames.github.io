@@ -372,7 +372,7 @@
 
   // pf here we autoload a project if exists as a base64 var...
   var o_id = window.location.hash.substr(1) + "e0";
-  if (typeof sb2Data64 != "undefined" && isNaN(o_id)) { // pf f -  && window.location.protocol == "http:"
+  if (typeof sb2Data64 != "undefined" && isNaN(o_id) && window.location.protocol == "http:") { // pf f -  
     //e.preventDefault();
     location.hash = '#zip';
     show('zip');
