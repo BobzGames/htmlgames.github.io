@@ -220,13 +220,14 @@ var P = (function() {
     var xhr = new XMLHttpRequest;
     xhr.open('GET', url, true);
     xhr.onprogress = function(e) {
-      request.progress(e.loaded, e.total, e.lengthComputable);
+      //request.progress(e.loaded, e.total, e.lengthComputable); // pf h2
     };
     xhr.onload = function() {
       if (location.hash.substr(1) === 'zip') { // pf: branch local / dragdrop zip stuff here...
           request.load(xhr.response);
       } else {	      
         if (xhr.status === 200) { 
+		console.log(xhr.response);
           request.load(xhr.response);
         } else {
           request.error(new Error('HTTPS ' + xhr.status + ': ' + xhr.statusText)); //
