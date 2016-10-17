@@ -1065,10 +1065,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // hardware acceleration
     this.root.style.WebkitTransform = 'translateZ(0)';
 
-    this.root.addEventListener('keydown', function(e) { return //
+    this.root.addEventListener('keydown', function(e) {
       if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
         return; // PF allow e.ctrlKey || 
       }
+      console.log(e.keyCode)+"\n";
       this.keys[e.keyCode] = true;
       e.stopPropagation();
       if (e.target === this.canvas) {
