@@ -1065,7 +1065,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // hardware acceleration
     this.root.style.WebkitTransform = 'translateZ(0)';
 
-    this.root.addEventListener('keydown', function(e) {
+    this.root.addEventListener('keydown', function(e) { return //
       if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
         return; // PF allow e.ctrlKey || 
       }
@@ -2020,8 +2020,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (this.base.isStage && this.index == this.base.currentCostumeIndex) {
       setTimeout(function() {
         this.base.updateBackdrop();
-      }.bind(this), 1);
-      //setTimeout(this.base.updateBackdrop.bind(this)); // PF
+      }.bind(this), 1); // PF FF fix only, may not be required ?
     }
   };
 
