@@ -2018,10 +2018,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       this.context.drawImage(this.textLayer, 0, 0);
     }
     if (this.base.isStage && this.index == this.base.currentCostumeIndex) {
-      //setTimeout(function() {
-      //  this.base.updateBackdrop();
-      //}.bind(this));
-      setTimeout(this.base.updateBackdrop.bind(this)); // PF
+      setTimeout(function() {
+        this.base.updateBackdrop();
+      }.bind(this), 1);
+      //setTimeout(this.base.updateBackdrop.bind(this)); // PF
     }
   };
 
