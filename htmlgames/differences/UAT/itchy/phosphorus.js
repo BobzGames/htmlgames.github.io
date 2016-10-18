@@ -2021,7 +2021,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (this.base.isStage && this.index == this.base.currentCostumeIndex) {
       setTimeout(function() {
         this.base.updateBackdrop();
-      }.bind(this), 1000 / this.framerate); // PF FF fix only, may not be required ?
+      }.bind(this), 1); // PF FF fix only, may not be required ?
     }
   };
 
