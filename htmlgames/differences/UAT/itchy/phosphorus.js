@@ -1069,7 +1069,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
         return; // PF allow e.ctrlKey || 
       }
-      console.log(e.keyCode)+"\n";
+      //console.log(e.keyCode)+"\n";
       this.keys[e.keyCode] = true;
       e.stopPropagation();
       if (e.target === this.canvas) {
@@ -2021,7 +2021,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (this.base.isStage && this.index == this.base.currentCostumeIndex) {
       setTimeout(function() {
         this.base.updateBackdrop();
-      }.bind(this), 1); // PF FF fix only, may not be required ?
+      }.bind(this), 100); // PF FF fix only, may not be required ?
     }
   };
 
