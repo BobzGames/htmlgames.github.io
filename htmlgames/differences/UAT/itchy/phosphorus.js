@@ -2024,7 +2024,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       (function() {
         if (this.isTriggered) {
 	   this.base.updateBackdrop();
-	   this.isTriggered = false;
+	   //this.isTriggered = false;
 	}
       }.bind(this))() // PF: FF fix may be required as loads on debug mode, but just affects a certain version?
     }
