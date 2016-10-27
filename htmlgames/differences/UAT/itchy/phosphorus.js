@@ -1261,6 +1261,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.backdropCanvas.width = this.zoom * SCALE * 480;
     this.backdropCanvas.height = this.zoom * SCALE * 360;
     var costume = this.costumes[this.currentCostumeIndex];
+    if (!costume) return // pf
     this.backdropContext.save();
     var s = this.zoom * SCALE * costume.scale;
     this.backdropContext.scale(s, s);
