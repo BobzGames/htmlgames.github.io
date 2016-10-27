@@ -1258,15 +1258,16 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   Stage.prototype.updateBackdrop = function() {
-    this.backdropCanvas.width = this.zoom * SCALE * 480;
-    this.backdropCanvas.height = this.zoom * SCALE * 360;
     var costume = this.costumes[this.currentCostumeIndex];
-    if (!costume) return // pf
-    this.backdropContext.save();
-    var s = this.zoom * SCALE * costume.scale;
-    this.backdropContext.scale(s, s);
-    this.backdropContext.drawImage(costume.image, 0, 0);
-    this.backdropContext.restore();
+    if (costume) { // pf
+      this.backdropCanvas.width = this.zoom * SCALE * 480;
+      this.backdropCanvas.height = this.zoom * SCALE * 360;
+      this.backdropContext.save();	  
+      var s = this.zoom * SCALE * costume.scale;
+      this.backdropContext.scale(s, s);
+      this.backdropContext.drawImage(costume.image, 0, 0);
+      this.backdropContext.restore();
+    }
   };
 
   Stage.prototype.updateFilters = function() {
