@@ -1267,6 +1267,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       this.backdropContext.scale(s, s);
       this.backdropContext.drawImage(costume.image, 0, 0);
       this.backdropContext.restore();
+      console.log(this.currentCostumeIndex);
     }
   };
 
