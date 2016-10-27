@@ -2018,9 +2018,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (this.textLayer) {
       this.context.drawImage(this.textLayer, 0, 0);
     }
-    if (this.base.isStage && (this.index === this.base.currentCostumeIndex)) {
+    if (this.base.isStage && this.index == this.base.currentCostumeIndex) {
       (function() {
-        if (this.isStage) this.base.updateBackdrop();
+        if (!this.isStage) this.base.updateBackdrop();
       }.bind(this))() //  PF FF fix may be required as loads on debug mode, but just affects a certain version?
     }
   };
