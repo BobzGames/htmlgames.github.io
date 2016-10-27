@@ -2022,7 +2022,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     //
     if (this.base.isStage && this.index == this.base.currentCostumeIndex) {
       (function() {
-        if (!this.base.isTriggered) {
+        if (!this.isTriggered) {
 	   this.base.updateBackdrop();
 	   this.isTriggered = true;
 	}
