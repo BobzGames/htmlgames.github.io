@@ -2028,13 +2028,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	}
       }.bind(this))() //  PF FF fix may be required as loads on debug mode, but just affects a certain version?
     }
-    */
+    ///
     if (this.base.isStage && this.index == this.base.currentCostumeIndex) {
       setTimeout(function() {
         this.base.updateBackdrop();
       }.bind(this));
     }
-    //*/
+    */
   };
 
   var Sound = function(data) {
