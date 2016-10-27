@@ -1216,7 +1216,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   inherits(Stage, Base);
 
   Stage.prototype.isStage = true;
-  Stage.prototype.isTrigged = false; // pf
+  Stage.prototype.isTriggered = false; // pf
   
    Stage.prototype.fromJSON = function(data) {
     Stage.parent.prototype.fromJSON.call(this, data);
