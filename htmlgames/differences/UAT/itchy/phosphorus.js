@@ -2018,12 +2018,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (this.textLayer) {
       this.context.drawImage(this.textLayer, 0, 0);
     }
-    //if (this.index == this.base.currentCostumeIndex) { // this.base.isStage && 
+    if (this.index == this.base.currentCostumeIndex) { // this.base.isStage && 
       setTimeout(function() {
         if (this.isStage) this.base.updateBackdrop();
       }.bind(this), 33);
       //); // , 100) PF FF fix only, may not be required ?
-    //}
+    }
   };
 
   var Sound = function(data) {
