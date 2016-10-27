@@ -1216,7 +1216,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   inherits(Stage, Base);
 
   Stage.prototype.isStage = true;
-  Stage.prototype.isTriggered = false; // pf
+  Stage.prototype.isTriggered = true; // pf
   
    Stage.prototype.fromJSON = function(data) {
     Stage.parent.prototype.fromJSON.call(this, data);
@@ -2022,9 +2022,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     //
     if (this.base.isStage && this.index == this.base.currentCostumeIndex) {
       (function() {
-        if (!this.isTriggered) {
+        if (this.isTriggered) {
 	   this.base.updateBackdrop();
-	   this.isTriggered = true;
+	   this.isTriggered = false;
 	}
       }.bind(this))() // PF: FF fix may be required as loads on debug mode, but just affects a certain version?
     }
