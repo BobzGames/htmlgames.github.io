@@ -2033,7 +2033,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       setTimeout(function() {
         this.base.updateBackdrop();
 	console.log("isTriggered");
-      }.bind(this));
+      }.bind(this), 1000);
     }
     //*/
   };
