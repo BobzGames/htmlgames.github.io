@@ -237,8 +237,7 @@ var P = (function() {
       request.error(new Error('XHR Error'));
     };
     xhr.responseType = type || '';
-    //s?etTimeout(xhr.send.bind(xhr));
-    (function(){xhr.send.bind(xhr)})();
+    setTimeout(xhr.send.bind(xhr));
 
     if (callback) request.onLoad(callback.bind(self));
     return request;
