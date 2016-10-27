@@ -2022,7 +2022,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (this.isStage && this.index == this.base.currentCostumeIndex) {
       (function() {
         if (!this.isTriggered) {
-	   this.base.updateBackdrop();
+	   //this.base.updateBackdrop();
 	   this.isTriggered = true;
 	}
       }.bind(this))() //  PF FF fix may be required as loads on debug mode, but just affects a certain version?
