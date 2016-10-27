@@ -2019,7 +2019,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (this.textLayer) {
       this.context.drawImage(this.textLayer, 0, 0);
     }
-    if (this.base.isStage && this.index == this.base.currentCostumeIndex) {
+    if (this.isStage && this.index == this.base.currentCostumeIndex) {
       (function() {
         if (!this.isTriggered) {
 	   this.base.updateBackdrop();
