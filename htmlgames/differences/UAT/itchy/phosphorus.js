@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.198++) 
+// additional bugfixes by PF (v0.199++) 
 var that; // PF
 var TurboMode = true; // !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
@@ -2018,11 +2018,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (this.textLayer) {
       this.context.drawImage(this.textLayer, 0, 0);
     }
-    if (this.index == this.base.currentCostumeIndex) { // this.base.isStage && 
-      setTimeout(function() {
+    //if (this.index == this.base.currentCostumeIndex) { // this.base.isStage && 
+      //setTimeout(
+	      function() {
         if (this.isStage) this.base.updateBackdrop();
-      }.bind(this)); // , 100) PF FF fix only, may not be required ?
-    }
+      }.bind(this)()
+      //); // , 100) PF FF fix only, may not be required ?
+    //}
   };
 
   var Sound = function(data) {
