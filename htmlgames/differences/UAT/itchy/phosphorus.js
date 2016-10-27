@@ -2019,22 +2019,22 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (this.textLayer) {
       this.context.drawImage(this.textLayer, 0, 0);
     }
-    //
+    /*
     if (this.base.isStage && this.index == this.base.currentCostumeIndex) {
       (function() {
         if (this.isTriggered) {
 	   this.base.updateBackdrop();
-	   //this.isTriggered = false;
+	   this.isTriggered = false;
 	}
       }.bind(this))() // PF: FF fix may be required as loads on debug mode, but just affects a certain version?
     }
-    /*
+    */
     if (this.base.isStage && this.index == this.base.currentCostumeIndex) {
       setTimeout(function() {
         this.base.updateBackdrop();
       }.bind(this));
     }
-    */
+    //*/
   };
 
   var Sound = function(data) {
