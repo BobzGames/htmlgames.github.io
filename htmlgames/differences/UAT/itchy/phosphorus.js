@@ -2032,10 +2032,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
     */
     if (this.base.isStage && this.index == this.base.currentCostumeIndex) {
-      (function() {
+      setTimeout(function() {
         this.base.updateBackdrop();
 	//console.log("isTriggered");
-      }.bind(this))()
+      }.bind(this));
     }
     //*/
   };
