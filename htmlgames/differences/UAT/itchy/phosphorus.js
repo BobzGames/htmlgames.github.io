@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.199++)
+// additional bugfixes by PF (v0.197++) 
 var that; // PF
 var TurboMode = true; // !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
@@ -1216,7 +1216,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   inherits(Stage, Base);
 
   Stage.prototype.isStage = true;
-  Stage.prototype.isTriggered = false; // pf
   
    Stage.prototype.fromJSON = function(data) {
     Stage.parent.prototype.fromJSON.call(this, data);
@@ -1258,17 +1257,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   Stage.prototype.updateBackdrop = function() {
+    this.backdropCanvas.width = this.zoom * SCALE * 480;
+    this.backdropCanvas.height = this.zoom * SCALE * 360;
     var costume = this.costumes[this.currentCostumeIndex];
-    if (costume) { // pf
-      this.backdropCanvas.width = this.zoom * SCALE * 480;
-      this.backdropCanvas.height = this.zoom * SCALE * 360;
-      this.backdropContext.save();	  
-      var s = this.zoom * SCALE * costume.scale;
-      this.backdropContext.scale(s, s);
-      this.backdropContext.drawImage(costume.image, 0, 0);
-      this.backdropContext.restore();
-      //console.log(this.currentCostumeIndex);
-    }
+    this.backdropContext.save();
+    var s = this.zoom * SCALE * costume.scale;
+    this.backdropContext.scale(s, s);
+    this.backdropContext.drawImage(costume.image, 0, 0);
+    this.backdropContext.restore();
   };
 
   Stage.prototype.updateFilters = function() {
@@ -2017,28 +2013,16 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.context.msImageSmoothingEnabled = false;
 
     if (this.baseLayer) { // PF
-      this.context.drawImage(this.baseLayer, 0, 0);
+    this.context.drawImage(this.baseLayer, 0, 0);
     }
     if (this.textLayer) {
       this.context.drawImage(this.textLayer, 0, 0);
     }
-    /*
-    if (this.base.isStage && this.index == this.base.currentCostumeIndex) {
-      (function() {
-        if (!this.isTriggered) {
-	   this.base.updateBackdrop();
-	   this.isTriggered = true;
-	}
-      }.bind(this))() // PF: FF fix may be required as loads on debug mode, but just affects a certain version?
-    }
-    */
     if (this.base.isStage && this.index == this.base.currentCostumeIndex) {
       setTimeout(function() {
-        this.base.updateBackdrop();
-	//console.log("isTriggered");
-      }.bind(this));
+        if (this.isStage) this.base.updateBackdrop();
+      }.bind(this)); // , 100) PF FF fix only, may not be required ?
     }
-    //*/
   };
 
   var Sound = function(data) {
