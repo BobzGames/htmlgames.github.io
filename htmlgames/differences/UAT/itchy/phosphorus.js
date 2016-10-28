@@ -2018,10 +2018,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (this.textLayer) {
       this.context.drawImage(this.textLayer, 0, 0);
     }
-    if (this.index == this.base.currentCostumeIndex) { // this.base.isStage &&
+    if (this.base.isStage && (this.index == this.base.currentCostumeIndex)) { // this.base.isStage &&
       setTimeout(function() {
-        if (this.base.isStage) this.base.updateBackdrop();
-      }.bind(this)); // , 100) PF FF fix only, may not be required ?
+        this.base.updateBackdrop();
+      } //.bind(this)); // , 100) PF FF fix only, may not be required ?
     }
   };
 
