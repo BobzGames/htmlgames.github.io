@@ -1742,12 +1742,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   
       rgb = rgb & 0xffffff;
 
-      var r = rgb >> 16;
-      var g = rgb / 256 & 0xff;
+      var r = (rgb >> 16) & 0xff;
+      var g = (rgb >> 8) & 0xff;
       var b = rgb & 0xff;
       var length = w * h * 4;
       for (var i = 0; i < length; i += 4) {
-        if (data2[i + 3] && data2[i] == r && data2[i + 1] == g && data2[i + 2] == b) { // data2[i + 3] && 
+        if (data2[i + 3] && data[i] == r && data[i + 1] == g && data[i + 2] == b) { // data2[i + 3] && 
           return true;
         }
       }
