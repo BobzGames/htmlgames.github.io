@@ -1740,7 +1740,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       var data = collisionContext.getImageData(0, 0, w, h).data;
       var data2 = collisionContext2.getImageData(0, 0, w, h).data;
   
-      rgb = rgb & 0xffffff;
+      rgb = Math.abs(rgb);// & 0xffffff;
 
       var r = (rgb >> 16) & 0xff;
       var g = (rgb >> 8) & 0xff;
