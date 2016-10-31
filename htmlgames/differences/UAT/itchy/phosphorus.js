@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.198++)
+// additional bugfixes by PF (v0.199++)
 var that; // PF
 var TurboMode = true; // !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
@@ -1747,7 +1747,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       var b = rgb & 0xff;
       var length = w * h * 4;
       for (var i = 0; i < length; i += 4) {
-        if (data[i + 3] && data[i] == r && data[i + 1] == g && data[i + 2] == b) { // data2[i + 3] && 
+        if (data2[i + 3] && data2[i] == r && data2[i + 1] == g && data2[i + 2] == b) { // data2[i + 3] && 
           return true;
         }
       }
