@@ -1639,6 +1639,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   var collisionCanvas = document.createElement('canvas');
   var collisionContext = collisionCanvas.getContext('2d');
+  // pf temp	
+  var collisionCanvas2 = document.createElement('canvas');
+  var collisionContext2 = collisionCanvas2.getContext('2d');	
 
   Sprite.prototype.touching = function(thing) {
     var costume = this.costumes[this.currentCostumeIndex];
@@ -1715,7 +1718,42 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
 
-  Sprite.prototype.touchingColor = function(rgb) {
+   Sprite.prototype.touchingColor = function(rgb) {
+      var b = this.rotatedBounds();
+
+      var w = b.right - b.left;
+      var h = b.top - b.bottom;
+  
+      collisionCanvas.width = w;
+      collisionCanvas.height = h;
+      collisionContext.translate(-(240 + b.left), -(180 - b.top));
+  
+      this.stage.drawOn(collisionContext, this);
+
+      collisionCanvas2.width = w;
+      collisionCanvas2.height = h;
+      collisionContext2.translate(-(240 + b.left), -(180 - b.top));
+ 
+      this.draw(collisionContext2);
+  
+
+      var data = collisionContext.getImageData(0, 0, w, h).data;
+      var data2 = collisionContext2.getImageData(0, 0, w, h).data;
+  
+      rgb = rgb & 0xffffff;
+
+      var r = rgb >> 16;
+      var g = rgb / 256 & 0xff;
+      var b = rgb & 0xff;
+      var length = w * h * 4;
+      for (var i = 0; i < length; i += 4) {
+        if (data2[i + 3] && data[i] === r && data[i + 1] === g && data[i + 2] === b) {
+          return true;
+        }
+      }
+   }
+   
+  Sprite.prototype.touchingColorOld = function(rgb) {
     var b = this.rotatedBounds();
     collisionCanvas.width = b.right - b.left;
     collisionCanvas.height = b.top - b.bottom;
