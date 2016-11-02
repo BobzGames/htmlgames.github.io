@@ -571,7 +571,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	{
   		bytes[i] = header.charCodeAt(i)	;
 	}
-	console.log(new Uint8Array(soundBuf));
+	//console.log(new Uint8Array(soundBuf)); // debug only
 	return soundBuf.slice(0);      
 }
 
@@ -1752,7 +1752,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       var b = rgb & 0xff;
       var length = w * h * 4;
       for (var i = 0; i < length; i += 4) {
-        if (1 && ( (data2[i] == r) && (data2[i + 1] == g) && (data2[i + 2] == b)) ) { // data2[i + 3] && 
+        if (data2[i + 3] && ( (data2[i] == r) && (data2[i + 1] == g) && (data2[i + 2] == b)) ) { // data2[i + 3] && 
           return true;
         }
       }
