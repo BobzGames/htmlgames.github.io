@@ -1752,7 +1752,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       var g = (rgb >> 8) & 0xff;
       var b = rgb & 0xff;
       var length = w * h * 4;
-      for (var i = 0; i < length; i += 16) {
+      for (var i = 0; i < length; i += w) {
         if (data[i + 3] && ( (data[i] == r) && (data[i + 1] == g) && (data[i + 2] == b)) ) { // data2[i + 3] && 
           return true;
 	}
