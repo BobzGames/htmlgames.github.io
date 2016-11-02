@@ -1755,15 +1755,16 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       for (var i = 0; i < length; i += 8) {
         if (data[i + 3] && ( (data[i] == r) && (data[i + 1] == g) && (data[i + 2] == b)) ) { // data2[i + 3] && 
           return true;
+	}
       }
       /*
       for (var iT = 0; iT < w; iT += 4) {
-        if (data[iT + 3] && ( (data[iT] == r) && (data[iT + 1] == g) && (data[iT + 2] == b)) ) { // data2[i + 3] && 
+        if (data[iT + 3] && ( (data[iT] == r) && (data[iT + 1] == g) && (data[iT + 2] == b)) ) {
           return true;
         }	   
       }
       for (var iB = length - w; iB < w; iB += 4) {
-        if (data[iB + 3] && ( (data[iB] == r) && (data[iB + 1] == g) && (data[iB + 2] == b)) ) { // data2[i + 3] && 
+        if (data[iB + 3] && ( (data[iB] == r) && (data[iB + 1] == g) && (data[iB + 2] == b)) ) {
           return true;
         }	   
       }
