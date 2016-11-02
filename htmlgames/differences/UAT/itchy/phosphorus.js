@@ -3,6 +3,8 @@
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost.
 // But I don't know why?
 //
+// P.S. after the autoloader has finished (currently the HTML Games logo), you can remove the word zip off the url, press enter and
+// the examples dropdown will appear. Lots of lovely games to play!
 //
 var that; // PF
 var TurboMode = true; // !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
