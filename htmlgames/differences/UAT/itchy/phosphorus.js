@@ -1718,7 +1718,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
 
-   Sprite.prototype.touchingColor = function(rgb) {
+   Sprite.prototype.touchingColorTODO = function(rgb) {
       var b = this.rotatedBounds();
 
       var w = b.right - b.left;
@@ -1771,7 +1771,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       */
    }
    
-  Sprite.prototype.touchingColorOLD = function(rgb) {
+  Sprite.prototype.touchingColor = function(rgb) {
     var b = this.rotatedBounds();
     collisionCanvas.width = b.right - b.left;
     collisionCanvas.height = b.top - b.bottom;
