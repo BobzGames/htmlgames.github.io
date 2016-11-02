@@ -1,6 +1,6 @@
 // additional bugfixes by PF (v0.201++)
 //
-// Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost.
+// Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
 //
 // P.S. after the autoloader has finished (currently the HTML Games logo), you can remove the word zip off the url, press enter and
