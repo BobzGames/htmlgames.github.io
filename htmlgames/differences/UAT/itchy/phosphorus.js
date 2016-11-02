@@ -1741,11 +1741,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       var data2 = collisionContext2.getImageData(0, 0, w, h).data;
   
       rgb = (rgb & 0xffffff).toString(16);
-      if (rgb.length == 1) rgb = "FFFFFF" + rgb;
-      if (rgb.length == 2) rgb = "FFFFF" + rgb;
-      if (rgb.length == 3) rgb = "FFF" + rgb;
-      if (rgb.length == 4) rgb = "FF" + rgb;
-      if (rgb.length == 5) rgb = "F" + rgb;
+      if (rgb.length == 1) rgb = "00000" + rgb;
+      if (rgb.length == 2) rgb = "0000" + rgb;
+      if (rgb.length == 3) rgb = "000" + rgb;
+      if (rgb.length == 4) rgb = "00" + rgb;
+      if (rgb.length == 5) rgb = "0" + rgb;
 
       var r = (rgb >> 16) & 0xff;
       var g = (rgb >> 8) & 0xff;
