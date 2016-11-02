@@ -1,4 +1,9 @@
-// additional bugfixes by PF (v0.200++)
+// additional bugfixes by PF (v0.201++)
+//
+// Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost.
+// But I don't know why?
+//
+//
 var that; // PF
 var TurboMode = true; // !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
