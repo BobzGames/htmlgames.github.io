@@ -1718,7 +1718,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
 
-   Sprite.prototype.touchingColorTODO = function(rgb) {
+   Sprite.prototype.touchingColor = function(rgb) {
       var b = this.rotatedBounds();
 
       var w = b.right - b.left;
@@ -1736,24 +1736,25 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
  
       this.draw(collisionContext2);
   
-
       var data = collisionContext.getImageData(0, 0, w, h).data;
       var data2 = collisionContext2.getImageData(0, 0, w, h).data;
   
-      rgb = (rgb & 0xffffff).toString(16);
-
+      rgb = (rgb & 0xffffff); //.toString(16);
+      /*
       if (rgb.length == 1) rgb = "fffff" + rgb;
       if (rgb.length == 2) rgb = "ffff" + rgb;
       if (rgb.length == 3) rgb = "fff" + rgb;
       if (rgb.length == 4) rgb = "ff" + rgb;
       if (rgb.length == 5) rgb = "f" + rgb;
-
+ 
       var r = (rgb >> 16) & 0xff;
       var g = (rgb >> 8) & 0xff;
       var b = rgb & 0xff;
+      */
       var length = w * h * 4;
       for (var i = 0; i < length; i += 4) {
-        if (data[i + 3] && ( (data[i] == r) && (data[i + 1] == g) && (data[i + 2] == b)) ) { // data2[i + 3] && 
+        //if (data[i + 3] && ( (data[i] == r) && (data[i + 1] == g) && (data[i + 2] == b)) ) { // data2[i + 3] && 
+	if ((data[i] << 16 | data[i + 1] << 8 | data[i + 2]) === rgb && data[i + 3]) {
           return true;
 	}
       }
@@ -1771,7 +1772,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       */
    }
    
-  Sprite.prototype.touchingColor = function(rgb) {
+  Sprite.prototype.touchingColorOLD = function(rgb) {
     var b = this.rotatedBounds();
     collisionCanvas.width = b.right - b.left;
     collisionCanvas.height = b.top - b.bottom;
