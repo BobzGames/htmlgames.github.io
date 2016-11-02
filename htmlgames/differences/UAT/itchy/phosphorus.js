@@ -1719,41 +1719,40 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
    Sprite.prototype.touchingColor = function(rgb) {
-      var b = this.rotatedBounds();
+     var b = this.rotatedBounds();
 
-      var w = b.right - b.left;
-      var h = b.top - b.bottom;
+     var w = b.right - b.left;
+     var h = b.top - b.bottom;
   
-      collisionCanvas.width = w;
-      collisionCanvas.height = h;
-      collisionContext.translate(-(240 + b.left), -(180 - b.top));
+     collisionCanvas.width = w;
+     collisionCanvas.height = h;
+     collisionContext.translate(-(240 + b.left), -(180 - b.top));
   
-      this.stage.drawOn(collisionContext, this);
+     this.stage.drawOn(collisionContext, this);
 
-      collisionCanvas2.width = w;
-      collisionCanvas2.height = h;
-      collisionContext2.translate(-(240 + b.left), -(180 - b.top));
+     collisionCanvas2.width = w;
+     collisionCanvas2.height = h;
+     collisionContext2.translate(-(240 + b.left), -(180 - b.top));
  
-      this.draw(collisionContext2);
+     this.draw(collisionContext2);
   
-      var data = collisionContext.getImageData(0, 0, w, h).data;
-      var data2 = collisionContext2.getImageData(0, 0, w, h).data;
+     var data = collisionContext.getImageData(0, 0, w, h).data;
+     var data2 = collisionContext2.getImageData(0, 0, w, h).data;
   
-      rgb = (rgb & 0xffffff); //.toString(16);
-      /*
-      if (rgb.length == 1) rgb = "fffff" + rgb;
-      if (rgb.length == 2) rgb = "ffff" + rgb;
-      if (rgb.length == 3) rgb = "fff" + rgb;
-      if (rgb.length == 4) rgb = "ff" + rgb;
-      if (rgb.length == 5) rgb = "f" + rgb;
-      */
-      var length = w * h * 4; // must be > 0
-      for (var i = 0; i < length; i += 4) {
-	if ((data[i] << 16 | data[i + 1] << 8 | data[i + 2]) === rgb && data[i + 3]) {
-          return true;
-	}
-      }
-
+     rgb = (rgb & 0xffffff); //.toString(16);
+     /*
+     if (rgb.length == 1) rgb = "fffff" + rgb;
+     if (rgb.length == 2) rgb = "ffff" + rgb;
+     if (rgb.length == 3) rgb = "fff" + rgb;
+     if (rgb.length == 4) rgb = "ff" + rgb;
+     if (rgb.length == 5) rgb = "f" + rgb;
+     */
+     var length = w * h * 4; // must be > 0
+     for (var i = 0; i < length; i += 4) {
+       if ((data[i] << 16 | data[i + 1] << 8 | data[i + 2]) === rgb && data[i + 3]) {
+         return true;
+       }
+     }
    }
    
   Sprite.prototype.bounceOffEdge = function() {
