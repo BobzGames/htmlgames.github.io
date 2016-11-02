@@ -1746,62 +1746,16 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       if (rgb.length == 3) rgb = "fff" + rgb;
       if (rgb.length == 4) rgb = "ff" + rgb;
       if (rgb.length == 5) rgb = "f" + rgb;
- 
-      var r = (rgb >> 16) & 0xff;
-      var g = (rgb >> 8) & 0xff;
-      var b = rgb & 0xff;
       */
-      var length = w * h * 4;
+      var length = w * h * 4; // must be > 0
       for (var i = 0; i < length; i += 4) {
-        //if (data[i + 3] && ( (data[i] == r) && (data[i + 1] == g) && (data[i + 2] == b)) ) { // data2[i + 3] && 
 	if ((data[i] << 16 | data[i + 1] << 8 | data[i + 2]) === rgb && data[i + 3]) {
           return true;
 	}
       }
-      /*
-      for (var iT = 0; iT < w; iT += 4) {
-        if (data[iT + 3] && ( (data[iT] == r) && (data[iT + 1] == g) && (data[iT + 2] == b)) ) {
-          return true;
-        }	   
-      }
-      for (var iB = length - w; iB < w; iB += 4) {
-        if (data[iB + 3] && ( (data[iB] == r) && (data[iB + 1] == g) && (data[iB + 2] == b)) ) {
-          return true;
-        }	   
-      }
-      */
+
    }
    
-  Sprite.prototype.touchingColorOLD = function(rgb) {
-    var b = this.rotatedBounds();
-    collisionCanvas.width = b.right - b.left;
-    collisionCanvas.height = b.top - b.bottom;
-
-    collisionContext.save();
-    collisionContext.translate(-(240 + b.left), -(180 - b.top));
-
-    this.stage.drawAllOn(collisionContext, this);
-    collisionContext.globalCompositeOperation = 'destination-in';
-    this.draw(collisionContext, true);
-
-    collisionContext.restore();
-
-    var length = (b.right - b.left) * (b.top - b.bottom) * 4;
-    if (length) { // PF
-      var data = collisionContext.getImageData(0, 0, b.right - b.left, b.top - b.bottom).data;
-
-      rgb = rgb & 0xffffff;
-      
-      for (var i = 0; i < length; i += 4) {
-        if ((data[i] << 16 | data[i + 1] << 8 | data[i + 2]) === rgb && data[i + 3]) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  };
-
   Sprite.prototype.bounceOffEdge = function() {
     var b = this.rotatedBounds();
     var dl = 240 + b.left;
