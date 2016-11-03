@@ -1758,7 +1758,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
       }
     } else { // pf - fast match
-      if (data.join("").match("00"+rgb.toString()+"255") return true;
+      if (data.join("").match("00"+rgb.toString()+"255")) return true;
     }
   };
    
