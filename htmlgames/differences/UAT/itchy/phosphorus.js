@@ -1698,8 +1698,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         collisionCanvas.width = right - left;
         collisionCanvas.height = top - bottom;
         // PF canvas size should not be zero
-        //if (collisionCanvas.width == 0) {collisionCanvas.width = 1;}
-        //if (collisionCanvas.height == 0) {collisionCanvas.height = 1;}
+        if (collisionCanvas.width == 0) {collisionCanvas.width = 1;}
+        if (collisionCanvas.height == 0) {collisionCanvas.height = 1;}
 
         collisionContext.save();
         collisionContext.translate(-(left + 240), -(180 - top));
