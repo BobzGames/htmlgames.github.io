@@ -1695,6 +1695,32 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         var right = Math.min(mb.right, ob.right);
         var bottom = Math.max(mb.bottom, ob.bottom);
 
+        var w = right - left;
+        var h = top - bottom;
+  
+        collisionCanvas.width = w;
+        collisionCanvas.height = h;
+        collisionContext.translate(-(240 + left), -(180 - top));
+  
+        this.stage.drawOn(collisionContext, this);
+
+        collisionCanvas2.width = w;
+        collisionCanvas2.height = h;
+        collisionContext2.translate(-(240 + left), -(180 - top));
+ 
+        this.draw(collisionContext2);
+  
+        var data = collisionContext.getImageData(0, 0, w, h).data;
+        var data2 = collisionContext2.getImageData(0, 0, w, h).data;
+	      
+        var length = w * h * 4; // must be > 0
+        for (var j = 0; j < length; j += 4) {
+         if (data[j + 3] && data[j + 3]) {
+            return true;
+          }
+        }	      
+	      
+	/*
         collisionCanvas.width = right - left;
         collisionCanvas.height = top - bottom;
         // PF canvas size should not be zero
@@ -1720,41 +1746,42 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             }
           }
         }
+	*/
       }
       return false;
     }
   };
 
-   Sprite.prototype.touchingColor = function(rgb) {
-     var b = this.rotatedBounds();
+  Sprite.prototype.touchingColor = function(rgb) {
+    var b = this.rotatedBounds();
 
-     var w = b.right - b.left;
-     var h = b.top - b.bottom;
+    var w = b.right - b.left;
+    var h = b.top - b.bottom;
   
-     collisionCanvas.width = w;
-     collisionCanvas.height = h;
-     collisionContext.translate(-(240 + b.left), -(180 - b.top));
+    collisionCanvas.width = w;
+    collisionCanvas.height = h;
+    collisionContext.translate(-(240 + b.left), -(180 - b.top));
   
-     this.stage.drawOn(collisionContext, this);
+    this.stage.drawOn(collisionContext, this);
 
-     //collisionCanvas2.width = w;
-     //collisionCanvas2.height = h;
-     //collisionContext2.translate(-(240 + b.left), -(180 - b.top));
+    //collisionCanvas2.width = w;
+    //collisionCanvas2.height = h;
+    //collisionContext2.translate(-(240 + b.left), -(180 - b.top));
  
-     //this.draw(collisionContext2);
+    //this.draw(collisionContext2);
   
-     var data = collisionContext.getImageData(0, 0, w, h).data;
-     //var data2 = collisionContext2.getImageData(0, 0, w, h).data;
+    var data = collisionContext.getImageData(0, 0, w, h).data;
+    //var data2 = collisionContext2.getImageData(0, 0, w, h).data;
   
-     rgb = (rgb & 0xffffff);
+    rgb = (rgb & 0xffffff);
 
-     var length = w * h * 4; // must be > 0
-     for (var i = 0; i < length; i += 4) {
-       if ((data[i] << 16 | data[i + 1] << 8 | data[i + 2]) === rgb && data[i + 3]) {
-         return true;
-       }
-     }
-   }
+    var length = w * h * 4; // must be > 0
+    for (var i = 0; i < length; i += 4) {
+      if ((data[i] << 16 | data[i + 1] << 8 | data[i + 2]) === rgb && data[i + 3]) {
+        return true;
+      }
+    }
+  };
    
   Sprite.prototype.bounceOffEdge = function() {
     var b = this.rotatedBounds();
