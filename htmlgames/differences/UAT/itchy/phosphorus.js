@@ -1695,8 +1695,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         var right = Math.min(mb.right, ob.right);
         var bottom = Math.max(mb.bottom, ob.bottom);
 
-        var w = right - left;
-        var h = top - bottom;
+        var w = Math.round(right - left);
+        var h = Math.round(top - bottom);
 	      
         collisionCanvas.width = w||1;
         collisionCanvas.height = h||1;
@@ -1726,8 +1726,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   Sprite.prototype.touchingColor = function(rgb) {
     var b = this.rotatedBounds();
 
-    var w = b.right - b.left;
-    var h = b.top - b.bottom;
+    var w = Math.round(b.right - b.left);
+    var h = Math.round(b.top - b.bottom);
   
     collisionCanvas.width = w||1;
     collisionCanvas.height = h||1;
