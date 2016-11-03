@@ -1695,32 +1695,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         var right = Math.min(mb.right, ob.right);
         var bottom = Math.max(mb.bottom, ob.bottom);
 
-        var w = right - left;
-        var h = top - bottom;
-  
-        collisionCanvas.width = w||1;
-        collisionCanvas.height = h||1;
-        collisionContext.translate(-(240 + left), -(180 - top));
-  
-        this.stage.drawOn(collisionContext, this);
-
-        collisionCanvas2.width = w||1;
-        collisionCanvas2.height = h||1;
-        collisionContext2.translate(-(240 + left), -(180 - top));
- 
-        this.draw(collisionContext2);
-  
-        var data = collisionContext.getImageData(0, 0, w, h).data;
-        var data2 = collisionContext2.getImageData(0, 0, w, h).data;
-	      
-        var length = w * h * 4; // must be > 0
-        for (var j = 0; j < length; j += 4) {
-         if (data[j + 3] && data[j + 3]) {
-            return true;
-          }
-        }	      
-	      
-	/*
         collisionCanvas.width = right - left;
         collisionCanvas.height = top - bottom;
         // PF canvas size should not be zero
@@ -1745,8 +1719,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
               return true;
             }
           }
-        }
-	*/
+	}
       }
       return false;
     }
