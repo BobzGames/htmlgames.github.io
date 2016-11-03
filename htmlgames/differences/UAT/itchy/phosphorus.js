@@ -1731,10 +1731,21 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   
     collisionCanvas.width = (w < 1) ? 1 :w;
     collisionCanvas.height = (h < 1) ? 1 : h;
-    collisionContext.translate(-(240 + b.left), -(180 - b.top));
-  
-    this.stage.drawOn(collisionContext, this);
 
+    var bFast = (w == h && h < 8) ? true : false;
+	  
+    if (bFast) {
+      collisionContext.translate(-(240 + b.left), -(180 - b.top));
+      this.stage.drawOn(collisionContext, this);	    
+    } else {
+      collisionContext.save();
+      collisionContext.translate(-(240 + b.left), -(180 - b.top));
+      this.stage.drawAllOn(collisionContext, this);
+      collisionContext.globalCompositeOperation = 'destination-in';
+      this.draw(collisionContext, true);	  
+      collisionContext.restore();
+    }
+	  
     var data = collisionContext.getImageData(0, 0, w, h).data;
   
     rgb = (rgb & 0xffffff);
