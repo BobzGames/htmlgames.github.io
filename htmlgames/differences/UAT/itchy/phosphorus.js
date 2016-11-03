@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.201++)
+// additional bugfixes by PF (v0.202++)
 //
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -1731,8 +1731,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var w = b.right - b.left;
     var h = b.top - b.bottom;
   
-    collisionCanvas.width = w;
-    collisionCanvas.height = h;
+    collisionCanvas.width = w||1;
+    collisionCanvas.height = h||1;
     collisionContext.translate(-(240 + b.left), -(180 - b.top));
   
     this.stage.drawOn(collisionContext, this);
