@@ -1737,14 +1737,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   
      this.stage.drawOn(collisionContext, this);
 
-     collisionCanvas2.width = w;
-     collisionCanvas2.height = h;
-     collisionContext2.translate(-(240 + b.left), -(180 - b.top));
+     //collisionCanvas2.width = w;
+     //collisionCanvas2.height = h;
+     //collisionContext2.translate(-(240 + b.left), -(180 - b.top));
  
-     this.draw(collisionContext2);
+     //this.draw(collisionContext2);
   
      var data = collisionContext.getImageData(0, 0, w, h).data;
-     var data2 = collisionContext2.getImageData(0, 0, w, h).data;
+     //var data2 = collisionContext2.getImageData(0, 0, w, h).data;
   
      rgb = (rgb & 0xffffff);
 
