@@ -1695,14 +1695,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         var right = Math.min(mb.right, ob.right);
         var bottom = Math.max(mb.bottom, ob.bottom);
 
-        collisionCanvas.width = right - left;
-        collisionCanvas.height = top - bottom;
-        // PF canvas size should not be zero
-        if (collisionCanvas.width == 0) {collisionCanvas.width = 1;}
-        if (collisionCanvas.height == 0) {collisionCanvas.height = 1;}
+        var w = right - left;
+        var h = top - bottom;
+	      
+        collisionCanvas.width = w||1;
+        collisionCanvas.height = h||1;
 
         collisionContext.save();
-        collisionContext.translate(-(left + 240), -(180 - top));
+        collisionContext.translate(-(240 + left), -(180 - top));
 
         this.draw(collisionContext, true);
         collisionContext.globalCompositeOperation = 'source-in';
@@ -1710,16 +1710,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
         collisionContext.restore();
 
-	var length = (right - left) * (top - bottom) * 4;
-        //if (length) {
-          var data = collisionContext.getImageData(0, 0, right - left, top - bottom).data;
-          
-          for (var j = 0; j < length; j += 4) {
-            if (data[j + 3]) {
-              return true;
-            }
+        var data = collisionContext.getImageData(0, 0, w, h).data;
+	
+	var length = w * h * 4; // must be > 0          
+        for (var j = 0; j < length; j += 4) {
+          if (data[j + 3]) {
+            return true;
           }
-	//}
+        }
       }
       return false;
     }
@@ -1737,14 +1735,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   
     this.stage.drawOn(collisionContext, this);
 
-    //collisionCanvas2.width = w;
-    //collisionCanvas2.height = h;
-    //collisionContext2.translate(-(240 + b.left), -(180 - b.top));
- 
-    //this.draw(collisionContext2);
-  
     var data = collisionContext.getImageData(0, 0, w, h).data;
-    //var data2 = collisionContext2.getImageData(0, 0, w, h).data;
   
     rgb = (rgb & 0xffffff);
 
