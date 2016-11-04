@@ -1749,6 +1749,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var data = collisionContext.getImageData(0, 0, w, h).data;
   
     rgb = (rgb & 0xffffff);
+	  
+    if (!rgb && !data.join("").replace("000255","").length) return true;
 
     //if (rgb > 255) {
       var length = w * h * 4; // must be > 0
