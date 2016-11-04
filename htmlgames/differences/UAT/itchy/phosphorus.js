@@ -4051,7 +4051,7 @@ P.runtime = (function() {
       if (this.interval) return;
       addEventListener('error', this.onError);
       this.baseTime = Date.now();
-      this.interval = setInterval(this.step.bind(this), 1000 / this.framerate);
+      this.interval = setInterval(this.step.bind(this), 1000 / (this.framerate*2));
     };
 
     P.Stage.prototype.pause = function() {
@@ -4119,7 +4119,7 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-      } while ((self.isTurbo || !VISUAL) && Date.now() - start < 1000 / (this.framerate-1) && queue.length); // pf removed self.isTurbo || 
+      } while ((self.isTurbo || !VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length); // pf removed self.isTurbo || 
       this.draw();
       S = null;
       // PF
