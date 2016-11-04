@@ -1732,7 +1732,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     collisionCanvas.width = (w < 1) ? 1 :w;
     collisionCanvas.height = (h < 1) ? 1 : h;
 
-    var bFast = (w == h && h < 8) ? true : false;
+    var bFast = 0; //(w == h && h < 8) ? true : false;
 	  
     if (bFast) {
       collisionContext.translate(-(240 + b.left), -(180 - b.top));
