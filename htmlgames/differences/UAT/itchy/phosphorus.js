@@ -1732,7 +1732,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     collisionCanvas.width = (w < 1) ? 1 :w;
     collisionCanvas.height = (h < 1) ? 1 : h;
 
-    var bFast = 0; //(w == h && h < 8) ? true : false;
+    // pf - fast match test
+    var bFast = (w == h && h < 8) ? true : false;
 	  
     if (bFast) {
       collisionContext.translate(-(240 + b.left), -(180 - b.top));
@@ -1749,7 +1750,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var data = collisionContext.getImageData(0, 0, w, h).data;
   
     rgb = (rgb & 0xffffff);
-	  
+
+    // pf - fast match test
     if (!rgb && !data.join("").replace("000255","").length) return true;
 
     //if (rgb > 255) {
@@ -1759,7 +1761,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           return true;
         }
       }
-    //} else { // pf - fast match
+    //} else {
+	// pf - fast match test
     //  if (data.join("").match("25500"+rgb.toString()+"255")) return true;
     //}
   };
