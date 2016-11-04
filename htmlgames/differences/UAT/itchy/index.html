@@ -390,6 +390,10 @@
     }
   } else {console.log("Ready!");}
 	
+  document.body.addEventListener('touchmove',function(event){event.preventDefault();});
+  document.body.addEventListener('touchstart',function(event){event.preventDefault();});
+  setTimeout(function(){window.scrollTo(0, 1);}, 1);	
+	
 }());
 
 function sb2apk(bFull) {
