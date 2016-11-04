@@ -4051,7 +4051,7 @@ P.runtime = (function() {
       if (this.interval) return;
       addEventListener('error', this.onError);
       this.baseTime = Date.now();
-      this.interval = setInterval(this.step.bind(this), 1000 / (this.framerate*2));
+      this.interval = setInterval(this.step.bind(this), 1000 / (this.framerate/2));
     };
 
     P.Stage.prototype.pause = function() {
