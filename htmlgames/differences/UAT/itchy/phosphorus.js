@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.203++) 
+// additional bugfixes by PF (v0.202++) 
 //
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -3099,8 +3099,8 @@ P.compile = (function() {
 
       } else if (block[0] === 'stampCostume') {
 
-        source += 'self.penCanvas.width = 480 * self.maxZoom;\n'; // pf fix z
-        source += 'self.penContext.scale(self.maxZoom, self.maxZoom);\n'; // pf fix z
+        //source += 'self.penCanvas.width = 480 * self.maxZoom;\n'; // pf fix z
+        //source += 'self.penContext.scale(self.maxZoom, self.maxZoom);\n'; // pf fix z
         source += 'S.draw(self.penContext);\n';
 
       } else if (block[0] === 'setVar:to:') { /* Data */
