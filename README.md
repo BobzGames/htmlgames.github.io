@@ -11,7 +11,7 @@ Updates (tested in Chrome)
 Full Sound when wav > 30 secs<br>
 SVG Text now working correctly<br>
 ColorTouchingColor Block coded<br>
-Offline SB file auto loader<br>
+Offline SB file auto loader*<br>
 Speed optimisation (as fast as Scratch now)<br>
 Warp Framework and Turbo mode fully optimised<br>
 +Many bug fixes<br>
@@ -28,3 +28,4 @@ TODO LIST
 WebRTCdatachannels for emulating cloud vars (for multiplayer games)<br>
 Display lists<br>
 <br>
+* to get back to the examples list, remove the word zip from the url and press enter.
