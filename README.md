@@ -8,24 +8,26 @@ apk generation for sb2 files is on hold at the moment due to touch events playin
 Updates (tested in Chrome)
 --------------------------
 
-Full Sound when wav > 30 secs
-SVG Text now working correctly
-ColorTouchingColor Block coded
-Offline SB file auto loader
-Speed optimisation (as fast as Scratch now)
-Warp Framework and Turbo mode fully optimised
-+Many bug fixes
-
-
+Full Sound when wav > 30 secs<br>
+SVG Text now working correctly<br>
+ColorTouchingColor Block coded<br>
+Offline SB file auto loader<br>
+Speed optimisation (as fast as Scratch now)<br>
+Warp Framework and Turbo mode fully optimised<br>
++Many bug fixes<br>
+<br>
+<br>
 WIP
 ---
 
-APK generation (unsigned)
-Effect blocks
-
-
+APK generation (unsigned)<br>
+Effect blocks<br>
+<br>
+<br>
 TODO LIST
 --------
 
-WebRTCdatachannels for emulating cloud vars (for multiplayer games)
-Display lists
+WebRTCdatachannels for emulating cloud vars (for multiplayer games)<br>
+Display lists<br>
+<br>
+<br>
