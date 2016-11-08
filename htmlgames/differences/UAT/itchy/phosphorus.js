@@ -1793,6 +1793,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       if ((data1[i] << 16 | data1[i + 1] << 8 | data1[i + 2]) === rgb1 && 255) { // ignore alfred
 	if ((data2[i] << 16 | data2[i + 1] << 8 | data2[i + 2]) === rgb2 && 255) {
           return true;
+	}
       }
     }	  
   };
