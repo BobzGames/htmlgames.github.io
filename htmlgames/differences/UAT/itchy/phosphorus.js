@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.202++) 
+// additional bugfixes by PF (v0.203++) 
 //
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -1766,7 +1766,37 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     //  if (data.join("").match("25500"+rgb.toString()+"255")) return true;
     //}
   };
-   
+	
+  Sprite.prototype.ColorTouchingColor = function(rgb1, rgb2) {
+    var b = this.rotatedBounds();
+
+    var w = b.right - b.left;
+    var h = b.top - b.bottom;
+  
+    collisionCanvas.width = (w < 1) ? 1 :w;
+    collisionCanvas.height = (h < 1) ? 1 : h;
+    collisionContext.translate(-(240 + b.left), -(180 - b.top));
+    this.stage.drawAllOn(collisionContext, this);
+    var data2 = collisionContext.getImageData(0, 0, w, h).data; // rgb2 'over'
+	  
+    collisionCanvas2.width = (w < 1) ? 1 :w;
+    collisionCanvas2.height = (h < 1) ? 1 : h;
+    collisionContext2.translate(-(240 + b.left), -(180 - b.top));
+    this.draw(collisionContext2, true); // true ???
+    var data1 = collisionContext2.getImageData(0, 0, w, h).data; // rgb1 'sprite'
+    
+    rgb1 = (rgb1 & 0xffffff);
+    rgb2 = (rgb2 & 0xffffff);
+
+    var length = w * h * 4; // must be > 0
+    for (var i = 0; i < length; i += 4) {
+      if ((data1[i] << 16 | data1[i + 1] << 8 | data1[i + 2]) === rgb1 && 255) { // ignore alfred
+	if ((data2[i] << 16 | data2[i + 1] << 8 | data2[i + 2]) === rgb2 && 255) {
+          return true;
+      }
+    }	  
+  };
+	
   Sprite.prototype.bounceOffEdge = function() {
     var b = this.rotatedBounds();
     var dl = 240 + b.left;
@@ -2691,7 +2721,9 @@ P.compile = (function() {
 
         return 'S.touchingColor(' + val(e[1]) + ')';
 
-      // } else if (e && e[0] === 'color:sees:') {
+      } else if (e && e[0] === 'color:sees:') {
+	      
+	return 'S.ColorTouchingColor(' + val(e[1]) + ', ' + val(e[2]) + ')';
 
       } else if (e && e[0] === 'keyPressed:') {
 	if (e[1] === "") e[1] = "ctrl"; // PF ctrl hack!
