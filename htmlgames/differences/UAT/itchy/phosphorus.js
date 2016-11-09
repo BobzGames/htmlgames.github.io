@@ -1649,21 +1649,30 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.pixelate !== 0) {
+    	  // as the others do
+	  var b = this.rotatedBounds();
+
+    	  var w = b.right - b.left;
+    	  var h = b.top - b.bottom;		
 	      
           // get a block size 
-          effectsCanvas.width = 10 * context.width / (this.filters.pixelate + context.width / 10);
-          effectsCanvas.height = 10 * context.height / (this.filters.pixelate + context.height / 10);
+          effectsCanvas.width = 10 * w / (this.filters.pixelate + w / 10);
+          effectsCanvas.height = 10 * h / (this.filters.pixelate + h / 10);
 
           // turn off image aliasing
     	  effectsContext.imageSmoothingEnabled = false; // PF
     	  effectsContext.msImageSmoothingEnabled = false;
-    	
+
+	  // ?		
+	  effectsContext.save();
+	  effectsContext.translate(-(240 + b.left), -(180 - b.top));
+		
           // draw the original image at a fraction of the final size
           effectsContext.drawImage(costume.image, 0, 0, effectsCanvas.width, effectsCanvas.height);
         
           // enlarge the minimized image to full size 
           // see *
-        		
+          effectsContext.restore();		
         }
 	    
         if (this.filters.mosaic !== 0) {
