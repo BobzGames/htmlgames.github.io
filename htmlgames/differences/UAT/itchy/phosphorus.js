@@ -1681,7 +1681,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	      
 	if (this.filters.ghost !== 0) {
-	    effectsCanvas.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
+	   //// effectsCanvas.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
         }
 	// pf  * draw using the effectsCanvas instead   
 	context.drawImage(effectsCanvas, 0, 0, costume.image.width, costume.image.height);
