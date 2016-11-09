@@ -1653,14 +1653,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    
         if (this.filters.pixelate !== 0) {
           // as the others do
-          var b = context.rotatedBounds();
+          //var b = context.rotatedBounds();
 
-          var w = b.right - b.left;
-          var h = b.top - b.bottom;		
+          //var w = b.right - b.left;
+          //var h = b.top - b.bottom;		
 	      
           // get a block size 
-          effectsCanvas.width = 10 * w / (this.filters.pixelate + w / 10);
-          effectsCanvas.height = 10 * h / (this.filters.pixelate + h / 10);
+          effectsCanvas.width = 10 * context.width / (this.filters.pixelate + context.width / 10);
+          effectsCanvas.height = 10 * context.height / (this.filters.pixelate + context.height / 10);
 
           // turn off image aliasing
     	  effectsContext.imageSmoothingEnabled = false; // PF
