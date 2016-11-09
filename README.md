@@ -25,8 +25,8 @@ Warp Framework and Turbo mode fully optimised<br>
 WIP
 ---
 
-APK generation (unsigned)<br>
 Effect blocks<br>
+APK generation (unsigned)<br>
 <br>
 TODO LIST
 --------
