@@ -1686,7 +1686,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  context.drawImage(costume.image, 0, 0); // temp until done    
         }
 	// pf  * draw using the effectsCanvas instead   
-	context.drawImage(effectsCanvas, 0, 0, costume.image.width / costume.resScale, costume.image.height / costume.resScale);
+	context.drawImage(effectsCanvas, 0, 0, costume.image.width, costume.image.height);
       } else {
         // pf  only when no effects required use the costume.image directly...    
         context.drawImage(costume.image, 0, 0); // , costume.image.width / costume.resScale, costume.image.height / costume.resScale);	      
