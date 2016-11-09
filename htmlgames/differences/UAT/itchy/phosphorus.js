@@ -1659,8 +1659,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           //var h = b.top - b.bottom;		
 	      
           // get a block size 
-          effectsCanvas.width = 10 * context.width / (this.filters.pixelate + context.width / 10);
-          effectsCanvas.height = 10 * context.height / (this.filters.pixelate + context.height / 10);
+          effectsCanvas.width = 10 * costume.image.width / (this.filters.pixelate + costume.image.width / 10);
+          effectsCanvas.height = 10 * costume.image.height / (this.filters.pixelate + costume.image.height / 10);
 
           // turn off image aliasing
     	  effectsContext.imageSmoothingEnabled = false; // PF
