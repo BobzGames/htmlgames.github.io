@@ -1632,23 +1632,23 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       context.scale(costume.scale, costume.scale);
       context.translate(-costume.rotationCenterX, -costume.rotationCenterY); // ---
 
-      if (!!noEffects) {
-        // pf  only when no effects required use the costume.image directly...    
-        context.drawImage(costume.image, 0, 0); // , costume.image.width / costume.resScale, costume.image.height / costume.resScale);	      
-      } else {
-	// ghost effect      
-        context.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
+      if (!noEffects) {
+	// ghost effect only?     
+        context.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));	      
+      }
+
+      if (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0) {
 
         if (this.filters.color !== 0) {
-	      
+	  context.drawImage(costume.image, 0, 0); // temp until done
         }
 	    
         if (this.filters.fisheye !== 0) {
-	      
+	  context.drawImage(costume.image, 0, 0); // temp until done    
         }
 	    
         if (this.filters.whirl !== 0) {
-	      
+	  context.drawImage(costume.image, 0, 0); // temp until done
         }
 	    
         if (this.filters.pixelate !== 0) {
@@ -1679,18 +1679,17 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.mosaic !== 0) {
-	      
+	  context.drawImage(costume.image, 0, 0); // temp until done    
         }
 	    
-        if (this.filters.mosaic !== 0) {
-      
-        }
-
         if (this.filters.brightness !== 0) {
-	      
+	  context.drawImage(costume.image, 0, 0); // temp until done    
         }
 	// pf  * draw using the effectsCanvas instead   
 	context.drawImage(effectsCanvas, 0, 0); // , costume.image.width / costume.resScale, costume.image.height / costume.resScale);
+      } else {
+        // pf  only when no effects required use the costume.image directly...    
+        context.drawImage(costume.image, 0, 0); // , costume.image.width / costume.resScale, costume.image.height / costume.resScale);	      
       }
       context.restore();
     }
