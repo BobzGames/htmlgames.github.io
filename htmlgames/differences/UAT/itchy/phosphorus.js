@@ -1637,7 +1637,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         context.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));	      
       }
 
-      if (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0) {
+      if (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0 || this.filters.ghost !== 0) {
 
         if (this.filters.color !== 0) {
 	  context.drawImage(costume.image, 0, 0); // temp until done
@@ -1652,12 +1652,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.pixelate !== 0) {
-          // as the others do
-          //var b = context.rotatedBounds();
-
-          //var w = b.right - b.left;
-          //var h = b.top - b.bottom;		
-	      
+   
           // get a block size 
           effectsCanvas.width = 10 * costume.image.width / (this.filters.pixelate + costume.image.width / 10);
           effectsCanvas.height = 10 * costume.image.height / (this.filters.pixelate + costume.image.height / 10);
@@ -1668,7 +1663,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
           // ?		
           //effectsContext.save();
-          //effectsContext.translate(-(240 + b.left), -(180 - b.top));
 		
           // draw the original image at a fraction of the final size
           effectsContext.drawImage(costume.image, 0, 0, effectsCanvas.width, effectsCanvas.height);
@@ -1684,6 +1678,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    
         if (this.filters.brightness !== 0) {
 	  context.drawImage(costume.image, 0, 0); // temp until done    
+        }
+	      
+	if (this.filters.ghost !== 0) {
+	    effectsCanvas.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
         }
 	// pf  * draw using the effectsCanvas instead   
 	context.drawImage(effectsCanvas, 0, 0, costume.image.width, costume.image.height);
