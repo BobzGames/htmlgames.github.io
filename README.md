@@ -15,7 +15,7 @@ Experimental Touch controls (for mobile devices)<br>
 Offline SB file auto loader**<br>
 Speed optimisation (as fast as Scratch now)<br>
 Warp Framework and Turbo mode fully optimised<br>
-+Many bug fixes (see the examples list)<br>
++Many bug fixes - please see the examples list<br>
 <br>
 ** to get back to the examples list, remove the word zip from the url and press enter.
 <br>
