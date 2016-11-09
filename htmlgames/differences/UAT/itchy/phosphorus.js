@@ -1632,7 +1632,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       context.scale(costume.scale, costume.scale);
       context.translate(-costume.rotationCenterX, -costume.rotationCenterY); // ---
 
-      if (noEffects) {
+      if (!!noEffects) {
         // pf  only when no effects required use the costume.image directly...    
         context.drawImage(costume.image, 0, 0); // , costume.image.width / costume.resScale, costume.image.height / costume.resScale);	      
       } else {
