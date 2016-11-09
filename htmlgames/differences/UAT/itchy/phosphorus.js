@@ -1668,7 +1668,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
           // ?		
           //effectsContext.save();
-          effectsContext.translate(-(240 + b.left), -(180 - b.top));
+          //effectsContext.translate(-(240 + b.left), -(180 - b.top));
 		
           // draw the original image at a fraction of the final size
           effectsContext.drawImage(costume.image, 0, 0, effectsCanvas.width, effectsCanvas.height);
