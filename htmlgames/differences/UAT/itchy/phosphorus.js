@@ -1604,6 +1604,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     context.fill();
   };
 
+  // PF new
+  var effectsCanvas = document.createElement('canvas');
+  var effectsContext = effectsCanvas.getContext('2d');	
+	
   Sprite.prototype.draw = function(context, noEffects) {
     var costume = this.costumes[this.currentCostumeIndex];
 
@@ -1629,7 +1633,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       context.translate(-costume.rotationCenterX, -costume.rotationCenterY); // ---
 
       if (!noEffects) {
-	      
+	// ghost effect      
         context.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
 
         if (this.filters.color !== 0) {
@@ -1646,6 +1650,20 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    
         if (this.filters.pixelate !== 0) {
 	      
+          // get a block size 
+          effectsCanvas.width = 10 * context.width / (this.filters.pixelate + context.width / 10);
+          effectsCanvas.height = 10 * context.height / (this.filters.pixelate + context.height / 10);
+
+          // turn off image aliasing
+    	  effectsContext.imageSmoothingEnabled = false; // PF
+    	  effectsContext.msImageSmoothingEnabled = false;
+    	
+          // draw the original image at a fraction of the final size
+          effectsContext.drawImage(costume.image, 0, 0, effectsCanvas.width, effectsCanvas.height);
+        
+          // enlarge the minimized image to full size 
+          // see *
+        		
         }
 	    
         if (this.filters.mosaic !== 0) {
@@ -1659,11 +1677,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         if (this.filters.brightness !== 0) {
 	      
         }
-	      
+	// pf  * draw using the effectsCanvas instead   
+	context.drawImage(effectsCanvas, 0, 0, costume.image.width/costume.resScale, costume.image.height/costume.resScale);
+      } else {
+	// pf  only when no effects required use the costume.image directly...    
+        context.drawImage(costume.image, 0, 0); // , costume.image.width/costume.resScale, costume.image.height/costume.resScale
       }
-	    
-      context.drawImage(costume.image, 0, 0);
-
       context.restore();
     }
   };
