@@ -11,6 +11,7 @@ Updates (tested in Chrome)
 Full Sound when wav > 30 secs<br>
 SVG Text now working correctly<br>
 ColorTouchingColor Block coded<br>
+Experimental Touch controls (for mobile devices)<br>
 Offline SB file auto loader**<br>
 Speed optimisation (as fast as Scratch now)<br>
 Warp Framework and Turbo mode fully optimised<br>
