@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.204++)
+// additional bugfixes by PF (v0.205++)
 //
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -1650,7 +1650,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    
         if (this.filters.pixelate !== 0) {
     	  // as the others do
-	  var b = this.rotatedBounds();
+	  var b = context.rotatedBounds();
 
     	  var w = b.right - b.left;
     	  var h = b.top - b.bottom;		
@@ -1664,7 +1664,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     	  effectsContext.msImageSmoothingEnabled = false;
 
 	  // ?		
-	  effectsContext.save();
+	  //effectsContext.save();
 	  effectsContext.translate(-(240 + b.left), -(180 - b.top));
 		
           // draw the original image at a fraction of the final size
@@ -1672,7 +1672,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         
           // enlarge the minimized image to full size 
           // see *
-          effectsContext.restore();		
+          //effectsContext.restore();		
         }
 	    
         if (this.filters.mosaic !== 0) {
@@ -1687,10 +1687,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	      
         }
 	// pf  * draw using the effectsCanvas instead   
-	context.drawImage(effectsCanvas, 0, 0, costume.image.width/costume.resScale, costume.image.height/costume.resScale);
+	context.drawImage(effectsCanvas, 0, 0); // , costume.image.width / costume.resScale, costume.image.height / costume.resScale);
       } else {
 	// pf  only when no effects required use the costume.image directly...    
-        context.drawImage(costume.image, 0, 0); // , costume.image.width/costume.resScale, costume.image.height/costume.resScale
+        context.drawImage(costume.image, 0, 0); // , costume.image.width / costume.resScale, costume.image.height / costume.resScale);
       }
       context.restore();
     }
