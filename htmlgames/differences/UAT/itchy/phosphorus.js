@@ -1657,11 +1657,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
             var i2 = i;
             if (dist <= SIZE) {
-              // If the pixel is within a certain distance from the mouse, 
-              // map it to a different spot on the canvas
-              var x2 = Math.round((costume.image.width / 2) - dx * Math.sin(dist/SIZE*Math.PI/2));
-              var y2 = Math.round((costume.image.height / 2) - dy * Math.sin(dist/SIZE*Math.PI/2)); 
-              var i2 = (y2 * frame.width + x2) * 4;
+              var x2 = Math.round((costume.image.width / 2) - dx * Math.sin(dist / SIZE * Math.PI / 2));
+              var y2 = Math.round((costume.image.height / 2) - dy * Math.sin(dist / SIZE * Math.PI / 2)); 
+              var i2 = (y2 * effect.width + x2) * 4;
             } 
             effect.data[i+0] = source[i2+0];
             effect.data[i+1] = source[i2+1];
