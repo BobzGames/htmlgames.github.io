@@ -1649,7 +1649,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           
           for (var i = 0; i < effect.data.length; i += 4) {
             effect.data[i + 0] = (effect.data[i + 0] + colorVal << 16) & 0xff;
-            effect.data[i + 1] = (effect.data[i + 1] + colorVal < 8) & 0xff;
+            effect.data[i + 1] = (effect.data[i + 1] + colorVal << 8) & 0xff;
             effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
             effect.data[i + 3] = effect.data[i + 3]; // alpha
 	  }
