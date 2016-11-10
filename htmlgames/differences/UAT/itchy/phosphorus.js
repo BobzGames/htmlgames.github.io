@@ -1668,7 +1668,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             frame.data[i+2] = source[i2+2];
             frame.data[i+3] = source[i2+3];
           }		
-	  effectsContext.putImageData(frame, 0, 0, effectsCanvas.width, effectsCanvas.height);   
+	  effectsContext.putImageData(frame, 0, 0);   
         }
 	    
         if (this.filters.whirl !== 0) {
