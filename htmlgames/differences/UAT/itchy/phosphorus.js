@@ -1640,16 +1640,16 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       if (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0) { // || this.filters.ghost !== 0) {
 
         if (this.filters.color !== 0) {
-	  var colorVal = parseInt(2.55 * Math.abs(this.filters.color & 0xff), 10).toString(16); //Math.floor((Math.abs(this.filters.color) + 5) / 10) + 1;
-	  // Render the image
-	  effectsCanvas.width = costume.image.width;
-	  effectsCanvas.height = costume.image.height;
-	  effectsContext.globalCompositeOperation = 'source-atop';
-          effectsContext.drawImage(costume.image, 0, 0);
-          // set the composite operation
-          effectsContext.globalCompositeOperation = 'color';
-          effectsContext.fillStyle = "#" + colorVal + colorVal + colorVal;
-          effectsContext.fillRect(0, 0, costume.image.width, costume.image.height);
+	  var colorVal = this.filters.color / 200;
+	  var effect = context.getImageData(0, 0, costume.image.width, costume.image.height);
+          
+          for (var i = 0; i < effect.data.length; i += 4) {
+            effect[i+0] = (effect[i+0] + colorVal) & 0xff;
+            effect[i+1] = (effect[i+0] + colorVal) & 0xff;
+            effect[i+2] = (effect[i+0] + colorVal) & 0xff;
+            effect[i+3] = (effect[i+0] + colorVal) & 0xff;
+	  }
+	  effectsContext.putImageData(effect, 0, 0);
         }
 	    
         if (this.filters.fisheye !== 0) {
