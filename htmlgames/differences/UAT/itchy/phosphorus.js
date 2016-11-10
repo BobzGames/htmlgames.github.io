@@ -1633,11 +1633,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       context.translate(-costume.rotationCenterX, -costume.rotationCenterY); // ---
 
       if (!noEffects) {
-	// ghost effect only?     
-        //// context.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));	      
+	// ghost effect handled here...   
+        context.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));	      
       }
 
-      if (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0 || this.filters.ghost !== 0) {
+      if (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0) { // || this.filters.ghost !== 0) {
 
         if (this.filters.color !== 0) {
 	  context.drawImage(costume.image, 0, 0); // temp until done
@@ -1680,9 +1680,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  context.drawImage(costume.image, 0, 0); // temp until done    
         }
 	      
-	if (this.filters.ghost !== 0) {
-	   effectsCanvas.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
-        }
+	//if (this.filters.ghost !== 0) {
+	//   effectsCanvas.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
+        //}
+	      
 	// pf  * draw using the effectsCanvas instead   
 	context.drawImage(effectsCanvas, 0, 0, costume.image.width, costume.image.height);
       } else {
