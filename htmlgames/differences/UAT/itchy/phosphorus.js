@@ -1641,17 +1641,17 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
         if (this.filters.color !== 0) {
 	  var colorVal = (this.filters.color * 2.55) & 0xff;
-console.log((colorVal) & 0xff);		
+	
 	  effectsCanvas.width = costume.image.width;
 	  effectsCanvas.height = costume.image.height;		
 	  effectsContext.drawImage(costume.image, 0, 0, costume.image.width, costume.image.height);
 	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
           
           for (var i = 0; i < effect.data.length; i += 4) {
-            effect[i + 0] = (effect[i + 0] + colorVal) & 0xff;
-            effect[i + 1] = (effect[i + 1] + colorVal) & 0xff;
-            effect[i + 2] = (effect[i + 2] + colorVal) & 0xff;
-            effect[i + 3] = effect[i + 3]; // alpha
+            effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
+            effect.data[i + 1] = (effect.data[i + 1] + colorVal) & 0xff;
+            effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
+            effect.data[i + 3] = effect.data[i + 3]; // alpha
 	  }
 	  effectsContext.putImageData(effect, 0, 0);
         }
