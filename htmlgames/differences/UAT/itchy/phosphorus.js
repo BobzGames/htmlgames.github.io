@@ -1714,7 +1714,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.brightness !== 0) {
-	  var brightnessVal = (this.filters.color / 2.55);
+	  var brightnessVal = (this.filters.brightness / 2.55);
 	
 	  effectsCanvas.width = costume.image.width;
 	  effectsCanvas.height = costume.image.height;		
