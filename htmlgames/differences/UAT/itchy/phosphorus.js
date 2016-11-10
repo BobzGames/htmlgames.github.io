@@ -1643,10 +1643,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var colorVal = parseInt(2.55 * Math.abs(this.filters.color & 0xff), 10).toString(16); //Math.floor((Math.abs(this.filters.color) + 5) / 10) + 1;
 	  // Render the image
 	  effectsCanvas.width = costume.image.width;
-	  effectsCanvas.height = costume.image.height;		
+	  effectsCanvas.height = costume.image.height;
+	  effectsContext.globalCompositeOperation = 'destination-in';
           effectsContext.drawImage(costume.image, 0, 0);
           // set the composite operation
-          effectsContext.globalCompositeOperation='color';
+          effectsContext.globalCompositeOperation = 'color';
           effectsContext.fillStyle = "#" + colorVal + colorVal + colorVal;
           effectsContext.fillRect(0, 0, costume.image.width, costume.image.height);
         }
