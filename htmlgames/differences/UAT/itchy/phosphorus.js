@@ -1667,16 +1667,15 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.mosaic !== 0) {
-	  var mosaicVal = Math.floor((Math.abs(this.filters.mosaic) + 5) / 10) + 1;  
+	  var mosaicVal = Math.floor((Math.abs(this.filters.mosaic) + 5) / 10) + 1;
+		console.log(mosaicVal);
           if (mosaicVal > 10) mosaicVal = 10;
 		
 	  effectsCanvas.width = costume.image.width;
 	  effectsCanvas.width = costume.image.height;
 
           var oEnd = effectsCanvas.width / mosaicVal;
-	  //if (oEnd < 10) oEnd = 10;
 	  var iEnd = effectsCanvas.height / mosaicVal;
-	  //if (iEnd < 10 ) iEnd = 10;
 
           for (var o = 0; o < oEnd; o++) {
             for (var i = 0; i < iEnd; i++) {
