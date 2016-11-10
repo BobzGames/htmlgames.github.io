@@ -1668,7 +1668,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             effect.data[i + 0] = effect.data[i * fisheyeVal / 16 % effect.data.length];
             effect.data[i + 1] = effect.data[i * fisheyeVal / 8 % effect.data.length];
             effect.data[i + 2] = effect.data[i * fisheyeVal / 4 % effect.data.length];
-            effect.data[i + 3] = effect.data[i * fisheyeVal / 2 % effect.data.length]; // alpha
+            effect.data[i + 3] = effect.data[i + 3]; // alpha
 	  }
 	  effectsContext.putImageData(effect, 0, 0);     
         }
