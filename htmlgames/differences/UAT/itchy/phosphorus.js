@@ -1644,7 +1644,30 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.fisheye !== 0) {
-	  context.drawImage(costume.image, 0, 0); // temp until done    
+	  var frame = context.getImageData(0, 0, costume.image.width, costume.image.height);
+	  var SIZE = this.filters.fisheye;
+          for (var i = 0; i < frame.data.length; i += 4) {
+            var x = (i/4) % frame.width;
+            var y = Math.floor(i/4 / frame.width);
+
+            var dx = (costume.image.width / 2) - x;
+            var dy = (costume.image.height / 2) - y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+
+            var i2 = i;
+            if (dist <= SIZE) {
+              // If the pixel is within a certain distance from the mouse, 
+              // map it to a different spot on the canvas
+              var x2 = Math.round((costume.image.width / 2) - dx * Math.sin(dist/SIZE*Math.PI/2));
+              var y2 = Math.round((costume.image.height / 2) - dy * Math.sin(dist/SIZE*Math.PI/2)); 
+              var i2 = (y2 * frame.width + x2) * 4;
+            } 
+            frame.data[i+0] = source[i2+0];
+            frame.data[i+1] = source[i2+1];
+            frame.data[i+2] = source[i2+2];
+            frame.data[i+3] = source[i2+3];
+          }		
+	  effectsContext.drawImage(frame, 0, 0, effectsCanvas.width, effectsCanvas.height);   
         }
 	    
         if (this.filters.whirl !== 0) {
