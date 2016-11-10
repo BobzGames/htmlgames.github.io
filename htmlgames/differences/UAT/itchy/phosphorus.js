@@ -1665,10 +1665,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
           // PF: TODO!
           for (var i = 0; i < effect.data.length; i += 4) {
-            effect.data[i + 0] = effect.data[i + 0];
-            effect.data[i + 1] = effect.data[i + 1];
-            effect.data[i + 2] = effect.data[i + 2];
-            effect.data[i + 3] = effect.data[i + 3]; // alpha
+            effect.data[i + 0] = effect.data[i * 16 % effect.data.length];
+            effect.data[i + 1] = effect.data[i * 8 % effect.data.length];
+            effect.data[i + 2] = effect.data[i * 4 % effect.data.length];
+            effect.data[i + 3] = effect.data[i * 2 % effect.data.length]; // alpha
 	  }
 	  effectsContext.putImageData(effect, 0, 0);     
         }
@@ -1682,8 +1682,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
           // PF: TODO!
           for (var i = 0; i < effect.data.length; i += 4) {
-            effect.data[i + 0] = effect.data[i + (0 + whirlVal) % effect.data.length];
-            effect.data[i + 1] = effect.data[i + (1 + whirlVal) % effect.data.length];
+            effect.data[i + 0] = effect.data[i + (0 + whirlVal << 16) % effect.data.length];
+            effect.data[i + 1] = effect.data[i + (1 + whirlVal << 8) % effect.data.length];
             effect.data[i + 2] = effect.data[i + (2 + whirlVal) % effect.data.length];
             effect.data[i + 3] = effect.data[i + 3]; // alpha
 	  }
