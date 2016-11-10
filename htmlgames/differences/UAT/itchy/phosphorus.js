@@ -1672,9 +1672,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  effectsCanvas.width = costume.image.width;
 	  effectsCanvas.width = costume.image.height;
 
-          for (var o = 0; o < mosaicVal; o++) {
-            for (var i = 0; i < mosaicVal; i++) {
-              effectsContext.drawImage(costume.image, mosaicVal + (o * costume.image.width / mosaicVal), mosaicVal + (i * costume.image.height / mosaicVal), costume.image.width / mosaicVal, costume.image.height / mosaicVal);
+          for (var o = 0; o < effectsCanvas.width / mosaicVal; o++) {
+            for (var i = 0; i < effectsCanvas.width / mosaicVal; i++) {
+              effectsContext.drawImage(costume.image, o * costume.image.width / mosaicVal, i * costume.image.height / mosaicVal, costume.image.width / mosaicVal, costume.image.height / mosaicVal);
             }
 	  }
         }
