@@ -1657,7 +1657,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.fisheye !== 0) {
-	  var fisheyeVal = this.filters.fisheye;
+	  var fisheyeVal = (this.filters.fisheye * 2.55) & 0xff;
 	
 	  effectsCanvas.width = costume.image.width;
 	  effectsCanvas.height = costume.image.height;		
@@ -1665,10 +1665,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
           // PF: TODO!
           for (var i = 0; i < effect.data.length; i += 4) {
-            effect.data[i + 0] = effect.data[i * 16 % effect.data.length];
-            effect.data[i + 1] = effect.data[i * 8 % effect.data.length];
-            effect.data[i + 2] = effect.data[i * 4 % effect.data.length];
-            effect.data[i + 3] = effect.data[i * 2 % effect.data.length]; // alpha
+            effect.data[i + 0] = effect.data[i * fisheyeVal / 16 % effect.data.length];
+            effect.data[i + 1] = effect.data[i * fisheyeVal / 8 % effect.data.length];
+            effect.data[i + 2] = effect.data[i * fisheyeVal / 4 % effect.data.length];
+            effect.data[i + 3] = effect.data[i * fisheyeVal / 2 % effect.data.length]; // alpha
 	  }
 	  effectsContext.putImageData(effect, 0, 0);     
         }
