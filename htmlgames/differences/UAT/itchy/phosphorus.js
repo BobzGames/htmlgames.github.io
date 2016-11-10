@@ -1640,18 +1640,19 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       if (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0) { // || this.filters.ghost !== 0) {
 
         if (this.filters.color !== 0) {
+	  var colorVal = Math.floor((Math.abs(this.filters.color) + 5) / 10) + 1;
 	  // Render the image
-          effectsContext.globalCompositeOperation='source-atop';
+	  effectsCanvas.width = costume.image.width;
+	  effectsCanvas.height = costume.image.height;		
           effectsContext.drawImage(costume.image, 0, 0);
           // set the composite operation
           effectsContext.globalCompositeOperation='color';
-          effectsContext.fillStyle = "red";
-          effectsContext.globalAlpha = 1;  // alpha 0 = no effect 1 = full effect
+          effectsContext.fillStyle = colorVal & 0xffffff;
           effectsContext.fillRect(0, 0, costume.image.width, costume.image.height);
         }
 	    
         if (this.filters.fisheye !== 0) {
-	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
+	  var effect = context.getImageData(0, 0, costume.image.width, costume.image.height);
 	  try {
             var source = new Uint8ClampedArray(effect.data);
           } catch(e) {
