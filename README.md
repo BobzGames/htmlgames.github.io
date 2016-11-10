@@ -11,6 +11,7 @@ apk generation for sb2 files is on hold at the moment due to touch events playin
 Updates (tested in Chrome)
 --------------------------
 
+Effect blocks<br>
 Full Sound when wav > 30 secs<br>
 SVG Text now working correctly<br>
 ColorTouchingColor Block coded<br>
@@ -25,13 +26,12 @@ Warp Framework and Turbo mode fully optimised<br>
 WIP
 ---
 
-Effect blocks<br>
 APK generation (unsigned)<br>
 <br>
 TODO LIST
 --------
 
-WebRTCdatachannels for emulating cloud vars (for multiplayer games)<br>
 Display lists<br>
+WebRTCdatachannels for emulating cloud vars (for multiplayer games)<br>
 <br>
 
