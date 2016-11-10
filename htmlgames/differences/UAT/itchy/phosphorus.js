@@ -1667,7 +1667,17 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.mosaic !== 0) {
-	  context.drawImage(costume.image, 0, 0); // temp until done    
+	  var mosaicVal = Math.floor((Math.abs(this.filters.mosaic) + 5) / 10) + 1;  
+          
+	  effectsCanvas.width = costume.image.width;
+	  effectsCanvas.width = costume.image.height;
+
+          effectsContext.drawImage(costume.image, 0, 0, effectsCanvas.width, effectsCanvas.height);
+		
+          for(var i = 0; i < mosaicVal; i++){
+            effectsContext.drawImage(effectsCanvas, 0, i * costumeCanvas.height / mosaicVal, costumeCanvas.width / mosaicVal, costumeCanvas.height / mosaicVal);
+          }
+		
         }
 	    
         if (this.filters.brightness !== 0) {
