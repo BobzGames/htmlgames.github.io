@@ -1677,10 +1677,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
               effectsContext.drawImage(costume.image, o * costume.image.width / mosaicVal, i * costume.image.height / mosaicVal, costume.image.width / mosaicVal, costume.image.height / mosaicVal);
             }
 	  }
-          //for(var i = 0; i < mosaicVal; i++){
-          //  effectsContext.drawImage(costume.image, i * costume.image.width / mosaicVal, 0, costume.image.width / mosaicVal, costume.image.height);
-          //}		
-		
         }
 	    
         if (this.filters.brightness !== 0) {
@@ -1692,7 +1688,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         //}
 	      
 	// pf  * draw using the effectsCanvas instead   
-	context.drawImage(effectsCanvas, 0, 0, costume.image.width, costume.image.height);
+	context.drawImage(effectsCanvas, 0, 0, costume.image.width / costume.resScale, costume.image.height / costume.resScale);
       } else {
         // pf  only when no effects required use the costume.image directly...    
         context.drawImage(costume.image, 0, 0); // , costume.image.width / costume.resScale, costume.image.height / costume.resScale);	      
