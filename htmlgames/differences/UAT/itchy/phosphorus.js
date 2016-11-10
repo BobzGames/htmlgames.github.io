@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.206++) 
+// additional bugfixes by PF (v0.207++) 
 //
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -1668,7 +1668,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             frame.data[i+2] = source[i2+2];
             frame.data[i+3] = source[i2+3];
           }		
-	  effectsContext.putImageDate(frame, 0, 0, effectsCanvas.width, effectsCanvas.height);   
+	  effectsContext.putImageData(frame, 0, 0, effectsCanvas.width, effectsCanvas.height);   
         }
 	    
         if (this.filters.whirl !== 0) {
