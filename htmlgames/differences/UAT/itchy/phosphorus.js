@@ -1632,8 +1632,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       context.scale(costume.scale, costume.scale);
       context.translate(-costume.rotationCenterX, -costume.rotationCenterY); // ---
 
-      if (!noEffects) {
-	// ghost effect handled here...   
+      if (!noEffects) { // pf todo Logic change to include below?
+	// ghost effect handled here now...   
         context.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));	      
       }
 
@@ -1657,37 +1657,37 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.fisheye !== 0) {
-	  var effect = context.getImageData(0, 0, costume.image.width, costume.image.height);
-	  try {
-            var source = new Uint8ClampedArray(effect.data);
-          } catch(e) {
-             var source = new Uint8Array(effect.data);
-          }
-	  var SIZE = this.filters.fisheye;
+	  var fisheyeVal = this.filters.fisheye;
+	
+	  effectsCanvas.width = costume.image.width;
+	  effectsCanvas.height = costume.image.height;		
+	  effectsContext.drawImage(costume.image, 0, 0, costume.image.width, costume.image.height);
+	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
+          // PF: TODO!
           for (var i = 0; i < effect.data.length; i += 4) {
-            var x = (i/4) % effect.width;
-            var y = Math.floor(i/4 / effect.width);
-
-            var dx = (costume.image.width / 2) - x;
-            var dy = (costume.image.height / 2) - y;
-            var dist = Math.sqrt(dx * dx + dy * dy);
-
-            var i2 = i;
-            if (dist <= SIZE) {
-              var x2 = Math.round((costume.image.width / 2) - dx * Math.sin(dist / SIZE * Math.PI / 2));
-              var y2 = Math.round((costume.image.height / 2) - dy * Math.sin(dist / SIZE * Math.PI / 2)); 
-              var i2 = (y2 * effect.width + x2) * 4;
-            } 
-            effect.data[i+0] = source[i2+0];
-            effect.data[i+1] = source[i2+1];
-            effect.data[i+2] = source[i2+2];
-            effect.data[i+3] = source[i2+3];
-          }		
-	  effectsContext.putImageData(effect, 0, 0);   
+            effect.data[i + 0] = effect.data[i + 0];
+            effect.data[i + 1] = effect.data[i + 1];
+            effect.data[i + 2] = effect.data[i + 2];
+            effect.data[i + 3] = effect.data[i + 3]; // alpha
+	  }
+	  effectsContext.putImageData(effect, 0, 0);     
         }
 	    
         if (this.filters.whirl !== 0) {
-	  context.drawImage(costume.image, 0, 0); // temp until done
+	  var whirlVal = this.filters.whirl / 2.55;
+	
+	  effectsCanvas.width = costume.image.width;
+	  effectsCanvas.height = costume.image.height;		
+	  effectsContext.drawImage(costume.image, 0, 0, costume.image.width, costume.image.height);
+	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
+          // PF: TODO!
+          for (var i = 0; i < effect.data.length; i += 4) {
+            effect.data[i + 0] = effect.data[i + (0 + whirlVal) % effect.data.length];
+            effect.data[i + 1] = effect.data[i + (1 + whirlVal) % effect.data.length];
+            effect.data[i + 2] = effect.data[i + (2 + whirlVal) % effect.data.length];
+            effect.data[i + 3] = effect.data[i + 3]; // alpha
+	  }
+	  effectsContext.putImageData(effect, 0, 0);  
         }
 	    
         if (this.filters.pixelate !== 0) {
@@ -1729,12 +1729,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  }
 	  effectsContext.putImageData(effect, 0, 0);  
         }
-	      
-	//if (this.filters.ghost !== 0) {
-	//   effectsCanvas.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
-        //}
-	      
-	// pf  * draw using the effectsCanvas instead (NOTE: only allows on effect at once)
+   
+	// pf  * draw using the effectsCanvas instead (TODO: allow one effect at once)
 	context.drawImage(effectsCanvas, 0, 0, costume.image.width, costume.image.height);
       } else {
         // pf  only when no effects required use the costume.image directly...    
