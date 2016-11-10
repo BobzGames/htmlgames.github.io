@@ -1641,7 +1641,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
         if (this.filters.color !== 0) {
 	  var colorVal = (this.filters.color * 2.55) & 0xff;
-		
+console.log(colorVal) & 0xff);		
 	  effectsCanvas.width = costume.image.width;
 	  effectsCanvas.height = costume.image.height;		
 	  effectsContext.drawImage(costume.image, 0, 0, costume.image.width, costume.image.height);
