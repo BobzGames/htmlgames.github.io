@@ -1644,7 +1644,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  // Render the image
 	  effectsCanvas.width = costume.image.width;
 	  effectsCanvas.height = costume.image.height;
-	  effectsContext.globalCompositeOperation = 'destination-in';
+	  effectsContext.globalCompositeOperation = 'source-atop';
           effectsContext.drawImage(costume.image, 0, 0);
           // set the composite operation
           effectsContext.globalCompositeOperation = 'color';
