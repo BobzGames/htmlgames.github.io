@@ -1644,12 +1644,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.fisheye !== 0) {
-	  var frame = context.getImageData(0, 0, costume.image.width, costume.image.height);
+	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
 	  var source = context.getImageData(0, 0, costume.image.width, costume.image.height);
 	  var SIZE = this.filters.fisheye;
-          for (var i = 0; i < frame.data.length; i += 4) {
-            var x = (i/4) % frame.width;
-            var y = Math.floor(i/4 / frame.width);
+          for (var i = 0; i < effect.data.length; i += 4) {
+            var x = (i/4) % effect.width;
+            var y = Math.floor(i/4 / effect.width);
 
             var dx = (costume.image.width / 2) - x;
             var dy = (costume.image.height / 2) - y;
@@ -1663,12 +1663,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
               var y2 = Math.round((costume.image.height / 2) - dy * Math.sin(dist/SIZE*Math.PI/2)); 
               var i2 = (y2 * frame.width + x2) * 4;
             } 
-            frame.data[i+0] = source[i2+0];
-            frame.data[i+1] = source[i2+1];
-            frame.data[i+2] = source[i2+2];
-            frame.data[i+3] = source[i2+3];
+            effect.data[i+0] = source[i2+0];
+            effect.data[i+1] = source[i2+1];
+            effect.data[i+2] = source[i2+2];
+            effect.data[i+3] = source[i2+3];
           }		
-	  effectsContext.putImageData(frame, 0, 0);   
+	  effectsContext.putImageData(effect, 0, 0);   
         }
 	    
         if (this.filters.whirl !== 0) {
