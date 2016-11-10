@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.205++) 
+// additional bugfixes by PF (v0.206++) 
 //
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -1677,6 +1677,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           for(var i = 0; i < mosaicVal; i++){
             effectsContext.drawImage(effectsCanvas, 0, i * costume.image.height / mosaicVal, costume.image.width / mosaicVal, costume.image.height / mosaicVal);
           }
+          for(var i = 0; i < mosaicVal; i++){
+            effectsContext.drawImage(effectsCanvas, i * costume.image.width / mosaicVal, 0, costume.image.width / mosaicVal, costume.image.height);
+          }		
 		
         }
 	    
