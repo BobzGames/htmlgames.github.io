@@ -1645,6 +1645,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    
         if (this.filters.fisheye !== 0) {
 	  var frame = context.getImageData(0, 0, costume.image.width, costume.image.height);
+	  var source = context.getImageData(0, 0, costume.image.width, costume.image.height);
 	  var SIZE = this.filters.fisheye;
           for (var i = 0; i < frame.data.length; i += 4) {
             var x = (i/4) % frame.width;
