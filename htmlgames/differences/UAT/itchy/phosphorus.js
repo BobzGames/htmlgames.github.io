@@ -1652,7 +1652,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.pixelate !== 0) {
-   
           // get a block size 
           effectsCanvas.width = 10 * costume.image.width / (this.filters.pixelate + costume.image.width / 10);
           effectsCanvas.height = 10 * costume.image.height / (this.filters.pixelate + costume.image.height / 10);
@@ -1660,16 +1659,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           // turn off image aliasing
     	  effectsContext.imageSmoothingEnabled = false; // PF
     	  effectsContext.msImageSmoothingEnabled = false;
-
-          // ?		
-          //effectsContext.save();
 		
           // draw the original image at a fraction of the final size
           effectsContext.drawImage(costume.image, 0, 0, effectsCanvas.width, effectsCanvas.height);
         
-          // enlarge the minimized image to full size 
-          // see *
-          //effectsContext.restore();		
+          // and enlarge the minimized image to full size - see * below
         }
 	    
         if (this.filters.mosaic !== 0) {
