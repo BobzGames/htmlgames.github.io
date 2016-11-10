@@ -1640,7 +1640,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       if (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0) { // || this.filters.ghost !== 0) {
 
         if (this.filters.color !== 0) {
-	  context.drawImage(costume.image, 0, 0); // temp until done
+	  // Render the image
+          effectsContext.globalCompositeOperation='source-atop';
+          effectsContext.drawImage(costume.image, 0, 0);
+          // set the composite operation
+          effectsContext.globalCompositeOperation='color';
+          effectsContext.fillStyle = "red";
+          effectsContext.globalAlpha = 1;  // alpha 0 = no effect 1 = full effect
+          effectsContext.fillRect(0, 0, costume.image.width, costume.image.height);
         }
 	    
         if (this.filters.fisheye !== 0) {
@@ -1678,18 +1685,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.pixelate !== 0) {
-          // get a block size 
           effectsCanvas.width = 10 * costume.image.width / (this.filters.pixelate + costume.image.width / 10);
           effectsCanvas.height = 10 * costume.image.height / (this.filters.pixelate + costume.image.height / 10);
-
-          // turn off image aliasing
     	  effectsContext.imageSmoothingEnabled = false; // PF
     	  effectsContext.msImageSmoothingEnabled = false;
-		
           // draw the original image at a fraction of the final size
           effectsContext.drawImage(costume.image, 0, 0, effectsCanvas.width, effectsCanvas.height);
-        
-          // and enlarge the minimized image to full size - see * below
+          // ready to enlarge the minimized image to full size - see * below
         }
 	    
         if (this.filters.mosaic !== 0) {
@@ -1697,9 +1699,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 		
 	  effectsCanvas.width = costume.image.width;
 	  effectsCanvas.height = costume.image.height;
-
-          for (var o = 0; o < mosaicVal; o++) { // effectsCanvas.width / 
-            for (var i = 0; i < mosaicVal; i++) { // effectsCanvas.height / 
+          // PF TODO: effectsContext.createPattern may offer a speed increase here ?
+          for (var o = 0; o < mosaicVal; o++) {
+            for (var i = 0; i < mosaicVal; i++) { 
               effectsContext.drawImage(costume.image, o * costume.image.width / mosaicVal, i * costume.image.height / mosaicVal, costume.image.width / mosaicVal, costume.image.height / mosaicVal);
             }
 	  }
@@ -1713,7 +1715,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	//   effectsCanvas.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
         //}
 	      
-	// pf  * draw using the effectsCanvas instead   
+	// pf  * draw using the effectsCanvas instead (NOTE: only allows on effect at once)
 	context.drawImage(effectsCanvas, 0, 0, costume.image.width, costume.image.height);
       } else {
         // pf  only when no effects required use the costume.image directly...    
