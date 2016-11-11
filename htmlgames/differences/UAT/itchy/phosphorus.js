@@ -1690,8 +1690,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           effectContext.putImageData(effect, 0, 0);
 	}
 
-        if (this.filters.swirl !== 0) {
-          var swirlVal = (this.filters.swirl / 255) & 0xff;
+        if (this.filters.whirl !== 0) {
+          var whirlVal = (this.filters.whirl / 255) & 0xff;
 
           var w = costume.image.width;
           var h = costume.image.height;
@@ -1720,7 +1720,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
                 destPosition = (y + centerY) * width + x + centerX;
                 destPosition *= 4;
                 degrees = (alpha * 180.0) / Math.PI;
-                degrees += r * 10 * swirlVal;
+                degrees += r * 10 * whirlVal;
                 alpha = (degrees * Math.PI) / 180.0;
                 newY = Math.floor(r * Math.sin(alpha));
                 newX = Math.floor(r * Math.cos(alpha));
