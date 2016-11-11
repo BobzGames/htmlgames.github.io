@@ -1711,7 +1711,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
           var radiusSquared = radius * radius;
           var r, alpha, sourcePosition, destPosition, newX, newY, degrees;
-
+          effectsContext.clearRect(0, 0, w, h);
           for (y = -radius; y < radius; ++y) {
             for (x = -radius; x < radius; ++x) {
               if (x * x + y * y <= radius * radius) { 
