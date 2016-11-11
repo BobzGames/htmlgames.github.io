@@ -1691,7 +1691,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	}
 
         if (this.filters.whirl !== 0) {
-          var whirlVal = (this.filters.whirl / 1000);
+          var whirlVal = (this.filters.whirl / 500);
 
           var w = costume.image.width;
           var h = costume.image.height;
