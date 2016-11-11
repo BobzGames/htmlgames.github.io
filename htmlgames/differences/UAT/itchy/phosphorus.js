@@ -1698,7 +1698,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
           var centerX = Math.floor(w / 2);
           var centerY = Math.floor(h / 2);
-          var size = width < height ? w : h;
+          var size = w < h ? w : h;
           var radius = Math.floor(size / 4);
 
 	  effectsCanvas.width = w;
@@ -1717,7 +1717,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
               if (x * x + y * y <= radius * radius) { 
                 r = Math.sqrt(x * x + y * y);
                 alpha = Math.atan2(y, x);
-                destPosition = (y + centerY) * width + x + centerX;
+                destPosition = (y + centerY) * w + x + centerX;
                 destPosition *= 4;
                 degrees = (alpha * 180.0) / Math.PI;
                 degrees += r * 10 * whirlVal;
