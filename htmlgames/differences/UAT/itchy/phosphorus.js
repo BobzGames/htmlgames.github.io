@@ -1657,7 +1657,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 
         if (this.filters.fisheye !== 0) {
-          var fisheyeVal = (this.filters.fisheye / 255) & 0xff; //?
+          var fisheyeVal = (this.filters.fisheye / 1);
 
           var w = costume.image.width;
           var h = costume.image.height;
@@ -1760,7 +1760,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.brightness !== 0) {
-	  var brightnessVal = (this.filters.brightness / 1);
+	  var brightnessVal = (this.filters.brightness / 2);
 	
 	  effectsCanvas.width = costume.image.width;
 	  effectsCanvas.height = costume.image.height;		
