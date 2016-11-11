@@ -1657,7 +1657,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 
         if (this.filters.fisheye !== 0) {
-          var fisheyeVal = (this.filters.fisheye / 1);
+          var fisheyeVal = (this.filters.fisheye / 10);
 
           var w = costume.image.width;
           var h = costume.image.height;
@@ -1707,7 +1707,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
           //effectsContext.drawImage(img, 0, 0); // draw costume
           var source = effectsContext.getImageData(0, 0, w, h); // orginal copy
-          var effect = source; //effectsContext.getImageData(0, 0, w, h);
+          var effect = effectsContext.getImageData(0, 0, w, h);
 
           var radiusSquared = radius * radius;
           var r, alpha, sourcePosition, destPosition, newX, newY, degrees;
