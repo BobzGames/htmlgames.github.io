@@ -1666,8 +1666,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  effectsCanvas.height = h;		
 	  effectsContext.drawImage(costume.image, 0, 0, w, h);
 
-          //effectsContext.drawImage(img, 0, 0); // draw costume
-          var source = effectsContext.getImageData(0, 0, w, h); // orginal copy
+          var source = effectsContext.getImageData(0, 0, w, h); // orginal copy of costume
           var effect = effectsContext.getImageData(0, 0, w, h);
 
           for (var i = 0; i < w * h * 4; i += 4) {
@@ -1676,7 +1675,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             x -= w / 2; // center of image
             y -= h / 2;
             var r = Math.sqrt(x * x + y * y);
-            r = -r * Math.exp(-r / fisheyeVal) + r;
+            //r = -r * Math.exp(-r / fisheyeVal) + r;
             var t = Math.atan2(y, x);
             var nx = r * Math.cos(t);
             var ny = r * Math.sin(t);
@@ -1705,13 +1704,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  effectsCanvas.height = h;		
 	  effectsContext.drawImage(costume.image, 0, 0, w, h);
 
-          //effectsContext.drawImage(img, 0, 0); // draw costume
-          var source = effectsContext.getImageData(0, 0, w, h); // orginal copy
+          var source = effectsContext.getImageData(0, 0, w, h); // orginal copy of costume
           var effect = effectsContext.getImageData(0, 0, w, h);
 
           var radiusSquared = radius * radius;
           var r, alpha, sourcePosition, destPosition, newX, newY, degrees;
-          effectsContext.clearRect(0, 0, w, h);
+
           for (y = -radius; y < radius; ++y) {
             for (x = -radius; x < radius; ++x) {
               if (x * x + y * y <= radius * radius) { 
