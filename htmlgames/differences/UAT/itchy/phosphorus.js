@@ -1675,7 +1675,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             x -= w / 2; // center of image
             y -= h / 2;
             var r = Math.sqrt(x * x + y * y);
-            //r = -r * Math.exp(-r / fisheyeVal) + r;
+            r = -r * Math.exp(-r / fisheyeVal) + r;
             var t = Math.atan2(y, x);
             var nx = r * Math.cos(t);
             var ny = r * Math.sin(t);
