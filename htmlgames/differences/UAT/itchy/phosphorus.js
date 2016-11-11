@@ -7,7 +7,7 @@
 // the examples dropdown will appear. Lots of lovely games to play!
 //
 var that; // PF
-var TurboMode = true; // !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
+var TurboMode = true; // !!window.location.search.msourcePosition = (newY + centerY) * width + newX + centerX;atch("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
 
 var P = (function() {
@@ -1657,7 +1657,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 
         if (this.filters.fisheye !== 0) {
-          var fisheyeVal = (this.filters.fisheye * 2.55) & 0xff; //?
+          var fisheyeVal = (this.filters.fisheye / 2.55) & 0xff; //?
 
           var w = costume.image.width;
           var h = costume.image.height;
@@ -1735,41 +1735,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           }
           effectsContext.putImageData(effect, 0, 0);
         }
-	/*
-        if (this.filters.fisheye !== 0) {
-	  var fisheyeVal = (this.filters.fisheye * 2.55) & 0xff;
-	
-	  effectsCanvas.width = costume.image.width;
-	  effectsCanvas.height = costume.image.height;		
-	  effectsContext.drawImage(costume.image, 0, 0, costume.image.width, costume.image.height);
-	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
-          // PF: TODO!
-          for (var i = 0; i < effect.data.length; i += 4) {
-            effect.data[i + 0] = effect.data[i * fisheyeVal / 16 % effect.data.length];
-            effect.data[i + 1] = effect.data[i * fisheyeVal / 8 % effect.data.length];
-            effect.data[i + 2] = effect.data[i * fisheyeVal / 4 % effect.data.length];
-            effect.data[i + 3] = effect.data[i + 3]; // alpha
-	  }
-	  effectsContext.putImageData(effect, 0, 0);     
-        }
-	    
-        if (this.filters.whirl !== 0) {
-	  var whirlVal = this.filters.whirl / 2.55;
-	
-	  effectsCanvas.width = costume.image.width;
-	  effectsCanvas.height = costume.image.height;		
-	  effectsContext.drawImage(costume.image, 0, 0, costume.image.width, costume.image.height);
-	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
-          // PF: TODO!
-          for (var i = 0; i < effect.data.length; i += 4) {
-            effect.data[i + 0] = effect.data[i + (0 + whirlVal << 16) % effect.data.length];
-            effect.data[i + 1] = effect.data[i + (1 + whirlVal << 8) % effect.data.length];
-            effect.data[i + 2] = effect.data[i + (2 + whirlVal) % effect.data.length];
-            effect.data[i + 3] = effect.data[i + 3]; // alpha
-	  }
-	  effectsContext.putImageData(effect, 0, 0);  
-        }
-	*/
 	      
         if (this.filters.pixelate !== 0) {
           effectsCanvas.width = 10 * costume.image.width / (this.filters.pixelate + costume.image.width / 10);
