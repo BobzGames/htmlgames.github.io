@@ -1714,7 +1714,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
           for (y = (-radius * 1.5); y < (radius * 1.5); ++y) {
             for (x = (-radius * 1.5); x < (radius * 1.5); ++x) {
-              if (x * x + y * y <= radius * radius) { 
+              if (x * x + y * y <= (radius * 1.5) * (radius * 1.5)) { 
                 r = Math.sqrt(x * x + y * y);
                 alpha = Math.atan2(y, x);
                 destPosition = (y + centerY) * w + x + centerX;
