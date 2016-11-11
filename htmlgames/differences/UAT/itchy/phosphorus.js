@@ -1655,7 +1655,87 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  }
 	  effectsContext.putImageData(effect, 0, 0);
         }
-	    
+
+        if (this.filters.fisheye !== 0) {
+          var fisheyeVal = (this.filters.fisheye * 2.55) & 0xff; //?
+
+          var w = costume.image.width;
+          var h = costume.image.height;
+
+	  effectsCanvas.width = w;
+	  effectsCanvas.height = h;		
+	  effectsContext.drawImage(costume.image, 0, 0, w, h);
+
+          ctx.drawImage(img, 0, 0); // draw costume
+          var source = effectsContext.getImageData(0, 0, w, h); // orginal copy
+          var effect = effectsContext.getImageData(0, 0, w, h);
+
+          for (var i = 0; i < w * h * 4; i += 4) {
+            var x = (i / 4) % w;
+            var y = Math.floor((i / 4) / w);
+            x -= w / 2; // center of image
+            y -= h / 2;
+            var r = Math.sqrt(x * x + y * y);
+            r = -r * Math.exp(-r / fisheyeVal) + r;
+            var t = Math.atan2(y, x);
+            var nx = r * Math.cos(t);
+            var ny = r * Math.sin(t);
+            nx = ~~(nx + w / 2);
+            ny = ~~(ny + h / 2);
+            effect.data[i + 0] = source.data[(ny * h * 4 + nx * 4) + 0];
+            effect.data[i + 1] = source.data[(ny * h * 4 + nx * 4) + 1];
+            effect.data[i + 2] = source.data[(ny * h * 4 + nx * 4) + 2];
+            effect.data[i + 3] = source.data[(ny * h * 4 + nx * 4) + 3]; // alpha 255?
+          }
+          effectContext.putImageData(effect, 0, 0);
+	}
+
+        if (this.filters.swirl !== 0) {
+          var swirlVal = (this.filters.swirl / 255) & 0xff;
+
+          var w = costume.image.width;
+          var h = costume.image.height;
+
+          var centerX = Math.floor(w / 2);
+          var centerY = Math.floor(h / 2);
+          var size = width < height ? w : h;
+          var radius = Math.floor(size / 4);
+
+	  effectsCanvas.width = w;
+	  effectsCanvas.height = h;		
+	  effectsContext.drawImage(costume.image, 0, 0, w, h);
+
+          ctx.drawImage(img, 0, 0); // draw costume
+          var source = effectsContext.getImageData(0, 0, w, h); // orginal copy
+          var effect = effectsContext.getImageData(0, 0, w, h);
+
+          var radiusSquared = radius * radius;
+          var r, alpha, sourcePosition, destPosition, newX, newY, degrees;
+
+          for (y = -radius; y < radius; ++y) {
+            for (x = -radius; x < radius; ++x) {
+              if (x * x + y * y <= radius * radius) { 
+                r = Math.sqrt(x * x + y * y);
+                alpha = Math.atan2(y, x);
+                destPosition = (y + centerY) * width + x + centerX;
+                destPosition *= 4;
+                degrees = (alpha * 180.0) / Math.PI;
+                degrees += r * 10 * swirlVal;
+                alpha = (degrees * Math.PI) / 180.0;
+                newY = Math.floor(r * Math.sin(alpha));
+                newX = Math.floor(r * Math.cos(alpha));
+                sourcePosition = (newY + centerY) * width + newX + centerX;
+                sourcePosition *= 4;
+                effect.data[destPosition + 0] = source.data[sourcePosition + 0];
+                effect.data[destPosition + 1] = source.data[sourcePosition + 1];
+                effect.data[destPosition + 2] = source.data[sourcePosition + 2];
+                effect.data[destPosition + 3] = source.data[sourcePosition + 3];
+              }
+            }
+          }
+          effectContext.putImageData(effect, 0, 0);
+        }
+	/*
         if (this.filters.fisheye !== 0) {
 	  var fisheyeVal = (this.filters.fisheye * 2.55) & 0xff;
 	
@@ -1689,7 +1769,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  }
 	  effectsContext.putImageData(effect, 0, 0);  
         }
-	    
+	*/
+	      
         if (this.filters.pixelate !== 0) {
           effectsCanvas.width = 10 * costume.image.width / (this.filters.pixelate + costume.image.width / 10);
           effectsCanvas.height = 10 * costume.image.height / (this.filters.pixelate + costume.image.height / 10);
