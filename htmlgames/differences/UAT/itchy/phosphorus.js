@@ -1712,8 +1712,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var radiusSquared = radius * radius;
           var r, alpha, sourcePosition, destPosition, newX, newY, degrees;
 
-          for (y = -radius; y < radius; ++y) {
-            for (x = -radius; x < radius; ++x) {
+          for (y = (-radius * 1.5); y < (radius * 1.5); ++y) {
+            for (x = (-radius * 1.5); x < (radius * 1.5); ++x) {
               if (x * x + y * y <= radius * radius) { 
                 r = Math.sqrt(x * x + y * y);
                 alpha = Math.atan2(y, x);
