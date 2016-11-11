@@ -1666,7 +1666,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  effectsCanvas.height = h;		
 	  effectsContext.drawImage(costume.image, 0, 0, w, h);
 
-          ctx.drawImage(img, 0, 0); // draw costume
+          effectsContext.drawImage(img, 0, 0); // draw costume
           var source = effectsContext.getImageData(0, 0, w, h); // orginal copy
           var effect = effectsContext.getImageData(0, 0, w, h);
 
@@ -1705,7 +1705,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  effectsCanvas.height = h;		
 	  effectsContext.drawImage(costume.image, 0, 0, w, h);
 
-          ctx.drawImage(img, 0, 0); // draw costume
+          effectsContext.drawImage(img, 0, 0); // draw costume
           var source = effectsContext.getImageData(0, 0, w, h); // orginal copy
           var effect = effectsContext.getImageData(0, 0, w, h);
 
