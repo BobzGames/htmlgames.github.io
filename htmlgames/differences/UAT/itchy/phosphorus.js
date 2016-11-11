@@ -1657,7 +1657,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 
         if (this.filters.fisheye !== 0) {
-          var fisheyeVal = (this.filters.fisheye / 2.55) & 0xff; //?
+          var fisheyeVal = (this.filters.fisheye / 255) & 0xff; //?
 
           var w = costume.image.width;
           var h = costume.image.height;
