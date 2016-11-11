@@ -1724,7 +1724,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
                 alpha = (degrees * Math.PI) / 180.0;
                 newY = Math.floor(r * Math.sin(alpha));
                 newX = Math.floor(r * Math.cos(alpha));
-                sourcePosition = (newY + centerY) * width + newX + centerX;
+                sourcePosition = (newY + centerY) * w + newX + centerX;
                 sourcePosition *= 4;
                 effect.data[destPosition + 0] = source.data[sourcePosition + 0];
                 effect.data[destPosition + 1] = source.data[sourcePosition + 1];
