@@ -1687,7 +1687,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             effect.data[i + 2] = source.data[(ny * h * 4 + nx * 4) + 2];
             effect.data[i + 3] = source.data[(ny * h * 4 + nx * 4) + 3]; // alpha 255?
           }
-          effectContext.putImageData(effect, 0, 0);
+          effectsContext.putImageData(effect, 0, 0);
 	}
 
         if (this.filters.whirl !== 0) {
@@ -1733,7 +1733,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
               }
             }
           }
-          effectContext.putImageData(effect, 0, 0);
+          effectsContext.putImageData(effect, 0, 0);
         }
 	/*
         if (this.filters.fisheye !== 0) {
