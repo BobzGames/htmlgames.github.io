@@ -1606,6 +1606,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   // PF new
   var effectsCanvas = document.createElement('canvas');
+  effectsCanvas.id = "eC";
   var effectsContext = effectsCanvas.getContext('2d');	
 	
   Sprite.prototype.draw = function(context, noEffects) {
@@ -1662,6 +1663,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var w = costume.image.width;
           var h = costume.image.height;
           w = h = (w < h ) ? w : h; // must be a sqr
+	  w = w / 4; // increase speed
+          h = h / 4;
 		
 	  effectsCanvas.width = w;
 	  effectsCanvas.height = h;		
