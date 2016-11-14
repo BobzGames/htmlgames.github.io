@@ -1663,8 +1663,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var h = costume.image.height;
           w = h = (w < h ) ? w : h; // must be a sqr
 		
-	  w = w / 4; // speed increase
-          h = h / 4; // speed increase
+	  //w = w / 4; // speed increase
+          //h = h / 4; // speed increase
 		
 	  effectsCanvas.width = w;
 	  effectsCanvas.height = h;		
@@ -1691,9 +1691,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             effect.data[i + 3] = source.data[(ny * h * 4 + nx * 4) + 3]; // alpha 255?
           }
           effectsContext.putImageData(effect, 0, 0);
-          var img2 = new Image(); // speed increase
-          img2.src = effectsCanvas.toDataURL(); // speed increase
-          effectsContext.drawImage(img2, 0, 0, costume.image.width, costume.image.height); // speed increase	
+		
+          //var img2 = new Image(); // speed increase
+          //img2.src = effectsCanvas.toDataURL(); // speed increase
+          //effectsContext.drawImage(img2, 0, 0, costume.image.width, costume.image.height); // speed increase	
 	}
 
         if (this.filters.whirl !== 0) {
