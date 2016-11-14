@@ -1693,7 +1693,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           effectsContext.putImageData(effect, 0, 0);
           var img2 = new Image(); // speed increase
           img2.src = effectsCanvas.toDataURL(); // speed increase
-          effectsContext.drawImage(img2, 0, 0, w * 4, h * 4); // speed increase	
+          effectsContext.drawImage(img2, 0, 0, costume.image.width, costume.image.height); // speed increase	
 	}
 
         if (this.filters.whirl !== 0) {
