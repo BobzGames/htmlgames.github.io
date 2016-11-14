@@ -1606,7 +1606,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   // PF new
   var effectsCanvas = document.createElement('canvas');
-  effectsCanvas.id = "eC";
   var effectsContext = effectsCanvas.getContext('2d');	
 	
   Sprite.prototype.draw = function(context, noEffects) {
@@ -1663,8 +1662,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var w = costume.image.width;
           var h = costume.image.height;
           w = h = (w < h ) ? w : h; // must be a sqr
-	  w = w / 4; // increase speed
-          h = h / 4; // speed increase
+	  //w = w / 4; // increase speed
+          //h = h / 4; // speed increase
 		
 	  effectsCanvas.width = w;
 	  effectsCanvas.height = h;		
@@ -1691,8 +1690,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             effect.data[i + 3] = source.data[(ny * h * 4 + nx * 4) + 3]; // alpha 255?
           }
           effectsContext.putImageData(effect, 0, 0);
-          eCimg = document.getElementById("eC"); // speed increase
-          effectsContext.drawImage(eCimg, 0, 0, w * 4, h * 4); // speed increase	
+          //eCimg = document.getElementById("eC"); // speed increase
+          //effectsContext.drawImage(eCimg, 0, 0, w * 4, h * 4); // speed increase	
 	}
 
         if (this.filters.whirl !== 0) {
