@@ -1661,14 +1661,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
           var w = costume.image.width;
           var h = costume.image.height;
-          var size = w < h ? w : h;
+          w = h = (w < h ) ? w : h; // must be a sqr
 		
-	  effectsCanvas.width = size; //w;
-	  effectsCanvas.height = size; //h;		
-	  effectsContext.drawImage(costume.image, 0, 0, size, size); //w, h);
+	  effectsCanvas.width = w;
+	  effectsCanvas.height = h;		
+	  effectsContext.drawImage(costume.image, 0, 0, w, h);
 
-          var source = effectsContext.getImageData(0, 0, size, size); //w, h); // orginal copy of costume
-          var effect = effectsContext.getImageData(0, 0, size, size); //w, h);
+          var source = effectsContext.getImageData(0, 0, w, h); // orginal copy of costume
+          var effect = effectsContext.getImageData(0, 0, w, h);
 
           for (var i = 0; i < w * h * 4; i += 4) {
             var x = (i / 4) % w;
