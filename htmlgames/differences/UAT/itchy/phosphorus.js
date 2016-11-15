@@ -1888,8 +1888,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     collisionCanvas.width = (w < 1) ? 1 :w;
     collisionCanvas.height = (h < 1) ? 1 : h;
 
-    // pf - fast match test
-    var bFast = (w == h && h < 6) ? true : false;
+    // pf - fast match test (hack - watch out!)
+    var bFast = (w == h && h < 8) ? true : false;
 	  
     if (bFast) {
       collisionContext.translate(-(240 + b.left), -(180 - b.top));
