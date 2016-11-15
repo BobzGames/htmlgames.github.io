@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.215++)
+// additional bugfixes by PF (v0.216++)
 //  
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -1662,27 +1662,31 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var w = costume.image.width;
           var h = costume.image.height;
           w = h = (w < h ) ? w : h; // must be a sqr
-		
-	  //w = w / 4; // speed increase
-          //h = h / 4; // speed increase
-		
+	  
+          var img2 = new Image(); // speed increase
+          img2.width = w; // speed increase
+          img2.height = h; // speed increase		
+	  w = w / 4; // speed increase
+          h = h / 4; // speed increase
+	  
 	  effectsCanvas.width = w;
 	  effectsCanvas.height = h;		
 	  effectsContext.drawImage(costume.image, 0, 0, w, h);
 
           var source = effectsContext.getImageData(0, 0, w, h); // orginal copy of costume
           var effect = effectsContext.getImageData(0, 0, w, h);
-
-          for (var i = 0; i < w * h * 4; i += 4) {
-            var x = (i / 4) % w;
-            var y = Math.floor((i / 4) / w);
+          var i, x, y, r, r2, t, nx, ny;
+		
+          for (i = 0; i < w * h * 4; i += 4) {
+            x = (i / 4) % w;
+            y = Math.floor((i / 4) / w);
             x -= w / 2; // center of image
             y -= h / 2;
-            var r = Math.sqrt(x * x + y * y);
-            r = -r * Math.exp(-r / fisheyeVal) + r;
-            var t = Math.atan2(y, x);
-            var nx = r * Math.cos(t);
-            var ny = r * Math.sin(t);
+            r2 = Math.sqrt(x * x + y * y);
+            r = -r2 * Math.exp(-r2 / fisheyeVal) + r2;
+            t = Math.atan2(y, x);
+            nx = r * Math.cos(t);
+            ny = r * Math.sin(t);
             nx = ~~(nx + w / 2);
             ny = ~~(ny + h / 2);
             effect.data[i + 0] = source.data[(ny * h * 4 + nx * 4) + 0];
@@ -1692,9 +1696,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           }
           effectsContext.putImageData(effect, 0, 0);
 		
-          //var img2 = new Image(); // speed increase
-          //img2.src = effectsCanvas.toDataURL(); // speed increase
-          //effectsContext.drawImage(img2, 0, 0, costume.image.width, costume.image.height); // speed increase	
+          img2.src = effectsCanvas.toDataURL(); // speed increase
+          effectsContext.drawImage(img2, 0, 0, costume.image.width, costume.image.height); // speed increase	
 	}
 
         if (this.filters.whirl !== 0) {
