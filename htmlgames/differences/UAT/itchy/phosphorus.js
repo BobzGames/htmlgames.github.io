@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.216++)
+// additional bugfixes by PF (v0.217++)
 //  
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -1860,12 +1860,15 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
         collisionContext.restore();
 
-        var data = collisionContext.getImageData(0, 0, w, h).data;
-	
-	var length = w * h * 4; // must be > 0          
-        for (var j = 0; j < length; j += 4) {
-          if (data[j + 3]) {
-            return true;
+	var length = w * h * 4; // must be > 0
+	      
+	if (length) {
+          var data = collisionContext.getImageData(0, 0, w, h).data;
+	         
+          for (var j = 0; j < length; j += 4) {
+            if (data[j + 3]) {
+              return true;
+            }
           }
         }
       }
