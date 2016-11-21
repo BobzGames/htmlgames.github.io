@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.217++)
+// additional bugfixes by PF (v0.218++)
 //  
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -1861,10 +1861,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           collisionContext.globalCompositeOperation = 'source-in';
           sprite.draw(collisionContext, true);
 
-          collisionContext.restore();
-
-
-	      
+          collisionContext.restore();	      
 
           var data = collisionContext.getImageData(0, 0, w, h).data;
 	         
@@ -1885,7 +1882,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var w = b.right - b.left;
     var h = b.top - b.bottom;
   
-    collisionCanvas.width = (w < 1) ? 1 :w;
+    collisionCanvas.width = (w < 1) ? 1 : w;
     collisionCanvas.height = (h < 1) ? 1 : h;
 
     // pf - fast match test (hack - watch out!)
@@ -1929,8 +1926,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var w = b.right - b.left;
     var h = b.top - b.bottom;
   
-    collisionCanvas.width = (w < 1) ? 1 :w;
+    collisionCanvas.width = (w < 1) ? 1 : w;
     collisionCanvas.height = (h < 1) ? 1 : h;
+	   
     collisionContext.translate(-(240 + b.left), -(180 - b.top));
     this.stage.drawAllOn(collisionContext, this);
     var data2 = collisionContext.getImageData(0, 0, w, h).data; // rgb2 'over'
