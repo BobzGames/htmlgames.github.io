@@ -1851,18 +1851,21 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         collisionCanvas.width = (w < 1) ? 1 : w;
         collisionCanvas.height = (h < 1) ? 1 : h;
 
-        collisionContext.save();
-        collisionContext.translate(-(240 + left), -(180 - top));
-
-        this.draw(collisionContext, true);
-        collisionContext.globalCompositeOperation = 'source-in';
-        sprite.draw(collisionContext, true);
-
-        collisionContext.restore();
-
 	var length = w * h * 4; // must be > 0
-	      
+
 	if (length) {
+          collisionContext.save();
+          collisionContext.translate(-(240 + left), -(180 - top));
+
+          this.draw(collisionContext, true);
+          collisionContext.globalCompositeOperation = 'source-in';
+          sprite.draw(collisionContext, true);
+
+          collisionContext.restore();
+
+
+	      
+
           var data = collisionContext.getImageData(0, 0, w, h).data;
 	         
           for (var j = 0; j < length; j += 4) {
