@@ -3121,10 +3121,12 @@ P.compile = (function() {
       } else if (block[0] === 'changeSizeBy:') {
 
         source += 'S.scale += ' + num(block[1]) + ' / 100;\n';
+	source += 'if (S.scale < 0) S.scale = 0;\n'; // pf fix
 
       } else if (block[0] === 'setSizeTo:') {
 
         source += 'S.scale = ' + num(block[1]) + ' / 100;\n';
+	source += 'if (S.scale < 0) S.scale = 0;\n'; // pf fix
 
       } else if (block[0] === 'show') {
 
