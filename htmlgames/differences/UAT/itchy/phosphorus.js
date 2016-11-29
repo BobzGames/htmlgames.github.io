@@ -1705,10 +1705,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
 	  effectsCanvas.width = w;
 	  effectsCanvas.height = h;		
-	  effectsContext.drawImage(costume.image, 0, 0, w, h);
+	  context.drawImage(costume.image, 0, 0, w, h);
 
-          var source = effectsContext.getImageData(0, 0, w, h); // orginal copy of costume
-          var effect = effectsContext.getImageData(0, 0, w, h);
+          var source = context.getImageData(0, 0, w, h); // orginal copy of costume
+          var effect = context.getImageData(0, 0, w, h);
 
           var radiusSquared = radius * radius;
           var r, alpha, sourcePosition, destPosition, newX, newY, degrees;
