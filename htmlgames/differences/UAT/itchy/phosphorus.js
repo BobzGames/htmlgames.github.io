@@ -1700,7 +1700,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var centerX = Math.floor(w / 2);
           var centerY = Math.floor(h / 2);
 
-          var size = w < h ? h : w;
+          var size = w < h ? w : h;
           var radius = Math.floor(size / 2); // pft 
 
 	  effectsCanvas.width = w;
@@ -1713,8 +1713,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var radiusSquared = radius * radius;
           var r, alpha, sourcePosition, destPosition, newX, newY, degrees;
 
-          for (y = 0; y < size; ++y) {//(y = -radius; y < radius; ++y) {
-            for (x = 0; x < size; ++x) {//(x = -radius; x < radius; ++x) {
+          for (y = -radius; y < radius; ++y) {
+            for (x = -radius; x < radius; ++x) {
               if (x * x + y * y <= radius * radius) { 
                 r = Math.sqrt(x * x + y * y);
                 alpha = Math.atan2(y, x);
@@ -1731,9 +1731,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
                 effect.data[destPosition + 1] = source.data[sourcePosition + 1];
                 effect.data[destPosition + 2] = source.data[sourcePosition + 2];
                 effect.data[destPosition + 3] = source.data[sourcePosition + 3];
-              } else {
-		destPosition = (y + centerY) * w + x + centerX;
-		effect.data[destPosition + 3] = 0;
 	      }
             }
           }
