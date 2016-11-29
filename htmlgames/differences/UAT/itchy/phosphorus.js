@@ -1709,7 +1709,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
           var source = effectsContext.getImageData(0, 0, w, h); // orginal copy of costume
           var effect = effectsContext.getImageData(0, 0, w, h);
-	  effectsContext.clearRect(0, 0, w, h); //
 
           var radiusSquared = radius * radius;
           var r, alpha, sourcePosition, destPosition, newX, newY, degrees;
@@ -1733,6 +1732,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
                 effect.data[destPosition + 2] = source.data[sourcePosition + 2];
                 effect.data[destPosition + 3] = source.data[sourcePosition + 3];
               }
+		destPosition = (y + centerY) * w + x + centerX;
+		effect.data[destPosition + 3] = 0;    
             }
           }
           effectsContext.putImageData(effect, 0, 0);
