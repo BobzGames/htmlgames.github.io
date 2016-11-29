@@ -1731,9 +1731,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
                 effect.data[destPosition + 1] = source.data[sourcePosition + 1];
                 effect.data[destPosition + 2] = source.data[sourcePosition + 2];
                 effect.data[destPosition + 3] = source.data[sourcePosition + 3];
-              }
+              } else {
 		destPosition = (y + centerY) * w + x + centerX;
-		effect.data[destPosition + 3] = 0;    
+		effect.data[destPosition + 3] = 0;
+	      }
             }
           }
           effectsContext.putImageData(effect, 0, 0);
