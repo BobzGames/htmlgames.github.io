@@ -1697,9 +1697,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var w = costume.image.width;
           var h = costume.image.height;
 
+          w = h = (w < h ) ? h : w; // must be a sqr
           var centerX = Math.floor(w / 2);
           var centerY = Math.floor(h / 2);
-          var size = w < h ? h : w;
+
+          var size = w;
           var radius = Math.floor(size / 2); // pft 
 
 	  effectsCanvas.width = w;
