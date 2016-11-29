@@ -1699,7 +1699,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
           var centerX = Math.floor(w / 2);
           var centerY = Math.floor(h / 2);
-          var size = w < h ? w : h;
+          var size = w < h ? h : w;
           var radius = Math.floor(size / 2); // pft 
 
 	  effectsCanvas.width = w;
