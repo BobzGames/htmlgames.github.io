@@ -780,7 +780,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     //for (var i = 0; i < 256; i++) {
     //  this.listeners.whenKeyPressed.push([]);
     //}
-    for (var i = 127; i--;) {this.listeners.whenKeyPressed.push([]);
+    for (var i = 127; i--;) {this.listeners.whenKeyPressed.push([])};
     this.fns = [];
     this.scripts = [];
 
