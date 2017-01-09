@@ -1077,6 +1077,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         return; // PF allow e.ctrlKey || 
       }
       var key = e.keyCode;
+      if (key > 64 && key < 123) {
+        key += 32;
+      }
       console.log(key)+"\n";
       this.keys[key] = true;
       e.stopPropagation();
@@ -1088,6 +1091,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
     this.root.addEventListener('keyup', function(e) {
       var key = e.keyCode;
+      if (key > 64 && key < 123) {
+        key += 32;
+      }	
+      console.log(key)+"\n";
       this.keys[key] = false;
       e.stopPropagation();
       if (e.target === this.canvas) {
