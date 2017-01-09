@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.224++)
+// additional bugfixes by PF (v0.222++)
 //  
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -2888,7 +2888,6 @@ P.compile = (function() {
 
       } else if (e && e[0] === 'keyPressed:') {
 	if (e[1] === "") e[1] = "ctrl"; // PF ctrl hack!
-	      console.log(e.length + " :: " + val(e[1]) + "\n");
         return '!!self.keys[P.getKeyCode(' + val(e[1]) + ')]';
 
       // } else if (e && e[0] === 'isLoud') {
@@ -3881,9 +3880,7 @@ P.runtime = (function() {
   };
 
   var getLineOfList = function(list, index) {
-	  if (index != 128) console.log(index + " ! ");
     var i = listIndex(list, index, list.length);
-	  
     return i !== -1 ? list[i] : '';
   };
 
