@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.222++)
+// additional bugfixes by PF (v0.223++)
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -3881,7 +3881,9 @@ P.runtime = (function() {
   };
 
   var getLineOfList = function(list, index) {
+	  if (index != 128) console.log(index + " ! ");
     var i = listIndex(list, index, list.length);
+	  if (index != 128) console.log(listIndex + "\n");
     return i !== -1 ? list[i] : '';
   };
 
