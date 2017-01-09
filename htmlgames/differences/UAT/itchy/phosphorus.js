@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.222++)
+// additional bugfixes by PF (v0.223++)
 //  
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -777,9 +777,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       whenSceneStarts: [],
       whenSensorGreaterThan: []
     };
-    for (var i = 0; i < 256; i++) {
-      this.listeners.whenKeyPressed.push([]);
-    }
+    //for (var i = 0; i < 256; i++) {
+    //  this.listeners.whenKeyPressed.push([]);
+    //}
+    for (var i = 127; i--;) {this.listeners.whenKeyPressed.push([]);
     this.fns = [];
     this.scripts = [];
 
@@ -1077,9 +1078,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         return; // PF allow e.ctrlKey || 
       }
       var key = e.keyCode;
-      this.keys[key] = true;
+      
       e.stopPropagation();
-      if (e.target === this.canvas) {
+      if (e.target === this.canvas && !this.keys[key]) {
+	this.keys[key] = true;
         e.preventDefault();
         this.trigger('whenKeyPressed', key);
       }
