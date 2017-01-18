@@ -1083,7 +1083,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       if (e.target === this.canvas && !this.keys[key]) {
 	this.keys[key] = true;
         e.preventDefault();
-        //this.trigger('whenKeyPressed', key);
+        this.trigger('whenKeyPressed', key);
       }
     }.bind(this));
 
