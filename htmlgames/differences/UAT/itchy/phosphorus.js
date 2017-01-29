@@ -1073,8 +1073,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // hardware acceleration
     this.root.style.WebkitTransform = 'translateZ(0)';
 
-    //this.root.addEventListener('keydown', function(e) {
-      this.root.addEventListener('keypress', function(e) {	  
+      this.root.addEventListener('keydown', function(e) {
+      //this.root.addEventListener('keypress', function(e) { // pf db3  
       if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
         return; // PF allow e.ctrlKey || 
       }
@@ -1085,7 +1085,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	this.keys[key] = true;
         e.preventDefault();
         this.trigger('whenKeyPressed', key);
-	this.keys[key] = false; // pf db3
       }
     }.bind(this));
 
@@ -1445,7 +1444,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   var getKeyCode = function(keyName) {
     if (keyName && keyName.length > 0)
-    return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0);// keyName.toUpperCase().charCodeAt(0); // pf db
+    return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0); // keyName.charCodeAt(0); // pf db1
   };
 
   var Sprite = function(stage) {
