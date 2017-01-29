@@ -4234,7 +4234,7 @@ P.runtime = (function() {
           threads = threads.concat(this.triggerFor(this.children[i], event, arg));
         }
       }
-      return threads.length ? threads.concat(this.triggerFor(this, event, arg)) : false;
+      return threads; //.concat(this.triggerFor(this, event, arg));
     };
 
     P.Stage.prototype.triggerGreenFlag = function() {
