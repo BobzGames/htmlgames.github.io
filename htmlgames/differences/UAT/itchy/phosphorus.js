@@ -4231,11 +4231,11 @@ P.runtime = (function() {
     P.Stage.prototype.trigger = function(event, arg) {
       var threads = [];
       for (var i = this.children.length; i--;) {
-        if (this.children[i].isSprite) { // pf db2
+        if (this.children[i].isSprite) {
           threads = threads.concat(this.triggerFor(this.children[i], event, arg));
         }
       }
-      return threads; //.concat(this.triggerFor(this, event, arg));
+      return threads.concat(this.triggerFor(this, event, arg));  // pf db?
     };
 
     P.Stage.prototype.triggerGreenFlag = function() {
