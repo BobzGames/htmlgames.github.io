@@ -1073,7 +1073,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // hardware acceleration
     this.root.style.WebkitTransform = 'translateZ(0)';
 
-    this.root.addEventListener('keydown', function(e) {
+    //this.root.addEventListener('keydown', function(e) {
+      this.root.addEventListener('keypress', function(e) {	  
       if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
         return; // PF allow e.ctrlKey || 
       }
