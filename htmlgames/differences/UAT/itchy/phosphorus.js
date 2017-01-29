@@ -1442,7 +1442,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   var getKeyCode = function(keyName) {
-    if (keyName && keyName.length > 0) // pf db
+    if (keyName && keyName.length > 0)
     return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);
   };
 
