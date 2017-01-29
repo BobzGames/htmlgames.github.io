@@ -4230,7 +4230,7 @@ P.runtime = (function() {
     P.Stage.prototype.trigger = function(event, arg) {
       var threads = [];
       for (var i = this.children.length; i--;) {
-        if (this.children[i].isSprite) {
+        if (i && this.children[i].isSprite) { // pf db2
           threads = threads.concat(this.triggerFor(this.children[i], event, arg));
         }
       }
