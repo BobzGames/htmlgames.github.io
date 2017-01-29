@@ -1085,6 +1085,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	this.keys[key] = true;
         e.preventDefault();
         this.trigger('whenKeyPressed', key);
+	this.keys[key] = false; // pf db3
       }
     }.bind(this));
 
