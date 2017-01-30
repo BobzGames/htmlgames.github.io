@@ -1092,6 +1092,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       console.log(e.keyCode); // db2
       var key = e.keyCode;
       this.keys[key] = false;
+      this.keys[key+32] = false;
       e.stopPropagation();
       if (e.target === this.canvas) {
         e.preventDefault();
