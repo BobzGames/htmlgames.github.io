@@ -780,7 +780,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     //for (var i = 0; i < 256; i++) {
     //  this.listeners.whenKeyPressed.push([]);
     //}
-    for (var i = 128; i--;) {this.listeners.whenKeyPressed.push([])}; // pf db x
+    for (var i = 127; i--;) {this.listeners.whenKeyPressed.push([])}; // pf db x
     this.fns = [];
     this.scripts = [];
 
@@ -1097,7 +1097,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       console.log(key); //
       e.stopPropagation();
       if (e.target === this.canvas && !this.keys[key] && "16.17.37.38.39.40".match(key.toString())) { // db4
-	if (key == 16) key = 128;	      
+	if (key == 16) key = 0;	      
 	if (key == 37) key = 28;
 	if (key == 39) key = 29;
 	if (key == 38) key = 30;
@@ -3680,7 +3680,7 @@ P.compile = (function() {
     } else if (script[0][0] === 'whenKeyPressed') { // any
       if (script[0][1] == "") script[0][1] = "ctrl"; // PF ctrl hack!
       if (script[0][1] == 'any') {
-        for (var any = 128;any--;) {  // pf db x
+        for (var any = 127;any--;) {  // pf db x
 	  object.listeners.whenKeyPressed[any].push(f);
 	}
       } else {
