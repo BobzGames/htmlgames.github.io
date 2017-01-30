@@ -1074,6 +1074,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.root.style.WebkitTransform = 'translateZ(0)';
 
       //this.root.addEventListener('keydown', function(e) {
+      // TOOO: add old way here and split...
+	  
       this.root.addEventListener('keypress', function(e) { // pf db3  
       if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
         return; // PF allow e.ctrlKey || 
@@ -1094,7 +1096,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         return; // PF allow e.ctrlKey || 
       }
       var key = e.keyCode;
-      console.log(key); //
+      //console.log(key); //
       e.stopPropagation();
       if (e.target === this.canvas && !this.keys[key] && "16.17.37.38.39.40".match(key.toString())) { // db4
 	//if (key == 16) key = 0;	      
@@ -1111,9 +1113,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  
     this.root.addEventListener('keyup', function(e) {
       var key = e.keyCode;
-      //console.log(key); // db2
+      console.log(key); // db2
       this.keys[key] = false;
-      //if (key > 64 && key < 91) this.keys[key+32] = false;
+      if (key > 64 && key < 91) this.keys[key+32] = false;
       this.keys[self.key] = false;
       e.stopPropagation();
       if (e.target === this.canvas) {
