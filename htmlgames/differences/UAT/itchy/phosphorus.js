@@ -1089,6 +1089,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }.bind(this));
 
     this.root.addEventListener('keyup', function(e) {
+      console.log(e.keyCode); // db2
       var key = e.keyCode;
       this.keys[key] = false;
       e.stopPropagation();
