@@ -1079,7 +1079,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         return; // PF allow e.ctrlKey || 
       }
       var key = e.keyCode;
-      console.log(key); //
+
       e.stopPropagation();
       if (e.target === this.canvas && !this.keys[key]) {
 	this.keys[key] = true;
@@ -1089,6 +1089,21 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       }
     }.bind(this));
 
+      this.root.addEventListener('keydown', function(e) {
+      if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
+        return; // PF allow e.ctrlKey || 
+      }
+      var key = e.keyCode;
+      console.log(key); //
+      e.stopPropagation();
+      if (e.target === this.canvas && !this.keys[key] & key < 32) { // db4
+	this.keys[key] = true;
+	self.key = key;
+        e.preventDefault();
+        this.trigger('whenKeyPressed', key);
+      }
+    }.bind(this));	  
+	  
     this.root.addEventListener('keyup', function(e) {
       var key = e.keyCode;
       //console.log(key); // db2
