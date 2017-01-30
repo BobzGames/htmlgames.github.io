@@ -1096,7 +1096,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       var key = e.keyCode;
       console.log(key); //
       e.stopPropagation();
-      if (e.target === this.canvas && !this.keys[key] & key < 32) { // db4
+      if (e.target === this.canvas && !this.keys[key] && "37.38.39.40".match(key.toString())) { // db4
+	if (key == 37) key = 28;
+	if (key == 39) key = 29;
+	if (key == 38) key = 30;
+	if (key == 40) key = 31;	      
 	this.keys[key] = true;
 	self.key = key;
         e.preventDefault();
