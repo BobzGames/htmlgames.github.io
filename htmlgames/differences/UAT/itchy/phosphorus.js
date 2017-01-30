@@ -1079,7 +1079,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         return; // PF allow e.ctrlKey || 
       }
       var key = e.keyCode;
-      
+      console.log(key); //
       e.stopPropagation();
       if (e.target === this.canvas && !this.keys[key]) {
 	this.keys[key] = true;
@@ -1091,7 +1091,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
     this.root.addEventListener('keyup', function(e) {
       var key = e.keyCode;
-      console.log(key); // db2
+      //console.log(key); // db2
       this.keys[key] = false;
       this.keys[key+32] = false;
       this.keys[self.key] = false;
