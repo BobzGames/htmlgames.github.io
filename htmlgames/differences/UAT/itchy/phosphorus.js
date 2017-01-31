@@ -592,7 +592,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     data.variables = data.variables || [];
     data.lists = data.lists || [];
     //pf temp hack for ASCII hack lists...
-    console.log(data.lists.toString());
+    console.log(data.lists.length);
   };
 
   IO.loadArray = function(data, process) {
