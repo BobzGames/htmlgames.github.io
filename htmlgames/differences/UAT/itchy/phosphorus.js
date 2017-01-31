@@ -593,7 +593,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     data.variables = data.variables || [];
     data.lists = data.lists || [];
     //pf temp (dirty) hack for ASCII hack lists...
-    ASCII = false;
     if (data && data.lists && data.lists.length) {
         for (var ha = data.lists.length; ha--;)
 	{
@@ -616,6 +615,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   IO.loadObject = function(data) {
     if (!data.cmd && !data.listName) {
       IO.loadBase(data);
+      ASCII = false; // pf ASCII hack reset	    
     }
   };
 
