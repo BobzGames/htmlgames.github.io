@@ -232,6 +232,7 @@ var P = (function() {
       request.progress(e.loaded, e.total, e.lengthComputable);
     };
     xhr.onload = function() {
+      ASCII = false; // pf ASCII hack reset	    
       if (location.hash.substr(1) === 'zip') { // pf: branch local / dragdrop zip stuff here...
           request.load(xhr.response);
       } else {	      
