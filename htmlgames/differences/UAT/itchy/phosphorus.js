@@ -614,7 +614,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   IO.loadObject = function(data) {
     if (!data.cmd && !data.listName) {
-      ASCII = false; // pf ASCII hack reset
       IO.loadBase(data);    
     }
   };
