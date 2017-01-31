@@ -10,6 +10,7 @@
 var that; // PF
 var TurboMode = true; // !!window.location.search.msourcePosition = (newY + centerY) * width + newX + centerX;atch("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
+var ASCII = false; // pf for ASCII hack
 
 var P = (function() {
   'use strict';
@@ -592,7 +593,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     data.variables = data.variables || [];
     data.lists = data.lists || [];
     //pf temp hack for ASCII hack lists...
-    console.log(data.lists.length);
+    for (ASCII = false, h = data.lists.length; h--;)
+    {
+	if (data.lists[h].listName == "ASCII") ASCII = true;
+    }
+    if (ASCII) console.log("ASCII hack detected.");
   };
 
   IO.loadArray = function(data, process) {
