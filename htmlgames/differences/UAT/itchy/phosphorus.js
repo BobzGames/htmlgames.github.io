@@ -81,7 +81,6 @@ var P = (function() {
 
   var Request = function() {
     this.loaded = 0;
-    ASCII = false; // pf ASCII hack reset
   };
   addEvents(Request, 'load', 'progress', 'error');
 
