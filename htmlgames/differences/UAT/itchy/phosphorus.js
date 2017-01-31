@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.222++)          
+// additional bugfixes by PF (v0.223++)          
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -1090,50 +1090,62 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       // TOOO: add old way here and split...
 	  
       this.root.addEventListener('keypress', function(e) { // pf db3  
-      if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
-        return; // PF allow e.ctrlKey || 
-      }
-      var key = e.keyCode;
+       if (ASCII) {	      
+          if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
+            return; // PF allow e.ctrlKey || 
+          }
+          var key = e.keyCode;
 
-      e.stopPropagation();
-      if (e.target === this.canvas && !this.keys[key]) {
-	this.keys[key] = true;
-	self.key = key;
-        e.preventDefault();
-        this.trigger('whenKeyPressed', key);
-      }
+          e.stopPropagation();
+          if (e.target === this.canvas && !this.keys[key]) {
+	    this.keys[key] = true;
+	    self.key = key;
+            e.preventDefault();
+            this.trigger('whenKeyPressed', key);
+          }
+       } else {
+	// TODO: as before       
+       }	       
     }.bind(this));
 
       this.root.addEventListener('keydown', function(e) {
-      if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
-        return; // PF allow e.ctrlKey || 
-      }
-      var key = e.keyCode;
-      //console.log(key); //
-      e.stopPropagation();
-      if (e.target === this.canvas && !this.keys[key] && "16.17.37.38.39.40".match(key.toString())) { // db4
-	//if (key == 16) key = 0;	      
-	if (key == 37) key = 28;
-	if (key == 39) key = 29;
-	if (key == 38) key = 30;
-	if (key == 40) key = 31;	      
-	this.keys[key] = true;
-	self.key = key;
-        e.preventDefault();
-        this.trigger('whenKeyPressed', key);
-      }
+       if (ASCII) {	      
+          if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
+            return; // PF allow e.ctrlKey || 
+          }
+          var key = e.keyCode;
+          //console.log(key); //
+          e.stopPropagation();
+          if (e.target === this.canvas && !this.keys[key] && "16.17.37.38.39.40".match(key.toString())) { // db4
+	    //if (key == 16) key = 0;	      
+	    if (key == 37) key = 28;
+	    if (key == 39) key = 29;
+	    if (key == 38) key = 30;
+	    if (key == 40) key = 31;	      
+	    this.keys[key] = true;
+	    self.key = key;
+            e.preventDefault();
+            this.trigger('whenKeyPressed', key);
+          }
+       } else {
+	// TODO: as before       
+       }	       
     }.bind(this));	  
 	  
     this.root.addEventListener('keyup', function(e) {
-      var key = e.keyCode;
-      console.log(key); // db2
-      this.keys[key] = false;
-      if (key > 64 && key < 91) this.keys[key+32] = false;
-      this.keys[self.key] = false;
-      e.stopPropagation();
-      if (e.target === this.canvas) {
-        e.preventDefault();
-      }
+       if (ASCII) {
+          var key = e.keyCode;
+          //console.log(key); // db2
+          this.keys[key] = false;
+          if (key > 64 && key < 91) this.keys[key+32] = false;
+          this.keys[self.key] = false;
+          e.stopPropagation();
+          if (e.target === this.canvas) {
+            e.preventDefault();
+          }
+       } else {
+	// TODO: as before       
+       }
     }.bind(this));
 
     if (hasTouchEvents) {
@@ -1482,9 +1494,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   var getKeyCode = function(keyName) {
-    if (keyName && keyName.length > 0)
-    //return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);
-    return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0); // pf db1
+    if (keyName && keyName.length > 0) {
+       if (ASCII) {	    
+          return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0); // pf db1	    
+       } else {
+          return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);
+       }
+    }
   };
 
   var Sprite = function(stage) {
