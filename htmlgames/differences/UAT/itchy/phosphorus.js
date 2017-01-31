@@ -1086,7 +1086,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // hardware acceleration
     this.root.style.WebkitTransform = 'translateZ(0)';
 
-      //this.root.addEventListener('keydown', function(e) {
       // TOOO: add old way here and split...
 	  
       this.root.addEventListener('keypress', function(e) { // pf db3  
@@ -1104,7 +1103,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             this.trigger('whenKeyPressed', key);
           }
        } else {
-	// TODO: as before       
+	// TODO: as before (not needed)      
        }	       
     }.bind(this));
 
@@ -1128,7 +1127,17 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             this.trigger('whenKeyPressed', key);
           }
        } else {
-	// TODO: as before       
+	// TODO: as before    
+         if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
+            return; // PF allow e.ctrlKey || 
+          }
+          //console.log(e.keyCode)+"\n";
+          this.keys[e.keyCode] = true;
+          e.stopPropagation();
+          if (e.target === this.canvas) {
+            e.preventDefault();
+            this.trigger('whenKeyPressed', e.keyCode);
+          }	       
        }	       
     }.bind(this));	  
 	  
@@ -1144,7 +1153,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             e.preventDefault();
           }
        } else {
-	// TODO: as before       
+	// TODO: as before   
+          this.keys[e.keyCode] = false;
+          e.stopPropagation();
+          if (e.target === this.canvas) {
+            e.preventDefault();
+          }	       
        }
     }.bind(this));
 
