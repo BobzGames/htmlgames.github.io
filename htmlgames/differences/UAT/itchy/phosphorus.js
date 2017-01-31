@@ -6,6 +6,7 @@
 // P.S. after the autoloader has finished (currently the HTML Games logo), you can remove the word zip off the url, press enter and
 // the examples dropdown will appear. Lots of lovely games to play!
 //
+// https://projects.scratch.mit.edu/internalapi/project/[id]/get/
 var that; // PF
 var TurboMode = true; // !!window.location.search.msourcePosition = (newY + centerY) * width + newX + centerX;atch("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
