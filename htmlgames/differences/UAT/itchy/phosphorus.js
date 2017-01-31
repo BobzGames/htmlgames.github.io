@@ -592,12 +592,17 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     data.sounds = IO.loadArray(data.sounds, IO.loadSound);
     data.variables = data.variables || [];
     data.lists = data.lists || [];
-    //pf temp hack for ASCII hack lists...
-    for (ASCII = false, h = data.lists.length; h--;)
-    {
-	if (data.lists[h].listName == "ASCII") ASCII = true;
-    }
-    if (ASCII) console.log("ASCII hack detected.");
+    //pf temp (dirty) hack for ASCII hack lists...
+    ASCII = false;
+    if (data && data.lists && data.lists.length) {
+        for (var ha = data.lists.length; ha--;)
+	{
+	    if (data.lists[ha].listName == "ASCII") {
+	        ASCII = true;
+		console.log("ASCII hack detected.");
+	    }
+	}
+    } 
   };
 
   IO.loadArray = function(data, process) {
