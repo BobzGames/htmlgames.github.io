@@ -591,6 +591,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     data.sounds = IO.loadArray(data.sounds, IO.loadSound);
     data.variables = data.variables || [];
     data.lists = data.lists || [];
+    //pf temp hac for ASCII lists...
+    console.log(data.lists["ASCII"]);
+    console.log(data.lists["blah"]);
+    that.lists = data.lists;
   };
 
   IO.loadArray = function(data, process) {
