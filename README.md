@@ -11,6 +11,7 @@ apk generation for sb2 files is on hold at the moment due to touch events playin
 Updates (tested in Chrome)
 --------------------------
 
+ASCII list hack method emulated<br>
 Effect blocks<br>
 Full Sound when wav > 30 secs<br>
 SVG Text now working correctly<br>
