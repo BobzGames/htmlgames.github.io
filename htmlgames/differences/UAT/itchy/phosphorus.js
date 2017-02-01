@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.224++)          
+// additional bugfixes by PF (v0.234) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -597,7 +597,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (data && data.lists && data.lists.length) {
         for (var ha = data.lists.length; ha--;)
 	{
-	    if (data.lists[ha].listName == "ASCII" && data.lists[ha].contents.length != 133) { // 2nd part ugh !!!
+	    if (data.lists[ha].listName == "ASCII" && data.lists[ha].contents.length != 133) { // 2nd part ugh (skips GB ROM) !!!
 	        ASCII = true;
 		console.log("ASCII hack detected.");
 	    }
