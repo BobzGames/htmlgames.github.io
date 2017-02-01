@@ -597,7 +597,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (data && data.lists && data.lists.length) {
         for (var ha = data.lists.length; ha--;)
 	{
-	    if (data.lists[ha].listName == "ASCII" && data.lists[ha].contents.length == 127) { // 2nd part !!!
+	    if (data.lists[ha].listName == "ASCII" && data.lists[ha].contents.length != 133) { // 2nd part ugh !!!
 	        ASCII = true;
 		console.log("ASCII hack detected.");
 	    }
