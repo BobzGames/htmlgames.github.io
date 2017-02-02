@@ -1230,6 +1230,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
     this.prompter = document.createElement('div');
     this.root.appendChild(this.prompter);
+    this.prompter.style.zIndex = '1';
     this.prompter.style.position = 'absolute';
     this.prompter.style.left =
     this.prompter.style.right = '14em';
