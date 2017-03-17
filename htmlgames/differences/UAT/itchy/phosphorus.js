@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.234) < insert random number here...
+// additional bugfixes by PF (v0.235) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -3553,6 +3553,7 @@ P.compile = (function() {
         source += '    endCall();\n';
         source += '    return;\n';
         source += '  case "other scripts in sprite":\n';
+	source += '    self.stopSounds();\n'; // @@@
         source += '  case "other scripts in stage":\n';
         source += '    for (var i = 0; i < self.queue.length; i++) {\n';
         source += '      if (i !== THREAD && self.queue[i] && self.queue[i].sprite === S) {\n';
