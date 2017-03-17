@@ -4344,6 +4344,7 @@ P.runtime = (function() {
       for (var i = 0; i < this.children.length; i++) {
         var c = this.children[i];
         if (c.isClone) {
+	  c.stopSounds(); //@@@
           c.remove();
           this.children.splice(i, 1);
           i -= 1;
