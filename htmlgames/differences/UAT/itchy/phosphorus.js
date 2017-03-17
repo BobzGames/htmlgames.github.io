@@ -3553,10 +3553,10 @@ P.compile = (function() {
         source += '    endCall();\n';
         source += '    return;\n';
         source += '  case "other scripts in sprite":\n';
-	source += '    self.stopSounds();\n'; // @@@
         source += '  case "other scripts in stage":\n';
         source += '    for (var i = 0; i < self.queue.length; i++) {\n';
         source += '      if (i !== THREAD && self.queue[i] && self.queue[i].sprite === S) {\n';
+        source += '        S.stopSounds();\n'; // @@@	      
         source += '        self.queue[i] = undefined;\n';
         source += '      }\n';
         source += '    }\n';
