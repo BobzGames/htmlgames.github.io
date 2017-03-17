@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.235) < insert random number here...
+// additional bugfixes by PF (v0.236) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -435,10 +435,105 @@ var P = (function() {
     });
     return request;
   };
-
-// PF - New audio stuff ***
-
+  
   IO.decodeAudio = function(ab, cb) {
+    if (audioContext) {
+      IO.decodeADPCMAudio(ab, function(err, buffer) {
+        if (buffer) return setTimeout(function() {cb(buffer)});
+        var p = audioContext.decodeAudioData(ab, function(buffer) {
+          cb(buffer);
+        }, function(err2) {
+          console.warn(err, err2);
+          cb(null);
+        });
+        if (p.catch) p.catch(function() {});
+      });
+    } else {
+      setTimeout(cb);
+    }
+  };
+  
+  IO.decodeADPCMAudio = function(ab, cb) {
+    var dv = new DataView(ab);
+    if (dv.getUint32(0) !== 0x52494646 || dv.getUint32(8) !== 0x57415645) {
+      return cb(new Error('Unrecognized audio format'));
+    }
+
+    var blocks = {};
+    var i = 12, l = dv.byteLength - 8;
+    while (i < l) {
+      blocks[String.fromCharCode(
+        dv.getUint8(i),
+        dv.getUint8(i + 1),
+        dv.getUint8(i + 2),
+        dv.getUint8(i + 3))] = i;
+      i += 8 + dv.getUint32(i + 4, true);
+    }
+
+    var format        = dv.getUint16(20, true);
+    var channels      = dv.getUint16(22, true);
+    var sampleRate    = dv.getUint32(24, true);
+    var byteRate      = dv.getUint32(28, true);
+    var blockAlign    = dv.getUint16(32, true);
+    var bitsPerSample = dv.getUint16(34, true);
+
+    if (format === 17) {
+      var samplesPerBlock = dv.getUint16(38, true);
+      var blockSize = ((samplesPerBlock - 1) / 2) + 4;
+
+      var frameCount = dv.getUint32(blocks.fact + 8, true);
+
+      var buffer = audioContext.createBuffer(1, frameCount, sampleRate);
+      var channel = buffer.getChannelData(0);
+
+      var sample, index = 0;
+      var step, code, delta;
+      var lastByte = -1;
+
+      var offset = blocks.data + 8;
+      i = offset;
+      var j = 0;
+      while (true) {
+        if ((((i - offset) % blockSize) == 0) && (lastByte < 0)) {
+          if (i >= dv.byteLength) break;
+          sample = dv.getInt16(i, true); i += 2;
+          index = dv.getUint8(i); i += 1;
+          i++;
+          if (index > 88) index = 88;
+          channel[j++] = sample / 32767;
+        } else {
+          if (lastByte < 0) {
+            if (i >= dv.byteLength) break;
+            lastByte = dv.getUint8(i); i += 1;
+            code = lastByte & 0xf;
+          } else {
+            code = (lastByte >> 4) & 0xf;
+            lastByte = -1;
+          }
+          step = IO.ADPCM_STEPS[index];
+          delta = 0;
+          if (code & 4) delta += step;
+          if (code & 2) delta += step >> 1;
+          if (code & 1) delta += step >> 2;
+          delta += step >> 3;
+          index += IO.ADPCM_INDEX[code];
+          if (index > 88) index = 88;
+          if (index < 0) index = 0;
+          sample += (code & 8) ? -delta : delta;
+          if (sample > 32767) sample = 32767;
+          if (sample < -32768) sample = -32768;
+          channel[j++] = sample / 32768;
+        }
+      }
+      return cb(null, buffer);
+    }
+    cb(new Error('Unrecognized WAV format ' + format));
+  };
+  
+
+// PF - New audio stuff ### OLD WAY ### ***
+
+  IO.__decodeAudio = function(ab, cb) {
     if (audioContext) {
     // PF check buffer type is PCM or ADPCM 1st? (ie headers)
 	var abc = false;
