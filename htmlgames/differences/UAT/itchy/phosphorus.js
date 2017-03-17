@@ -3583,6 +3583,7 @@ P.compile = (function() {
       } else if (block[0] === 'deleteClone') {
 
         source += 'if (S.isClone) {\n';
+	source += ' S.stopSounds();\n';	 // @@@
         source += '  S.remove();\n';
         source += '  var i = self.children.indexOf(S);\n';
         source += '  if (i !== -1) self.children.splice(i, 1);\n';
@@ -4344,7 +4345,6 @@ P.runtime = (function() {
       for (var i = 0; i < this.children.length; i++) {
         var c = this.children[i];
         if (c.isClone) {
-	  c.stopSounds(); //@@@
           c.remove();
           this.children.splice(i, 1);
           i -= 1;
