@@ -1747,6 +1747,32 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (ox === x && oy === y && !this.isPenDown) return;
     this.scratchX = x;
     this.scratchY = y;
+    if (this.isPenDown && !this.isDragging) {
+      var context = this.stage.penContext;
+      if (this.penSize % 2 > .5 && this.penSize % 2 < 1.5) {
+        ox -= .5;
+        oy -= .5;
+        x -= .5;
+        y -= .5;
+      }
+      context.strokeStyle = this.penCSS || 'hsl(' + this.penHue + ',' + this.penSaturation + '%,' + (this.penLightness > 100 ? 200 - this.penLightness : this.penLightness) + '%)';
+      context.lineWidth = this.penSize;
+      context.beginPath();
+      context.moveTo(240 + ox, 180 - oy);
+      context.lineTo(240 + x, 180 - y);
+      context.stroke();
+    }
+    if (this.saying) {
+      this.updateBubble();
+    }
+  };	
+	
+  Sprite.prototype.moveTo_ = function(x, y) { // old
+    var ox = this.scratchX;
+    var oy = this.scratchY;
+    if (ox === x && oy === y && !this.isPenDown) return;
+    this.scratchX = x;
+    this.scratchY = y;
     if (this.isPenDown) { // || !this.visible) { // PF todo
       var context = this.stage.penContext;
       if (this.penSize % 2 > .5 && this.penSize % 2 < 1.5) {
