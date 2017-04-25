@@ -523,7 +523,7 @@ Canabalt.Building.prototype.draw = function() {
 function gameEnd() {
 	game.stop();
 	document.getElementById("go").style.display = "inline";
-	console.log(this.best + " # " + this.bestscore); // debug 2
+	console.log(Canabalt.best + " # " + Canabalt.bestscore); // debug only 2
 	if (Canabalt.best) document.getElementById("score").innerHTML = "<center><h3>Best: " + this.game.distanceCounter.innerHTML + "</h3></center>";
 	setTimeout("fade(100)",24);
 
