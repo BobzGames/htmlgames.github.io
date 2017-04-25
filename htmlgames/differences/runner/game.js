@@ -384,7 +384,7 @@ Canabalt.prototype.cycle = function() {
       if (this.runnerFrame == 11) this.runnerFrame = 3;
     }
 
-    this.y += this.ySpeed;
+    this.y += this.ySpeed; 
     this.ySpeed -= this.gravity;
 
     var h = this.currentBuilding ? this.currentBuilding.height : 0;
