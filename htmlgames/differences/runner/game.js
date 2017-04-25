@@ -117,6 +117,9 @@ Canabalt.prototype.initialize = function() {
     this.distanceCounter = this.createDiv('distance');
   }
 
+  // best
+  this.best = false;
+	
   // Remove all buildings
   while (this.buildings.length) this.removeFirstBuilding();
 
@@ -324,6 +327,7 @@ Canabalt.prototype.draw = function() {
 
   // Draw distance counter
   this.distanceCounter.innerHTML = String(Math.round(this.distance * Canabalt.DISTANCE_TO_METERS_COEFFICIENT)) + 'm';
+  this.best = (Math.round(this.distance * Canabalt.DISTANCE_TO_METERS_COEFFICIENT) > (this.best || 0)) ? true : false;
 
   // Since shaking the screen is mostly a random process that doesn't affect gameplay,
   // calculate the shaking offset when drawing a frame instead of each cycle
@@ -513,7 +517,7 @@ Canabalt.Building.prototype.draw = function() {
 function gameEnd() {
 	game.stop();
 	document.getElementById("go").style.display = "inline";
-	document.getElementById("score").innerHTML = "<center><h3>Best: " + this.game.distanceCounter.innerHTML + "</h3></center>";
+	if (this.best) document.getElementById("score").innerHTML = "<center><h3>Best: " + this.game.distanceCounter.innerHTML + "</h3></center>";
 	setTimeout("fade(100)",24);
 
 }
