@@ -330,7 +330,8 @@ Canabalt.prototype.draw = function() {
   this.distanceCounter.innerHTML = String(Math.round(this.distance * Canabalt.DISTANCE_TO_METERS_COEFFICIENT)) + 'm';
   this.best = (Math.round(this.distance * Canabalt.DISTANCE_TO_METERS_COEFFICIENT) > (this.bestscore || 0)) ? true : false;
   if (this.best) this.bestscore = Math.round(this.distance * Canabalt.DISTANCE_TO_METERS_COEFFICIENT;
-					     
+console.log(this.best + " : " + this.bestscore); // debug only
+	
   // Since shaking the screen is mostly a random process that doesn't affect gameplay,
   // calculate the shaking offset when drawing a frame instead of each cycle
   if (this.shakeDuration) {
