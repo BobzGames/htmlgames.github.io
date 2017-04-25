@@ -326,14 +326,16 @@ Canabalt.prototype.draw = function() {
     this.paralaxBeam.style.left = String(Math.round(this.paralaxBeamOffset)) + 'px';
   }
 
-  // Draw distance counter
-  this.distanceCounter.innerHTML = String(Math.round(this.distance * Canabalt.DISTANCE_TO_METERS_COEFFICIENT)) + 'm';
+  // hiscore?
   if (Canabalt.best) {
      Canabalt.bestscore = Math.round(this.distance * Canabalt.DISTANCE_TO_METERS_COEFFICIENT);
   } else {
      Canabalt.best = (Math.round(this.distance * Canabalt.DISTANCE_TO_METERS_COEFFICIENT) > Canabalt.bestscore) ? true : false;
   }
-//console.log(this.best + " : " + this.bestscore); // debug only
+  // Draw distance counter
+  this.distanceCounter.innerHTML = String(Math.round(this.distance * Canabalt.DISTANCE_TO_METERS_COEFFICIENT)) + 'm';
+	
+	//console.log(this.best + " : " + this.bestscore); // debug only
 	
   // Since shaking the screen is mostly a random process that doesn't affect gameplay,
   // calculate the shaking offset when drawing a frame instead of each cycle
