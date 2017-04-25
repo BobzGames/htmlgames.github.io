@@ -524,7 +524,10 @@ function gameEnd() {
 	game.stop();
 	document.getElementById("go").style.display = "inline";
 	console.log(Canabalt.best + " # " + Canabalt.bestscore); // debug only 2
-	if (Canabalt.best) document.getElementById("score").innerHTML = "<center><h3>Best: " + this.game.distanceCounter.innerHTML + "</h3></center>";
+	if (Canabalt.best) {
+	   document.getElementById("score").innerHTML = "<center><h3>Best: " + this.game.distanceCounter.innerHTML + "</h3></center>";
+	   Canabalt.best = false; // reset for next go...
+	}
 	setTimeout("fade(100)",24);
 
 }
