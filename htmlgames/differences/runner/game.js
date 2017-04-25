@@ -47,6 +47,10 @@ Canabalt.RUNNER_X_OFFSET_COEFFICIENT = 100;
 Canabalt.RUNNER_RUNNING_FRAMECOUNT = 16;
 Canabalt.RUNNER_RUNNING_CHANGE_FRAME_DISTANCE = 15;
 
+// best
+Canabalt.best = false;
+Canabalt.bestscore = 0;
+
 Canabalt.defaultOptions = {
   fps: 50,
   initialSpeed: 0.2,
@@ -116,10 +120,6 @@ Canabalt.prototype.initialize = function() {
   if (!this.distanceCounter) {
     this.distanceCounter = this.createDiv('distance');
   }
-
-  // best
-  this.best = false;
-  this.bestscore = 0;
 	
   // Remove all buildings
   while (this.buildings.length) this.removeFirstBuilding();
@@ -328,10 +328,10 @@ Canabalt.prototype.draw = function() {
 
   // Draw distance counter
   this.distanceCounter.innerHTML = String(Math.round(this.distance * Canabalt.DISTANCE_TO_METERS_COEFFICIENT)) + 'm';
-  if (this.best) {
-     this.bestscore = Math.round(this.distance * Canabalt.DISTANCE_TO_METERS_COEFFICIENT);
+  if (Canabalt.best) {
+     Canabalt.bestscore = Math.round(this.distance * Canabalt.DISTANCE_TO_METERS_COEFFICIENT);
   } else {
-     this.best = (Math.round(this.distance * Canabalt.DISTANCE_TO_METERS_COEFFICIENT) > this.bestscore) ? true : false;
+     Canabalt.best = (Math.round(this.distance * Canabalt.DISTANCE_TO_METERS_COEFFICIENT) > Canabalt.bestscore) ? true : false;
   }
 //console.log(this.best + " : " + this.bestscore); // debug only
 	
@@ -524,7 +524,7 @@ function gameEnd() {
 	game.stop();
 	document.getElementById("go").style.display = "inline";
 	console.log(this.best + " # " + this.bestscore); // debug 2
-	if (this.best) document.getElementById("score").innerHTML = "<center><h3>Best: " + this.game.distanceCounter.innerHTML + "</h3></center>";
+	if (Canabalt.best) document.getElementById("score").innerHTML = "<center><h3>Best: " + this.game.distanceCounter.innerHTML + "</h3></center>";
 	setTimeout("fade(100)",24);
 
 }
