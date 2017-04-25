@@ -1,4 +1,4 @@
-// Opera doesn't implement Date.now
+// Opera doesn't implement Date.now 
 if (!Date.now) {
   Date.now = function() {
     return Number(new Date);
