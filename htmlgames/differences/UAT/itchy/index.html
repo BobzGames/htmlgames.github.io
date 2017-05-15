@@ -108,10 +108,10 @@
 </section>
 <section>
   <h1>Report a problem</h1>
-  <p>phosphorus is still in development. <a id=bug-link target=_blank href=https://github.com/nathan/phosphorus/issues/new>Click here</a> to report a problem with this project.</p>
+  <p>phosphorus is still in development. <a id=bug-link target=_blank href=https://github.com/nathan/phosphorus/issues/new onclick='document.getElementById("credits-area").style.display="block"'>Click here</a> to report a problem with this project.</p>
 </section>
 </div>
-<div class=area id=project-credits>
+<div class=area id=credits-area>
 <section>
   <h1>Credits</h1>
   <p>phosphorus was created by <a href='https://github.com/nathan'>Nathan Dinsmore</a>. Its CPS-style compilation and overall design was inspired by <a href='https://github.com/RHY3756547'>Rhys Simpson</a>'s <a href='https://code.google.com/p/sb2-js/'>sb2.js</a>. It would have more bugs if not for <a href='https://github.com/MathWizz'>Truman Kilen</a>. It uses the <a href='http://stuk.github.io/jszip/'>JSZip</a> library, created by <a href='https://github.com/stuk'>Stuart Knightley</a>, <a href='https://github.com/dduponchel'>David Duponchel</a>, Franz Buchinger, and <a href='https://github.com/aadsm'>António Afonso</a>, to read <code>.sb2</code> files and compressed projects, and the <a href='https://code.google.com/p/canvg/'>canvg</a> library, created by <a href='https://code.google.com/u/gabelerner@gmail.com/'>Gabe Lerner</a>, to render SVGs in <code>&lt;canvas&gt;</code> elements. <a href='http://goo.gl/zI6A'>HTML Games</a> added sound (via javascript wav conversion), various fixes and touch controls for tablets and mobile. Coming soon - compile your project to an APK via webview (as shown on the <a href='http://goo.gl/zI6A'>HTML5 Game to Android App</a> Link)
@@ -146,6 +146,8 @@
   var titleArea = document.querySelector('#title-area');
   var playerArea = document.querySelector('#player-area');
   var projectArea = document.querySelector('#project-area');
+  var creditsArea = document.querySelector('#credits-area');
+  creditsArea.style.display = 'none';
 
   playerArea.style.height = projectArea.style.height = 'auto';
   var titleAreaHeight = titleArea.offsetHeight;
