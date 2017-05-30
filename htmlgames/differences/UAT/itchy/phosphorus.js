@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.237) < insert random number here...
+// additional bugfixes by PF (v0.238) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -265,12 +265,18 @@ var P = (function() {
       request.load(image);
     };
     image.onerror = function() {
-      //request.error(new Error('Failed to load image: ' + url));
-      console.log("Failed to load image: " + url); // pf temp!
+      request.error(new Error('Failed to load image: ' + url));
+      request = new Request;
+      image = new Image;
+      image.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=";
+      image.onload = function() {
+        request.load(image);
+      };
     };
     if (callback) request.onLoad(callback.bind(self));
     return request;
   };
+
 
   IO.loadScratchr2Project = function(id, callback, self) {
     var request = new CompositeRequest;
