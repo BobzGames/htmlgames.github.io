@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.238) < insert random number here...
+// additional bugfixes by PF (v0.239) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -265,7 +265,8 @@ var P = (function() {
       request.load(image);
     };
     image.onerror = function() {
-      request.error(new Error('Failed to load image: ' + url));
+      //request.error(new Error('Failed to load image: ' + url));
+      console.log('Failed to load image (forcing blank): ' + url);
       request = new Request;
       image = new Image;
       image.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=";
