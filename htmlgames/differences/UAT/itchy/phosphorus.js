@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.239) < insert random number here...
+// additional bugfixes by PF (v0.240) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why?
@@ -259,23 +259,27 @@ var P = (function() {
   IO.loadImage = function(url, callback, self) {
     var request = new Request;
     var image = new Image;
+    var bForcedBlank = false;
     image.crossOrigin = 'anonymous';
     image.src = url;
     image.onload = function() {
       request.load(image);
     };
-    image.onerror = function() {
+    image.onerror = function() { // pf use default img - get the game loaded!
       //request.error(new Error('Failed to load image: ' + url));
       console.log('Failed to load image (forcing blank): ' + url);
-      request = new Request;
-      image = new Image;
-      image.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=";
-      image.onload = function() {
-        request.load(image);
+      bForcedBlank = true;
+      request2 = new Request;
+      image2 = new Image;
+      image2.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=";
+      image2.onload = function() {
+        request2.load(image2);
       };
     };
-    if (callback) request.onLoad(callback.bind(self));
-    return request;
+    if (callback) {
+      if (bForcedBlank) {request2.onLoad(callback.bind(self));} else {request.onLoad(callback.bind(self));}
+    }
+    return (bForcedBlank) ? request2 : request;
   };
 
 
