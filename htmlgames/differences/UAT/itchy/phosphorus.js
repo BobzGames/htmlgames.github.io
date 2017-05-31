@@ -1,7 +1,7 @@
 // additional bugfixes by PF (v0.241) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
-// But I don't know why?
+// But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
 // 
 // P.S. after the autoloader has finished (currently the HTML Games logo), you can remove the word zip off the url, press enter and
 // the examples dropdown will appear. Lots of lovely games to play!
@@ -267,6 +267,7 @@ var P = (function() {
     };
     image.onerror = function() { // pf use default img - get the game loaded!
       //request.error(new Error('Failed to load image: ' + url));
+      /*
       console.log('Failed to load image (forcing blank): ' + url);
       bForcedBlank = true;
       var request2 = new Request;
@@ -275,6 +276,7 @@ var P = (function() {
       image2.onload = function() {
         request2.load(image2);
       };
+      */
     };
     if (callback) {
       if (bForcedBlank) {request2.onLoad(callback.bind(self));} else {request.onLoad(callback.bind(self));}
