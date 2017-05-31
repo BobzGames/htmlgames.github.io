@@ -273,9 +273,10 @@ var P = (function() {
       var request2 = new Request;
       var image2 = new Image;
       image2.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=";
-      //image2.onload = function() {
+      image2.onload = function() {
         request2.load(image2);
-      //};
+      };
+      image2.onload();
       
     };
     if (callback) {
