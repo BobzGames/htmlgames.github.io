@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.242) < insert random number here...
+// additional bugfixes by PF (v0.243) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -266,17 +266,17 @@ var P = (function() {
       request.load(image);
     };
     image.onerror = function() { // pf use default img - get the game loaded!
-      request.error(new Error('Failed to load image: ' + url));
-      /*
+      //request.error(new Error('Failed to load image: ' + url));
+      
       console.log('Failed to load image (forcing blank): ' + url);
       bForcedBlank = true;
       var request2 = new Request;
       var image2 = new Image;
       image2.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi+P//PwNAgAEACPwC/tuiTRYAAAAASUVORK5CYII=";
-      image2.onload = function() {
+      //image2.onload = function() {
         request2.load(image2);
-      };
-      */
+      //};
+      
     };
     if (callback) {
       if (bForcedBlank) {request2.onLoad(callback.bind(self));} else {request.onLoad(callback.bind(self));}
