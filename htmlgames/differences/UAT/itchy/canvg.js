@@ -2398,9 +2398,6 @@
 				this.img.onload = function() { self.loaded = true; }
 				this.img.onerror = function() { svg.log('ERROR: image "' + href + '" not found'); self.loaded = true; }
 				this.img.src = href;
-				if (href.match("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABBJREFUeNpi")) {
-				  this.loaded = true; // pf temp!
-				}
 			}
 			else {
 				this.img = svg.ajax(href);
