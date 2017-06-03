@@ -1654,7 +1654,7 @@
 				c.width = width;
 				c.height = height;
 				var cctx = c.getContext('2d');
-				cctx.context.imageSmoothingEnabled = false; // PF
+				//cctx.context.imageSmoothingEnabled = false; // PF
 				if (this.attribute('x').hasValue() && this.attribute('y').hasValue()) {
 					cctx.translate(this.attribute('x').toPixels('x', true), this.attribute('y').toPixels('y', true));
 				}
@@ -1793,7 +1793,7 @@
 					c.width = rootView.width;
 					c.height = rootView.height;
 					var tempCtx = c.getContext('2d');
-					tempCtx.context.imageSmoothingEnabled = false; // PF
+					//tempCtx.context.imageSmoothingEnabled = false; // PF
 					tempCtx.fillStyle = g;
 					tempSvg.render(tempCtx);
 					return tempCtx.createPattern(c, 'no-repeat');
@@ -2605,14 +2605,14 @@
 					cMask.width = x + width;
 					cMask.height = y + height;
 					var maskCtx = cMask.getContext('2d');
-					maskCtx.context.imageSmoothingEnabled = false; // PF
+					//maskCtx.context.imageSmoothingEnabled = false; // PF
 					this.renderChildren(maskCtx);
 
 					var c = document.createElement('canvas');
 					c.width = x + width;
 					c.height = y + height;
 					var tempCtx = c.getContext('2d');
-					tempCtx.context.imageSmoothingEnabled = false; // PF
+					//tempCtx.context.imageSmoothingEnabled = false; // PF
 					element.render(tempCtx);
 					tempCtx.globalCompositeOperation = 'destination-in';
 					tempCtx.fillStyle = maskCtx.createPattern(cMask, 'no-repeat');
@@ -2698,7 +2698,7 @@
 				c.width = width + 2*px;
 				c.height = height + 2*py;
 				var tempCtx = c.getContext('2d');
-				tempCtx.context.imageSmoothingEnabled = false; // PF
+				//tempCtx.context.imageSmoothingEnabled = false; // PF
 				tempCtx.translate(-x + px, -y + py);
 				element.render(tempCtx);
 
