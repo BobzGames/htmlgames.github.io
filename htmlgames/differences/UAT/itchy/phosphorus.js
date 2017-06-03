@@ -825,6 +825,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         svg.style.visibility = 'visible';
 
         var canvas = document.createElement('canvas');
+	var ctxA = canvas.getContext('2d');
+	ctxA.imageSmoothingEnable = false; // PF
         var image = new Image;
         callback(image);
         // svg.style.cssText = '';
@@ -833,7 +835,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           ignoreMouse: true,
           ignoreAnimation: true,
           ignoreClear: true,
-	  ignoreDimensions: true,
           renderCallback: function() {
             image.src = canvas.toDataURL();
           }
