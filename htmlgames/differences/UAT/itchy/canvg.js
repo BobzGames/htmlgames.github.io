@@ -68,7 +68,7 @@
 		if (!(target.childNodes.length == 1 && target.childNodes[0].nodeName == 'OBJECT')) target.svg = svg;
 
 		var ctx = target.getContext('2d');
-		ctx.context.imageSmoothingEnabled = false; // PF
+		ctx.imageSmoothingEnabled = false; // PF
 		if (typeof(s.documentElement) != 'undefined') {
 			// load from xml doc
 			svg.loadXmlDoc(ctx, s);
