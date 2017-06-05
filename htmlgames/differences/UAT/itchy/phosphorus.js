@@ -3468,7 +3468,7 @@ P.compile = (function() {
       } else if (block[0] === 'penColor:') {
 
         source += 'var c = ' + num(block[1]) + ';\n';
-	source += 'if (S.penCSS) { S.penColor = c;} else { S.penColor = (c & 0xff); } \n'; // pf fix2
+        source += 'if (!S.penCSS) { S.penColor = c;} else { S.penColor = (c & 0xff); } \n'; // pf fix2
         source += 'var a = (c >> 24 & 0xff) / 0xff;\n';
         source += 'S.penCSS = "rgba(" + (c >> 16 & 0xff) + "," + (c >> 8 & 0xff) + "," + (c & 0xff) + ", " + (a || 1) + ")";\n';
 
