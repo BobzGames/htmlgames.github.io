@@ -2104,8 +2104,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var w = b.right - b.left;
     var h = b.top - b.bottom;
   
-    var wt = 0.6 + collisionCanvas.width = (w < 1) ? 1 : w; // pf w < 1 ?
-    var ht = 0.6 + collisionCanvas.height = (h < 1) ? 1 : h; // pf h < 1?
+    collisionCanvas.width = (w < 1) ? 1 : w; // pf w < 1 ?
+    collisionCanvas.height = (h < 1) ? 1 : h; // pf h < 1?
 
     // pf - fast match test (hack - watch out!)
     var bFast = (w == h && h < 8) ? true : false;
@@ -2122,6 +2122,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       collisionContext.restore();
     }
 	  
+    var wt = w + 0.6;
+    var ht = h + 0.6;
     var data = collisionContext.getImageData(0, 0, wt, ht).data;
   
     rgb = (rgb & 0xffffff);
