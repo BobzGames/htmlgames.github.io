@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.245) < insert random number here...
+// additional bugfixes by PF (v0.247) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -2104,8 +2104,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var w = b.right - b.left;
     var h = b.top - b.bottom;
   
-    collisionCanvas.width = (w < 1) ? 1 : w;
-    collisionCanvas.height = (h < 1) ? 1 : h;
+    collisionCanvas.width = (w < 1) ? w = 1 : w; // pf ?
+    collisionCanvas.height = (h < 1) ? h = 1 : h; // pf ?
 
     // pf - fast match test (hack - watch out!)
     var bFast = (w == h && h < 8) ? true : false;
@@ -3793,7 +3793,7 @@ P.compile = (function() {
       source += 'endCall();\n';
       source += 'return;\n';
     }
-
+    // PF: eval Magic created here...
     var createContinuation = function(source) {
       var result = '(function() {\n';
       var brackets = 0;
@@ -4603,7 +4603,7 @@ P.runtime = (function() {
 
   return {
     scopedEval: function(source) {
-      return eval(source);
+      return eval(source); // PF this is where all the magic is run
     }
   };
 
