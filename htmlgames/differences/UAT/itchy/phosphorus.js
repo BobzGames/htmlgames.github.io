@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.255) < insert random number here...
+// additional bugfixes by PF (v0.259) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -2085,7 +2085,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
           collisionContext.restore();	      
 
-          var data = collisionContext.getImageData(0, 0, w, h).data;
+          var wt = w + 0.6;
+          var ht = h + 0.6;
+          var data = collisionContext.getImageData(0, 0, wt, ht).data;		
 	         
           for (var j = 0; j < length; j += 4) {
             if (data[j + 3]) {
@@ -2155,13 +2157,19 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	   
     collisionContext.translate(-(240 + b.left), -(180 - b.top));
     this.stage.drawAllOn(collisionContext, this);
-    var data2 = collisionContext.getImageData(0, 0, w, h).data; // rgb2 'over'
+	  
+    var wt = w + 0.6;
+    var ht = h + 0.6;
+    var data2 = collisionContext.getImageData(0, 0, wt, ht).data; // rgb2 'over'	   
 	  
     collisionCanvas2.width = (w < 1) ? 1 :w;
     collisionCanvas2.height = (h < 1) ? 1 : h;
     collisionContext2.translate(-(240 + b.left), -(180 - b.top));
     this.draw(collisionContext2, true); // true ???
-    var data1 = collisionContext2.getImageData(0, 0, w, h).data; // rgb1 'sprite'
+
+    var wt2 = w + 0.6;
+    var ht2 = h + 0.6;
+    var data1 = collisionContext2.getImageData(0, 0, wt2, ht2).data; // rgb1 'sprite'
     
     rgb1 = (rgb1 & 0xffffff);
     rgb2 = (rgb2 & 0xffffff);
