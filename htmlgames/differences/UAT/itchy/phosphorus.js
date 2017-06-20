@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.261) < insert random number here...
+// additional bugfixes by PF (v0.263) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -4043,9 +4043,11 @@ P.runtime = (function() {
 
   var clone = function(name) {
     var parent = name === '_myself_' ? S : self.getObject(name);
-    var c = parent.clone();
-    self.children.splice(self.children.indexOf(parent), 0, c);
-    self.triggerFor(c, 'whenCloned');
+    if (parent) { // testc
+      var c = parent.clone();
+      self.children.splice(self.children.indexOf(parent), 0, c);
+      self.triggerFor(c, 'whenCloned');
+    }
   };
 
   var epoch = Date.UTC(2000, 0, 1);
