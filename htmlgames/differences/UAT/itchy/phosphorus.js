@@ -1676,7 +1676,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           //if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; //block uppercase sensing
           return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);	       
 	 }      
-          if (!false) (keyName && keyName.length > 0) {return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0);} else {return 128} // pf db1 // pf temp - old code but tested 
+          if (!false) {if (keyName && keyName.length > 0) {return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0);} else {return 128}} // pf db1 // pf temp - old code but tested 
        } else {
           if (keyName && keyName.length > 0) return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);
        }
