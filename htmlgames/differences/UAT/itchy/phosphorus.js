@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.281) < insert random number here...
+// additional bugfixes by PF (v0.282) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1199,7 +1199,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
        if (ASCII) {
 	 if (!false) { // DarDoro Fix
           if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
-            //return; // PF allow e.ctrlKey || 
+            return; // PF allow e.ctrlKey || 
           }
           var key = e.keyCode;
 
@@ -1219,7 +1219,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.root.addEventListener('keydown', function(e) {
       if (ASCII) {
 	// DarDoro Fix
-       if (true) {
+       if (!true) {
         var c = e.keyCode;
 	console.log(c)+"\n";
         if( (c >= 16 && c <= 20) || (c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
@@ -1241,7 +1241,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             this.trigger('whenKeyPressed', c);
         }
        }
-	if (false) { // pf temp - old code but tested   
+	if (!false) { // pf temp - old code but tested   
           if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
             return; // PF allow e.ctrlKey || 
           }
@@ -1279,7 +1279,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.root.addEventListener('keyup', function(e) {
       if (ASCII) {
         // DarDoro Fix
-       if (true) {
+       if (!true) {
         var c = e.keyCode;
 	console.log(c)+"\n";	      
         if( (c >= 16 && c <= 20) || ( c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
@@ -1300,7 +1300,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           e.preventDefault();
         }
        }
-	if (false) { // pf temp - old code but tested     
+	if (!false) { // pf temp - old code but tested     
           var key = e.keyCode;
           //console.log(key); // db2
           this.keys[key] = false;
@@ -1671,12 +1671,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     //if (keyName && keyName.length > 0) { // pf temp - old code but tested 
        if (ASCII) {
 	  // DarDoro Fix
-	 if (true) {
+	 if (!true) {
           if(keyName === "") return 128;
           //if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; //block uppercase sensing
           return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);	       
 	 }      
-          if (false) return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0); // pf db1 // pf temp - old code but tested 
+          if (!false) (keyName && keyName.length > 0) {return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0);} else {return 128} // pf db1 // pf temp - old code but tested 
        } else {
           if (keyName && keyName.length > 0) return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);
        }
