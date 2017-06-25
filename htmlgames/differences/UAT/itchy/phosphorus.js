@@ -1666,11 +1666,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   var getKeyCode = function(keyName) {
     //if (keyName && keyName.length > 0) { // pf temp - old code but tested 
        if (ASCII) {
-	  // DarDoro Fix       
-          if(keyName === "") return 128;
+	  // DarDoro Fix
+	 if (true) {
+          //if(keyName === "") return 128;
           if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; //block uppercase sensing
           return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);	       
-	       
+	 }      
           if (false) return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0); // pf db1 // pf temp - old code but tested 
        } else {
           if (keyName && keyName.length > 0) return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);
