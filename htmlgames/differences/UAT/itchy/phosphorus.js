@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.283) < insert random number here...
+// additional bugfixes by PF (v0.281) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1202,7 +1202,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             return; // PF allow e.ctrlKey || 
           }
           var key = e.keyCode;
-
+          //console.log(key); //
           e.stopPropagation();
           if (e.target === this.canvas && !this.keys[key]) {
 	    this.keys[key] = true;
@@ -1221,7 +1221,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	// DarDoro Fix
        if (!true) {
         var c = e.keyCode;
-	console.log(c)+"\n";
+	//console.log(c)+"\n";
         if( (c >= 16 && c <= 20) || (c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
                 c = 128;
         }
@@ -1244,8 +1244,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             return; // PF allow e.ctrlKey || 
           }
           var key = e.keyCode;
+	  //console.log(key); //
           e.stopPropagation();
-          if (e.target === this.canvas && !this.keys[key] && "16.17.37.38.39.40".match(key.toString())) { // db4
+          if (e.target === this.canvas && !this.keys[key] && "17.37.38.39.40".match(key.toString())) { // db4
 	    //if (key == 16) key = 0;
 	    //if (key == 17) key = 0;  
 	    if (key == 37) key = 28;
@@ -1278,6 +1279,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         // DarDoro Fix
        if (!true) {
         var c = e.keyCode;
+	//console.log(c); //
         if( (c >= 16 && c <= 20) || ( c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
           c = 128;
         }
@@ -1298,7 +1300,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var key = e.keyCode;
           //console.log(key); // db2
           this.keys[key] = false;
-          //if (key > 64 && key < 91) this.keys[key+32] = false;
+          if (key > 64 && key < 91) this.keys[key+32] = false;
           this.keys[self.key] = false;
           e.stopPropagation();
           if (e.target === this.canvas) {
