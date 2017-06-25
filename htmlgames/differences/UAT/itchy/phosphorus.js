@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.281) < insert random number here...
+// additional bugfixes by PF (v0.283) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1230,8 +1230,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	if (c == 39) c = 29;
 	if (c == 38) c = 30;
 	if (c == 40) c = 31;    
-	       
-	if (c == 52 && this.keys[16]) c = 36;
         
         if (!this.keys[c]) this.keys.any++;
         this.keys[c] = true;
@@ -1246,7 +1244,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             return; // PF allow e.ctrlKey || 
           }
           var key = e.keyCode;
-          //console.log(key); //
           e.stopPropagation();
           if (e.target === this.canvas && !this.keys[key] && "16.17.37.38.39.40".match(key.toString())) { // db4
 	    //if (key == 16) key = 0;
@@ -1281,7 +1278,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         // DarDoro Fix
        if (!true) {
         var c = e.keyCode;
-	console.log(c)+"\n";	      
         if( (c >= 16 && c <= 20) || ( c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
           c = 128;
         }
@@ -1290,8 +1286,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         if (c == 39) c = 29;
         if (c == 38) c = 30;
         if (c == 40) c = 31;        
-	       
-	if (c == 52 && this.keys[16]) c = 36;
         
         if (this.keys[c]) this.keys.any--;
         this.keys[c] = false;
@@ -1304,7 +1298,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var key = e.keyCode;
           //console.log(key); // db2
           this.keys[key] = false;
-          if (key > 64 && key < 91) this.keys[key+32] = false;
+          //if (key > 64 && key < 91) this.keys[key+32] = false;
           this.keys[self.key] = false;
           e.stopPropagation();
           if (e.target === this.canvas) {
