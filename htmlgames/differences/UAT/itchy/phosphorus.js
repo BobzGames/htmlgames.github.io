@@ -1246,14 +1246,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var key = e.keyCode;
 	  //console.log(key); //
           e.stopPropagation();
-          if (e.target === this.canvas && !this.keys[key] && "16.17.37.38.39.40.65".match(key.toString())) { // db4
+          if (e.target === this.canvas && !this.keys[key] && "16.17.37.38.39.40".match(key.toString())) { // db4
 	    //if (key == 16) key = 0;
 	    //if (key == 17) key = 0;  
 	    if (key == 37) key = 28;
 	    if (key == 39) key = 29;
 	    if (key == 38) key = 30;
 	    if (key == 40) key = 31;
-	    if (key == 65) key = 66;
 	    this.keys[key] = true;
 	    self.key = key;
             e.preventDefault();
@@ -1301,7 +1300,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var key = e.keyCode;
           //console.log(key); // db2
           this.keys[key] = false;
-          if (key > 64 && key < 91) this.keys[key+32] = false;
+          if ((!e.shiftKey) && key > 64 && key < 91) this.keys[key+32] = false;
           this.keys[self.key] = false;
           e.stopPropagation();
           if (e.target === this.canvas) {
