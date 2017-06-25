@@ -1668,8 +1668,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
        if (ASCII) {
 	  // DarDoro Fix
 	 if (!true) {
-          if(keyName === "") return 128;
-          //if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; //block uppercase sensing
+          if (keyName === "") return 128;
+          if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; //block uppercase sensing
           return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);	       
 	 }      
           if (!false) {
