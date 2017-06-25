@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.269) < insert random number here...
+// additional bugfixes by PF (v0.271) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -900,7 +900,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     //for (var i = 0; i < 256; i++) {
     //  this.listeners.whenKeyPressed.push([]);
     //}
-    for (var i = 128; i--;) {this.listeners.whenKeyPressed.push([])}; // pf db x // 127 pf new
+    for (var i = 128; i--;) {this.listeners.whenKeyPressed.push([])}; // pf db x // DarDoro
     this.fns = [];
     this.scripts = [];
 
@@ -1215,17 +1215,35 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }.bind(this));
 
       this.root.addEventListener('keydown', function(e) {
-       if (ASCII) {	      
+       if (ASCII) {
+	       
+        var c = e.keyCode;
+        if( (c>=16 && c<=20)||(c>=112 && c<=123)||(c>128) ){/*Key modifiers shift, ctrl, alt, caps, F1..F12*/
+                c=128;
+        }
+        
+	    if (c == 37) c = 28;
+	    if (c == 39) c = 29;
+	    if (c == 38) c = 30;
+	    if (c == 40) c = 31;        
+        
+        if (!this.keys[c]) this.keys.any++;
+        this.keys[c] = true;
+        e.stopPropagation();
+          if (e.target === this.canvas) {
+            e.preventDefault();
+            this.trigger('whenKeyPressed', c);
+        }	       
+	if (false) { // pf temp       
           if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
             return; // PF allow e.ctrlKey || 
           }
           var key = e.keyCode;
-	  if (key == 16 | key == 17 | key > 128) key = 128; // pf new
           //console.log(key); //
           e.stopPropagation();
           if (e.target === this.canvas && !this.keys[key] && "16.17.37.38.39.40".match(key.toString())) { // db4
-	    if (key == 16) key = 128; // pf new
-	    if (key == 17) key = 128; // pf new	  
+	    //if (key == 16) key = 0;
+	    //if (key == 17) key = 0;  
 	    if (key == 37) key = 28;
 	    if (key == 39) key = 29;
 	    if (key == 38) key = 30;
@@ -1235,6 +1253,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             e.preventDefault();
             this.trigger('whenKeyPressed', key);
           }
+	 } // pf temp	
        } else {
 	// TODO: as before    
          if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
@@ -1252,8 +1271,25 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  
     this.root.addEventListener('keyup', function(e) {
        if (ASCII) {
+	       
+      var c = e.keyCode;
+        if( (c>=16 && c<=20)||(c>=112 && c<=123)||(c>128) ){/*Key modifiers shift, ctrl, alt, caps, F1..F12*/
+        c=128;
+        }
+        
+	    if (c == 37) c = 28;
+	    if (c == 39) c = 29;
+	    if (c == 38) c = 30;
+	    if (c == 40) c = 31;         
+        
+      if (this.keys[c]) this.keys.any--;
+      this.keys[c] = false;
+      e.stopPropagation();
+      if (e.target === this.canvas) {
+        e.preventDefault();
+      }	       
+	if (false) { // pf temp       
           var key = e.keyCode;
-	  if (key == 16 | key == 17 | key > 128) key = 128; // pf new
           //console.log(key); // db2
           this.keys[key] = false;
           if (key > 64 && key < 91) this.keys[key+32] = false;
@@ -1262,6 +1298,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           if (e.target === this.canvas) {
             e.preventDefault();
           }
+	} // pf temp
        } else {
 	// TODO: as before   
           this.keys[e.keyCode] = false;
