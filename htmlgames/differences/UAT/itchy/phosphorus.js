@@ -1197,7 +1197,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  
       this.root.addEventListener('keypress', function(e) { // pf db3  
        if (ASCII) {
-	 if (false) {
+	 if (false) { // DarDoro Fix
           if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
             return; // PF allow e.ctrlKey || 
           }
@@ -1219,6 +1219,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.root.addEventListener('keydown', function(e) {
       if (ASCII) {
 	// DarDoro Fix
+       if (true) {
         var c = e.keyCode;
 	console.log(c)+"\n";
         if( (c >= 16 && c <= 20) || (c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
@@ -1236,7 +1237,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           if (e.target === this.canvas) {
             e.preventDefault();
             this.trigger('whenKeyPressed', c);
-        }	       
+        }
+       }
 	if (false) { // pf temp - old code but tested   
           if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
             return; // PF allow e.ctrlKey || 
@@ -1275,6 +1277,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.root.addEventListener('keyup', function(e) {
       if (ASCII) {
         // DarDoro Fix
+       if (true) {
         var c = e.keyCode;
 	console.log(c)+"\n";	      
         if( (c >= 16 && c <= 20) || ( c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
@@ -1291,7 +1294,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         e.stopPropagation();
         if (e.target === this.canvas) {
           e.preventDefault();
-        }	       
+        }
+       }
 	if (false) { // pf temp - old code but tested     
           var key = e.keyCode;
           //console.log(key); // db2
