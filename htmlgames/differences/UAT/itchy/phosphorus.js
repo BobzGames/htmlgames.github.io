@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.271) < insert random number here...
+// additional bugfixes by PF (v0.273) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1216,7 +1216,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
       this.root.addEventListener('keydown', function(e) {
        if (ASCII) {
-	       
+	// DarDoro
         var c = e.keyCode;
         if( (c>=16 && c<=20)||(c>=112 && c<=123)||(c>128) ){/*Key modifiers shift, ctrl, alt, caps, F1..F12*/
                 c=128;
@@ -1271,7 +1271,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  
     this.root.addEventListener('keyup', function(e) {
        if (ASCII) {
-	       
+	// DarDoro       
       var c = e.keyCode;
         if( (c>=16 && c<=20)||(c>=112 && c<=123)||(c>128) ){/*Key modifiers shift, ctrl, alt, caps, F1..F12*/
         c=128;
@@ -1656,13 +1656,20 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   var getKeyCode = function(keyName) {
-    if (keyName && keyName.length > 0) {
-       if (ASCII) {	    
-          return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0); // pf db1	    
+    //if (keyName && keyName.length > 0) { // pf temp
+       if (ASCII) {
+	       
+    if(keyName === "") 
+        return 128;
+    if( (keyName.charCodeAt(0) >64) && (keyName.charCodeAt(0) <90) )
+        return -1;//block uppercase sensing
+    return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);	       
+	       
+          if (false) return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0); // pf db1 // pf temp    
        } else {
           return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);
        }
-    }
+    //} // pf temp
   };
 
   var Sprite = function(stage) {
