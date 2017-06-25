@@ -1300,7 +1300,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var key = e.keyCode;
           //console.log(key); // db2
           this.keys[key] = false;
-          //if (key > 64 && key < 91) this.keys[key+32] = false;
+          if (key > 64 && key < 91) this.keys[key+32] = false;
           this.keys[self.key] = false;
           e.stopPropagation();
           if (e.target === this.canvas) {
