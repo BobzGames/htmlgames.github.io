@@ -1218,6 +1218,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       if (ASCII) {
 	// DarDoro Fix
         var c = e.keyCode;
+	console.log(c)+"\n";
         if( (c >= 16 && c <= 20) || (c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
                 c = 128;
         }
@@ -1273,6 +1274,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       if (ASCII) {
         // DarDoro Fix
         var c = e.keyCode;
+	console.log(c)+"\n";	      
         if( (c >= 16 && c <= 20) || ( c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
           c = 128;
         }
