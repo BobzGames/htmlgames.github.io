@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.273) < insert random number here...
+// additional bugfixes by PF (v0.275) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -900,7 +900,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     //for (var i = 0; i < 256; i++) {
     //  this.listeners.whenKeyPressed.push([]);
     //}
-    for (var i = 128; i--;) {this.listeners.whenKeyPressed.push([])}; // pf db x // DarDoro
+    for (var i = 128; i--;) {this.listeners.whenKeyPressed.push([])}; // pf db x // DarDoro Fix
     this.fns = [];
     this.scripts = [];
 
@@ -1214,18 +1214,18 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
        }	       
     }.bind(this));
 
-      this.root.addEventListener('keydown', function(e) {
-       if (ASCII) {
-	// DarDoro
+    this.root.addEventListener('keydown', function(e) {
+      if (ASCII) {
+	// DarDoro Fix
         var c = e.keyCode;
-        if( (c>=16 && c<=20)||(c>=112 && c<=123)||(c>128) ){/*Key modifiers shift, ctrl, alt, caps, F1..F12*/
-                c=128;
+        if( (c >= 16 && c <= 20) || (c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
+                c = 128;
         }
         
-	    if (c == 37) c = 28;
-	    if (c == 39) c = 29;
-	    if (c == 38) c = 30;
-	    if (c == 40) c = 31;        
+	if (c == 37) c = 28;
+	if (c == 39) c = 29;
+	if (c == 38) c = 30;
+	if (c == 40) c = 31;        
         
         if (!this.keys[c]) this.keys.any++;
         this.keys[c] = true;
@@ -1234,7 +1234,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             e.preventDefault();
             this.trigger('whenKeyPressed', c);
         }	       
-	if (false) { // pf temp       
+	if (false) { // pf temp - old code but tested   
           if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
             return; // PF allow e.ctrlKey || 
           }
@@ -1254,7 +1254,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             this.trigger('whenKeyPressed', key);
           }
 	 } // pf temp	
-       } else {
+      } else {
 	// TODO: as before    
          if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
             return; // PF allow e.ctrlKey || 
@@ -1266,29 +1266,29 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             e.preventDefault();
             this.trigger('whenKeyPressed', e.keyCode);
           }	       
-       }	       
+      }	       
     }.bind(this));	  
 	  
     this.root.addEventListener('keyup', function(e) {
-       if (ASCII) {
-	// DarDoro       
-      var c = e.keyCode;
-        if( (c>=16 && c<=20)||(c>=112 && c<=123)||(c>128) ){/*Key modifiers shift, ctrl, alt, caps, F1..F12*/
-        c=128;
+      if (ASCII) {
+        // DarDoro Fix
+        var c = e.keyCode;
+        if( (c >= 16 && c <= 20) || ( c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
+          c = 128;
         }
         
-	    if (c == 37) c = 28;
-	    if (c == 39) c = 29;
-	    if (c == 38) c = 30;
-	    if (c == 40) c = 31;         
+        if (c == 37) c = 28;
+        if (c == 39) c = 29;
+        if (c == 38) c = 30;
+        if (c == 40) c = 31;         
         
-      if (this.keys[c]) this.keys.any--;
-      this.keys[c] = false;
-      e.stopPropagation();
-      if (e.target === this.canvas) {
-        e.preventDefault();
-      }	       
-	if (false) { // pf temp       
+        if (this.keys[c]) this.keys.any--;
+        this.keys[c] = false;
+        e.stopPropagation();
+        if (e.target === this.canvas) {
+          e.preventDefault();
+        }	       
+	if (false) { // pf temp - old code but tested     
           var key = e.keyCode;
           //console.log(key); // db2
           this.keys[key] = false;
@@ -1299,14 +1299,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             e.preventDefault();
           }
 	} // pf temp
-       } else {
+      } else {
 	// TODO: as before   
           this.keys[e.keyCode] = false;
           e.stopPropagation();
           if (e.target === this.canvas) {
             e.preventDefault();
           }	       
-       }
+      }
     }.bind(this));
 
     if (hasTouchEvents) {
@@ -1656,20 +1656,18 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   var getKeyCode = function(keyName) {
-    //if (keyName && keyName.length > 0) { // pf temp
+    //if (keyName && keyName.length > 0) { // pf temp - old code but tested 
        if (ASCII) {
+	  // DarDoro Fix       
+          if(keyName === "") return 128;
+          if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; //block uppercase sensing
+          return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);	       
 	       
-    if(keyName === "") 
-        return 128;
-    if( (keyName.charCodeAt(0) >64) && (keyName.charCodeAt(0) <90) )
-        return -1;//block uppercase sensing
-    return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);	       
-	       
-          if (false) return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0); // pf db1 // pf temp    
+          if (false) return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0); // pf db1 // pf temp - old code but tested 
        } else {
-          return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);
+          if (keyName && keyName.length > 0) return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);
        }
-    //} // pf temp
+    //} // pf temp - old code but tested 
   };
 
   var Sprite = function(stage) {
