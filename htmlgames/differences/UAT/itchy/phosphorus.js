@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.283) < insert random number here...
+// additional bugfixes by PF (v0.285) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -11,6 +11,7 @@ var that; // PF
 var TurboMode = true; // !!window.location.search.msourcePosition = (newY + centerY) * width + newX + centerX;atch("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
 var ASCII = false; // pf for ASCII hack
+var bMode = false; // pf for ASCII hack
 
 var P = (function() {
   'use strict';
@@ -1197,7 +1198,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  
       this.root.addEventListener('keypress', function(e) { // pf db3  
        if (ASCII) {
-	 if (!false) { // DarDoro Fix
+	 if (bMode) { // DarDoro Fix
           if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
             return; // PF allow e.ctrlKey || 
           }
@@ -1219,7 +1220,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.root.addEventListener('keydown', function(e) {
       if (ASCII) {
 	// DarDoro Fix
-       if (!true) {
+       if (bMode) {
         var c = e.keyCode;
 	//console.log(c)+"\n";
         if( (c >= 16 && c <= 20) || (c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
@@ -1239,7 +1240,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             this.trigger('whenKeyPressed', c);
         }
        }
-	if (!false) { // pf temp - old code but tested   
+	if (!bMode) { // pf temp - old code but tested   
           if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
             return; // PF allow e.ctrlKey || 
           }
@@ -1277,7 +1278,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.root.addEventListener('keyup', function(e) {
       if (ASCII) {
         // DarDoro Fix
-       if (!true) {
+       if (bMode) {
         var c = e.keyCode;
 	//console.log(c); //
         if( (c >= 16 && c <= 20) || ( c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
@@ -1296,7 +1297,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           e.preventDefault();
         }
        }
-	if (!false) { // pf temp - old code but tested     
+	if (!bMode) { // pf temp - old code but tested     
           var key = e.keyCode;
           //console.log(key); // db2
           this.keys[key] = false;
@@ -1667,12 +1668,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     //if (keyName && keyName.length > 0) { // pf temp - old code but tested 
        if (ASCII) {
 	  // DarDoro Fix
-	 if (!true) {
+	 if (bMode) {
           if (keyName === "") return 128;
           if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; //block uppercase sensing
           return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);	       
 	 }      
-          if (!false) {
+          if (!bMode) {
 	    if (keyName && keyName.length > 0) {
 	      return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0);
 	    } else {
@@ -4601,6 +4602,7 @@ P.runtime = (function() {
       if (this.isRunning && usingGamepad) {
       	//checkGamepad(usingTouch); // todo...
       }
+      if (ASCII) bMode = !bMode; // bit flipper
     };
 
     P.Stage.prototype.onError = function(e) {
