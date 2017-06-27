@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.287) < insert random number here...
+// additional bugfixes by PF (v0.289) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -11,7 +11,7 @@ var that; // PF
 var TurboMode = true; // !!window.location.search.msourcePosition = (newY + centerY) * width + newX + centerX;atch("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
 var ASCII = false; // pf for ASCII hack
-var bMode = false; // pf for ASCII hack
+var bDoro = false; // pf for ASCII hack
 
 var P = (function() {
   'use strict';
@@ -1198,7 +1198,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  
       this.root.addEventListener('keypress', function(e) { // pf db3  
        if (ASCII) {
-	 if (bMode) { // DarDoro Fix
+	 if (bDoro) { // DarDoro Fix
+	   // not used
+	 }
+	 if (!bDoro) {
           if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
             return; // PF allow e.ctrlKey || 
           }
@@ -1220,7 +1223,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.root.addEventListener('keydown', function(e) {
       if (ASCII) {
 	// DarDoro Fix
-       if (bMode) {
+       if (bDoro) {
         var c = e.keyCode;
 	//console.log(c)+"\n";
         if( (c >= 16 && c <= 20) || (c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
@@ -1240,7 +1243,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             this.trigger('whenKeyPressed', c);
         }
        }
-	if (!bMode) { // pf temp - old code but tested   
+	if (!bDoro) { // pf temp - old code but tested   
           if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
             return; // PF allow e.ctrlKey || 
           }
@@ -1278,7 +1281,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.root.addEventListener('keyup', function(e) {
       if (ASCII) {
         // DarDoro Fix
-       if (bMode) {
+       if (bDoro) {
         var c = e.keyCode;
 	//console.log(c); //
         if( (c >= 16 && c <= 20) || ( c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
@@ -1297,7 +1300,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           e.preventDefault();
         }
        }
-	if (!bMode) { // pf temp - old code but tested     
+	if (!bDoro) { // pf temp - old code but tested     
           var key = e.keyCode;
           //console.log(key); // db2
           this.keys[key] = false;
@@ -1668,18 +1671,18 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     //if (keyName && keyName.length > 0) { // pf temp - old code but tested 
        if (ASCII) {
 	  // DarDoro Fix
-	 if (bMode) {
+	 if (bDoro) {
           if (keyName === "") return 128;
           if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; //block uppercase sensing
           return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);	       
 	 }      
-          if (!bMode) {
-	    if (keyName && keyName.length > 0) {
-	      return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0);
-	    } else {
-	      return
-	    }
-	  } // pf db1 // pf temp - old code but tested 
+         if (!bDoro) {
+	   if (keyName && keyName.length > 0) {
+	     return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0);
+	   } else {
+	     return
+	   }
+	 } // pf db1 // pf temp - old code but tested 
        } else {
           if (keyName && keyName.length > 0) return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);
        }
@@ -4595,7 +4598,7 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-        if (ASCII) bMode = !bMode; // bit flipper	      
+        	      
       } while ((self.isTurbo || !VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length); // pf removed self.isTurbo || 
       this.draw();
       S = null;
@@ -4603,7 +4606,7 @@ P.runtime = (function() {
       if (this.isRunning && usingGamepad) {
       	//checkGamepad(usingTouch); // todo...
       }
-
+      if (ASCII) bDoro = !bDoro; // bit flipper
     };
 
     P.Stage.prototype.onError = function(e) {
