@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.291) < insert random number here...
+// additional bugfixes by PF (v0.293) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -3940,6 +3940,7 @@ P.compile = (function() {
       } else {
         object.listeners.whenKeyPressed[P.getKeyCode(script[0][1])].push(f);
       }
+      if (ASCII) bDoro = !bDoro; // bit flipper
     } else if (script[0][0] === 'whenSceneStarts') {
       var key = script[0][1].toLowerCase();
       (object.listeners.whenSceneStarts[key] || (object.listeners.whenSceneStarts[key] = [])).push(f);
@@ -4574,7 +4575,6 @@ P.runtime = (function() {
       VISUAL = false;
       var start = Date.now();
       do {
-        if (ASCII) bDoro = !bDoro; // bit flipper
 	var queue = this.queue;
         for (THREAD = 0; THREAD < queue.length; THREAD++) {
           if (queue[THREAD]) {
@@ -4599,7 +4599,6 @@ P.runtime = (function() {
         for (var i = queue.length; i--;) {
           if (!queue[i]) queue.splice(i, 1);
         }
-	      
       } while ((self.isTurbo || !VISUAL) && Date.now() - start < 1000 / this.framerate && queue.length); // pf removed self.isTurbo || 
       this.draw();
       S = null;
@@ -4607,7 +4606,6 @@ P.runtime = (function() {
       if (this.isRunning && usingGamepad) {
       	//checkGamepad(usingTouch); // todo...
       }
-      
     };
 
     P.Stage.prototype.onError = function(e) {
