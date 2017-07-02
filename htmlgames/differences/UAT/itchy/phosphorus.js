@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.305) < insert random number here... 
+// additional bugfixes by PF (v0.306) < insert random number here... 
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -11,7 +11,7 @@ var that; // PF
 var TurboMode = true; // !!window.location.search.msourcePosition = (newY + centerY) * width + newX + centerX;atch("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
 var ASCII = false; // pf for ASCII hack
-var bDoro = false; // pf for ASCII hack
+var bDoro = !false; // pf for ASCII hack
 
 var P = (function() {
   'use strict';
@@ -1202,8 +1202,19 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
        if (ASCII) {
 	 if (bDoro) { // DarDoro Fix
 	   // not used
-           e.stopPropagation();
-	   e.preventDefault();
+           var key = e.keyCode;
+           if (e.target === this.canvas) {
+		 
+	     e.stopPropagation();
+	     e.preventDefault();
+		 
+	     if (key < 65) {
+ 	       this.keys[key] = true;
+	       self.key = key;
+		     
+               this.trigger('whenKeyPressed', key);
+	     }
+	   }
 	 }
 	 if (!bDoro) {
            if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
