@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.306) < insert random number here...
+// additional bugfixes by PF (v0.301) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -3175,7 +3175,6 @@ P.compile = (function() {
 	return 'S.ColorTouchingColor(' + val(e[1]) + ', ' + val(e[2]) + ')';
 
       } else if (e && e[0] === 'keyPressed:') {
-	if (ASCII) bDoro = !bDoro;
 	if (e[1] === "") e[1] = "ctrl"; // PF ctrl hack!
         return '!!self.keys[P.getKeyCode(' + val(e[1]) + ')]';
 
