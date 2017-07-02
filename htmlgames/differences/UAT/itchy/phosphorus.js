@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.317) < insert random number here...
+// additional bugfixes by PF (v0.301) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -12,7 +12,6 @@ var TurboMode = true; // !!window.location.search.msourcePosition = (newY + cent
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
 var ASCII = false; // pf for ASCII hack
 var bDoro = false; // pf for ASCII hack
-var Shiftkey = 0; // pf for ASCII hack
 
 var P = (function() {
   'use strict';
@@ -1221,7 +1220,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
              this.trigger('whenKeyPressed', key);
            }
 	 }
-	 if (Shiftkey) bDoro = !bDoro;
        } else {
 	// TODO: as before (not needed)      
        }	       
@@ -1258,7 +1256,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  //console.log(key); //
           e.stopPropagation();
           if (e.target === this.canvas && !this.keys[key] && "16.17.37.38.39.40".match(key.toString())) { // db4
-	    if (key == 16) {Shiftkey = 1;} else {Shiftkey = 0;}
+	    //if (key == 16) key = 0;
 	    //if (key == 17) key = 0;  
 	    if (key == 37) key = 28;
 	    if (key == 39) key = 29;
