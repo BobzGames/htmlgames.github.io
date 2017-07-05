@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.303) < insert random number here...
+// additional bugfixes by PF (v0.301) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1196,9 +1196,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // hardware acceleration
     this.root.style.WebkitTransform = 'translateZ(0)';
 
-      // TOOO: add old way here and split...
+      // added old way here and split...
 	  
-      this.root.addEventListener('xkeypress', function(e) { // pf db3  
+      this.root.addEventListener('keypress', function(e) { // pf db3  
        if (ASCII) {
 	 if (bDoro) { // DarDoro Fix
 	   // not used
@@ -1227,7 +1227,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
        }	       
     }.bind(this));
 
-    this.root.addEventListener('keypress', function(e) { // keydown
+    this.root.addEventListener('keydown', function(e) { // 
       if (ASCII) {
 	// DarDoro Fix
         if (bDoro) {
