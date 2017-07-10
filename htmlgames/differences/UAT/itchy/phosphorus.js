@@ -1310,6 +1310,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         
           //if (this.keys[c]) this.keys.any--; // pf detected elsewhere..
           this.keys[c] = false;
+          if (c > 64 && c < 91) this.keys[c+32] = false; // was +32
+          this.keys[self.key] = false;
+          if (!ShiftKey) {
+	    this.keys[128] = false;
+	  } else {
+	    //console.log (self.key + " :: " + key); // debug only
+	  }		
           e.stopPropagation();
           if (e.target === this.canvas) {
             e.preventDefault();
