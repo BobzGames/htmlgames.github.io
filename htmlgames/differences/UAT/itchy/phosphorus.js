@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.304) < insert random number here...
+// additional bugfixes by PF (v0.305) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1198,7 +1198,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
       // added old way here and split...
 	  
-      this.root.addEventListener('keypress', function(e) { // pf 
+      this.root.addEventListener('keypress', function(e) { // pf shift symbols helper. without this it acts as if bDoro = true
        if (ASCII) {
 	 if (bDoro) { // DarDoro Fix
 	   // not used
@@ -1212,8 +1212,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
            var key = e.keyCode;
            //console.log(this.keys[key]); //
            if (e.target === this.canvas && !this.keys[key]) {
-	     this.keys[key] = true;
-	     //self.key = key; // *
+	     this.keys[key] = true; // mandatory
+	     self.key = key; // 4 reset symbol keys
 	     e.stopPropagation();
              e.preventDefault();
              //this.trigger('whenKeyPressed', key); // *
@@ -1224,7 +1224,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
        }	       
     }.bind(this));
 
-    this.root.addEventListener('keydown', function(e) { // pf
+    this.root.addEventListener('keydown', function(e) { // pf inc. arrow keys and shift key mapper
       if (ASCII) {
 	// DarDoro Fix
         if (bDoro) {
@@ -1261,8 +1261,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    if (key == 39) key = 29;
 	    if (key == 38) key = 30;
 	    if (key == 40) key = 31;
-	    this.keys[key] = true;
-	    self.key = key;
+	    //this.keys[key] = true; // pf done in keypress?
+	    //self.key = key;
             e.preventDefault();
             this.trigger('whenKeyPressed', key);
           }
