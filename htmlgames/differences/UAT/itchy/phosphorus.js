@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.307) < insert random number here... ..
+// additional bugfixes by PF (v0.303) < insert random number here... ..
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1201,14 +1201,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  
       this.root.addEventListener('keypress', function(e) { // pf shift symbols helper. without this it acts as if bDoro = true
        if (ASCII) {
-	 if (!bDoro) { // DarDoro Fix
+	 if (bDoro) { // DarDoro Fix
 	   // not used
 	   e.stopPropagation();
 	   e.preventDefault();
 	 }
-	 if (bDoro) {
+	 if (!bDoro) {
            if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
-             return; // PF allow e.ctrlKey || allow e.shiftkey
+             //return; // PF allow e.ctrlKey || allow e.shiftkey
            }
            var key = e.keyCode;
 	   ShiftKey = false;
@@ -1217,8 +1217,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	   }
            //console.log(this.keys[key]); //
            if (e.target === this.canvas && !this.keys[key]) {
-	     this.keys[key] = true; // mandatory
-	     self.key = key; // 4 reset symbol keys
+	     this.keys[key] = true; // mandatory for symbols
+	     self.key = key; // resets symbol keys
 	     e.stopPropagation();
              e.preventDefault();
              //this.trigger('whenKeyPressed', key); // *
@@ -1236,7 +1236,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var c = e.keyCode;
 	  //console.log(c)+"\n";
           if (c == 16) {//if( (c >= 16 && c <= 20) || (c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
-            //c = 128;
+            c = 128;
           }
         
 	  if (c == 37) c = 28;
@@ -1257,7 +1257,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             return; // PF allow e.ctrlKey || 
           }
           var key = e.keyCode;
-	  //console.log(key); // 4 debug only
+	  //console.log(key); // debug only
           e.stopPropagation();
           if (e.target === this.canvas && !this.keys[key] && "16.17.37.38.39.40".match(key.toString())) { // 
 	    if (key == 16) key = 128; // (Shift key hack) was 0
@@ -1272,7 +1272,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    if (ShiftKey) {
 	      console.log("true\n");
               this.trigger('whenKeyPressed', 128);
-	      this.trigger('whenKeyPressed', key);
+	      //this.trigger('whenKeyPressed', key);
 	    } else {
 	      this.trigger('whenKeyPressed', key);	    
 	    }
