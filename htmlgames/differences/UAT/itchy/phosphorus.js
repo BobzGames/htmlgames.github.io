@@ -1695,7 +1695,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	 // DarDoro Fix
 	 if (bDoro) {
            if (keyName === "") return 128;
-           if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; //block uppercase sensing
+           //if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; //block uppercase sensing
            return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);	       
 	 }      
          if (!bDoro) {
