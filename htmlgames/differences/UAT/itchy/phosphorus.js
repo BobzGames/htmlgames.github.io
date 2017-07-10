@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.303) < insert random number here... .
+// additional bugfixes by PF (v0.307) < insert random number here... .
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1211,10 +1211,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
              //return; // PF allow e.ctrlKey || allow e.shiftkey
            }
            var key = e.keyCode;
-	   ShiftKey = false;
-	   if (key > 64 && key < 91) {
-	     ShiftKey = true;	 
-	   }
+	   //ShiftKey = false;
+	   //if (key > 64 && key < 91) {
+	   //  ShiftKey = true;	 
+	   //}
            //console.log(this.keys[key]); //
            if (e.target === this.canvas && !this.keys[key]) {
 	     this.keys[key] = true; // mandatory for symbols
@@ -1260,7 +1260,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  //console.log(key); // debug only
           e.stopPropagation();
           if (e.target === this.canvas && !this.keys[key] && "16.17.37.38.39.40".match(key.toString())) { // 
-	    if (key == 16) key = 128; // (Shift key hack) was 0
+	    //if (key == 16) key = 128; // (Shift key hack) was 0
 	    //if (key == 17) key = 0;  
 	    if (key == 37) key = 28;
 	    if (key == 39) key = 29;
@@ -1269,13 +1269,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    this.keys[key] = true; // pf done in keypress?
 	    self.key = key;
             e.preventDefault();
-	    if (ShiftKey) {
-	      console.log("true\n");
-              this.trigger('whenKeyPressed', 128);
-	      //this.trigger('whenKeyPressed', key);
-	    } else {
+	    //if (ShiftKey) {
+	    //  console.log("true\n");
+            //  this.trigger('whenKeyPressed', 128);
+	    //  //this.trigger('whenKeyPressed', key);
+	    //} else {
 	      this.trigger('whenKeyPressed', key);	    
-	    }
+	    //}
           }
 	} // pf temp	
       } else {
@@ -1322,9 +1322,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           this.keys[key] = false;
           if (key > 64 && key < 91) this.keys[key+32] = false; // was +32
           this.keys[self.key] = false;
-          if (!ShiftKey) {
-	    this.keys[128] = false;
-	  } else console.log (self.key + " :: " + key);
+          //if (!ShiftKey) {
+	  //  this.keys[128] = false;
+	  //} else console.log (self.key + " :: " + key);
           e.stopPropagation();
           if (e.target === this.canvas) {
             e.preventDefault();
@@ -1693,15 +1693,15 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	 // DarDoro Fix
 	 if (bDoro) {
            if (keyName === "") return 128;
-           //if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; //block uppercase sensing
+           if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; //block uppercase sensing
            return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);	       
 	 }      
          if (!bDoro) {
 	   if (keyName && keyName.length > 0) {
-	     return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0); // #
-	   } else {
+	     return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0);
+	   } //else {
 	     //return 128;
-	   }
+	   //}
 	 } // pf db1 // pf temp - old code but tested 
        } else {
           if (keyName && keyName.length > 0) return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);
