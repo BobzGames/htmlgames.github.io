@@ -1201,14 +1201,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  
       this.root.addEventListener('keypress', function(e) { // pf shift symbols helper. without this it acts as if bDoro = true
        if (ASCII) {
-	 if (bDoro) { // DarDoro Fix
+	 if (!bDoro) { // DarDoro Fix
 	   // not used
-	   var c = e.keyCode;
-	   this.keys[c] = true;
 	   e.stopPropagation();
 	   e.preventDefault();
 	 }
-	 if (!bDoro) {
+	 if (bDoro) {
            if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
              return; // PF allow e.ctrlKey || allow e.shiftkey
            }
