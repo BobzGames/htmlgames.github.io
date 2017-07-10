@@ -1647,7 +1647,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
        if (ASCII) {
 
 	   if (keyName && keyName.length > 0) {
-	     return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0); // *
+	     if (ShiftKey) {
+	       return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0); // *
+	     } else {
+	       return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0); // *	     
+	     }
 	   } else {
 	     return 128;
 	   }
