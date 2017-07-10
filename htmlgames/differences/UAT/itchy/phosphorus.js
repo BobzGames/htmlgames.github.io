@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.309) < insert random number here...
+// additional bugfixes by PF (v0.310) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -12,6 +12,7 @@ var TurboMode = true; // !!window.location.search.msourcePosition = (newY + cent
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
 var ASCII = false; // pf for ASCII hack
 var bDoro = false; // pf for ASCII hack
+var ShiftKey = true; // pf for ASCII hack
 
 var P = (function() {
   'use strict';
@@ -1210,18 +1211,17 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
              return; // PF allow e.ctrlKey || allow e.shiftkey
            }
            var key = e.keyCode;
-		 if (key > 64 || key < 91) {
-			 this.trigger('whenKeyPressed', 128); // sim shift keypress
-			 this.keys[128] = true; // mandatory
-	     		 self.key = 128; // 4 reset symbol keys
-		 }
+	   ShiftKey = false;
+	   if (key > 64 || key < 91) {
+	     ShiftKey = true;	 
+	   }
            //console.log(this.keys[key]); //
            if (e.target === this.canvas && !this.keys[key]) {
 	     this.keys[key] = true; // mandatory
 	     self.key = key; // 4 reset symbol keys
 	     e.stopPropagation();
              e.preventDefault();
-             this.trigger('whenKeyPressed', key); // *
+             //this.trigger('whenKeyPressed', key); // *
            }
 	 }
        } else {
@@ -1257,9 +1257,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             return; // PF allow e.ctrlKey || 
           }
           var key = e.keyCode;
-	  //console.log(key); //
+	  if (ShiftKey) console.log(key); // 4 debug only
           e.stopPropagation();
-          if (e.target === this.canvas && !this.keys[key] && "16.17.37.38.39.40".match(key.toString())) { // 
+          if (e.target === this.canvas && !this.keys[key] && "17.37.38.39.40".match(key.toString())) { // 
 	    //if (key == 16) key = 128; // (Shift key hack) was 0
 	    //if (key == 17) key = 0;  
 	    if (key == 37) key = 28;
