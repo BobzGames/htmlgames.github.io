@@ -11,7 +11,6 @@ var that; // PF
 var TurboMode = true; // !!window.location.search.msourcePosition = (newY + centerY) * width + newX + centerX;atch("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
 var ASCII = false; // pf for ASCII hack
-var bDoro = false; // pf for ASCII hack
 var ShiftKey = true; // pf for ASCII hack
 
 var P = (function() {
@@ -216,7 +215,6 @@ var P = (function() {
     IO.projectRequest = request;
     IO.zip = null;
     ASCII = false; // pf ASCII hack reset
-    bDoro = false; // pf ASCII hack reset
   };
 
   IO.parseJSONish = function(json) {
@@ -707,8 +705,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	{
 	    if (data.lists[ha].listName == "ASCII" && data.lists[ha].contents.length != 133) { // 2nd part ugh (skips GB ROM) !!!
 	        ASCII = true;
-		bDoro = false; // this Doro
-		console.log("ASCII hack detected. bDoro = " + bDoro);
+		console.log("ASCII hack detected.");
 	    }
 	}
     } 
@@ -1199,19 +1196,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
       // added old way here and split...
 	  
-      this.root.addEventListener('keypress', function(e) { // pf shift symbols helper. without this it acts as if bDoro = true
+      this.root.addEventListener('keypress', function(e) { // pf shift symbols helper.
        if (ASCII) {
-	 if (bDoro) { // DarDoro Fix
-	   // not used
-           //var key = e.keyCode;
-	   //ShiftKey = false;
-	   //if (key > 64 && key < 91) {
-	   //  ShiftKey = true;	 
-	   //}		 
-	   e.stopPropagation();
-	   e.preventDefault();
-	 }
-	 if (!bDoro) {
+	 
            if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
              //return; // PF allow e.ctrlKey || allow e.shiftkey
            }
@@ -1231,7 +1218,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
              e.preventDefault();
              //this.trigger('whenKeyPressed', key); // *
            }
-	 }
+	 
        } else {
 	// TODO: as before (not needed)      
        }	       
@@ -1239,28 +1226,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
     this.root.addEventListener('keydown', function(e) { // pf inc. arrow keys and shift key mapper
       if (ASCII) {
-	// DarDoro Fix
-        if (bDoro) {
-          var c = e.keyCode;
-	  //console.log(c)+"\n";
-          if (c == 16) {//if( (c >= 16 && c <= 20) || (c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
-            c = 128;
-          }
-        
-	  if (c == 37) c = 28;
-	  if (c == 39) c = 29;
-	  if (c == 38) c = 30;
-	  if (c == 40) c = 31;    
-        
-          //if (!this.keys[c]) this.keys.any++; // pf detected elsewhere...
-          this.keys[c] = true;
-          e.stopPropagation();
-            if (e.target === this.canvas) {
-              e.preventDefault();
-              this.trigger('whenKeyPressed', c);
-            }
-        }
-	if (!bDoro) { // pf temp - old code but tested   
+
           if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
             return; // PF allow e.ctrlKey || 
           }
@@ -1285,7 +1251,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	      this.trigger('whenKeyPressed', key);	    
 	    }
           }
-	} // pf temp	
+	
       } else {
         // TODO: as before    
         if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
@@ -1303,34 +1269,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  
     this.root.addEventListener('keyup', function(e) {
       if (ASCII) {
-        // DarDoro Fix
-        if (bDoro) {
-          var c = e.keyCode;
-	  //console.log(c); //
-          if (c == 16) {//if( (c >= 16 && c <= 20) || ( c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
-            c = 128;
-          }
-        
-          if (c == 37) c = 28;
-          if (c == 39) c = 29;
-          if (c == 38) c = 30;
-          if (c == 40) c = 31;        
-        
-          //if (this.keys[c]) this.keys.any--; // pf detected elsewhere..
-          this.keys[c] = false;
-          if (c > 64 && c < 91) this.keys[c+32] = false; // was +32
-          this.keys[self.key] = false;
-          //if (!ShiftKey) {
-	  //  this.keys[128] = false;
-	  //} else {
-	  //  //console.log (self.key + " :: " + key); // debug only
-	  //}		
-          e.stopPropagation();
-          if (e.target === this.canvas) {
-            e.preventDefault();
-          }
-        }
-	if (!bDoro) { // pf temp - old code but tested     
+    
           var key = e.keyCode;
 	  //if (key == 16) key = 128; 
           //console.log(key); // db2
@@ -1346,8 +1285,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           if (e.target === this.canvas) {
             e.preventDefault();
           }
-	} // pf temp
-        //bDoro = !bDoro; // bit flip
+
       } else {
 	// TODO: as before   
         this.keys[e.keyCode] = false;
@@ -1707,19 +1645,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   var getKeyCode = function(keyName) {
     //if (keyName && keyName.length > 0) { // pf temp - old code but tested 
        if (ASCII) {
-	 // DarDoro Fix
-	 if (bDoro) {
-           if (keyName === "") return 128;
-           if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; //block uppercase sensing
-           return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);	       
-	 }      
-         if (!bDoro) {
+
 	   if (keyName && keyName.length > 0) {
 	     return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0);
 	   } else {
 	     return 128;
 	   }
-	 } // pf db1 // pf temp - old code but tested 
+
        } else {
           if (keyName && keyName.length > 0) return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);
        }
