@@ -1236,7 +1236,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var c = e.keyCode;
 	  //console.log(c)+"\n";
           if (c == 16) {//if( (c >= 16 && c <= 20) || (c >= 112 && c <= 123) || (c > 128) ) { /*Key modifiers shift, ctrl, alt, caps, F1..F12*/
-            c = 128;
+            //c = 128;
           }
         
 	  if (c == 37) c = 28;
