@@ -1211,11 +1211,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
              //return; // PF allow e.ctrlKey || allow e.shiftkey
            }
            var key = e.keyCode;
-	   //ShiftKey = false;
-	   //if (key > 64 && key < 91) {
-	   //  ShiftKey = true;	 
-	   //}
-           //console.log(this.keys[key]); //
+	   ShiftKey = false;
+	   if (key > 64 && key < 91) {
+	     ShiftKey = true;	 
+	   }
+           //console.log(this.keys[key]); // debug only
            if (e.target === this.canvas && !this.keys[key]) {
 	     this.keys[key] = true; // mandatory for symbols
 	     self.key = key; // resets symbol keys
@@ -1260,7 +1260,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  //console.log(key); // debug only
           e.stopPropagation();
           if (e.target === this.canvas && !this.keys[key] && "16.17.37.38.39.40".match(key.toString())) { // 
-	    //if (key == 16) key = 128; // (Shift key hack) was 0
+	    if (key == 16) key = 128; // (Shift key hack) was 0
 	    //if (key == 17) key = 0;  
 	    if (key == 37) key = 28;
 	    if (key == 39) key = 29;
@@ -1269,13 +1269,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    this.keys[key] = true; // pf done in keypress?
 	    self.key = key;
             e.preventDefault();
-	    //if (ShiftKey) {
-	    //  console.log("true\n");
-            //  this.trigger('whenKeyPressed', 128);
-	    //  //this.trigger('whenKeyPressed', key);
-	    //} else {
+	    if (ShiftKey) {
+	      //console.log("Shift Pressed\n"); // debug only
+              this.trigger('whenKeyPressed', 128);
+	      //this.trigger('whenKeyPressed', key);
+	    } else {
 	      this.trigger('whenKeyPressed', key);	    
-	    //}
+	    }
           }
 	} // pf temp	
       } else {
@@ -1322,9 +1322,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           this.keys[key] = false;
           if (key > 64 && key < 91) this.keys[key+32] = false; // was +32
           this.keys[self.key] = false;
-          //if (!ShiftKey) {
-	  //  this.keys[128] = false;
-	  //} else console.log (self.key + " :: " + key);
+          if (!ShiftKey) {
+	    this.keys[128] = false;
+	  } else {
+	    console.log (self.key + " :: " + key); // debug only
+	  }
           e.stopPropagation();
           if (e.target === this.canvas) {
             e.preventDefault();
@@ -1699,9 +1701,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
          if (!bDoro) {
 	   if (keyName && keyName.length > 0) {
 	     return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0);
-	   } //else {
-	     //return 128;
-	   //}
+	   } else {
+	     return 128;
+	   }
 	 } // pf db1 // pf temp - old code but tested 
        } else {
           if (keyName && keyName.length > 0) return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);
