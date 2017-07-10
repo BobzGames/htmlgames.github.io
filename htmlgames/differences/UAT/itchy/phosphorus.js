@@ -1325,7 +1325,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           if (!ShiftKey) {
 	    this.keys[128] = false;
 	  } else {
-	    console.log (self.key + " :: " + key); // debug only
+	    //console.log (self.key + " :: " + key); // debug only
 	  }
           e.stopPropagation();
           if (e.target === this.canvas) {
