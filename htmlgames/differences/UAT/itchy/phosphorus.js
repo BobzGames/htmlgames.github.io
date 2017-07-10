@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.302) < insert random number here... 
+// additional bugfixes by PF (v0.303) < insert random number here... 
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1212,9 +1212,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
            var key = e.keyCode;
            //console.log(this.keys[key]); //
            if (e.target === this.canvas && !this.keys[key]) {
-	     this.keys[key] = true;
+	     //this.keys[key] = true; // *
 	     self.key = key;
-	     e.stopPropagation(); // moved
+	     e.stopPropagation();
              e.preventDefault();
              //this.trigger('whenKeyPressed', key); // *
            }
