@@ -1203,6 +1203,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
        if (ASCII) {
 	 if (bDoro) { // DarDoro Fix
 	   // not used
+           var key = e.keyCode;
+	   ShiftKey = false;
+	   if (key > 64 && key < 91) {
+	     ShiftKey = true;	 
+	   }		 
 	   e.stopPropagation();
 	   e.preventDefault();
 	 }
