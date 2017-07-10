@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.303) < insert random number here...
+// additional bugfixes by PF (v0.305) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1272,6 +1272,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    if (ShiftKey) {
 	      console.log("true\n");
               this.trigger('whenKeyPressed', 128);
+	      this.trigger('whenKeyPressed', key);
 	    } else {
 	      this.trigger('whenKeyPressed', key);	    
 	    }
@@ -1316,11 +1317,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	if (!bDoro) { // pf temp - old code but tested     
           var key = e.keyCode;
-	  if (key == 16) key = 128; 
+	  //if (key == 16) key = 128; 
           //console.log(key); // db2
           this.keys[key] = false;
           if (key > 64 && key < 91) this.keys[key+32] = false; // was +32
           this.keys[self.key] = false;
+          if (!ShiftKey) {
+	    this.keys[128] = false;
+	  }
           e.stopPropagation();
           if (e.target === this.canvas) {
             e.preventDefault();
@@ -1694,10 +1698,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	 }      
          if (!bDoro) {
 	   if (keyName && keyName.length > 0) {
-	     //if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; // #
-	     return KEY_CODES[keyName.toUpperCase()] || keyName.toUpperCase().charCodeAt(0); // #
+	     return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0); // #
 	   } else {
-	     //return 128; // #
+	     //return 128;
 	   }
 	 } // pf db1 // pf temp - old code but tested 
        } else {
