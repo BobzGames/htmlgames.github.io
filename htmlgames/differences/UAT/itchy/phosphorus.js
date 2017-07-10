@@ -1216,12 +1216,15 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
              //return; // PF allow e.ctrlKey || allow e.shiftkey
            }
            var key = e.keyCode;
-	   ShiftKey = false;
-	   if (key > 64 && key < 91) {
-	     ShiftKey = true;	 
-	   }
+
            //console.log(this.keys[key]); // debug only
            if (e.target === this.canvas && !this.keys[key]) {
+
+	     ShiftKey = false;
+	     if (key > 64 && key < 91) {
+	       ShiftKey = true;	 
+	     }		   
+		   
 	     this.keys[key] = true; // mandatory for symbols
 	     self.key = key; // resets symbol keys
 	     e.stopPropagation();
@@ -1334,7 +1337,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           this.keys[key] = false;
           if (key > 64 && key < 91) this.keys[key+32] = false; // was +32
           this.keys[self.key] = false;
-          if (ShiftKey) {
+          if (!ShiftKey) {
 	    this.keys[128] = false;
 	  } else {
 	    //console.log (self.key + " :: " + key); // debug only
