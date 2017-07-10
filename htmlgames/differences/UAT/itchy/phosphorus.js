@@ -1270,7 +1270,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    self.key = key;
             e.preventDefault();
 	    if (ShiftKey) {
-              this.trigger('whenKeyPressed', 65);
+	      console.log(1);
+              this.trigger('whenKeyPressed', 128);
 	    } else {
 	      this.trigger('whenKeyPressed', key);	    
 	    }
