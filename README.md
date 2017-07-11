@@ -32,7 +32,7 @@ APK generation (unsigned)<br>
 TODO LIST
 --------
 
-Display lists<br>
+Display lists (via DOM)<br>
 WebRTCdatachannels for emulating cloud vars (for multiplayer games)<br>
 <br>
 
