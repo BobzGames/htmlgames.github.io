@@ -6,15 +6,16 @@
 NEWS
 ====
 
-apk generation for sb2 files is back on!. Also signing of the apk will not be possible on the web client (you will need to do this via a 3rd party app). At least I have a sb2 project file autoloading now, with the required js file generating after a file drop.
+apk generation for sb2 files is back on! but signing of the apk will not be possible on the web client (you will need to do this via a 3rd party app). At least I have a sb2 project file autoloading now, with the required js file generating after a file drop.
 <br>
-Updates (tested in Chrome)
---------------------------
+Updates (tested in Chrome + Chrome Webview)
+-------------------------------------------
 
+Mobile (Phone) Touch Working<br>
 ASCII list hack method emulated<br>
 Effect blocks<br>
 Full Sound when wav > 30 secs<br>
-SVG Text now working correctly<br>
+SVG now working fully<br>
 ColorTouchingColor Block coded<br>
 Experimental Touch controls (for mobile devices)<br>
 Offline SB file auto loader**<br>
