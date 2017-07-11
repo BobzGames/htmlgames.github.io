@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.303) < insert random number here...
+// additional bugfixes by PF (v0.305) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -3759,7 +3759,7 @@ P.compile = (function() {
 	  if (!!Number(block[1])) {
             wait(num(block[1]));
 	  } else { // PF fix 11/7/17
-	    if (block[1] === 0) {
+	    if (!!that.bWarp && block[1] === 0) {
 	      wait(num(block[1]));
 	    }
 	  }
