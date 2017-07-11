@@ -11,13 +11,12 @@ apk generation for sb2 files is back on! but signing of the apk will not be poss
 Updates (tested in Chrome + Chrome Webview)
 -------------------------------------------
 
-Mobile (Phone) Touch Working<br>
+Experimental Touch controls (for mobile devices) Working<br>
 ASCII list hack method emulated<br>
 Effect blocks<br>
 Full Sound when wav > 30 secs<br>
 SVG now working fully<br>
 ColorTouchingColor Block coded<br>
-Experimental Touch controls (for mobile devices)<br>
 Offline SB file auto loader**<br>
 Speed optimisation (as fast as Scratch now)<br>
 Warp Framework and Turbo mode fully optimised<br>
