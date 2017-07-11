@@ -7,7 +7,7 @@ NEWS
 ====
 
 apk generation for sb2 files is back on! but signing of the apk will not be possible on the web client (you will need to do this via a 3rd party app). At least I have a sb2 project file autoloading now, with the required js file generating after a file drop.
-<br>
+<br><br>
 Updates (tested in Chrome + Chrome Webview)
 -------------------------------------------
 
