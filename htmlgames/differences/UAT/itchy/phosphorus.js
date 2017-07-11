@@ -3759,7 +3759,7 @@ P.compile = (function() {
 	  if (!!Number(block[1])) {
             wait(num(block[1]));
 	  } else { // PF fix 11/7/17
-	    if (!!that.bWarp && block[1] === 0) {
+	    if (!that.bWarp && block[1] === 0) {
 	      wait(num(block[1]));
 	    }
 	  }
