@@ -803,7 +803,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         document.body.appendChild(svg);
         var viewBox = svg.viewBox.baseVal;
         if (viewBox && (viewBox.x || viewBox.y)) {
-          if (svg.querySelector("text") == null) { // PF fix svg image but not text nodes		
+          if (0&&svg.querySelector("text") == null) { // PF fix svg image but not text nodes		
             svg.width.baseVal.value = viewBox.width - viewBox.x;
             svg.height.baseVal.value = viewBox.height - viewBox.y;	
             viewBox.x = 0;
@@ -811,11 +811,20 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             viewBox.width = 0;
             viewBox.height = 0;
           }
+          // SF
+          var bb = svg.getBBox();
+          viewBox.width  = svg.width.baseVal.value = Math.ceil(bb.x + bb.width + 1);
+          viewBox.height = svg.height.baseVal.value = Math.ceil(bb.y + bb.height + 1);		       
+          viewBox.x = 0;
+          viewBox.y = 0;
 	}
         IO.fixSVG(svg, svg);
         while (div.firstChild) div.removeChild(div.lastChild);
         div.appendChild(svg);
         svg.style.visibility = 'visible';
+        // SF
+        svg.style['image-rendering'] = '-moz-crisp-edges';
+        svg.style['image-rendering'] = 'pixelated';
 
         var canvas = document.createElement('canvas');
 	//var ctxA = canvas.getContext('2d');
