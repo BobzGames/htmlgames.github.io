@@ -1277,7 +1277,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           if (key > 64 && key < 91) this.keys[key+32] = false; // was +32
           this.keys[self.key] = false;
           if (ShiftKey) {
-	    this.keys[128] = false;
+	    //this.keys[128] = false;
 	  } else {
 	    //console.log (self.key + " :: " + key); // debug only
 	  }
