@@ -803,7 +803,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         document.body.appendChild(svg);
         var viewBox = svg.viewBox.baseVal;
         if (viewBox && (viewBox.x || viewBox.y)) {
-          //if (0&&svg.querySelector("text") == null) { // PF fix svg image but not text nodes		
+          //if (svg.querySelector("text") == null) { // PF fix svg image but not text nodes		
           //  svg.width.baseVal.value = viewBox.width - viewBox.x;
           //  svg.height.baseVal.value = viewBox.height - viewBox.y;	
           //  viewBox.x = 0;
