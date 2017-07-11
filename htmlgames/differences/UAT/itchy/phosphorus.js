@@ -1271,7 +1271,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       if (ASCII) {
     
           var key = e.keyCode;
-	  //if (key == 16) key = 128; 
+	  if (key == 16) key = 128; 
           //console.log(key); // db2
           this.keys[key] = false;
           if (key > 64 && key < 91) this.keys[key+32] = false; // was +32
