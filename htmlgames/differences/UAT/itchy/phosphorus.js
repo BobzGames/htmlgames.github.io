@@ -803,17 +803,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         document.body.appendChild(svg);
         var viewBox = svg.viewBox.baseVal;
         if (viewBox && (viewBox.x || viewBox.y)) {
-          //if (svg.querySelector("text") == null) { // PF fix svg image but leave text nodes as they are	
-            //svg.width.baseVal.value = viewBox.width - viewBox.x;
-            //svg.height.baseVal.value = viewBox.height - viewBox.y;	
-            //viewBox.x = 0;
-            //viewBox.y = 0;
-            //viewBox.width = 0;
-            //viewBox.height = 0;
-          //} 
           // SF
-          if (!window.location.hash.match("70959740")) { // PF test only
-	    var bb = svg.getBBox(); // PF fixs svg image and texts bound by a box, can cut some text blocks in half
+          if (svg.querySelector("path") || svg.querySelector("image")) { // PF fix - ignore text only svg's
+	    var bb = svg.getBBox();
             viewBox.width  = svg.width.baseVal.value = Math.ceil(bb.x + bb.width + 1);
             viewBox.height = svg.height.baseVal.value = Math.ceil(bb.y + bb.height + 1);
             viewBox.x = 0;
