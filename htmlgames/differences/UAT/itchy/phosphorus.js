@@ -812,11 +812,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             //viewBox.height = 0;
           //} 
           // SF
-          if (svg.querySelector("text") != null) {
+          if (!window.location.search.match("70959740")) { // PF test only
 	    var bb = svg.getBBox(); // PF fixs svg image and texts bound by a box, can cut some text blocks in half
             viewBox.width  = svg.width.baseVal.value = Math.ceil(bb.x + bb.width + 1);
             viewBox.height = svg.height.baseVal.value = Math.ceil(bb.y + bb.height + 1);
-	  
             viewBox.x = 0;
             viewBox.y = 0;
 	  }
