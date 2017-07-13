@@ -8,7 +8,7 @@
 //
 // https://projects.scratch.mit.edu/internalapi/project/[id]/get/
 var that; // PF
-var TurboMode = true; // !!window.location.search.msourcePosition = (newY + centerY) * width + newX + centerX;atch("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
+var TurboMode = true; // !!window.location.search.match("turbo=true"); // false = 99% compatibility for starters (use at your own risk!) 
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
 var ASCII = false; // pf for ASCII hack
 var ShiftKey = true; // pf for ASCII hack
