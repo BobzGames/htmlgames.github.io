@@ -2255,7 +2255,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     //if (rgb > 255) {
       var length = w * h * 4; // must be > 0
       for (var i = 0; i < length; i += 4) {
-        if ((data[i] << 16 | data[i + 1] << 8 | data[i + 2]) === rgb && data[i + 3]) {
+        ////if ((data[i] << 16 | data[i + 1] << 8 | data[i + 2]) === rgb && data[i + 3]) {
+        if (data[i] == RGB.r && data[i + 1] == RGB.g && data[i + 2] == RGB.b) { 	      
           return true;
         }
       }
