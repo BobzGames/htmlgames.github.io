@@ -824,8 +824,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         div.appendChild(svg);
         svg.style.visibility = 'visible';
         // SF
-        svg.style['image-rendering'] = '-moz-crisp-edges';
-        svg.style['image-rendering'] = 'pixelated';
+        //svg.style['image-rendering'] = '-moz-crisp-edges';
+        //svg.style['image-rendering'] = 'pixelated';
 
         var canvas = document.createElement('canvas');
 	//var ctxA = canvas.getContext('2d');
