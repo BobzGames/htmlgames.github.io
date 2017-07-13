@@ -2139,7 +2139,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
 
-  Sprite.prototype.touchingColor = function(rgb) {
+  Sprite.prototype.touchingColor = function(rgb) { return true;
     var b = this.rotatedBounds();
 
     var w = b.right - b.left;
