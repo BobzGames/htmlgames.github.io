@@ -810,13 +810,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             viewBox.y = 0;
             viewBox.width = 0;
             viewBox.height = 0;
-          }
-          // SF
-          var bb = svg.getBBox();
-          viewBox.width  = svg.width.baseVal.value = Math.ceil(bb.x + bb.width + 1);
-          viewBox.height = svg.height.baseVal.value = Math.ceil(bb.y + bb.height + 1);		       
-          viewBox.x = 0;
-          viewBox.y = 0;
+          } else {
+            // SF
+            var bb = svg.getBBox();
+            viewBox.width  = svg.width.baseVal.value = Math.ceil(bb.x + bb.width + 1);
+            viewBox.height = svg.height.baseVal.value = Math.ceil(bb.y + bb.height + 1);		       
+            viewBox.x = 0;
+            viewBox.y = 0;
+	  }
 	}
         IO.fixSVG(svg, svg);
         while (div.firstChild) div.removeChild(div.lastChild);
