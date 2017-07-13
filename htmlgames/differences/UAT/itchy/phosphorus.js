@@ -803,23 +803,23 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         document.body.appendChild(svg);
         var viewBox = svg.viewBox.baseVal;
         if (viewBox && (viewBox.x || viewBox.y)) {
-          //if (svg.querySelector("text") == null) { // PF fix svg image but leave text nodes		
+          //if (svg.querySelector("text") == null) { // PF fix svg image but leave text nodes as they are	
             //svg.width.baseVal.value = viewBox.width - viewBox.x;
             //svg.height.baseVal.value = viewBox.height - viewBox.y;	
             //viewBox.x = 0;
             //viewBox.y = 0;
             //viewBox.width = 0;
             //viewBox.height = 0;
-          //} else {
-            // SF
-            var bb = svg.getBBox(); // PF fixs svg image and texts bound by a box
+          //}
+          // SF
+          if (svg.querySelector("text") == null) {
+	    var bb = svg.getBBox(); // PF fixs svg image and texts bound by a box, can cut some text blocks in half
             viewBox.width  = svg.width.baseVal.value = Math.ceil(bb.x + bb.width + 1);
             viewBox.height = svg.height.baseVal.value = Math.ceil(bb.y + bb.height + 1);
-	    //if (svg.querySelector("text") == null) {
-              viewBox.x = 0;
-              viewBox.y = 0;
-	    //}
-	  //}
+	  
+            viewBox.x = 0;
+            viewBox.y = 0;
+	  }
 	}
         IO.fixSVG(svg, svg);
         while (div.firstChild) div.removeChild(div.lastChild);
