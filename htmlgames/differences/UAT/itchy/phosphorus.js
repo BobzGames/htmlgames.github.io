@@ -1494,10 +1494,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	if (this.filters.color !== 0) {
 	  var colorVal = (this.filters.color * 2.55) & 0xff;
 	
-	  effectsCanvasStage.width = 480;
-	  effectsCanvasStage.height = 360;		
-	  effectsContextStage.drawImage(costume.image, 0, 0, 480, 360);
-	  var effect = effectsContextStage.getImageData(0, 0, 480, 360);
+	  effectsCanvas.width = 480;
+	  effectsCanvas.height = 360;		
+	  effectsContext.drawImage(costume.image, 0, 0, 480, 360);
+	  var effect = effectsContext.getImageData(0, 0, 480, 360);
           // PF: TODO improve
           for (var i = 0; i < effect.data.length; i += 4) {
             effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
@@ -1505,11 +1505,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
             effect.data[i + 3] = effect.data[i + 3]; // alpha
 	  }
-	  effectsContextStage.putImageData(effect, 0, 0);
+	  effectsContext.putImageData(effect, 0, 0);
         }
 	// TODO: others ...
 	  
-	this.backdropContext.drawImage(effectsCanvasStage, 0, 0, 480, 360); // was context       
+	this.backdropContext.drawImage(effectsCanvas, 0, 0, 480, 360); // was context       
     }	  
   };
 
