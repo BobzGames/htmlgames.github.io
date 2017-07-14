@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.307) < insert random number here... .
+// additional bugfixes by PF (v0.308) < insert random number here... .
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1636,6 +1636,93 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
 
+  Stage.prototype.touchingColor = function(rgb) {
+    var b = this.rotatedBounds();
+
+    var w = b.right - b.left;
+    var h = b.top - b.bottom;
+  
+    collisionCanvas.width = (w < 1) ? 1 : w; // pf w < 1 ?
+    collisionCanvas.height = (h < 1) ? 1 : h; // pf h < 1?
+
+    // pf - fast match test (hack - watch out!)
+    var bFast = ((w == h && h < 8)) ? true : false; // && (w + h > 2)
+	  
+    if (bFast) {
+      collisionContext.translate(-(240 + b.left), -(180 - b.top));
+      this.stage.drawOn(collisionContext, this);	    
+    } else {
+      collisionContext.save();
+      collisionContext.translate(-(240 + b.left), -(180 - b.top));
+      this.stage.drawAllOn(collisionContext, this);
+      collisionContext.globalCompositeOperation = 'destination-in';
+      this.draw(collisionContext, true);	  
+      collisionContext.restore();
+    }
+	  
+    var wt = (w < 1) ? 1 : w;
+    var ht = (h < 1) ? 1 : h;
+    var data = collisionContext.getImageData(0, 0, wt, ht).data;
+  
+    rgb = (rgb & 0xffffff);
+    //var RGB = new hsvToRgb(data[0], data[1] ,data[2]); // pf test only
+
+    // pf - fast match test
+    if (!rgb && !data.join("").replace("000255","").length) return true;
+
+    //if (rgb > 255) {
+      var length = w * h * 4; // must be > 0
+      for (var i = 0; i < length; i += 4) {
+        if ((data[i] << 16 | data[i + 1] << 8 | data[i + 2]) === rgb && data[i + 3]) {
+        //if (data[i] == RGB.r && data[i + 1] == RGB.g && data[i + 2] == RGB.b) { // pf test only
+          return true;
+        }
+      }
+    //} else {
+	// pf - fast match test
+    //  if (data.join("").match("25500"+rgb.toString()+"255")) return true;
+    //}
+  };	
+	
+  Stage.prototype.ColorTouchingColor = function(rgb1, rgb2) {
+    var b = this.rotatedBounds();
+
+    var w = b.right - b.left;
+    var h = b.top - b.bottom;
+  
+    collisionCanvas.width = (w < 1) ? 1 : w;
+    collisionCanvas.height = (h < 1) ? 1 : h;
+	   
+    collisionContext.translate(-(240 + b.left), -(180 - b.top));
+    this.stage.drawAllOn(collisionContext, this);
+	  
+    var wt = (w < 1) ? 1 : w;
+    var ht = (h < 1) ? 1 : h;
+    var data2 = collisionContext.getImageData(0, 0, wt, ht).data; // rgb2 'over'	   
+	  
+    collisionCanvas2.width = (w < 1) ? 1 :w;
+    collisionCanvas2.height = (h < 1) ? 1 : h;
+    collisionContext2.translate(-(240 + b.left), -(180 - b.top));
+    this.draw(collisionContext2, true); // true ???
+
+    var data1 = collisionContext2.getImageData(0, 0, wt, ht).data; // rgb1 'sprite'
+    
+    rgb1 = (rgb1 & 0xffffff);
+    rgb2 = (rgb2 & 0xffffff);
+
+    var length = w * h * 4; // must be > 0
+    for (var i = 0; i < length; i += 4) {
+      if ((data1[i] << 16 | data1[i + 1] << 8 | data1[i + 2]) === rgb1 && 255) { // ignore alfred
+	if ((data2[i] << 16 | data2[i + 1] << 8 | data2[i + 2]) === rgb2 && 255) {
+          return true;
+	}
+      }
+    }	  
+  };	
+
+  // TODO: add others (like effects etc...)
+	
+	
   var KEY_CODES = {
     'ctrl': 17,
     'space': 32,
