@@ -1483,7 +1483,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   // PF new
   var effectsCanvasStage = document.createElement('canvas');
-  var effectsContextStage = effectsCanvas.getContext('2d');	
+  var effectsContextStage = effectsCanvasStage.getContext('2d');	
 	
   Stage.prototype.updateFilters = function() {
     this.backdropCanvas.style.opacity = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
