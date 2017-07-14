@@ -1648,11 +1648,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var bFast = ((w == h && h < 8)) ? true : false; // && (w + h > 2)
 	  
     if (bFast) {
-      collisionContext.translate(-(240 + b.left), -(180 - b.top));
+      collisionContext.translate(-(240), -(180)); // + -
       this.stage.drawOn(collisionContext, this);	    
     } else {
       collisionContext.save();
-      collisionContext.translate(-(240 + b.left), -(180 - b.top));
+      collisionContext.translate(-(240), -(180)); // + -
       this.stage.drawAllOn(collisionContext, this);
       collisionContext.globalCompositeOperation = 'destination-in';
       this.draw(collisionContext, true);	  
@@ -1700,7 +1700,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  
     collisionCanvas2.width = (w < 1) ? 1 :w;
     collisionCanvas2.height = (h < 1) ? 1 : h;
-    collisionContext2.translate(-(240 + b.left), -(180 - b.top));
+    collisionContext2.translate(-(240), -(180)); // + -
     this.draw(collisionContext2, true); // true ???
 
     var data1 = collisionContext2.getImageData(0, 0, wt, ht).data; // rgb1 'sprite'
