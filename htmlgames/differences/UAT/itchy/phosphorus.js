@@ -1485,7 +1485,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.backdropCanvas.style.opacity = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
     // TOOO: add other effects... (warning will cause slowdown!)
 	  
-	  
+	var costume = this.costumes[this.currentCostumeIndex];  
         if (this.filters.color !== 0) {
 	  var colorVal = (this.filters.color * 2.55) & 0xff;
 	
