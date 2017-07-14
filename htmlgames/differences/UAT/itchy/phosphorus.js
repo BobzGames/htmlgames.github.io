@@ -1504,8 +1504,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 
 	      
-	      
-      }	  
+	       
 	  
   };
 
