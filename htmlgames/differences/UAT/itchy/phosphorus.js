@@ -1481,6 +1481,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.backdropContext.restore();
   };
 
+  Stage.prototype.clearFilters = function() {
+    this.backdropCanvas.style.opacity = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
+    this.backdropContext.drawImage(context, 0, 0, 480, 360); // reset      	  
+  };	
+	
   Stage.prototype.updateFilters = function() {
     this.backdropCanvas.style.opacity = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
     // TOOO: add other effects... (warning will cause slowdown!)
@@ -4746,7 +4751,7 @@ P.runtime = (function() {
       this.promptId = this.nextPromptId = 0;
       this.queue = [];
       this.resetFilters();
-      this.updateFilters(); // pf
+      this.clearFilters(); // pf
       this.stopSounds();
       for (var i = 0; i < this.children.length; i++) {
         var c = this.children[i];
