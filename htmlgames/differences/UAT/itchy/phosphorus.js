@@ -1485,14 +1485,15 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.backdropCanvas.style.opacity = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
     // TOOO: add other effects... (warning will cause slowdown!)
 	  
-	var costume = this.costumes[this.currentCostumeIndex];  
+	var costume = this.costumes[this.currentCostumeIndex];
+	//this.backdropContext.scale(costume.scale, costume.scale);
         if (this.filters.color !== 0) {
 	  var colorVal = (this.filters.color * 2.55) & 0xff;
 	
-	  effectsCanvas.width = 480;
-	  effectsCanvas.height = 360;		
-	  effectsContext.drawImage(costume.image, 0, 0, 480, 360);
-	  var effect = effectsContext.getImageData(0, 0, 480, 360);
+	  effectsCanvas.width = costume.image.width;
+	  effectsCanvas.height = costume.image.height;		
+	  effectsContext.drawImage(costume.image, 0, 0, costume.image.width, costume.image.height);
+	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
           // PF: TODO improve
           for (var i = 0; i < effect.data.length; i += 4) {
             effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
