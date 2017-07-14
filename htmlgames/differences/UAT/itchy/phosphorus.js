@@ -1481,6 +1481,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.backdropContext.restore();
   };
 
+  // PF new
+  var effectsCanvasStage = document.createElement('canvas');
+  var effectsContextStage = effectsCanvas.getContext('2d');	
+	
   Stage.prototype.updateFilters = function() {
     this.backdropCanvas.style.opacity = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
     // TOOO: add other effects... (warning will cause slowdown!)
@@ -1490,10 +1494,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	if (this.filters.color !== 0) {
 	  var colorVal = (this.filters.color * 2.55) & 0xff;
 	
-	  effectsCanvas.width = 480;
-	  effectsCanvas.height = 360;		
-	  effectsContext.drawImage(costume.image, 0, 0, 480, 360);
-	  var effect = effectsContext.getImageData(0, 0, 480, 360);
+	  effectsCanvasStage.width = 480;
+	  effectsCanvasStage.height = 360;		
+	  effectsContextStage.drawImage(costume.image, 0, 0, 480, 360);
+	  var effect = effectsContextStage.getImageData(0, 0, 480, 360);
           // PF: TODO improve
           for (var i = 0; i < effect.data.length; i += 4) {
             effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
@@ -1501,11 +1505,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
             effect.data[i + 3] = effect.data[i + 3]; // alpha
 	  }
-	  effectsContext.putImageData(effect, 0, 0);
+	  effectsContextStage.putImageData(effect, 0, 0);
         }
 	// TODO: others ...
 	  
-	this.backdropContext.drawImage(effectsCanvas, 0, 0, 480, 360); // was context       
+	this.backdropContext.drawImage(effectsCanvasStage, 0, 0, 480, 360); // was context       
     }	  
   };
 
@@ -1645,10 +1649,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	if (this.filters.color !== 0) {
 	  var colorVal = (this.filters.color * 2.55) & 0xff;
 	
-	  effectsCanvas.width = 480;
-	  effectsCanvas.height = 360;		
-	  effectsContext.drawImage(costume.image, 0, 0, 480, 360);
-	  var effect = effectsContext.getImageData(0, 0, 480, 360);
+	  effectsCanvasStage.width = 480;
+	  effectsCanvasStage.height = 360;		
+	  effectsContextStage.drawImage(costume.image, 0, 0, 480, 360);
+	  var effect = effectsContextStage.getImageData(0, 0, 480, 360);
           // PF: TODO improve
           for (var i = 0; i < effect.data.length; i += 4) {
             effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
@@ -1656,11 +1660,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
             effect.data[i + 3] = effect.data[i + 3]; // alpha
 	  }
-	  effectsContext.putImageData(effect, 0, 0);
+	  effectsContextStage.putImageData(effect, 0, 0);
         }
 	// TODO: others ...
 	  
-	context.drawImage(effectsCanvas, 0, 0, 480, 360); // was this.backdropContext       
+	context.drawImage(effectsCanvasStage, 0, 0, 480, 360); // was this.backdropContext       
     } else {		  
       context.drawImage(costume.image, 0, 0);
     }
