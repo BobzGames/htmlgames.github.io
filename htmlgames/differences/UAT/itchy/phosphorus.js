@@ -1685,10 +1685,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };	
 	
   Stage.prototype.ColorTouchingColor = function(rgb1, rgb2) {
-    var b = this.rotatedBounds();
-
-    var w = b.right - b.left;
-    var h = b.top - b.bottom;
+    // stage w & h don't change...
+    var w = 480;
+    var h = 360;
   
     collisionCanvas.width = (w < 1) ? 1 : w;
     collisionCanvas.height = (h < 1) ? 1 : h;
