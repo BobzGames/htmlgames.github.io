@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.308) < insert random number here... .
+// additional bugfixes by PF (v0.309) < insert random number here... .
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1613,6 +1613,33 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
     context.scale(costume.scale, costume.scale);
     context.globalAlpha = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
+	  
+	  
+    // TODO: add other effects (Warning will cause massive slowdown!)
+      if ((this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {
+
+        if (this.filters.color !== 0) {
+	  var colorVal = (this.filters.color * 2.55) & 0xff;
+	
+	  effectsCanvas.width = costume.image.width;
+	  effectsCanvas.height = costume.image.height;		
+	  effectsContext.drawImage(costume.image, 0, 0, costume.image.width, costume.image.height);
+	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
+          // PF: TODO improve
+          for (var i = 0; i < effect.data.length; i += 4) {
+            effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
+            effect.data[i + 1] = (effect.data[i + 1] + colorVal) & 0xff;
+            effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
+            effect.data[i + 3] = effect.data[i + 3]; // alpha
+	  }
+	  effectsContext.putImageData(effect, 0, 0);
+        }
+
+	      
+	      
+      }
+	  
+	  
     context.drawImage(costume.image, 0, 0);
     context.restore();
 
