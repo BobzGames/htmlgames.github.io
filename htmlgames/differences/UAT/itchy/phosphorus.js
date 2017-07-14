@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.319) < insert random number here...
+// additional bugfixes by PF (v0.319) < insert random number here... .
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1483,7 +1483,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   Stage.prototype.clearFilters = function() {
     this.backdropCanvas.style.opacity = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
-    this.backdropContext.drawImage(context, 0, 0, 480, 360); // reset      	  
+    var costume = this.costumes[this.currentCostumeIndex];
+    this.backdropContext.drawImage(costume.image, 0, 0, 480, 360); // reset      	  
   };	
 	
   Stage.prototype.updateFilters = function() {
