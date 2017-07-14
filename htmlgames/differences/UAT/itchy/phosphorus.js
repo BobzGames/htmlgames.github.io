@@ -1507,7 +1507,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
 	// TODO: others ...
 	  
-	this.backdropContext.drawImage(effectsCanvas, 0, 0, costume.image.width, costume.image.height); // was context       
+	this.backdropContext.drawImage(effectsCanvas, 0, 0, 480, 360); // was context       
 	  
   };
 
