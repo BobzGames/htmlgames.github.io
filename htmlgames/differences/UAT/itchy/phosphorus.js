@@ -1486,8 +1486,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // TOOO: add other effects... (warning will cause slowdown!)
 	  
 	var costume = this.costumes[this.currentCostumeIndex];
-	var s = this.zoom * SCALE * costume.scale;
-	effectsContext.scale(s, s);
+	//var s = this.zoom * SCALE * costume.scale;
+	//this.backgroundContext.scale(s, s);
         if (this.filters.color !== 0) {
 	  var colorVal = (this.filters.color * 2.55) & 0xff;
 	
@@ -1505,7 +1505,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  effectsContext.putImageData(effect, 0, 0);
         }
 
-	      
+	// TODO: others ...
+	  
 	this.backdropContext.drawImage(effectsCanvas, 0, 0, costume.image.width, costume.image.height); // was context       
 	  
   };
