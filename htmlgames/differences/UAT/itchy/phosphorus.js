@@ -1486,7 +1486,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // TOOO: add other effects... (warning will cause slowdown!)
 	  
 	var costume = this.costumes[this.currentCostumeIndex];
-	//this.backdropContext.scale(costume.scale, costume.scale);
+	this.backdropContext.scale(costume.scale, costume.scale);
         if (this.filters.color !== 0) {
 	  var colorVal = (this.filters.color * 2.55) & 0xff;
 	
