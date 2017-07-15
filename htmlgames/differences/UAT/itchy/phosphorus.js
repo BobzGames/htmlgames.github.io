@@ -991,16 +991,24 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var info = o_listInfo.split(",");    
 	var show = !!(o_listInfo.match("true"));
 	    
-	var div = document.createElement('div');
-	div.id = name;
-	div.style.border = "1px solid red";
-	div.style.position = 'absolute';
-	div.style.left = info[0] + 'px';
-	div.style.top = info[1] + 'px';
-	div.style.width = info[2] + 'px';	    
-	div.style.height = info[3] + 'px';	    
+	var divContainer = document.createElement('div');
+	divContainer.id = name;
+	divContainer.style.border = "1px solid red";
+	divContainer.style.position = 'absolute';
+	divContainer.style.overflow = 'auto';
+	divContainer.style.left = info[0] + 'px';
+	divContainer.style.top = info[1] + 'px';
+	divContainer.style.width = info[2] + 'px';	    
+	divContainer.style.height = info[3] + 'px';	    
 	    
-	this.stage.root.appendChild(div); // or this.stage.canvas.parentNode;
+	var divHolder = this.stage.root.appendChild(divContainer); // or this.stage.canvas.parentNode;
+	var divItem;
+	
+	for (var i = 0; i < 3; i++) { // test
+	  divItem = document.createElement('div');
+          divItem.style.border = "1px solid red";
+	  divHolder.appendChild(divItem);	
+	}
     }
   };
 	
