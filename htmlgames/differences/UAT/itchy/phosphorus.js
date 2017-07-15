@@ -1000,7 +1000,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	divContainer.style.left = info[0] + 'px';
 	divContainer.style.top = info[1] + 'px';
 	divContainer.style.width = info[2] + 'px';	    
-	divContainer.style.height = info[3] + 'px';	    
+	divContainer.style.height = info[3] + 'px';
+	divContainer.innerHTML = " " + name + "<br>";
 	    
 	var divHolder = this.stage.root.appendChild(divContainer); // or this.stage.canvas.parentNode;
 	var divItem;
@@ -1009,9 +1010,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  divItem = document.createElement('div');
           divItem.style.border = "1px solid red";
 	  divItem.style.backgroundColor = "green";
-	  divItem.innerHTML = "<input readonly value='" + o_list[i] + "' />";
+	  divItem.innerHTML = " " + (i + 1) + " <input readonly value='" + o_list[i] + "' />";
 	  divHolder.appendChild(divItem);	
 	}
+	    
+	divItem = document.createElement('div');
+	divContainer.innerHTML = "length : " + o_list.length + "<br>";
+	divHolder.appendChild(divItem);
     }
   };
 	
