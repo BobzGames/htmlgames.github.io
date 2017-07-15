@@ -965,14 +965,17 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   Base.prototype.showList = function(name) {
     console.log("Show List:" + name);
     var o_list = (this.lists[name]) ? this.lists[name] : this.lists[name];
-    if (o_list) {
+    var o_listInfo = (this.listsInfo[name]) ? this.listsInfo[name] : this.listsInfo[name];	  
+    if (o_list && o_listInfo) {
       for (var ol = 0; ol < o_list.length; ol++) {
         console.log((ol+1) + " : " + o_list[ol]+"\n");
       }
+      console.log(o_listInfo+"\n");
     } else {
       for (var oc = 0; oc < this.children.length; oc++) {
         if (this.children[oc].lists[name]) {
           o_list = this.children[oc].lists[name];
+	  o_listInfo = this.children[oc].listsInfo[name];
           break;
 	}
       }
@@ -980,6 +983,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         for (var ol = 0; ol < o_list.length; ol++) {
           console.log((ol+1) + " :: " + o_list[ol]+"\n");
         }
+	console.log(o_listInfo+"\n");
       } 		 
     }
   };
