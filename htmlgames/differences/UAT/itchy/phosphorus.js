@@ -989,7 +989,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (o_list && o_listInfo) {
 	// display list using divs
 	var info = o_listInfo.split(",");    
-	var show = o_listInfo.match("true");
+	var show = !!(o_listInfo.match("true"));
 	    
 	var div = document.createElement('div');
 	div.id = name;
