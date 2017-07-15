@@ -1653,7 +1653,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   Stage.prototype.initLists = function () {
-     var o_lists = this.listsInfo;  
+     // TODO: init show / hide of all stage and childrens lists
+     var o_lists = this.listsInfo;
+     var oc_lists = this.children.listsInfo;
   };
 	
   Stage.prototype.updateBackdrop = function() {
