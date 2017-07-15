@@ -1005,7 +1005,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	divContainer.style.top = info[1] + 'px';
 	divContainer.style.width = info[2] + 'px';	    
 	divContainer.style.height = info[3] + 'px';
-	divContainer.innerHTML = "<p style='font-size: small'>" + name + "</p>";
+	divContainer.innerHTML = "<p style='font-size: small; text-align: center'>" + name + "</p>";
 	    
 	var divHolder = this.stage.root.appendChild(divContainer); // or this.stage.canvas.parentNode;
 	var divItem;
@@ -1013,12 +1013,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	for (var i = 0; i < o_list.length; i++) { // test
 	  divItem = document.createElement('div');
 	  divItem.style.backgroundColor = "#cecece";
-	  divItem.innerHTML = "<input readonly value='>" + (i + 1) + "' style='color: #000; border: 0; background-color: #9e9e9e; width: 10%'/> <input readonly value='" + o_list[i] + "' style='background-color: orange; color: white; width: 80%; height: 12px; border: 1px solid #9e9e9e; border-radius: 4px; padding: 1px; margin: 2px;' />";
+	  divItem.innerHTML = "<input readonly value='" + (i + 1) + "' style='color: #000; border: 0; background-color: #9e9e9e; width: 10%'/> <input readonly value='" + o_list[i] + "' style='background-color: orange; color: white; width: 80%; height: 12px; border: 1px solid #9e9e9e; border-radius: 4px; padding: 1px; margin: 2px;' />";
 	  divHolder.appendChild(divItem);	
 	}
 	    
 	divItem = document.createElement('div');
-	divItem.innerHTML = "<p style='font-size: small'>" +  "length : " + o_list.length + "</p>";
+	divItem.innerHTML = "<p style='font-size: small; text-align: center'>" +  "length : " + o_list.length + "</p>";
 	divHolder.appendChild(divItem);
     }
   };
