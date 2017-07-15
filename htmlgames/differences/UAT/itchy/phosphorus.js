@@ -969,8 +969,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       }
     } else {
       for (var oc = 0; oc < this.children.length; oc++) {
-        if (this.children[ol2].lists[name]) {
-          o_list = this.children[ol2].lists;
+        if (this.children[oc].lists[name]) {
+          o_list = this.children[oc].lists;
           break;
 	}
       }
