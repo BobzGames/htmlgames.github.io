@@ -986,6 +986,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	console.log(o_listInfo+"\n");
       } 
     }
+	  
     if (o_list && o_listInfo) {
 	// display list using divs
 	var info = o_listInfo.split(",");    
@@ -993,8 +994,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    
 	var divContainer = document.createElement('div');
 	divContainer.id = name;
-	divContainer.style.border = "1px solid red";
-        divContainer.style.backgroundColor = "yellow";
+	divContainer.style.border = "solid #cecece 5px";
+	divContainer.style.margin = "5px";
+	divContainer.style.padding = "0";
+	divContainer.style.borderRadius = "7px";
+        divContainer.style.backgroundColor = "#9e9e9e";
 	divContainer.style.position = 'absolute';
 	divContainer.style.overflow = 'auto';
 	divContainer.style.left = info[0] + 'px';
@@ -1009,7 +1013,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	for (var i = 0; i < o_list.length; i++) { // test
 	  divItem = document.createElement('div');
           divItem.style.border = "1px solid red";
-	  divItem.style.backgroundColor = "green";
+	  divItem.style.backgroundColor = "brown";
+	  divItem.style.color = "white";
+	  divItem.style.height = "12px";
+	  divItem.style.width = "80%";
+	  divItem.style.margin = "2px";
+	  divItem.style.padding = "1px";
+	  divItem.style.borderRadius = "4px";	  
 	  divItem.innerHTML = " " + (i + 1) + " <input readonly value='" + o_list[i] + "' />";
 	  divHolder.appendChild(divItem);	
 	}
