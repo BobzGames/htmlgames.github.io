@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.263) < insert random number here...
+// additional bugfixes by PF (v0.263) < insert random number here... .
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1013,7 +1013,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	for (var i = 0; i < o_list.length; i++) { // test
 	  divItem = document.createElement('div');
 	  divItem.style.backgroundColor = "#9e9e9e";
-	  divItem.innerHTML = "<input readonly value='" + (i + 1) + "' style='color: #000; border: 0; background-color: #9e9e9e; width: 10%'/> <input readonly value='" + o_list[i] + "' style='background-color: orange; color: white; width: 80%; height: 12px; border: 1px solid #9e9e9e; border-radius: 4px; padding: 1px; margin: 2px;' />";
+	  divItem.innerHTML = " <input readonly value='" + (i + 1) + "' style='color: #000; border: 0; background-color: #9e9e9e; width: 10%'/> <input readonly value='" + o_list[i] + "' style='background-color: orange; color: white; width: 80%; height: 12px; border: 1px solid #cecece; border-radius: 4px; padding: 1px; margin: 2px;' />";
 	  divHolder.appendChild(divItem);	
 	}
 	    
