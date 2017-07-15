@@ -988,17 +988,26 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
     if (o_list && o_listInfo) {
 	// display list using divs
-	//
-	//
-	var test1 = this.stage.canvas.parentNode;
-	var test2 = this.stage.root;
+	var info = o_listInfo.split(",");    
+	var show = o_listInfo.match("true");
+	    
+	var div = document.createElement('div');
+	div.id = name;
+	div.style.border = "1px solid red";
+	div.style.position = 'absolute';
+	div.style.left = info[0] + 'px';
+	div.style.top = info[1] + 'px';
+	div.style.width = info[2] + 'px';	    
+	div.style.height = info[3] + 'px';	    
+	    
+	this.stage.root.appendChild(div); // or this.stage.canvas.parentNode;
     }
   };
 	
   Base.prototype.hideList = function(name) {
      console.log("Hide List:" + name);
-     // var o_div = document.getElementById(name);
-     // if (o_div) document.removeChild(o_div);
+     var o_div = document.getElementById(name);
+     if (o_div) document.removeChild(o_div);
   };	
 	
   Base.prototype.showVariable = function(name, visible) {
