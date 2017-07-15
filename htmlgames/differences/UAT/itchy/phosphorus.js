@@ -1018,7 +1018,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	}
 	    
 	divItem = document.createElement('div');
-	divItem.innerHTML = "<p style='font-size: small; text-align: center'>" +  "length : " + o_list.length + "</p>";
+	if (o_list.length) {
+	  divItem.innerHTML = "<p style='font-size: small; text-align: center'>" +  "length : " + o_list.length + "</p>";
+	} else {
+	  divItem.innerHTML = "<p style='font-size: small; text-align: center'>(empty)</p>";
+	}
 	divHolder.appendChild(divItem);
     }
   };
