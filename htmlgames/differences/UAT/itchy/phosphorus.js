@@ -1684,6 +1684,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  showlist(name);     
        } else {
 	  // do nothing as the div list hasn't been rendered     
+       }
      }
 	  
      var oc_list;
