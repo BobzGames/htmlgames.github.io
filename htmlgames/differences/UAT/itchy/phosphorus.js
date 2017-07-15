@@ -1699,14 +1699,16 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
      var name = false;
      var o_list = this.lists;
      var o_listInfo = this.listsInfo; // may need to loop this?
-	  
-     for (var o = 0; o < o_listInfo.length; o++) {	  
-       show = !!(o_listInfo[o].match("true"));
-       if (show) {
-	  name = o_list.listname;
-	  showlist(name);     
-       } else {
-	  // do nothing as the div list hasn't been rendered     
+
+     if (o_list && o_listInfo) {	  
+       for (var o = 0; o < o_listInfo.length; o++) {	  
+         show = !!(o_listInfo[o].match("true"));
+         if (show) {
+	    name = o_list.listname;
+	    showlist(name);     
+         } else {
+	    // do nothing as the div list hasn't been rendered     
+         }
        }
      }
 	  
@@ -1715,17 +1717,18 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
      // loop around children
      for (var oc = 0; oc < this.children.length; oc++) {
        oc_listInfo = this.children[oc].listsInfo;
-       for (var o = 0; o < oc_listInfo.length; o++) {
-         show = !!(oc_listInfo.match("true"));
-         if (show) {
-	   name = oc_list[oc].listname;
-	   showlist(name); 	     
-         } else {
-	   // do nothing as the div list hasn't been rendered       
+       if (oc_listInfo) {	     
+         for (var o = 0; o < oc_listInfo.length; o++) {
+           show = !!(oc_listInfo.match("true"));
+           if (show) {
+	     name = oc_list[oc].listname;
+	     showlist(name); 	     
+           } else {
+	     // do nothing as the div list hasn't been rendered       
+           }
          }
        }
-     }
-	  
+     }	  
   };
 	
   Stage.prototype.updateBackdrop = function() {
