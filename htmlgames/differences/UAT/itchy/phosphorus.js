@@ -1652,6 +1652,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.mouseY = y;
   };
 
+  Stage.prototype.initLists = function () {
+     var o_lists = this.listsInfo;  
+  };
+	
   Stage.prototype.updateBackdrop = function() {
     this.backdropCanvas.width = this.zoom * SCALE * 480;
     this.backdropCanvas.height = this.zoom * SCALE * 360;
@@ -2717,6 +2721,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (this.base.isStage && (this.index == this.base.currentCostumeIndex)) {
       setTimeout(function() {
         this.base.updateBackdrop();
+        this.base.initLists();      
       }.bind(this), 30); // PF FF fix only, may not be required ?
     }
   };
