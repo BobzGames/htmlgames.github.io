@@ -1675,7 +1675,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
      var show = false;
      var name = false;
      var o_list = this.lists;
-     var o_listInfo = this.listsInfo.toString(); // may need to loop this?
+     var o_listInfo = this.listsInfo[0]; // may need to loop this?
      show = !!(o_listInfo.match("true"));
      if (show) {
 	name = o_list.listname;
@@ -1688,7 +1688,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
      var oc_listInfo;
      // loop around children
      for (var oc = 0; oc < this.children.length; oc++) {
-       oc_listInfo = this.children[oc].listsInfo.toString();
+       oc_listInfo = this.children[oc].listsInfo[0];
        show = !!(oc_listInfo.match("true"));
        if (show) {
 	 name = oc_list[oc].listname;
