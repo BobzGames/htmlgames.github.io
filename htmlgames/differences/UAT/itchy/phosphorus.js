@@ -984,12 +984,19 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           console.log((ol+1) + " :: " + o_list[ol]+"\n");
         }
 	console.log(o_listInfo+"\n");
-      } 		 
+      } 
+    }
+    if (o_list && o_listInfo) {
+	// display list using divs
+	//
+	//	    
     }
   };
 	
   Base.prototype.hideList = function(name) {
      console.log("Hide List:" + name);
+     // var o_div = document.getElementById(name);
+     // if (o_div) document.removeChild(o_div);
   };	
 	
   Base.prototype.showVariable = function(name, visible) {
