@@ -964,7 +964,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
      console.log("Show List:" + name);
      var o_list = this.lists[name];
      if (o_list) {
-       console.log(o_list.length);
+       for (var ol = 0; ol < o_list.length; ol++) {
+         console.log(ol + " :: " + o_list[ol]+"\n");
+       }
      }
   };
 	
