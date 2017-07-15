@@ -989,7 +989,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (o_list && o_listInfo) {
 	// display list using divs
 	//
-	//	    
+	//
+	var test1 = this.stage.canvas.parentNode;
+	var test2 = this.stage.root;
     }
   };
 	
