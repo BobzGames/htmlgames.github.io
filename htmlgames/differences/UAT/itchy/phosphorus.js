@@ -958,7 +958,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       }
       this.lists[lists[i].listName] = lists[i].contents;
       // TODO list watchers
-      this.listInfo[lists[i].listInfo] = lists[i].x + "," + lists[i].y;
+      this.listInfo[listsInfo[i].listName] = lists[i].x + "," + lists[i].y + "," + lists[i].width + "," + lists[i].height+ "," + lists[i].visible;
       //this.lists[lists[i]["x"]] = lists[i].x;
       //this.lists[lists[i]["y"]] = lists[i].y;
       //this.lists[lists[i]["width"]] = lists[i].width;
