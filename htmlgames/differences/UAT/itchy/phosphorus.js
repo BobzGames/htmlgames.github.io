@@ -1006,8 +1006,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	
   Base.prototype.hideList = function(name) {
      console.log("Hide List:" + name);
-     var o_div = document.getElementById(name);
-     if (o_div) document.removeChild(o_div);
+     var o_div = this.stage.root.getElementById(name);
+     if (o_div) this.stage.root.removeChild(o_div);
   };	
 	
   Base.prototype.showVariable = function(name, visible) {
