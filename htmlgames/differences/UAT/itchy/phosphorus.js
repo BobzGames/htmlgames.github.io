@@ -962,12 +962,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   Base.prototype.showList = function(name) {
      console.log("Show List:" + name);
-     var o_list = this.lists[name];
+     var o_list = (this.lists[name]) ? this.lists[name] : this.lists[name];
      if (o_list) {
        for (var ol = 0; ol < o_list.length; ol++) {
-         console.log(ol + " :: " + o_list[ol]+"\n");
+         console.log((ol+1) + " : " + o_list[ol]+"\n");
        }
-     }
+     } else console.log("Sprite only lists currently unsupported.")
   };
 	
   Base.prototype.hideList = function(name) {
@@ -3435,7 +3435,7 @@ P.compile = (function() {
           source += 'if (S.visible) VISUAL = true\n';
       } else if (['forward:', 'gotoX:y:', 'gotoSpriteOrMouse:', 'changeXposBy:', 'xpos:', 'changeYposBy:', 'ypos:', 'bounceOffEdge', 'glideSecs:toX:y:elapsed:from:'].indexOf(block[0]) !== -1) {
           source += 'if (S.visible || S.isPenDown) VISUAL = true\n';
-      } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
+      } else if (['showBackground:', 'startScene', 'nextBackground', 'nextScene', 'startSceneAndWait', 'show', 'hide', 'putPenDown', 'stampCostume', 'showVariable:', 'hideVariable:', 'showList:', 'hideList:', 'doAsk', 'setVolumeTo:', 'changeVolumeBy:', 'setTempoTo:', 'changeTempoBy:'].indexOf(block[0]) !== -1) {
           source += 'VISUAL = true;\n';
       } else if (that.bInProcDef) {
       	  // pf run without screen refresh (warp stuff)
