@@ -961,13 +961,25 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   Base.prototype.showList = function(name) {
-     console.log("Show List:" + name);
-     var o_list = (this.lists[name]) ? this.lists[name] : this.lists[name];
-     if (o_list) {
-       for (var ol = 0; ol < o_list.length; ol++) {
-         console.log((ol+1) + " : " + o_list[ol]+"\n");
-       }
-     } else console.log("Sprite only lists currently unsupported.")
+    console.log("Show List:" + name);
+    var o_list = (this.lists[name]) ? this.lists[name] : this.lists[name];
+    if (o_list) {
+      for (var ol = 0; ol < o_list.length; ol++) {
+        console.log((ol+1) + " : " + o_list[ol]+"\n");
+      }
+    } else {
+      for (var oc = 0; oc < this.children.length; oc++) {
+        if (this.children[ol2].lists[name]) {
+          o_list = this.children[ol2].lists;
+          break;
+	}
+      }
+      if (o_list) {
+        for (var ol = 0; ol < o_list.length; ol++) {
+          console.log((ol+1) + " :: " + o_list[ol]+"\n");
+        }
+      } 		 
+    }
   };
 	
   Base.prototype.hideList = function(name) {
