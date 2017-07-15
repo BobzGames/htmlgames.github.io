@@ -994,7 +994,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var divContainer = document.createElement('div');
 	divContainer.id = name;
 	divContainer.style.border = "1px solid red";
-        divContainer.style.backgroundcolor = "yellow";
+        divContainer.style.backgroundColor = "yellow";
 	divContainer.style.position = 'absolute';
 	divContainer.style.overflow = 'auto';
 	divContainer.style.left = info[0] + 'px';
@@ -1008,7 +1008,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	for (var i = 0; i < o_list.length; i++) { // test
 	  divItem = document.createElement('div');
           divItem.style.border = "1px solid red";
-	  divItem.style.backgroundcolor = "green";
+	  divItem.style.backgroundColor = "green";
 	  divItem.innerHTML = "<input readonly value='" + o_list[i] + "' />";
 	  divHolder.appendChild(divItem);	
 	}
