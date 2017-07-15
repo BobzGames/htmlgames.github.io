@@ -962,7 +962,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   Base.prototype.showList = function(name) {
      console.log("Show List:" + name);
-     var o_list = getLists(name);
+     var o_list = this.getLists(name);
      //console.log();
   };
 	
