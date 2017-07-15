@@ -1691,7 +1691,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
      var oc_listInfo;
      // loop around children
      for (var oc = 0; oc < this.children.length; oc++) {
-       oc_listInfo = this.children[oc].listsInfo[0];
+       oc_listInfo = this.children[oc].listsInfo;
        show = !!(oc_listInfo.match("true"));
        if (show) {
 	 name = oc_list[oc].listname;
