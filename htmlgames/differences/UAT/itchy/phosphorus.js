@@ -1007,7 +1007,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	for (var i = 0; i < o_list.length; i++) { // test
 	  divItem = document.createElement('div');
           divItem.style.border = "1px solid red";
-	  divItem.innerHTML = o_list[i];
+	  divItem.innerHTML = "<input value='" + o_list[i] + "' />";
 	  divHolder.appendChild(divItem);	
 	}
     }
