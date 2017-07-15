@@ -957,13 +957,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         throw new Error('Cloud lists are not supported');
       }
       this.lists[lists[i].listName] = lists[i].contents;
-      // TODO list watchers
-      this.listsInfo[listsInfo[i].listName] = lists[i].x + "," + lists[i].y + "," + lists[i].width + "," + lists[i].height+ "," + lists[i].visible;
-      //this.lists[lists[i]["x"]] = lists[i].x;
-      //this.lists[lists[i]["y"]] = lists[i].y;
-      //this.lists[lists[i]["width"]] = lists[i].width;
-      //this.lists[lists[i]["height"]] = lists[i].height;
-      //this.lists[lists[i]["visible"]] = lists[i].visible;
+      // TODO list watchers, PF lazy hack below :)
+      this.listsInfo[lists[i].listName] = lists[i].x + "," + lists[i].y + "," + lists[i].width + "," + lists[i].height+ "," + lists[i].visible;
     }
   };
 
