@@ -1675,13 +1675,15 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
      var show = false;
      var name = false;
      var o_list = this.lists;
-     var o_listInfo = this.listsInfo[0]; // may need to loop this?
-     show = !!(o_listInfo.match("true"));
-     if (show) {
-	name = o_list.listname;
-	showlist(name);     
-     } else {
-	// do nothing as the div list hasn't been rendered     
+     var o_listInfo = this.listsInfo; // may need to loop this?
+	  
+     for (var o = 0; o < o_listInfo.length; o++) {	  
+       show = !!(o_listInfo[o].match("true"));
+       if (show) {
+	  name = o_list.listname;
+	  showlist(name);     
+       } else {
+	  // do nothing as the div list hasn't been rendered     
      }
 	  
      var oc_list;
