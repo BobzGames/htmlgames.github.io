@@ -1116,6 +1116,152 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     stage.prompt.focus();
   };
 
+  var effectsCanvas = document.createElement('canvas');
+  var effectsContext = effectsCanvas.getContext('2d');	
+	
+  Base.prototype.effects = function(this, costume) {
+
+      if ((this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {
+
+        if (this.filters.color !== 0) {
+	  var colorVal = (this.filters.color * 2.55) & 0xff;
+	
+	  effectsCanvas.width = costume.image.width;
+	  effectsCanvas.height = costume.image.height;		
+	  effectsContext.drawImage(costume.image, 0, 0, costume.image.width, costume.image.height);
+	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
+          // PF: TODO improve
+          for (var i = 0; i < effect.data.length; i += 4) {
+            effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
+            effect.data[i + 1] = (effect.data[i + 1] + colorVal) & 0xff;
+            effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
+            effect.data[i + 3] = effect.data[i + 3]; // alpha
+	  }
+	  effectsContext.putImageData(effect, 0, 0);
+        }
+
+        if (this.filters.fisheye !== 0) {
+          var fisheyeVal = (this.filters.fisheye);
+
+          var w = costume.image.width;
+          var h = costume.image.height;
+          w = h = (w < h ) ? w : h; // must be a sqr
+	  
+	  effectsCanvas.width = w;
+	  effectsCanvas.height = h;		
+	  effectsContext.drawImage(costume.image, 0, 0, w, h);
+
+          var source = effectsContext.getImageData(0, 0, w, h); // orginal copy of costume
+          var effect = effectsContext.getImageData(0, 0, w, h);
+          var i, x, y, r, r2, t, nx, ny;
+		
+          for (i = 0; i < w * h * 4; i += 4) {
+            x = (i / 4) % w;
+            y = Math.floor((i / 4) / w);
+            x -= w / 2; // center of image
+            y -= h / 2;
+            r2 = Math.sqrt(x * x + y * y);
+            r = -r2 * Math.exp(-r2 / fisheyeVal) + r2;
+            t = Math.atan2(y, x);
+            nx = r * Math.cos(t);
+            ny = r * Math.sin(t);
+            nx = ~~(nx + w / 2);
+            ny = ~~(ny + h / 2);
+            effect.data[i + 0] = source.data[(ny * h * 4 + nx * 4) + 0];
+            effect.data[i + 1] = source.data[(ny * h * 4 + nx * 4) + 1];
+            effect.data[i + 2] = source.data[(ny * h * 4 + nx * 4) + 2];
+            effect.data[i + 3] = source.data[(ny * h * 4 + nx * 4) + 3]; // alpha 255?
+          }
+          effectsContext.putImageData(effect, 0, 0);
+	}
+
+        if (this.filters.whirl !== 0) {
+          var whirlVal = (this.filters.whirl / 255);
+
+          var w = costume.image.width;
+          var h = costume.image.height;
+
+          var centerX = Math.floor(w / 2);
+          var centerY = Math.floor(h / 2);
+
+          var size = w < h ? w : h;
+          var radius = Math.floor(size / 2); // pft 
+
+	  effectsCanvas.width = w;
+	  effectsCanvas.height = h;		
+	  effectsContext.drawImage(costume.image, 0, 0, w, h);
+
+          var source = effectsContext.getImageData(0, 0, w, h); // orginal copy of costume
+          var effect = effectsContext.getImageData(0, 0, w, h); 
+
+          var radiusSquared = radius * radius;
+          var r, alpha, sourcePosition, destPosition, newX, newY, degrees;
+
+          for (y = -radius; y < radius; ++y) {
+            for (x = -radius; x < radius; ++x) {
+              if (x * x + y * y <= radius * radius) { 
+                r = Math.sqrt(x * x + y * y);
+                alpha = Math.atan2(y, x);
+                destPosition = (y + centerY) * w + x + centerX;
+                destPosition *= 4;
+                degrees = (alpha * 180.0) / Math.PI;
+                degrees += r * 10 * whirlVal;
+                alpha = (degrees * Math.PI) / 180.0;
+                newY = Math.floor(r * Math.sin(alpha));
+                newX = Math.floor(r * Math.cos(alpha));
+                sourcePosition = (newY + centerY) * w + newX + centerX;
+                sourcePosition *= 4;
+                effect.data[destPosition + 0] = source.data[sourcePosition + 0];
+                effect.data[destPosition + 1] = source.data[sourcePosition + 1];
+                effect.data[destPosition + 2] = source.data[sourcePosition + 2];
+                effect.data[destPosition + 3] = source.data[sourcePosition + 3];
+	      }
+            }
+          }
+          effectsContext.putImageData(effect, 0, 0);
+        }
+	      
+        if (this.filters.pixelate !== 0) {
+          effectsCanvas.width = 10 * costume.image.width / (this.filters.pixelate + costume.image.width / 10);
+          effectsCanvas.height = 10 * costume.image.height / (this.filters.pixelate + costume.image.height / 10);
+    	  effectsContext.imageSmoothingEnabled = false; // PF
+    	  effectsContext.msImageSmoothingEnabled = false;
+          // draw the original image at a fraction of the final size
+          effectsContext.drawImage(costume.image, 0, 0, effectsCanvas.width, effectsCanvas.height);
+          // ready to enlarge the minimized image to full size - see * below
+        }
+	    
+        if (this.filters.mosaic !== 0) {
+	  var mosaicVal = Math.floor((Math.abs(this.filters.mosaic) + 5) / 10) + 1;
+		
+	  effectsCanvas.width = costume.image.width;
+	  effectsCanvas.height = costume.image.height;
+          // PF TODO: effectsContext.createPattern may offer a speed increase here ?
+          for (var o = 0; o < mosaicVal; o++) {
+            for (var i = 0; i < mosaicVal; i++) { 
+              effectsContext.drawImage(costume.image, o * costume.image.width / mosaicVal, i * costume.image.height / mosaicVal, costume.image.width / mosaicVal, costume.image.height / mosaicVal);
+            }
+	  }
+        }
+	    
+        if (this.filters.brightness !== 0) {
+	  var brightnessVal = (this.filters.brightness / 2);
+	
+	  effectsCanvas.width = costume.image.width;
+	  effectsCanvas.height = costume.image.height;		
+	  effectsContext.drawImage(costume.image, 0, 0, costume.image.width, costume.image.height);
+	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
+          // PF: TODO improve
+          for (var i = 0; i < effect.data.length; i += 4) {
+            effect.data[i + 0] = (effect.data[i + 0] + brightnessVal);
+            effect.data[i + 1] = (effect.data[i + 1] + brightnessVal);
+            effect.data[i + 2] = (effect.data[i + 2] + brightnessVal);
+            effect.data[i + 3] = effect.data[i + 3]; // alpha
+	  }
+	  effectsContext.putImageData(effect, 0, 0);  
+        }	  
+  };	  
+	  
   var Stage = function() {
     that = this; // PF global!
     this.stage = this;
@@ -1491,147 +1637,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.backdropCanvas.style.opacity = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
     // TOOO: add other effects... (warning will cause slowdown!)
     if ((this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {	  
-	var costume = this.costumes[this.currentCostumeIndex];
-
-	if (this.filters.color !== 0) {
-	  var colorVal = (this.filters.color * 2.55) & 0xff;
-	
-	  effectsCanvas.width = 480;
-	  effectsCanvas.height = 360;		
-	  effectsContext.drawImage(costume.image, 0, 0, 480, 360);
-	  var effect = effectsContext.getImageData(0, 0, 480, 360);
-          // PF: TODO improve
-          for (var i = 0; i < effect.data.length; i += 4) {
-            effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
-            effect.data[i + 1] = (effect.data[i + 1] + colorVal) & 0xff;
-            effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
-            effect.data[i + 3] = effect.data[i + 3]; // alpha
-	  }
-	  effectsContext.putImageData(effect, 0, 0);
-        }
-	
-        if (this.filters.fisheye !== 0) {
-          var fisheyeVal = (this.filters.fisheye);
-
-          var w = 480;
-          var h = 360;
-          w = h = (w < h ) ? w : h; // must be a sqr
-	  
-	  effectsCanvas.width = w;
-	  effectsCanvas.height = h;		
-	  effectsContext.drawImage(costume.image, 0, 0, w, h);
-
-          var source = effectsContext.getImageData(0, 0, w, h); // orginal copy of costume
-          var effect = effectsContext.getImageData(0, 0, w, h);
-          var i, x, y, r, r2, t, nx, ny;
-		
-          for (i = 0; i < w * h * 4; i += 4) {
-            x = (i / 4) % w;
-            y = Math.floor((i / 4) / w);
-            x -= w / 2; // center of image
-            y -= h / 2;
-            r2 = Math.sqrt(x * x + y * y);
-            r = -r2 * Math.exp(-r2 / fisheyeVal) + r2;
-            t = Math.atan2(y, x);
-            nx = r * Math.cos(t);
-            ny = r * Math.sin(t);
-            nx = ~~(nx + w / 2);
-            ny = ~~(ny + h / 2);
-            effect.data[i + 0] = source.data[(ny * h * 4 + nx * 4) + 0];
-            effect.data[i + 1] = source.data[(ny * h * 4 + nx * 4) + 1];
-            effect.data[i + 2] = source.data[(ny * h * 4 + nx * 4) + 2];
-            effect.data[i + 3] = source.data[(ny * h * 4 + nx * 4) + 3]; // alpha 255?
-          }
-          effectsContext.putImageData(effect, 0, 0);
-	}
-
-        if (this.filters.whirl !== 0) {
-          var whirlVal = (this.filters.whirl / 255);
-
-          var w = 480;
-          var h = 360;
-
-          var centerX = Math.floor(w / 2);
-          var centerY = Math.floor(h / 2);
-
-          var size = w < h ? w : h;
-          var radius = Math.floor(size / 2); // pft 
-
-	  effectsCanvas.width = w;
-	  effectsCanvas.height = h;		
-	  effectsContext.drawImage(costume.image, 0, 0, w, h);
-
-          var source = effectsContext.getImageData(0, 0, w, h); // orginal copy of costume
-          var effect = effectsContext.getImageData(0, 0, w, h); 
-
-          var radiusSquared = radius * radius;
-          var r, alpha, sourcePosition, destPosition, newX, newY, degrees;
-
-          for (y = -radius; y < radius; ++y) {
-            for (x = -radius; x < radius; ++x) {
-              if (x * x + y * y <= radius * radius) { 
-                r = Math.sqrt(x * x + y * y);
-                alpha = Math.atan2(y, x);
-                destPosition = (y + centerY) * w + x + centerX;
-                destPosition *= 4;
-                degrees = (alpha * 180.0) / Math.PI;
-                degrees += r * 10 * whirlVal;
-                alpha = (degrees * Math.PI) / 180.0;
-                newY = Math.floor(r * Math.sin(alpha));
-                newX = Math.floor(r * Math.cos(alpha));
-                sourcePosition = (newY + centerY) * w + newX + centerX;
-                sourcePosition *= 4;
-                effect.data[destPosition + 0] = source.data[sourcePosition + 0];
-                effect.data[destPosition + 1] = source.data[sourcePosition + 1];
-                effect.data[destPosition + 2] = source.data[sourcePosition + 2];
-                effect.data[destPosition + 3] = source.data[sourcePosition + 3];
-	      }
-            }
-          }
-          effectsContext.putImageData(effect, 0, 0);
-        }
-	      
-        if (this.filters.pixelate !== 0) {
-          effectsCanvas.width = 10 * 480 / (this.filters.pixelate + 480 / 10);
-          effectsCanvas.height = 10 * 360 / (this.filters.pixelate + 360 / 10);
-    	  effectsContext.imageSmoothingEnabled = false; // PF
-    	  effectsContext.msImageSmoothingEnabled = false;
-          // draw the original image at a fraction of the final size
-          effectsContext.drawImage(costume.image, 0, 0, effectsCanvas.width, effectsCanvas.height);
-          // ready to enlarge the minimized image to full size - see * below
-        }
-	    
-        if (this.filters.mosaic !== 0) {
-	  var mosaicVal = Math.floor((Math.abs(this.filters.mosaic) + 5) / 10) + 1;
-		
-	  effectsCanvas.width = 480;
-	  effectsCanvas.height = 360;
-          // PF TODO: effectsContext.createPattern may offer a speed increase here ?
-          for (var o = 0; o < mosaicVal; o++) {
-            for (var i = 0; i < mosaicVal; i++) { 
-              effectsContext.drawImage(costume.image, o * 480 / mosaicVal, i * 360 / mosaicVal, 480 / mosaicVal, 360 / mosaicVal);
-            }
-	  }
-        }
-	    
-        if (this.filters.brightness !== 0) {
-	  var brightnessVal = (this.filters.brightness / 2);
-	
-	  effectsCanvas.width = 480;
-	  effectsCanvas.height = 360;		
-	  effectsContext.drawImage(costume.image, 0, 0, 480, 360);
-	  var effect = effectsContext.getImageData(0, 0, 480, 360);
-          // PF: TODO improve
-          for (var i = 0; i < effect.data.length; i += 4) {
-            effect.data[i + 0] = (effect.data[i + 0] + brightnessVal);
-            effect.data[i + 1] = (effect.data[i + 1] + brightnessVal);
-            effect.data[i + 2] = (effect.data[i + 2] + brightnessVal);
-            effect.data[i + 3] = effect.data[i + 3]; // alpha
-	  }
-	  effectsContext.putImageData(effect, 0, 0);  
-        }	
-	    
-	this.backdropContext.drawImage(effectsCanvas, 0, 0, 480, 360); // was context       
+      var costume = this.costumes[this.currentCostumeIndex];
+      this.effects(this, costume);    
+      this.backdropContext.drawImage(effectsCanvas, 0, 0, 480, 360); // was context       
     }	  
   };
 
@@ -2313,10 +2321,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       b: Math.round(b * 255)
     };
   }
-
-  // PF new
-  var effectsCanvas = document.createElement('canvas');
-  var effectsContext = effectsCanvas.getContext('2d');	
 	
   Sprite.prototype.draw = function(context, noEffects) {
     var costume = this.costumes[this.currentCostumeIndex];
