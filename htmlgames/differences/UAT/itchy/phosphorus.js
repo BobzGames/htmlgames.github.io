@@ -1119,17 +1119,20 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   var effectsCanvas = document.createElement('canvas');
   var effectsContext = effectsCanvas.getContext('2d');	
 	
-  Base.prototype.effects = function(costume) {
+  Base.prototype.effects = function(costume, isStage) {
 
      if (costume && (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {
 
+	var ciw = (isStage) ? 480 : costume.image.width;
+	var cih = (isStage) ? 360 : costume.image.height;
+	     
         if (this.filters.color !== 0) {
 	  var colorVal = (this.filters.color * 2.55) & 0xff;
 	
-	  effectsCanvas.width = costume.image.width;
-	  effectsCanvas.height = costume.image.height;		
-	  effectsContext.drawImage(costume.image, 0, 0, costume.image.width, costume.image.height);
-	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
+	  effectsCanvas.width = ciw;
+	  effectsCanvas.height = cih;		
+	  effectsContext.drawImage(costume.image, 0, 0, ciw, cih);
+	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
           // PF: TODO improve
           for (var i = 0; i < effect.data.length; i += 4) {
             effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
@@ -1143,8 +1146,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         if (this.filters.fisheye !== 0) {
           var fisheyeVal = (this.filters.fisheye);
 
-          var w = costume.image.width;
-          var h = costume.image.height;
+          var w = ciw;
+          var h = cih;
           w = h = (w < h ) ? w : h; // must be a sqr
 	  
 	  effectsCanvas.width = w;
@@ -1178,8 +1181,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         if (this.filters.whirl !== 0) {
           var whirlVal = (this.filters.whirl / 255);
 
-          var w = costume.image.width;
-          var h = costume.image.height;
+          var w = ciw;
+          var h = cih;
 
           var centerX = Math.floor(w / 2);
           var centerY = Math.floor(h / 2);
@@ -1222,8 +1225,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	      
         if (this.filters.pixelate !== 0) {
-          effectsCanvas.width = 10 * costume.image.width / (this.filters.pixelate + costume.image.width / 10);
-          effectsCanvas.height = 10 * costume.image.height / (this.filters.pixelate + costume.image.height / 10);
+          effectsCanvas.width = 10 * ciw / (this.filters.pixelate + ciw / 10);
+          effectsCanvas.height = 10 * cih / (this.filters.pixelate + cih / 10);
     	  effectsContext.imageSmoothingEnabled = false; // PF
     	  effectsContext.msImageSmoothingEnabled = false;
           // draw the original image at a fraction of the final size
@@ -1234,12 +1237,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         if (this.filters.mosaic !== 0) {
 	  var mosaicVal = Math.floor((Math.abs(this.filters.mosaic) + 5) / 10) + 1;
 		
-	  effectsCanvas.width = costume.image.width;
-	  effectsCanvas.height = costume.image.height;
+	  effectsCanvas.width = ciw;
+	  effectsCanvas.height = cih;
           // PF TODO: effectsContext.createPattern may offer a speed increase here ?
           for (var o = 0; o < mosaicVal; o++) {
             for (var i = 0; i < mosaicVal; i++) { 
-              effectsContext.drawImage(costume.image, o * costume.image.width / mosaicVal, i * costume.image.height / mosaicVal, costume.image.width / mosaicVal, costume.image.height / mosaicVal);
+              effectsContext.drawImage(costume.image, o * ciw / mosaicVal, i * cih / mosaicVal, ciw / mosaicVal, cih / mosaicVal);
             }
 	  }
         }
@@ -1247,10 +1250,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         if (this.filters.brightness !== 0) {
 	  var brightnessVal = (this.filters.brightness / 2);
 	
-	  effectsCanvas.width = costume.image.width;
-	  effectsCanvas.height = costume.image.height;		
-	  effectsContext.drawImage(costume.image, 0, 0, costume.image.width, costume.image.height);
-	  var effect = effectsContext.getImageData(0, 0, costume.image.width, costume.image.height);
+	  effectsCanvas.width = ciw;
+	  effectsCanvas.height = cih;		
+	  effectsContext.drawImage(costume.image, 0, 0, ciw, cih);
+	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
           // PF: TODO improve
           for (var i = 0; i < effect.data.length; i += 4) {
             effect.data[i + 0] = (effect.data[i + 0] + brightnessVal);
@@ -1261,7 +1264,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  effectsContext.putImageData(effect, 0, 0);  
         }
      }
-  };	  
+  };
 	  
   var Stage = function() {
     that = this; // PF global!
@@ -1639,7 +1642,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // TOOO: add other effects... (warning will cause slowdown!)
     if ((this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {	  
       var costume = this.costumes[this.currentCostumeIndex];
-      this.effects(costume);    
+      this.effects(costume, true);    
       this.backdropContext.drawImage(effectsCanvas, 0, 0, 480, 360); // was context       
     }	  
   };
