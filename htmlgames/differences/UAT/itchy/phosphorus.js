@@ -1119,9 +1119,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   var effectsCanvas = document.createElement('canvas');
   var effectsContext = effectsCanvas.getContext('2d');	
 	
-  Base.prototype.effects = function(this, costume) {
+  Base.prototype.effects = function(costume) {
 
-      if ((this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {
+     if (costume && (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {
 
         if (this.filters.color !== 0) {
 	  var colorVal = (this.filters.color * 2.55) & 0xff;
@@ -1259,7 +1259,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             effect.data[i + 3] = effect.data[i + 3]; // alpha
 	  }
 	  effectsContext.putImageData(effect, 0, 0);  
-        }	  
+        }
+     }
   };	  
 	  
   var Stage = function() {
