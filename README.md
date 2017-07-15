@@ -11,9 +11,10 @@ apk generation for sb2 files is back on! but signing of the apk will not be poss
 Updates (tested in Chrome + Chrome Webview)
 -------------------------------------------
 
+Display lists (via DOM) - A long awaited request!<br>
 Experimental Touch controls (for mobile devices) Working<br>
 ASCII list hack method emulated<br>
-Effect blocks<br>
+Effect blocks (now also working on stage)<br>
 Full Sound when wav > 30 secs<br>
 SVG now working fully<br>
 ColorTouchingColor Block coded<br>
@@ -32,7 +33,6 @@ APK generation (unsigned)<br>
 TODO LIST
 --------
 
-Display lists (via DOM)<br>
 WebRTCdatachannels for emulating cloud vars (for multiplayer games)<br>
 <br>
 
