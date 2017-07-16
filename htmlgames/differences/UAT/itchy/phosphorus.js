@@ -1719,7 +1719,7 @@ for (var key in o_listInfo) {
         o_toString += obj[prop];
         //console.log(prop + " = " + obj[prop]);
     }
-    console.log(o_toString.match("true"));
+    console.log(o_toString[0].match("true"));
 }	     
 // end test
 	     
