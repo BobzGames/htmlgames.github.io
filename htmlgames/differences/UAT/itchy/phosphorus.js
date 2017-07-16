@@ -962,10 +962,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
 
-  Base.prototype.initLists = function () { // TODO: CODE IN HERE NEEDS A TIDY UP! // Stage?
-     // init show / hide of all stage and childrens lists 
-//return // if buggy!	  
-     var show = false;
+  Base.prototype.initLists = function () { // TODO: CODE IN HERE NEEDS A TIDY UP! // Stage? 
+return // if buggy!	  
+     var show = false; // init show / hide of all stage and childrens lists
      var name = false;
      var o_list = this.lists;
      var o_listInfo = this.listsInfo; // may need to loop this?
