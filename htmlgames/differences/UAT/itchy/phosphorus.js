@@ -1679,7 +1679,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	divContainer.style.left = info[0] + 'px';
 	divContainer.style.top = info[1] + 'px';
 	divContainer.style.width = info[2] + 'px';	    
-	divContainer.style.height = info[3] + 'px';
+	if (o_list.length) divContainer.style.height = info[3] + 'px';
 	divContainer.innerHTML = "<div style='margin: 2px'><span style='font-size: 12px; text-align: center; font-weight: bold;'><center>" + name + "</center></span></div>";
 	    
 	var divHolder = this.stage.root.appendChild(divContainer); // or this.stage.canvas.parentNode;
