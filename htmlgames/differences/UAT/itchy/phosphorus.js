@@ -1715,7 +1715,9 @@ for (var key in o_listInfo) {
         // skip loop if the property is from prototype
         if (!obj.hasOwnProperty(prop)) continue;
         if (obj[prop].toString() == "t") {
-	  console.log(key + " = true");
+	  console.log("List: " + key + " = true");
+	  showList(key);
+	  break;
 	}
         //console.log(prop + " = " + obj[prop]);
     }
