@@ -1698,7 +1698,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.mouseY = y;
   };
 
-  Stage.prototype.initLists = function () { // TODO: CODE IN HERE NEEDS A TIDY UP!
+  Base.prototype.initLists = function () { // TODO: CODE IN HERE NEEDS A TIDY UP! // Stage?
      // init show / hide of all stage and childrens lists 
      var show = false;
      var name = false;
