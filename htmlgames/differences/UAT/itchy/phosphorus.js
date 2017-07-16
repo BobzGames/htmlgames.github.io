@@ -962,6 +962,62 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
 
+  Base.prototype.initLists = function () { // TODO: CODE IN HERE NEEDS A TIDY UP! // Stage?
+     // init show / hide of all stage and childrens lists 
+     var show = false;
+     var name = false;
+     var o_list = this.lists;
+     var o_listInfo = this.listsInfo; // may need to loop this?
+
+     if (o_list && o_listInfo) {
+	     
+	     
+// test
+for (var key in o_listInfo) {
+    var obj = o_listInfo[key];
+    for (var prop in obj) {
+        // skip loop if the property is from prototype //console.log(prop + " = " + obj[prop]);
+        if (!obj.hasOwnProperty(prop)) continue;
+        if (obj[prop].toString() == "t") {
+	  console.log("List: " + key + " = true");
+	  showlist(key);
+	  break;
+	}
+    }
+}	     
+// end test
+	     
+	     
+       for (var o = 0; o < o_listInfo.length; o++) {	  
+         show = !!(o_listInfo[o].match("true"));
+         if (show) {
+	    name = o_list.listname;
+	    showlist(name);     
+         } else {
+	    // do nothing as the div list hasn't been rendered     
+         }
+       }
+     }
+	  
+     var oc_list;
+     var oc_listInfo;
+     // loop around children
+     for (var oc = 0; oc < this.children.length; oc++) {
+       oc_listInfo = this.children[oc].listsInfo;
+       if (oc_listInfo) {	     
+         for (var o = 0; o < oc_listInfo.length; o++) {
+           show = !!(oc_listInfo.match("true"));
+           if (show) {
+	     name = oc_list[oc].listname;
+	     showlist(name); 	     
+           } else {
+	     // do nothing as the div list hasn't been rendered       
+           }
+         }
+       }
+     }	  
+  };
+	
   Base.prototype.showList = function(name) {
     console.log("Show List:" + name);
     var o_div_test = document.getElementById(name);
@@ -1698,64 +1754,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.mouseY = y;
   };
 
-  Base.prototype.initLists = function () { // TODO: CODE IN HERE NEEDS A TIDY UP! // Stage?
-     // init show / hide of all stage and childrens lists 
-     var show = false;
-     var name = false;
-     var o_list = this.lists;
-     var o_listInfo = this.listsInfo; // may need to loop this?
-
-     if (o_list && o_listInfo) {
-	     
-	     
-// test
-for (var key in o_listInfo) {
-    var obj = o_listInfo[key];
-    for (var prop in obj) {
-        // skip loop if the property is from prototype
-        if (!obj.hasOwnProperty(prop)) continue;
-        if (obj[prop].toString() == "t") {
-	  console.log("List: " + key + " = true");
-	  this.showlist(key);
-	  break;
-	}
-        //console.log(prop + " = " + obj[prop]);
-    }
-    
-}	     
-// end test
-	     
-	     
-       for (var o = 0; o < o_listInfo.length; o++) {	  
-         show = !!(o_listInfo[o].match("true"));
-         if (show) {
-	    name = o_list.listname;
-	    showlist(name);     
-         } else {
-	    // do nothing as the div list hasn't been rendered     
-         }
-       }
-     }
-	  
-     var oc_list;
-     var oc_listInfo;
-     // loop around children
-     for (var oc = 0; oc < this.children.length; oc++) {
-       oc_listInfo = this.children[oc].listsInfo;
-       if (oc_listInfo) {	     
-         for (var o = 0; o < oc_listInfo.length; o++) {
-           show = !!(oc_listInfo.match("true"));
-           if (show) {
-	     name = oc_list[oc].listname;
-	     showlist(name); 	     
-           } else {
-	     // do nothing as the div list hasn't been rendered       
-           }
-         }
-       }
-     }	  
-  };
-	
   Stage.prototype.updateBackdrop = function() {
     this.backdropCanvas.width = this.zoom * SCALE * 480;
     this.backdropCanvas.height = this.zoom * SCALE * 360;
