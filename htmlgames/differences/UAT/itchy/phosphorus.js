@@ -1711,7 +1711,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 // test
 for (var key in o_listInfo) {
     // skip loop if the property is from prototype
-    if (!o_listInfo.hasOwnProperty(key)) continue;
+    //if (!o_listInfo.hasOwnProperty(key)) continue;
 
     var obj = o_listInfo[key];
     for (var prop in obj) {
