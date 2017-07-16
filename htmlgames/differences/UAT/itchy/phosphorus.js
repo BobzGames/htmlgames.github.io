@@ -964,7 +964,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   Base.prototype.initLists = function () { // TODO: CODE IN HERE NEEDS A TIDY UP! // Stage?
      // init show / hide of all stage and childrens lists 
-return // buggy!	  
+//return // if buggy!	  
      var show = false;
      var name = false;
      var o_list = this.lists;
@@ -981,7 +981,7 @@ for (var key in o_listInfo) {
         if (!obj.hasOwnProperty(prop)) continue;
         if (obj[prop].toString() == "t") {
 	  console.log("List: " + key + " = true");
-	  showlist(key);
+	  this.base.showList(key);
 	  break;
 	}
     }
