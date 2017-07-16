@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.275) < insert random number here... .
+// additional bugfixes by PF (v0.279) < insert random number here... .
 //   
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1675,7 +1675,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	divContainer.style.borderRadius = "7px";
         divContainer.style.backgroundColor = "#c1c4c7";
 	divContainer.style.position = 'absolute';
-	divContainer.style.overflow = 'auto';
+	divContainer.style.overflow = 'hidden';
 	divContainer.style.left = info[0] + 'px';
 	divContainer.style.top = info[1] + 'px';
 	divContainer.style.width = info[2] + 'px';	    
@@ -1683,22 +1683,29 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	divContainer.innerHTML = "<div style='margin: 2px'><span style='font-size: 12px; text-align: center; font-weight: bold;'><center>" + name + "</center></span></div>";
 	    
 	var divHolder = this.stage.root.appendChild(divContainer); // or this.stage.canvas.parentNode;
-	var divItem;
+	var divInner = document.createElement('div');
+	divInner.style.position = 'relative';
+	divInner.style.overflow = 'auto';
+        divInner.style.height = '86%';
+
+        var divItem;
 	
 	for (var i = 0; i < o_list.length; i++) { // test
 	  divItem = document.createElement('div');
 	  divItem.style.backgroundColor = "#c1c4c7";
 	  divItem.innerHTML = "<input readonly value=' " + (i + 1) + "' style='color: #000; border: 0; background-color: #c1c4c7; width: 10%; font-size: 11px; margin: 1px'/> <input readonly value='" + o_list[i] + "' style='font-size: 12px; background-color: #cc5b22; color: white; width: 75%; height: 12px; border: 1px solid #fff; border-radius: 3px; padding: 3px; margin: 0px;' />";
-	  divHolder.appendChild(divItem);	
+	  divInner.appendChild(divItem);	
 	}
 	    
-	divItem = document.createElement('div');
+	var divItem2 = document.createElement('div');
+	//divItem2.style.position = 'relative';
 	if (o_list.length) {
-	  divItem.innerHTML = "<div style='position: relative; margin-top: 20px'><div style='font-size: 11px; text-align: center; bottom: 2px; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div></div>";
+	  divItem2.innerHTML = "<div style='font-size: 11px; text-align: center; bottom: 2px; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div>";
 	} else {
-	  divItem.innerHTML = "<p style='font-size: 11px; text-align: center;'>(empty)</p>";
+	  divItem2.innerHTML = "<p style='font-size: 11px; text-align: center;'>(empty)</p>";
 	}
-	divHolder.appendChild(divItem);
+	divHolder.appendChild(divInner);
+        divHolder.appendChild(divItem2);
     }
   };
 
