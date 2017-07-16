@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.271) < insert random number here... .
+// additional bugfixes by PF (v0.273) < insert random number here... .
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -962,138 +962,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
 
-  Base.prototype.initLists = function () { // TODO: CODE IN HERE NEEDS A TIDY UP! // Stage? 
-return // if buggy!	  
-     var show = false; // init show / hide of all stage and childrens lists
-     var name = false;
-     var o_list = this.lists;
-     var o_listInfo = this.listsInfo; // may need to loop this?
-
-     if (o_list && o_listInfo) {
-	     
-	     
-// test
-for (var key in o_listInfo) {
-    var obj = o_listInfo[key];
-    for (var prop in obj) {
-        // skip loop if the property is from prototype //console.log(prop + " = " + obj[prop]);
-        if (!obj.hasOwnProperty(prop)) continue;
-        if (obj[prop].toString() == "t") {
-	  console.log("List: " + key + " = true");
-	  this.base.showList(key);
-	  break;
-	}
-    }
-}	     
-// end test
-	     
-	     
-       for (var o = 0; o < o_listInfo.length; o++) {	  
-         show = !!(o_listInfo[o].match("true"));
-         if (show) {
-	    name = o_list.listname;
-	    showlist(name);     
-         } else {
-	    // do nothing as the div list hasn't been rendered     
-         }
-       }
-     }
-	  
-     var oc_list;
-     var oc_listInfo;
-     // loop around children
-     for (var oc = 0; oc < this.children.length; oc++) {
-       oc_listInfo = this.children[oc].listsInfo;
-       if (oc_listInfo) {	     
-         for (var o = 0; o < oc_listInfo.length; o++) {
-           show = !!(oc_listInfo.match("true"));
-           if (show) {
-	     name = oc_list[oc].listname;
-	     showlist(name); 	     
-           } else {
-	     // do nothing as the div list hasn't been rendered       
-           }
-         }
-       }
-     }	  
-  };
-	
-  Base.prototype.showList = function(name) {
-    console.log("Show List:" + name);
-    var o_div_test = document.getElementById(name);
-    if (o_div_test) {
-      console.log("List already rendered. DOM");
-      this.stage.root.removeChild(o_div_test);
-    }
-    var o_list = (this.lists[name]) ? this.lists[name] : this.lists[name];
-    var o_listInfo = (this.listsInfo[name]) ? this.listsInfo[name] : this.listsInfo[name];	  
-    if (o_list && o_listInfo) {
-      for (var ol = 0; ol < o_list.length; ol++) {
-        console.log((ol+1) + " : " + o_list[ol]+"\n");
-      }
-      console.log(o_listInfo+"\n");
-    } else {
-      for (var oc = 0; oc < this.children.length; oc++) {
-        if (this.children[oc].lists && this.children[oc].lists[name]) { // pf ###
-          o_list = this.children[oc].lists[name];
-	  o_listInfo = this.children[oc].listsInfo[name];
-          break;
-	}
-      }
-      if (o_list) {
-        for (var ol = 0; ol < o_list.length; ol++) {
-          console.log((ol+1) + " :: " + o_list[ol]+"\n");
-        }
-	console.log(o_listInfo+"\n");
-      } 
-    }
-	  
-    if (o_list && o_listInfo) {
-	// display list using divs
-	var info = o_listInfo.split(",");    
-	var show = !!(o_listInfo.match("true"));
-	    
-	var divContainer = document.createElement('div');
-	divContainer.id = name;
-	divContainer.style.border = "solid #cecece 5px";
-	divContainer.style.margin = "5px";
-	divContainer.style.padding = "0";
-	divContainer.style.borderRadius = "7px";
-        divContainer.style.backgroundColor = "#9e9e9e";
-	divContainer.style.position = 'absolute';
-	divContainer.style.overflow = 'auto';
-	divContainer.style.left = info[0] + 'px';
-	divContainer.style.top = info[1] + 'px';
-	divContainer.style.width = info[2] + 'px';	    
-	divContainer.style.height = info[3] + 'px';
-	divContainer.innerHTML = "<p style='font-size: small; text-align: center'>" + name + "</p>";
-	    
-	var divHolder = this.stage.root.appendChild(divContainer); // or this.stage.canvas.parentNode;
-	var divItem;
-	
-	for (var i = 0; i < o_list.length; i++) { // test
-	  divItem = document.createElement('div');
-	  divItem.style.backgroundColor = "#9e9e9e";
-	  divItem.innerHTML = "<input readonly value=' " + (i + 1) + "' style='color: #000; border: 0; background-color: #9e9e9e; width: 10%'/> <input readonly value='" + o_list[i] + "' style='background-color: orange; color: white; width: 80%; height: 12px; border: 1px solid #cecece; border-radius: 4px; padding: 1px; margin: 2px;' />";
-	  divHolder.appendChild(divItem);	
-	}
-	    
-	divItem = document.createElement('div');
-	if (o_list.length) {
-	  divItem.innerHTML = "<p style='font-size: small; text-align: center'>" +  "length : " + o_list.length + "</p>";
-	} else {
-	  divItem.innerHTML = "<p style='font-size: small; text-align: center'>(empty)</p>";
-	}
-	divHolder.appendChild(divItem);
-    }
-  };
-	
-  Base.prototype.hideList = function(name) {
-     console.log("Hide List:" + name);
-     var o_div = document.getElementById(name);
-     if (o_div) this.stage.root.removeChild(o_div);
-  };	
-	
   Base.prototype.showVariable = function(name, visible) {
     var watcher = this.watchers[name];
     var stage = this.stage;
@@ -1715,6 +1583,132 @@ for (var key in o_listInfo) {
 
   Stage.prototype.isStage = true;
   
+  
+  Stage.prototype.initLists = function () {
+    var show = false; // init show / hide of all stage and childrens lists
+    var name = false;
+    var o_list = this.lists;
+    var o_listInfo = this.listsInfo; // may need to loop this?
+  
+    if (o_list && o_listInfo) {
+      for (var key in o_listInfo) {
+        var obj = o_listInfo[key];
+	for (var prop in obj) {
+	 // skip loop if the property is from prototype //console.log(prop + " = " + obj[prop]);
+	  if (!obj.hasOwnProperty(prop)) {
+	    continue;
+	  }
+	  if (obj[prop].toString() == "t") {
+	    console.log("List: " + key + " = true");
+	    this.showList(key);
+	    break;
+	  }
+	}
+      }	     
+    }
+  	  
+    var oc_list;
+    var oc_listInfo;
+    // loop around children
+    for (var oc = 0; oc < this.children.length; oc++) {
+      oc_listInfo = this.children[oc].listsInfo;
+      if (oc_listInfo) {	     
+	for (var key in o_listInfo) {
+	  var obj = oc_listInfo[key];
+	  for (var prop in obj) {
+          // skip loop if the property is from prototype //console.log(prop + " = " + obj[prop]);
+	    if (!obj.hasOwnProperty(prop)) {
+	      continue;
+	    }
+	    if (obj[prop].toString() == "t") {
+	      console.log("List: " + key + " = true");
+	      this.showList(key);
+	      break;
+	    }
+	  }
+	}
+      }
+    }
+  };
+  
+  
+  Stage.prototype.showList = function(name) {
+    console.log("Show List:" + name);
+    var o_div_test = document.getElementById(name);
+    if (o_div_test) {
+      console.log("List already rendered. DOM");
+      this.stage.root.removeChild(o_div_test);
+    }
+    var o_list = (this.lists[name]) ? this.lists[name] : this.lists[name];
+    var o_listInfo = (this.listsInfo[name]) ? this.listsInfo[name] : this.listsInfo[name];	  
+    if (o_list && o_listInfo) {
+      for (var ol = 0; ol < o_list.length; ol++) {
+        console.log((ol+1) + " : " + o_list[ol]+"\n");
+      }
+      console.log(o_listInfo+"\n");
+    } else {
+      for (var oc = 0; oc < this.children.length; oc++) {
+        if (this.children[oc].lists && this.children[oc].lists[name]) { // pf ###
+          o_list = this.children[oc].lists[name];
+	  o_listInfo = this.children[oc].listsInfo[name];
+          break;
+	}
+      }
+      if (o_list) {
+        for (var ol = 0; ol < o_list.length; ol++) {
+          console.log((ol+1) + " :: " + o_list[ol]+"\n");
+        }
+	console.log(o_listInfo+"\n");
+      } 
+    }
+	  
+    if (o_list && o_listInfo) {
+	// display list using divs
+	var info = o_listInfo.split(",");    
+	var show = !!(o_listInfo.match("true"));
+	    
+	var divContainer = document.createElement('div');
+	divContainer.id = name;
+	divContainer.style.border = "solid #cecece 5px";
+	divContainer.style.margin = "5px";
+	divContainer.style.padding = "0";
+	divContainer.style.borderRadius = "7px";
+        divContainer.style.backgroundColor = "#9e9e9e";
+	divContainer.style.position = 'absolute';
+	divContainer.style.overflow = 'auto';
+	divContainer.style.left = info[0] + 'px';
+	divContainer.style.top = info[1] + 'px';
+	divContainer.style.width = info[2] + 'px';	    
+	divContainer.style.height = info[3] + 'px';
+	divContainer.innerHTML = "<p style='font-size: small; text-align: center'>" + name + "</p>";
+	    
+	var divHolder = this.stage.root.appendChild(divContainer); // or this.stage.canvas.parentNode;
+	var divItem;
+	
+	for (var i = 0; i < o_list.length; i++) { // test
+	  divItem = document.createElement('div');
+	  divItem.style.backgroundColor = "#9e9e9e";
+	  divItem.innerHTML = "<input readonly value=' " + (i + 1) + "' style='color: #000; border: 0; background-color: #9e9e9e; width: 10%'/> <input readonly value='" + o_list[i] + "' style='background-color: orange; color: white; width: 80%; height: 12px; border: 1px solid #cecece; border-radius: 4px; padding: 1px; margin: 2px;' />";
+	  divHolder.appendChild(divItem);	
+	}
+	    
+	divItem = document.createElement('div');
+	if (o_list.length) {
+	  divItem.innerHTML = "<p style='font-size: small; text-align: center'>" +  "length : " + o_list.length + "</p>";
+	} else {
+	  divItem.innerHTML = "<p style='font-size: small; text-align: center'>(empty)</p>";
+	}
+	divHolder.appendChild(divItem);
+    }
+  };
+
+  Stage.prototype.hideList = function(name) {
+     console.log("Hide List:" + name);
+     var o_div = document.getElementById(name);
+     if (o_div) this.stage.root.removeChild(o_div);
+  };	
+	
+  
    Stage.prototype.fromJSON = function(data) {
     Stage.parent.prototype.fromJSON.call(this, data);
 
@@ -2084,6 +2078,17 @@ for (var key in o_listInfo) {
     this.sayId = 0;
   };
   inherits(Sprite, Base);
+
+  Base.prototype.addLists = function(lists) {
+    for (var i = 0; i < lists.length; i++) {
+      if (lists[i].isPeristent) {
+        throw new Error('Cloud lists are not supported');
+      }
+      this.lists[lists[i].listName] = lists[i].contents;
+      // TODO list watchers, PF lazy hack below :)
+      this.listsInfo[lists[i].listName] = lists[i].x + "," + lists[i].y + "," + lists[i].width + "," + lists[i].height+ "," + lists[i].visible;
+    }
+  };
 
   Sprite.prototype.fromJSON = function(data) {
 
