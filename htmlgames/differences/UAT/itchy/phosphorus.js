@@ -964,6 +964,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   Base.prototype.showList = function(name) {
     console.log("Show List:" + name);
+    var o_div_test = document.getElementById(name);
+    if (o_div_test) {
+      console.log("List already rendered. DOM");
+      this.stage.root.removeChild(o_div_test);
+    }
     var o_list = (this.lists[name]) ? this.lists[name] : this.lists[name];
     var o_listInfo = (this.listsInfo[name]) ? this.listsInfo[name] : this.listsInfo[name];	  
     if (o_list && o_listInfo) {
