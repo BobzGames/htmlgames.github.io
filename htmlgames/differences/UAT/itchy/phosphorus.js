@@ -1,4 +1,4 @@
-// additional bugfixes by PF (v0.269) < insert random number here... .
+// additional bugfixes by PF (v0.269) < insert random number here...
 // 
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -1719,7 +1719,7 @@ for (var key in o_listInfo) {
         if(!obj.hasOwnProperty(prop)) continue;
 
         // your code
-        consol.log(prop + " = " + obj[prop]);
+        console.log(prop + " = " + obj[prop]);
     }
 }	     
 // end test
