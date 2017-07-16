@@ -1716,6 +1716,7 @@ for (var key in o_listInfo) {
         if (!obj.hasOwnProperty(prop)) continue;
         if (obj[prop].toString() == "t") {
 	  console.log(key + " = true");
+	}
         //console.log(prop + " = " + obj[prop]);
     }
     
