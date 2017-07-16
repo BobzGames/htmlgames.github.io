@@ -1693,7 +1693,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	for (var i = 0; i < o_list.length; i++) { // test
 	  divItem = document.createElement('div');
 	  divItem.style.backgroundColor = "#c1c4c7";
-	  divItem.innerHTML = "<input readonly value=' " + (i + 1) + "' style='color: #000; border: 0; background-color: #c1c4c7; width: 10%; font-size: 11px; margin: 1px'/> <input readonly value='" + o_list[i] + "' style='font-size: 12px; background-color: #cc5b22; color: white; width: 75%; height: 12px; border: 1px solid #fff; border-radius: 3px; padding: 3px; margin: 0px;' />";
+	  divItem.innerHTML = "<input readonly value=' " + (i + 1) + "' style='color: #000; border: 0; background-color: #c1c4c7; width: 10%; font-size: 11px; margin: 1px'/> <input readonly value='" + o_list[i] + "' style='font-size: 12px; background-color: #cc5b22; color: white; width: 80%; height: 12px; border: 1px solid #fff; border-radius: 3px; padding: 3px; margin: 0px;' />";
 	  divInner.appendChild(divItem);	
 	}
 	    
