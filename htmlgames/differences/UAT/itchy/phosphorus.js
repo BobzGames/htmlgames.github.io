@@ -1315,12 +1315,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.backdropCanvas.width = SCALE * 480;
     this.backdropCanvas.height = SCALE * 360;
     this.backdropContext = this.backdropCanvas.getContext('2d');
-
+    this.backdropContext.imageSmoothingEnabled = false;	 // x2
+	  
     this.penCanvas = document.createElement('canvas');
     this.root.appendChild(this.penCanvas);
     this.penCanvas.width = SCALE * 480;
     this.penCanvas.height = SCALE * 360;
     this.penContext = this.penCanvas.getContext('2d');
+    this.penContext.imageSmoothingEnabled = false;	 // x2	  
 
     this.penContext.lineCap = 'round';
     this.penContext.scale(SCALE, SCALE);
@@ -1791,6 +1793,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       canvas.width = this.penCanvas.width;
       canvas.height = this.penCanvas.height;
       canvas.getContext('2d').drawImage(this.penCanvas, 0, 0);
+      canvas.imageSmoothingEnabled = false;	 // x2
       this.penCanvas.width = 480 * zoom * SCALE;
       this.penCanvas.height = 360 * zoom * SCALE;
       this.penContext.drawImage(canvas, 0, 0, 480 * zoom * SCALE, 360 * zoom * SCALE);
