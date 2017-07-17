@@ -1,4 +1,8 @@
-// additional bugfixes by PF (v0.279) < insert random number here...
+// An (almost complete) scratch emulator written in javascript - includes support for hacked blocks
+//
+// Regarding any code here: pillage 'till you puke! (aka take what you want!)
+//
+// Based on Phosphorous (phosphorous.github.io) with additional bugfixes and enhancements by PF (v0.279) < insert random number here... 
 //   
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
