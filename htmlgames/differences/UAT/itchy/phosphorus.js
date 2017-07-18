@@ -2146,7 +2146,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     c.fns = this.fns;
     c.scripts = this.scripts;
 
-    this.filters = {
+    c.filters = { // pf fix this
       color: this.filters.color,
       fisheye: this.filters.fisheye,
       whirl: this.filters.whirl,
