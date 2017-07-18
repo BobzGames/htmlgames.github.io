@@ -1667,7 +1667,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
 	  
     if (o_list && o_listInfo) {
-	// display list using divs
+	// display list using divs. Thanks to Dogtopius for the CSS colours!
 	var info = o_listInfo.split(",");    
 	var show = !!(o_listInfo.match("true"));
 	    
