@@ -2,7 +2,7 @@
 //
 // Regarding any code here: pillage 'till you puke! (aka take what you want!)
 //
-// Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF (v0.283) < insert random number here... 
+// Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF (v0.279) < insert random number here... 
 //   
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia...
@@ -810,8 +810,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           // SF
           if (svg.querySelector("path") || svg.querySelector("image")) { // PF fix - ignore text only svg's
 	    var bb = svg.getBBox();
-            viewBox.width  = svg.width.baseVal.value = Math.ceil(bb.x + bb.width + 0); 
-            viewBox.height = svg.height.baseVal.value = Math.ceil(bb.y + bb.height + 0); 
+            viewBox.width  = svg.width.baseVal.value = Math.ceil(bb.x + bb.width + 1);
+            viewBox.height = svg.height.baseVal.value = Math.ceil(bb.y + bb.height + 1);
             viewBox.x = 0;
             viewBox.y = 0;
 	  }
