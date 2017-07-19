@@ -1788,7 +1788,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   Stage.prototype.setZoom = function(zoom) {
     // zoom var affects overall canvas size - ie could bust outta frame!
-    if (this.zoom > (zoom + 0.001)) return; // pf svg fix
+    if (this.objName == "Stage") zoom += 0.001;  // pf svg fix
+    if (this.zoom === zoom) return;
     if (this.maxZoom < zoom * SCALE) {
       this.maxZoom = zoom * SCALE;
       var canvas = document.createElement('canvas');
