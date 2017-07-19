@@ -2,7 +2,7 @@
 //
 // Regarding any code here: pillage 'till you puke! (aka take what you want!)
 //
-// Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF (v0.279) < insert random number here... 
+// Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF (v0.281) < insert random number here... 
 //   
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia... 
@@ -1788,7 +1788,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   Stage.prototype.setZoom = function(zoom) {
     // zoom var affects overall canvas size - ie could bust outta frame!
-    if (this.zoom === zoom) return;
+    if (this.zoom > (zoom + 0.001)) return; // pf svg fix
     if (this.maxZoom < zoom * SCALE) {
       this.maxZoom = zoom * SCALE;
       var canvas = document.createElement('canvas');
