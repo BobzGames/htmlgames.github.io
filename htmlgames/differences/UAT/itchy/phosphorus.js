@@ -1,6 +1,6 @@
 // An (almost complete) scratch emulator written in javascript - includes support for hacked blocks
 //
-// Regarding any code here: pillage 'till you puke! (aka take what you want!) 
+// Regarding any code here: pillage 'till you puke! (aka take what you want!)
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF (v0.281) < insert random number here... 
 //   
