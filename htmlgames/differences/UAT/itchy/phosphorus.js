@@ -1133,7 +1133,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var cih = (isStage) ? 360 : costume.image.height;
 	     
         if (this.filters.color !== 0) {
-	  var colorVal = (this.filters.color * 2.55) & 0xff;
+	  //var colorVal = (this.filters.color * 2.55) & 0xff;
 	
 	  effectsCanvas.width = ciw;
 	  effectsCanvas.height = cih;		
@@ -1141,12 +1141,19 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
           // PF: TODO improve
           for (var i = 0; i < effect.data.length; i += 4) {
-            effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
-            effect.data[i + 1] = (effect.data[i + 1] + colorVal) & 0xff;
-            effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
-            effect.data[i + 3] = effect.data[i + 3]; // alpha
+            //effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
+            //effect.data[i + 1] = (effect.data[i + 1] + colorVal) & 0xff;
+            //effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
+            //effect.data[i + 3] = effect.data[i + 3]; // alpha
+	    var colorOld = rgbToHsv(effect.data[i + 0], effect.data[i + 1], effect.data[i + 2]);
+	    var colorNew = hsvToRgb(colorOld.h + this.filters.color / 200, Math.round(colorOld.s), Math.round(colorOld.v));
+
+	    effect.data[i + 0] = (colorNew.r) & 0xff;	// red
+	    effect.data[i + 1] = (colorNew.g) & 0xff;	//green
+	    effect.data[i + 2] = (colorNew.b) & 0xff;	//blue
+	    //effect.data[i + 3] = effect.data[i + 3];	// alpha		  
 	  }
-	  effectsContext.putImageData(effect, 0, 0);
+	  effectsContext.putImageData(effect, 0, 0);	
         }
 
         if (this.filters.fisheye !== 0) {
@@ -2260,82 +2267,71 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     context.fill();
   };
 
-  // Thanks Sulfurous	
+  // Thanks Sulfurous (fn x 2)
+  function rgbToHsv(r, g, b) {
+    var max = Math.max(r, g, b),
+	min = Math.min(r, g, b);
+    var h, s, v = max;
+    var d = max - min;
+    s = max == 0 ? 0 : d / max;
+
+    if (min == max) {
+	h = 0;
+    } else {
+	switch (max) {
+	    case r:
+		h = (g - b) / d + (g < b ? 6 : 0);
+		break;
+	    case g:
+		h = (b - r) / d + 2;
+		break;
+	    case b:
+		h = (r - g) / d + 4;
+		break;
+	}
+	h /= 6;
+    }
+
+    return {
+	h: h,
+	s: s,
+	v: v
+    };
+  }
+
   function hsvToRgb(h, s, v) {
     var r, g, b;
-    var i;
-    var f, p, q, t;
-     
-    // Make sure our arguments stay in-range
-    h = Math.max(0, Math.min(200, h));
-    s = Math.max(0, Math.min(100, s));
-    v = Math.max(0, Math.min(100, v));
-     
-    // We accept saturation and value arguments from 0 to 100 because that's
-    // how Photoshop represents those values. Internally, however, the
-    // saturation and value are calculated from a range of 0 to 1. We make
-    // That conversion here.
-    s /= 100;
-    v /= 100;
-     
-    if(s == 0) {
-      // Achromatic (grey)
-      r = g = b = v;
-      return {
-        r: Math.round(r * 255), 
-        g: Math.round(g * 255), 
-        b: Math.round(b * 255)
-      };
+    var i = Math.floor(h * 6);
+    var f = h * 6 - i;
+    var p = v * (1 - s);
+    var q = v * (1 - f * s);
+    var t = v * (1 - (1 - f) * s);
+
+    switch (i % 6) {
+	case 0:
+	    r = v, g = t, b = p;
+	    break;
+	case 1:
+	    r = q, g = v, b = p;
+	    break;
+	case 2:
+	    r = p, g = v, b = t;
+	    break;
+	case 3:
+	    r = p, g = q, b = v;
+	    break;
+	case 4:
+	    r = t, g = p, b = v;
+	    break;
+	case 5:
+	    r = v, g = p, b = q;
+	    break;
     }
-     
-    h /= 33.3333; // sector 0 to 5
-    i = Math.floor(h);
-    f = h - i; // factorial part of h
-    p = v * (1 - s);
-    q = v * (1 - s * f);
-    t = v * (1 - s * (1 - f));
-     
-    switch(i) {
-      case 0:
-        r = v;
-        g = t;
-        b = p;
-        break;
-     
-      case 1:
-        r = q;
-        g = v;
-        b = p;
-        break;
-     
-      case 2:
-        r = p;
-        g = v;
-        b = t;
-        break;
-     
-      case 3:
-        r = p;
-        g = q;
-        b = v;
-        break;
-     
-      case 4:
-        r = t;
-        g = p;
-        b = v;
-        break;
-     
-      default: // case 5:
-        r = v;
-        g = p;
-        b = q;
-    }
-     
+
     return {
-      r: Math.round(r * 255), 
-      g: Math.round(g * 255), 
-      b: Math.round(b * 255)
+	r: r,
+	g: g,
+	b: b
     };
   }
 	
