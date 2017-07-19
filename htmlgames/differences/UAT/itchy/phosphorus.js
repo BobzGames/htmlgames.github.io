@@ -1133,7 +1133,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var cih = (isStage) ? 360 : costume.image.height;
 	     
         if (this.filters.color !== 0) {
-	  //var colorVal = (this.filters.color * 2.55) & 0xff;
+	  var colorVal = (this.filters.color * 2.55) & 0xff;
 	
 	  effectsCanvas.width = ciw;
 	  effectsCanvas.height = cih;		
@@ -1141,16 +1141,19 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
           // PF: TODO improve
           for (var i = 0; i < effect.data.length; i += 4) {
-            //effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
-            //effect.data[i + 1] = (effect.data[i + 1] + colorVal) & 0xff;
-            //effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
-            //effect.data[i + 3] = effect.data[i + 3]; // alpha
-	    var colorOld = rgbToHsv(effect.data[i + 0], effect.data[i + 1], effect.data[i + 2]);
-	    var colorNew = hsvToRgb(colorOld.h + this.filters.color / 200, Math.round(colorOld.s), Math.round(colorOld.v));
+	    // cheap 'n' nasty way...
+            effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
+            effect.data[i + 1] = (effect.data[i + 1] + colorVal) & 0xff;
+            effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
+            effect.data[i + 3] = effect.data[i + 3]; // alpha
+		  
+	    // (offical) sulfurous way...
+	    //var colorOld = rgbToHsv(effect.data[i + 0], effect.data[i + 1], effect.data[i + 2]);
+	    //var colorNew = hsvToRgb(colorOld.h + this.filters.color / 200, Math.round(colorOld.s), Math.round(colorOld.v));
 
-	    effect.data[i + 0] = (colorNew.r) & 0xff;	// red
-	    effect.data[i + 1] = (colorNew.g) & 0xff;	//green
-	    effect.data[i + 2] = (colorNew.b) & 0xff;	//blue
+	    //effect.data[i + 0] = (colorNew.r) & 0xff;	// red
+	    //effect.data[i + 1] = (colorNew.g) & 0xff;	//green
+	    //effect.data[i + 2] = (colorNew.b) & 0xff;	//blue
 	    //effect.data[i + 3] = effect.data[i + 3];	// alpha		  
 	  }
 	  effectsContext.putImageData(effect, 0, 0);	
