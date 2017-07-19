@@ -810,8 +810,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           // SF
           if (svg.querySelector("path") || svg.querySelector("image")) { // PF fix - ignore text only svg's
 	    var bb = svg.getBBox();
-            viewBox.width  = svg.width.baseVal.value = Math.ceil(bb.x + bb.width + 1) + 0.001; // svg pf
-            viewBox.height = svg.height.baseVal.value = Math.ceil(bb.y + bb.height + 1) + 0.001; // svg pf
+            viewBox.width  = svg.width.baseVal.value = Math.ceil(bb.x + bb.width + 1) + 1; // svg pf
+            viewBox.height = svg.height.baseVal.value = Math.ceil(bb.y + bb.height + 1) + 1; // svg pf
             viewBox.x = 0;
             viewBox.y = 0;
 	  }
