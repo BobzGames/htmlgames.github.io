@@ -1,4 +1,4 @@
-// An (almost complete) scratch emulator written in javascript - includes support for hacked blocks
+// An (almost complete) scratch emulator written in javascript - includes support for hacked blocks 
 //
 // Regarding any code here: pillage 'till you puke! (aka take what you want!)
 //
