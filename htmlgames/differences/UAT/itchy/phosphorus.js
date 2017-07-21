@@ -3906,8 +3906,10 @@ P.compile = (function() {
 
       } else if (block[0] === 'changeVar:by:') {
 
-        var ref = '+' + varRef(block[1]);
-        source += ref + ' = (' + ref + ' || 0) + ' + num(block[2]) + ';\n';
+        var ref = varRef(block[1]);
+	var sign = '+';
+        source += ref + ' = (' + sign + ' + ref + ' || 0) + ' + num(block[2]) + ';\n';
+	sign = '';
 
       } else if (block[0] === 'append:toList:') {
 
