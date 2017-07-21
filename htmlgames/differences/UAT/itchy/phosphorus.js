@@ -1,4 +1,4 @@
-// An (almost complete) scratch emulator written in javascript - includes support for hacked blocks 
+// An (almost complete) scratch emulator written in javascript - includes support for hacked blocks
 //
 // Regarding any code here: pillage 'till you puke! (aka take what you want!)
 //
@@ -3908,7 +3908,7 @@ P.compile = (function() {
 
         var ref = varRef(block[1]);
 	var sign = '+';
-        source += ref + ' = (' + sign + ' + ref + ' || 0) + ' + num(block[2]) + ';\n';
+        source += ref + ' = (' + sign + ref + ' || 0) + ' + num(block[2]) + ';\n';
 	sign = '';
 
       } else if (block[0] === 'append:toList:') {
