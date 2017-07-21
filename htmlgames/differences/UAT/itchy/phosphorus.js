@@ -3907,7 +3907,7 @@ P.compile = (function() {
       } else if (block[0] === 'changeVar:by:') {
 
         var ref = varRef(block[1]);
-        source += ref + ' = (+' + ref + ' || 0) + ' + num(block[2]) + ';\n';
+        source += ref + ' = (' + ref + ' || 0) + ' + num(block[2]) + ';\n';
 
       } else if (block[0] === 'append:toList:') {
 
