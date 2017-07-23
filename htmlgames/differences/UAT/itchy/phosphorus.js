@@ -1,4 +1,4 @@
-// An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
+// An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF (v0.283) < insert random number here...
 //
