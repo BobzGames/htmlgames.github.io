@@ -846,8 +846,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           ignoreAnimation: true,
           ignoreClear: true,
           renderCallback: function() {
-	    console.log(canvas.toDataURL()); // debug only
-	    image.style.imageRendering = 'crisp-edges'; // 'pixelated'; //
+	    //console.log(canvas.toDataURL()); // debug only
+	    //image.style.imageRendering = 'crisp-edges'; // 'pixelated'; //
+	    // TODO: resize image to rid of transparent wasted space!!!
             image.src = canvas.toDataURL();
           }
         });
