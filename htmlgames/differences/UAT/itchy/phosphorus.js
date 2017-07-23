@@ -817,14 +817,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  }
 	}
 	// pf old way - 4 lines below
-        //IO.fixSVG(svg, svg);
-        //while (div.firstChild) div.removeChild(div.lastChild);
-        //div.appendChild(svg);
-        //svg.style.visibility = 'visible';
+        IO.fixSVG(svg, svg);
+        while (div.firstChild) div.removeChild(div.lastChild);
+        div.appendChild(svg);
+        svg.style.visibility = 'visible';
 	// PF FIX - stop black box image appearing on slower pc's whilst loading project
-        ///svg.style.position = 'absolute';
-        ///svg.style.left = '-10000px';
-        ///svg.style.top = '-10000px';
+        svg.style.position = 'absolute';
+        svg.style.left = '-10000px';
+        svg.style.top = '-10000px';
 	      
         // SF
         //svg.style['image-rendering'] = '-moz-crisp-edges';
@@ -835,7 +835,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	//ctxA.imageSmoothingEnabled = false; // PF
 	      
 	// PF old way...
-	/*      
+	      
         var image = new Image;
         callback(image);
         // svg.style.cssText = '';
@@ -849,7 +849,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             image.src = canvas.toDataURL();
           }
         });
-	*/
+	
+	/*      
 	// new way aka sulfurous...
         var request = new Request;
         var image = new Image;
@@ -875,7 +876,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	      
         IO.projectRequest.add(request);		
       //};	      // ???
-	      
+	  */    
 	      
       // pf as before...      
       };
