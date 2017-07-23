@@ -872,7 +872,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         };
 	      
         IO.projectRequest.add(request);		
-      };	      // ???
+      //};	      // ???
 	      
 	      
       // pf as before...      
