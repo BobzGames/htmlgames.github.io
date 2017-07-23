@@ -2869,10 +2869,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.context.msImageSmoothingEnabled = false;
 
     if (this.baseLayer) { // PF
-    this.context.drawImage(this.baseLayer, 0, 0);
+    this.context.drawImage(this.baseLayer, 0, 0, this.image.width, this.image.height); // pf fix july 17
     }
     if (this.textLayer) {
-      this.context.drawImage(this.textLayer, 0, 0);
+      this.context.drawImage(this.textLayer, 0, 0, this.image.width, this.image.height); // pf fix july 17
     }
     if (this.base.isStage && (this.index == this.base.currentCostumeIndex)) {
       setTimeout(function() {
