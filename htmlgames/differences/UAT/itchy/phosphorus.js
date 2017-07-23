@@ -820,11 +820,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         while (div.firstChild) div.removeChild(div.lastChild);
         div.appendChild(svg);
         svg.style.visibility = 'visible';
-	      
+	// PF FIX - stop black box image appearing on slower pc's whilst loading project
         svg.style.position = 'absolute';
         svg.style.left = '-10000px';
         svg.style.top = '-10000px';
-	
         // SF
         //svg.style['image-rendering'] = '-moz-crisp-edges';
         //svg.style['image-rendering'] = 'pixelated';
@@ -832,6 +831,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         var canvas = document.createElement('canvas');
 	//var ctxA = canvas.getContext('2d');
 	//ctxA.imageSmoothingEnabled = false; // PF
+	      
+	// PF old way...
+	/*      
         var image = new Image;
         callback(image);
         // svg.style.cssText = '';
@@ -845,7 +847,35 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             image.src = canvas.toDataURL();
           }
         });
-	
+	*/
+	// new way aka sulfurous...
+        var request = new Request;
+        var image = new Image;
+
+				//serialize the svg code to a single compact string
+        var newSource = (new XMLSerializer()).serializeToString(svg)
+				//convert the svg to a base-64 string
+        image.src = 'data:image/svg+xml;base64,' + btoa(newSource); 
+        
+        svg.style.display = 'none';
+        
+        image.onload = function() {
+          if (callback) callback(image);
+          request.load();
+        };
+	      
+        image.onerror = function(e) { // pf needs clear png fix adding....
+          //console.error(e, image);
+          //console.log(image.src);
+          console.error(md5, image.src);
+          request.error(new Error());
+        };
+	      
+        IO.projectRequest.add(request);		
+      };	      // ???
+	      
+	      
+      // pf as before...      
       };
       if (IO.zip) {
         cb(f.asText());
