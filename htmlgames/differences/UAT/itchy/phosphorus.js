@@ -830,10 +830,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         var image = new Image;
         callback(image);
         // svg.style.cssText = '';
-        // console.log(md5, 'data:image/svg+xml;base64,' + btoa(div.innerHTML.trim()));
+        // console.log(md5, 'data:image/svg+xml;base64,' + btoa(div.innerHTML.trim())); // pf ???
         canvg(canvas, div.innerHTML.trim(), {
           ignoreMouse: true,
           ignoreAnimation: true,
+	  ignoreDimensions: true,
           ignoreClear: true,
           renderCallback: function() {
             image.src = canvas.toDataURL();
