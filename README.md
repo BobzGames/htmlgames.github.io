@@ -30,15 +30,15 @@ Warp Framework and Turbo mode fully optimised<br>
 +Many bug fixes - please see the examples list<br>
 <br>
 ** to get back to the examples list, remove the word zip from the url and press enter.
-<br>
+<br><br>
 WIP
 ---
 
-APK generation (unsigned)<br>
+WORKAROUND: APK generation (unsigned)<br>
 <br>
 TODO LIST
 --------
 
-WebRTCdatachannels for emulating cloud vars (for multiplayer games)<br>
+ON HOLD: WebRTCdatachannels for emulating cloud vars (for multiplayer games)<br>
 <br>
 
