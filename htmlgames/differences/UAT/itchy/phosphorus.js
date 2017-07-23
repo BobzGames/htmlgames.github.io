@@ -821,9 +821,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         div.appendChild(svg);
         svg.style.visibility = 'visible';
 	// PF FIX - stop black box image appearing on slower pc's whilst loading project
-        svg.style.position = 'absolute';
-        svg.style.left = '-10000px';
-        svg.style.top = '-10000px';
+        ///svg.style.position = 'absolute';
+        ///svg.style.left = '-10000px';
+        ///svg.style.top = '-10000px';
+	      
         // SF
         //svg.style['image-rendering'] = '-moz-crisp-edges';
         //svg.style['image-rendering'] = 'pixelated';
