@@ -6,7 +6,9 @@
 NEWS
 ====
 
-App to be renamed to 'Scratch2apk'
+App to be renamed 'Scratch2apk'
+
+The app's main feature is that it runs completely offline, thus avoiding any unwanted data charges.
 
 I'll be focusing more now on running this emulator from an apk point of view, rather than just a web page. This means I can 'cheat' on some effects and SVG issues as the games will be running on a phone screen :)
 
