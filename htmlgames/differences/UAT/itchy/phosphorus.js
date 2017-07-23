@@ -819,7 +819,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         IO.fixSVG(svg, svg);
         while (div.firstChild) div.removeChild(div.lastChild);
         div.appendChild(svg);
-        svg.style.visibility = 'hidden'; //'visible'; // PF stop black box
+        svg.style.visibility = 'visible';
+	      
+        svg.style.position = 'absolute';
+        svg.style.left = '-10000px';
+        svg.style.top = '-10000px';
+	
         // SF
         //svg.style['image-rendering'] = '-moz-crisp-edges';
         //svg.style['image-rendering'] = 'pixelated';
