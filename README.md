@@ -6,6 +6,10 @@
 NEWS
 ====
 
+App to be renamed to 'Scratch2apk'
+
+I'll be focusing more now on running this emulator from an apk point of view, rather than just a web page. This means I can 'cheat' on some effects and SVG issues as the games will be running on a phone screen :)
+
 apk generation for sb2 files is back on! but signing of the apk will not be possible on the web client (you will need to do this via a 3rd party app). At least I have a sb2 project file autoloading now, with the required js file generating after a file drop.
 <br><br>
 Updates (tested in Chrome + Chrome Webview)
