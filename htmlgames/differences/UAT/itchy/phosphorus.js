@@ -747,6 +747,172 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   IO.fixSVG = function(svg, element) {
+	  
+    if (element.nodeType !== 1) return element;
+    if (element.nodeName.slice(0, 4).toLowerCase() === 'svg:') {
+      var newElement = document.createElementNS('https://www.w3.org/2000/svg', element.localName);
+      var attributes = element.attributes;
+      var newAttributes = newElement.attributes;
+      for (var i = attributes.length; i--;) {
+        newAttributes.setNamedItemNS(attributes[i].cloneNode());
+      }
+      while (element.firstChild) {
+        newElement.appendChild(element.firstChild);
+      }
+      element = newElement;
+    }
+    if (element.nodeName === 'text') {
+      
+      var font = element.getAttribute('font-family') || '';
+      
+      font = IO.FONTS[font] || font;
+      if (font) {
+        element.setAttribute('font-family', font);
+        if (font === 'Helvetica') element.style.fontWeight = 'bold';
+      }
+      var size = +element.getAttribute('font-size');
+      if (!size) {
+        element.setAttribute('font-size', size = 22);
+      }
+
+      //TODO: Find out what actual values have to be put here.
+      element.setAttribute('x', 0);
+      element.setAttribute('y', size*IO.LINE_HEIGHTS[font]);
+      
+      var lines = element.textContent.split('\n');
+      if (lines.length > 1) {
+        element.textContent = lines[0];
+        var lineHeight = IO.LINE_HEIGHTS[font] || 1;
+        for (var i = 1, l = lines.length; i < l; i++) {
+          var tspan = document.createElementNS(null, 'tspan');
+          tspan.textContent = lines[i];
+          tspan.setAttribute('x', 0);
+          tspan.setAttribute('y', size*(i+1)*lineHeight);//y + size * i * lineHeight);
+          tspan.setAttribute('id', 'ID' + Math.random());
+          element.appendChild(tspan);
+        }
+      }
+      
+      // svg.style.cssText = '';
+      // console.log(element.textContent, 'data:image/svg+xml;base64,' + btoa(svg.outerHTML));
+    } else if ((element.hasAttribute('x') || element.hasAttribute('y')) && element.hasAttribute('transform')) {
+      element.setAttribute('x', 0);
+      element.setAttribute('y', 0);
+    }
+    
+    if (element.nodeName === 'linearGradient'){
+		console.log("linearGradient");
+      element.setAttribute('id', element.getAttribute('id') + svg.getAttribute('id'));
+        element.setAttribute('gradientUnits', 'objectBoundingBox');
+        //I really don't know what kind of algorithm scratch is following here, so this is just guesswork.
+        var x1 = Number(element.getAttribute('x1'));
+        var x2 = Number(element.getAttribute('x2'));
+        var y1 = Number(element.getAttribute('y1'));
+        var y2 = Number(element.getAttribute('y2'));
+        
+        if(x1 === x2){
+          x1 = 0;
+          x2 = 0;
+        }
+        else if(x1 < x2){
+          x1 = 0;
+          x2 = 1;
+        }
+        else{
+          x1 = 1;
+          x2 = 0;
+        }
+        if(y1 === y2){
+          y1 = 0;
+          y2 = 0;
+        }
+        else if(y1 < y2){
+          y1 = 0;
+          y2 = 1;
+        }
+        else{
+          y1 = 1;
+          y2 = 0;
+        }
+        
+        element.setAttribute('x1', x1);
+        element.setAttribute('x2', x2);
+        element.setAttribute('y1', y1);
+        element.setAttribute('y2', y2);
+ 
+    }
+	
+	if(element.nodeName === 'radialGradient'){
+		console.log("radialGradient");
+		element.setAttribute('id', element.getAttribute('id') + svg.getAttribute('id'));
+		
+		 element.setAttribute('gradientUnits', 'objectBoundingBox');
+        //I really don't know what kind of algorithm scratch is following here, so this is just guesswork.
+        var x1 = Number(element.getAttribute('x1'));
+        var x2 = Number(element.getAttribute('x2'));
+        var y1 = Number(element.getAttribute('y1'));
+        var y2 = Number(element.getAttribute('y2'));
+		var r  = Number(element.getAttribute('r'));
+        var cx = Number(element.getAttribute('cx'));
+		var cy = Number(element.getAttribute('cy'));
+			
+			console.log(r);
+			console.log(cx);
+			console.log(cy);
+			
+        if(x1 === x2){
+          x1 = 0;
+          x2 = 0;
+        }
+        else if(x1 < x2){
+          x1 = 0;
+          x2 = 1;
+        }
+        else{
+          x1 = 1;
+          x2 = 0;
+        }
+		
+        if(y1 === y2){
+          y1 = 0;
+          y2 = 0;
+        }
+        else if(y1 < y2){
+          y1 = 0;
+          y2 = 1;
+        }
+        else{
+          y1 = 1;
+          y2 = 0;
+        }
+      
+        element.setAttribute('x1', x1);
+        element.setAttribute('x2', x2);
+        element.setAttribute('y1', y1);
+        element.setAttribute('y2', y2);
+		element.setAttribute('cx', 100);
+		element.setAttribute('cy', 0);
+		element.setAttribute('r', 100);
+		console.log(element.getAttribute('r'));
+		console.log(element.getAttribute('x1'));
+		console.log(element.getAttribute('cx'));
+	}
+    
+    if (element.getAttribute('fill') ? element.getAttribute('fill').indexOf("url") > -1 : false){
+      element.setAttribute('fill', element.getAttribute('fill').replace(/.$/, svg.getAttribute('id')));
+    }
+    
+    [].forEach.call(element.childNodes, function(child){
+	  var newChild = IO.fixSVG(svg, child);
+      if (newChild !== child) {
+        element.replaceChild(newChild, child);
+      }
+	});
+	return element;
+  };
+	
+  // pf old way	
+  IO._fixSVG = function(svg, element) {
     if (element.nodeType !== 1) return
     if (element.nodeName === 'text') {
       var font = element.getAttribute('font-family') || '';
