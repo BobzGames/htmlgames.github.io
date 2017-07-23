@@ -839,8 +839,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           renderCallback: function() {
             image.src = canvas.toDataURL();
           }
-	*/
         });
+	*/
       };
       if (IO.zip) {
         cb(f.asText());
