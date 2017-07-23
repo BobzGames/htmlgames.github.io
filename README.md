@@ -22,7 +22,7 @@ Experimental Touch controls (for mobile devices) Working<br>
 ASCII list hack method emulated<br>
 Effect blocks (now also working on stage)<br>
 Full Sound when wav > 30 secs<br>
-SVG now working fully<br>
+SVG graphics and text now working<br>
 ColorTouchingColor Block coded<br>
 Offline SB file auto loader**<br>
 Speed optimisation (as fast as Scratch now)<br>
@@ -31,14 +31,4 @@ Warp Framework and Turbo mode fully optimised<br>
 <br>
 ** to get back to the examples list, remove the word zip from the url and press enter.
 <br><br>
-WIP
----
-
-WORKAROUND: APK generation (unsigned)<br>
-<br>
-TODO LIST
---------
-
-ON HOLD: WebRTCdatachannels for emulating cloud vars (for multiplayer games)<br>
-<br>
-
+24/07/2017
