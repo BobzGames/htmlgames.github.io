@@ -1145,9 +1145,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           for (var i = 0; i < effect.data.length; i += 4) {
 	    // cheap 'n' nasty way...
             if (effect.data[i + 0] > 8 && effect.data[i + 0] < 128) effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
-            if (effect.data[i + 1] > 8 && effect.data[i + 0] < 128 ) effect.data[i + 1] = (effect.data[i + 1] + colorVal) & 0xff;
-            if (effect.data[i + 2] > 8 && effect.data[i + 0] < 128 ) effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
-            if (effect.data[i + 3] > 8 && effect.data[i + 0] < 128 ) effect.data[i + 3] = effect.data[i + 3]; // alpha
+            if (effect.data[i + 1] > 8 && effect.data[i + 1] < 128 ) effect.data[i + 1] = (effect.data[i + 1] + colorVal) & 0xff;
+            if (effect.data[i + 2] > 8 && effect.data[i + 2] < 128 ) effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
+            if (effect.data[i + 3] > 8 && effect.data[i + 3] < 128 ) effect.data[i + 3] = effect.data[i + 3]; // alpha
 		  
 	    // (offical) sulfurous way...
 	    //var colorOld = rgbToHsv(effect.data[i + 0], effect.data[i + 1], effect.data[i + 2]);
