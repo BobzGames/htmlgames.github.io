@@ -816,10 +816,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             viewBox.y = 0;
 	  }
 	}
-        IO.fixSVG(svg, svg);
-        while (div.firstChild) div.removeChild(div.lastChild);
-        div.appendChild(svg);
-        svg.style.visibility = 'visible';
+	// pf old way - 4 lines below
+        //IO.fixSVG(svg, svg);
+        //while (div.firstChild) div.removeChild(div.lastChild);
+        //div.appendChild(svg);
+        //svg.style.visibility = 'visible';
 	// PF FIX - stop black box image appearing on slower pc's whilst loading project
         ///svg.style.position = 'absolute';
         ///svg.style.left = '-10000px';
@@ -829,7 +830,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         //svg.style['image-rendering'] = '-moz-crisp-edges';
         //svg.style['image-rendering'] = 'pixelated';
 
-        var canvas = document.createElement('canvas');
+        //var canvas = document.createElement('canvas'); // pf old way
 	//var ctxA = canvas.getContext('2d');
 	//ctxA.imageSmoothingEnabled = false; // PF
 	      
