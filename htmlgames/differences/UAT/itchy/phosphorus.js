@@ -831,6 +831,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         callback(image);
         // svg.style.cssText = '';
         // console.log(md5, 'data:image/svg+xml;base64,' + btoa(div.innerHTML.trim()));
+	/*
         canvg(canvas, div.innerHTML.trim(), {
           ignoreMouse: true,
           ignoreAnimation: true,
@@ -838,6 +839,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           renderCallback: function() {
             image.src = canvas.toDataURL();
           }
+	*/
         });
       };
       if (IO.zip) {
