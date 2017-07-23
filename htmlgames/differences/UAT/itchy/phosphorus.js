@@ -830,7 +830,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         //svg.style['image-rendering'] = '-moz-crisp-edges';
         //svg.style['image-rendering'] = 'pixelated';
 
-        //var canvas = document.createElement('canvas'); // pf old way
+        var canvas = document.createElement('canvas'); // pf old way
 	//var ctxA = canvas.getContext('2d');
 	//ctxA.imageSmoothingEnabled = false; // PF
 	      
