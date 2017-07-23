@@ -788,6 +788,135 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   IO.loadMD5 = function(md5, id, callback, isAudio) {
+		if (IO.zip) {
+      var f = isAudio ? IO.zip.file(id + '.wav') : IO.zip.file(id + '.gif') || IO.zip.file(id + '.png') || IO.zip.file(id + '.jpg') || IO.zip.file(id + '.svg');
+      md5 = f.name;
+    }
+		//get file extension
+    var ext = md5.split('.').pop();
+		//special handling for svg
+    if (ext === 'svg') {
+      var cb = function(source) {
+        var div = document.createElement('div');
+        //div.innerHTML = source;
+        //var svg = div.getElementsByTagName('svg')[0];
+        //div.innerHTML = source.replace(/(<\/?)svg:/g, '$1');
+        //var svg = div.firstElementChild;		
+				
+				//parse svg source
+        var svg = new DOMParser().parseFromString(source, 'image/svg+xml').firstElementChild;
+				//use md5 hash as unique name for svg image
+        svg.id = 'svg' + md5.split('.')[0];
+        if(svg.getAttribute('width') === '0' || svg.getAttribute('height') === '0'){
+					//create namespace for svg if it is empty
+          svg = document.createElementNS('https://www.w3.org/2000/svg', svg.localName);
+        }
+        else svg = IO.fixSVG(svg, svg);
+        
+        //svg.style.visibility = 'hidden';
+        //svg.style.position = 'absolute';
+        //svg.style.left = '-10000px';
+        //svg.style.top = '-10000px';
+   
+        document.body.appendChild(svg);
+		
+        var viewBox = svg.viewBox.baseVal;
+		
+        if (svg.querySelector("path") || svg.querySelector("image")) {
+        var bb = svg.getBBox();
+        viewBox.width  = svg.width.baseVal.value = Math.ceil(bb.x + bb.width + 1);
+        viewBox.height = svg.height.baseVal.value = Math.ceil(bb.y + bb.height + 1);		       
+        viewBox.x = 0;
+        viewBox.y = 0;
+      }
+
+	//get the viewbox of the svg
+        if (viewBox && (viewBox.x || viewBox.y)) {
+          if (svg.querySelector("path") || svg.querySelector("image")) {
+            var bb = svg.getBBox();
+            viewBox.width  = svg.width.baseVal.value = Math.ceil(bb.x + bb.width + 1);
+            viewBox.height = svg.height.baseVal.value = Math.ceil(bb.y + bb.height + 1);		       
+            viewBox.x = 0;
+            viewBox.y = 0;
+          }
+        }
+
+        //IO.fixSVG(svg, svg);
+        //while (div.firstChild) div.removeChild(div.lastChild);
+        //div.appendChild(svg);
+        //svg.style.visibility = 'visible';
+        //svg.style.cssText = '';
+        
+        //svg.style['image-rendering'] = '-moz-crisp-edges';
+        //svg.style['image-rendering'] = 'pixelated';
+        
+        //svg.style.overflow = 'visible';
+        //svg.style.width = '100%';
+        
+        var request = new Request;
+        var image = new Image;
+
+				//serialize the svg code to a single compact string
+        var newSource = (new XMLSerializer()).serializeToString(svg)
+				//convert the svg to a base-64 string
+        image.src = 'data:image/svg+xml;base64,' + btoa(newSource); 
+        
+        svg.style.display = 'none';
+        
+        image.onload = function() {
+          if (callback) callback(image);
+          request.load();
+        };
+        image.onerror = function(e) {
+          //console.error(e, image);
+          //console.log(image.src);
+          console.error(md5, image.src);
+          request.error(new Error());
+        };
+        IO.projectRequest.add(request);		
+      };
+      if (IO.zip) {
+        cb(f.asText());
+      } else {
+        IO.projectRequest.add(IO.load(IO.ASSET_URL + md5 + '/get/', cb));
+      }
+    } else if (ext === 'wav') {
+      var request = new Request;
+      var cb = function(ab) {
+        IO.decodeAudio(ab, function(buffer) {
+          callback(buffer);
+          request.load(buffer);
+        });
+      }
+      IO.projectRequest.add(request);
+      if (IO.zip) {
+        var audio = new Audio;
+        var ab = f.asArrayBuffer();
+        cb(ab);
+      } else {
+        IO.projectRequest.add(IO.load(IO.ASSET_URL + md5 + '/get/', cb, null, 'arraybuffer'));
+      }
+    } else {
+      if (IO.zip) {
+        var request = new Request;
+        var image = new Image;
+        image.onload = function() {
+          if (callback) callback(image);
+          request.load();
+        };
+        image.src = 'data:image/' + (ext === 'jpg' ? 'jpeg' : ext) + ';base64,' + btoa(f.asBinary());
+        IO.projectRequest.add(request);
+      } else {
+        IO.projectRequest.add(
+          IO.loadImage(IO.ASSET_URL + md5 + '/get/', function(result) {
+            callback(result);
+          }));
+      }
+    }
+  };	
+	
+  // PF old way
+  IO._loadMD5 = function(md5, id, callback, isAudio) {
     if (IO.zip) {
       var f = isAudio ? IO.zip.file(id + '.wav') : IO.zip.file(id + '.gif') || IO.zip.file(id + '.png') || IO.zip.file(id + '.jpg') || IO.zip.file(id + '.svg');
       md5 = (f) ? f.name : ""; // pf f
