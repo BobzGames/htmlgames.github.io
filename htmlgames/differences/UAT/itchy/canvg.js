@@ -1,5 +1,5 @@
 /*
- * canvg.js - Javascript SVG parser and renderer on Canvas. PF scratch fixes
+ * canvg.js - Javascript SVG parser and renderer on Canvas. PF scratch fixes 
  * MIT Licensed
  * Gabe Lerner (gabelerner@gmail.com)
  * http://code.google.com/p/canvg/
