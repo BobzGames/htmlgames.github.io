@@ -1,4 +1,4 @@
-// An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks
+// An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
 // Regarding any code here: pillage 'till you puke! (aka take what you want!)
 //
@@ -830,11 +830,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         var image = new Image;
         callback(image);
         // svg.style.cssText = '';
-        // console.log(md5, 'data:image/svg+xml;base64,' + btoa(div.innerHTML.trim())); // pf ???
+        // console.log(md5, 'data:image/svg+xml;base64,' + btoa(div.innerHTML.trim()));
         canvg(canvas, div.innerHTML.trim(), {
           ignoreMouse: true,
           ignoreAnimation: true,
-	  ignoreDimensions: false,
           ignoreClear: true,
           renderCallback: function() {
             image.src = canvas.toDataURL();
