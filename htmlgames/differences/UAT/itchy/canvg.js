@@ -2910,7 +2910,7 @@
 				svg.ViewPort.Clear();
 				if (ctx.canvas.parentNode) svg.ViewPort.SetCurrent(ctx.canvas.parentNode.clientWidth, ctx.canvas.parentNode.clientHeight);
 
-				if (svg.opts['ignoreDimensions'] == true) { // pf !
+				if (svg.opts['ignoreDimensions'] != true) { // pf !
 					// set canvas size
 					if (e.style('width').hasValue()) {
 						ctx.canvas.width = e.style('width').toPixels('x');
