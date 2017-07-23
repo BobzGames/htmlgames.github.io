@@ -834,7 +834,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         canvg(canvas, div.innerHTML.trim(), {
           ignoreMouse: true,
           ignoreAnimation: true,
-	  ignoreDimensions: true,
+	  ignoreDimensions: false,
           ignoreClear: true,
           renderCallback: function() {
             image.src = canvas.toDataURL();
