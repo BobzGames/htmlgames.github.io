@@ -826,7 +826,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
         var canvas = document.createElement('canvas');
 	//var ctxA = canvas.getContext('2d');
-	//ctxA.imageSmoothingEnable = false; // PF
+	ctxA.imageSmoothingEnable = !false; // PF new
         var image = new Image;
         callback(image);
         // svg.style.cssText = '';
