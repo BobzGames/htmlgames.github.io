@@ -787,7 +787,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     [].forEach.call(element.childNodes, IO.fixSVG.bind(null, svg));
   };
 
-  IO._loadMD5 = function(md5, id, callback, isAudio) {
+  IO.loadMD5 = function(md5, id, callback, isAudio) {
     if (IO.zip) {
       var f = isAudio ? IO.zip.file(id + '.wav') : IO.zip.file(id + '.gif') || IO.zip.file(id + '.png') || IO.zip.file(id + '.jpg') || IO.zip.file(id + '.svg');
       md5 = (f) ? f.name : ""; // pf f
