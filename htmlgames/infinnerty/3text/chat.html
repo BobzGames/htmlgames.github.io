@@ -38,7 +38,7 @@
 
             channel.onopen = function(userid) {
                 chatInput.disabled = false;
-                chatOutput.innerHTML = '<strong>Hi, ' + userid + ' has joined!</strong>';
+                chatOutput.innerHTML = '<strong>User ' + userid + ' has joined.</strong>';
                 chatInput.focus();
             };
 
@@ -48,7 +48,7 @@
             };
 
             channel.onleave = function(userid) {
-                chatOutput.innerHTML = '<strong>User ' + userid + ' Left.</strong><hr />' 
+                chatOutput.innerHTML = '<strong>User ' + userid + ' has Left.</strong><hr />' 
                     + chatOutput.innerHTML;
             };
         </script>
