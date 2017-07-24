@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>HTMLGAMES Chat</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <link rel="author" type="text/html" href="https://plus.google.com/+MuazKhan">
+        <meta name="author" content="Muaz Khan">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+
+
+        <!-- DataChannel.js library-->
+
+        <script src="https://cdn.webrtc-experiment.com/DataChannel.js"> </script>
+
+    </head>
+
+    <body>
+
+<div style="width: 300px; height: 200px">
+<input type="text" id="chat-input" disabled style="font-size: 2em; width: 100%;"><br><br>
+<div id="chat-output">Connecting...</div>
+</div>
+
+<script>
+    var chatOutput = document.getElementById('chat-output');
+    var chatInput = document.getElementById('chat-input');
+    chatInput.onkeypress = function(e) {
+        if (e.keyCode != 13) return;
+        channel.send(this.value);
+        chatOutput.innerHTML = '<span title="Myself" style color: black">' + this.value + '</span><hr>' 
+                             + chatOutput.innerHTML;
+        this.value = '';
+    };
+</script>
+
+<script>
+    var channel = new DataChannel('htmlgames'); // Session Unique Identifier
+
+    channel.onopen = function(userid) {
+        chatInput.disabled = false;
+        chatOutput.innerHTML = 'Hi, ' + userid + ' has joined!';
+        chatInput.focus();
+    };
+
+    channel.onmessage = function(message, userid) {
+        chatOutput.innerHTML = '<span title="' + userid + '" style="color: red">' + message + '</span><hr>' 
+                             + chatOutput.innerHTML;
+    };
+
+    channel.onleave = function(userid) {
+        chatOutput.innerHTML = userid + ' Left.<hr />' 
+                             + chatOutput.innerHTML;
+    };
+</script>
+
+    </body>
+</html>
