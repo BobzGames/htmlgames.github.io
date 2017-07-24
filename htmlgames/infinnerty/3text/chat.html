@@ -21,7 +21,7 @@
 
 <div style="width: 420px; height: 200px">
 <input type="text" id="chat-input" disabled style="font-size: 2em; width: 100%;"><br><br>
-<div id="chat-output">Connecting... (awaiting another user to join)</div>
+    <div id="chat-output"><strong>Connecting...</strong> (awaiting another user to join)</div>
 </div>
 
 <script>
@@ -41,7 +41,7 @@
 
     channel.onopen = function(userid) {
         chatInput.disabled = false;
-        chatOutput.innerHTML = 'Hi, ' + userid + ' has joined!';
+        chatOutput.innerHTML = '<strong>Hi, ' + userid + ' has joined!</strong>';
         chatInput.focus();
     };
 
@@ -51,7 +51,7 @@
     };
 
     channel.onleave = function(userid) {
-        chatOutput.innerHTML = userid + ' Left.<hr />' 
+        chatOutput.innerHTML = '<strong>User ' + userid + ' Left.</strong><hr />' 
                              + chatOutput.innerHTML;
     };
 </script>
