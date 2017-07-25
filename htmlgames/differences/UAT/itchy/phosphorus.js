@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF (v0.283) < insert random number here...
+// Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF (v0.285) < insert random number here...
 //
 // Regarding any code here: pillage 'till you puke! (aka take what you want!)
 //   
@@ -2107,7 +2107,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.sayId = 0;
   };
   inherits(Sprite, Base);
-
+/*
   Base.prototype.addLists = function(lists) {
     for (var i = 0; i < lists.length; i++) {
       if (lists[i].isPeristent) {
@@ -2118,7 +2118,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       this.listsInfo[lists[i].listName] = lists[i].x + "," + lists[i].y + "," + lists[i].width + "," + lists[i].height+ "," + lists[i].visible;
     }
   };
-
+*/
   Sprite.prototype.fromJSON = function(data) {
 
     Sprite.parent.prototype.fromJSON.call(this, data);
