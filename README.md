@@ -6,7 +6,7 @@
 NEWS
 ====
 
-apk update: Thank you Yanir Calisar & Monu (@ Stack Overflow) for helping me with the download link issue when creating large apk's!
+apk update:<br>Thank you Yanir Calisar & Monu (@ Stack Overflow) for helping me with the download link issue when creating large apk's!
 
 App to be renamed 'Scratch2apk'
 
