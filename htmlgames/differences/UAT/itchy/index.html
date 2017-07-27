@@ -436,10 +436,12 @@ function sb2apk(bFull) {
       zip.file("assets\www\autoload.js", "var sb2Data64 = '" + apkData64 + "';"); // overwrite this file in zip with our one!
       var base64 = zip.generate({type:"base64"}); // was blob
       var apk = document.createElement("a");
-      apk.href ="data:application/zip;base64," + base64;
-      apk.download = "sb2.apk"; // for now...
+      var blob = new Blob([base64], 'application/zip;base64,'});
+      var url = URL.createObjectURL(blob);
+      apk.href = url;
+      apk.setAttribute('download', 'sb2.apk'); // for now...
       apk.textContent = "";
-      document.body.appendChild(apk); // using a link
+      //document.body.appendChild(apk); // using a link
       apk.click();
     } else {
       console.log("Generating autoloader..."); // for offline use too! 
