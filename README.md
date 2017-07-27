@@ -6,7 +6,7 @@
 NEWS
 ====
 
-apk update: Grrr! looks like the method I wanted to use for creating the apk will not work due to size limitations. The apk 'skeleton' n which the sb2 is injected into via javascript ends up so large that the download link fails! :(
+apk update:<br> Grrr! looks like the method I wanted to use for creating the apk (completely offline) will not work due to size limitations. The apk 'skeleton' which the sb2 is injected into via javascript ends up so large that the download link fails! :(
 
 App to be renamed 'Scratch2apk'
 
