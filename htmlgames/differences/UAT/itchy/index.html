@@ -434,10 +434,10 @@ function sb2apk(bFull) {
       if (typeof apkData64 == 'undefined' || apkData64.length == 0) return console.log("NOT FOUND: apk autoload data; drop sb2 file. PROCESS ABORTED!");
       zip.load(apkBase64, {base64: true}); // apk 'skeleton' webview container
       zip.file("assets\www\autoload.js", "var sb2Data64 = '" + apkData64 + "';"); // overwrite this file in zip with our one!
-      var base64 = zip.generate({type:"base64"}); // was blob
+      var base64 = zip.generate({type:"blob"}); // was base64
       var apk = document.createElement("a");
-      var blob = new Blob([base64], {type: 'text/zip;charset=utf-8;'}); // application/zip;base64,
-      var url = URL.createObjectURL(blob);
+      //var blob = new Blob([base64], {type: 'text/zip;charset=utf-8;'}); // application/zip;base64,
+      var url = URL.createObjectURL(base64); // was blob
       apk.href = url;
       apk.setAttribute('download', 'sb2.apk'); // for now...
       apk.textContent = "";
