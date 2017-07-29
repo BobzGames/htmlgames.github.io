@@ -428,7 +428,8 @@ var P = (function() {
   IO.wavBuffers = Object.create(null);
   IO.loadWavs = function() {
     if (!audioContext) return;
-
+    if (location.hash.substr(1) === 'zip') return; // pf temp test
+	  
     for (var name in wavFiles) {
       if (IO.wavBuffers[name]) {
         if (IO.wavBuffers[name] instanceof Request) {
