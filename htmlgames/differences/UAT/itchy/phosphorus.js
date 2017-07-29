@@ -453,7 +453,7 @@ var P = (function() {
           });
         }, null, 'arraybuffer').onError(function(err) {
           request.error(err);
-      });
+        });
       return request;	    
     }	    
     //return request;
