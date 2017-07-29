@@ -20,6 +20,9 @@ public class Main extends Activity {
         webSettings.setMediaPlaybackRequiresUserGesture(false);
         webSettings.setDomStorageEnabled(true);
         webSettings.setTextZoom(100);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setSupportZoom(false);
     }
 
     @Override
