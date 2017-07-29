@@ -441,22 +441,16 @@ var P = (function() {
   };
 
   IO.loadWavBuffer = function(name) {
-    //var request = new Request;
-    if (location.hash.substr(1) === 'zip') { // pf: branch local / dragdrop zip stuff here...
-      //request.load(IO.SOUNDBANK_URL + wavFiles[name]);
-    } else {	
-      var request = new Request;
-        IO.load(IO.SOUNDBANK_URL + wavFiles[name], function(ab) {
-          IO.decodeAudio(ab, function(buffer) {
-            IO.wavBuffers[name] = buffer;
-            request.load();
-          });
-        }, null, 'arraybuffer').onError(function(err) {
-          request.error(err);
-        });
-      return request;	    
-    }	    
-    //return request;
+    var request = new Request;
+    IO.load(IO.SOUNDBANK_URL + wavFiles[name], function(ab) {
+      IO.decodeAudio(ab, function(buffer) {
+        IO.wavBuffers[name] = buffer;
+        request.load();
+      });
+    }, null, 'arraybuffer').onError(function(err) {
+      request.error(err);
+    });
+    return request;
   };
   
   IO.decodeAudio = function(ab, cb) {
