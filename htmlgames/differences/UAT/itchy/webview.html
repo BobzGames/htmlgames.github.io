@@ -208,7 +208,7 @@ Credits:
       stage.triggerGreenFlag();
     }, function(title) {
       document.title = title ? title + ' \xb7 phosphorus++' : 'phosphorus++';
-      updateBugLink();
+
       // PF auto define touch keys B,A if the projects title contains use keys B and A
       if (title.match("use keys ")) {
 	 var Bkey = title.split("use keys ")[1].split(" and ")[0];
@@ -233,13 +233,8 @@ Credits:
     });
 
     projectLink.href = P.player.projectURL;
-    updateBugLink(); 
     updatePackageLink();
     updateEmbedCode();
-  }
-
-  function updateBugLink() {
-    bugLink.href = P.player.projectId ? 'https://github.com/nathan/phosphorus/issues/new?title=' + encodeURIComponent(P.player.projectTitle || P.player.projectURL) + '&body=' + encodeURIComponent('\n\n\n' + P.player.projectURL + '\nhttp://phosphorus.github.io/#' + P.player.projectId + '\n' + navigator.userAgent) : 'https://github.com/nathan/phosphorus/issues/new?body=' + encodeURIComponent('\n\n\n' + navigator.userAgent);
   }
 
   function updatePackageApk() {
