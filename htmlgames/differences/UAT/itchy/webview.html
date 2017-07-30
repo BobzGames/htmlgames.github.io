@@ -98,16 +98,6 @@
     });
   }
 
-  setTimeout(function() {
-    function setTransition(el) {
-      el.style.WebkitTransition =
-      el.style.MozTransition =
-      el.style.OTransition =
-      el.style.transition = 'height 0.2s';
-    }
-    setTransition(playerArea);
-  });
-
   function b64toBlob(sb2Data64) { // pf :)
 
     var byteCharacters = atob(sb2Data64);
