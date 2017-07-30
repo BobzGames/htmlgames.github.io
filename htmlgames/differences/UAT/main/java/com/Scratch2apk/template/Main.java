@@ -13,7 +13,7 @@ public class Main extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         webView = (WebView)findViewById(R.id.fullscreen_content);
-        webView.loadUrl("file:///android_asset/www/index.html#zip");
+        webView.loadUrl("file:///android_asset/www/webview.html#zip");
         webView.setWebChromeClient(new WebChromeClient());
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
