@@ -1,0 +1,149 @@
+<!doctype html>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width">
+<title>phosphorus++</title> 
+<link rel=stylesheet href=player.css>
+<link rel=stylesheet href=index.css>
+<link rel=stylesheet href=touch.css>
+<span style="font-family: 'Scratch#1font-family', Scratch;"></span>
+<div class=mobile style='border-left: 12px solid transparent'>
+  <div class=area id=player-area>
+    <div class=controls>
+      <span class=stop></span>
+      <span class=pause></span>
+      <span class=flag title="Shift+click to enable turbo mode."></span>
+      <div class=turbo>Turbo Mode</div>
+      <span class=full-screen></span>
+    </div>
+    <div class=player></div>
+    <div class=internal-error>
+      An internal error occurred.
+    </div>
+  </div>
+
+  <div class=title>
+    <div class=progress-bar></div>
+    <input class=url>
+    <a target=_blank class=project-link title="View project on Scratch"></a>
+  </div>
+
+  <div id="touchscreen">
+    <div>
+      <img id="touch_up" src="images/up_arrow.png" oncontextmenu="return false;" ontouchstart="checkGamepad('up')" ontouchend="checkGamepad('up_cancel')">
+    </div>
+
+    <img id="touch_left" src="images/left_arrow.png" oncontextmenu="return false;" ontouchstart="checkGamepad('left')" ontouchend="checkGamepad('left_cancel')">
+    <img id="touch_right" src="images/right_arrow.png" oncontextmenu="return false;" ontouchstart="checkGamepad('right')" ontouchend="checkGamepad('right_cancel')">
+
+    <img id="touch_B" src="images/b_button.png" oncontextmenu="return false;" ontouchstart="checkGamepad('b')" ontouchend="checkGamepad('none')">
+
+    <div>
+      <img id="touch_down" src="images/down_arrow.png" oncontextmenu="return false;" ontouchstart="checkGamepad('down')" ontouchend="checkGamepad('down_cancel')">
+      <img id="touch_A" src="images/a_button.png" oncontextmenu="return false;" ontouchstart="checkGamepad('a')" ontouchend="checkGamepad('none')">
+    </div>
+  </div>
+
+</div>
+
+<script src='fonts.js'></script>
+<script src='jszip.js'></script>
+<script src='rgbcolor.js'></script>
+<script src='StackBlur.js'></script>
+<script src='canvg.js'></script>
+<script src='autoload.js'></script>
+<script src='phosphorus.js'></script>
+<script src='player.js'></script>
+
+<script>
+	
+(function() {
+  'use strict'; 
+
+  var playerArea = document.querySelector('#player-area');
+
+  playerArea.style.height  = 'auto';
+  var playerAreaHeight = playerArea.offsetHeight;
+  playerArea.style.height = 0;
+
+  var progressBar = document.querySelector('.progress-bar');
+  var player = document.querySelector('.player');
+
+  document.title = 'phosphorus++';
+  
+  P.player.load(id, function(stage) {
+    stage.triggerGreenFlag();
+  }, function(title) {
+    document.title = title ? title + ' \xb7 phosphorus++' : 'phosphorus++';
+    // PF auto define touch keys B,A if the projects title contains use keys B and A
+    if (title.match("use keys ")) {
+	    var Bkey = title.split("use keys ")[1].split(" and ")[0];
+	    var Akey = title.split("use keys ")[1].split(" and ")[1];
+	    // assume is valid scratch key
+	    document.getElementById("touch_B").value = Bkey.toUpperCase().charCodeAt(0);
+	    document.getElementById("touch_A").value = Akey.toUpperCase().charCodeAt(0);
+	    // then check B 1st for hacked / extended types
+	    if (Bkey.match("space") || Bkey.match("ctrl") || Bkey.match("enter")) {
+	      if (Bkey.match("space")) document.getElementById("touch_B").value = 32;
+	      if (Bkey.match("ctrl")) document.getElementById("touch_B").value = 17;
+	      if (Bkey.match("enter")) document.getElementById("touch_B").value = 13;
+	    }
+	    // then A for hacked / extended types
+	    if (Akey.match("space") || Akey.match("ctrl") || Akey.match("enter")) {
+	      if (Akey.match("space")) document.getElementById("touch_A").value = 32;
+	      if (Akey.match("ctrl")) document.getElementById("touch_A").value = 17;
+	      if (Akey.match("enter")) document.getElementById("touch_A").value = 13;
+	    }
+	    console.log(document.getElementById("touch_B").value + ":" + document.getElementById("touch_A").value);
+    }
+    });
+  }
+
+  setTimeout(function() {
+    function setTransition(el) {
+      el.style.WebkitTransition =
+      el.style.MozTransition =
+      el.style.OTransition =
+      el.style.transition = 'height 0.2s';
+    }
+    setTransition(playerArea);
+  });
+
+  function b64toBlob(sb2Data64) { // pf :)
+
+    var byteCharacters = atob(sb2Data64);
+    var byteArrays = [];
+    var sliceSize = 512;
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      var byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+    var blob = new Blob(byteArrays, {type: 'application/sb2'});
+    return blob;
+  }
+
+  // pf here we autoload a project if exists as a base64 var...
+  if (typeof sb2Data64 != "undefined" && sb2Data64.length > 0) { // pf f -  
+    var blob = b64toBlob(sb2Data64);
+    var request = P.IO.loadSB2File(blob); 
+    if (request) {
+      console.log("Local project detected");
+      P.player.showProgress(request, function(stage) {
+        stage.triggerGreenFlag();
+      });
+    }
+  } else {console.log("No zip!");}
+
+  // PF TODO:improve touch controls...
+  //document.body.addEventListener('touchmove',function(event){event.preventDefault();});
+  //document.body.addEventListener('touchstart',function(event){event.preventDefault();});
+  //setTimeout(function(){window.scrollTo(0, 1);}, 1);	
+	
+}());
+
+</script>
