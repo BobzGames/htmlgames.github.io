@@ -6,6 +6,10 @@
 NEWS
 ====
 
+Scratch2apk v1 has now been released! Thanks to Dogtopius for the App's logo.
+
+You can now convert a scratch project from the phosphorus++ webpage to an apk to run on your phone / tablet.
+
 apk update:<br>Thank you Yanir Calisar & Monu (@ Stack Overflow) for helping me with the download link issue when creating large apk's!
 
 App to be renamed 'Scratch2apk'
@@ -19,6 +23,7 @@ apk generation for sb2 files is back on! but signing of the apk will not be poss
 Updates (tested in Chrome + Chrome Webview)
 -------------------------------------------
 
+Scratch2apk - another requested feature.
 Display lists (via DOM) - A long awaited request!<br>
 Experimental Touch controls (for mobile devices) Working<br>
 ASCII list hack method emulated<br>
