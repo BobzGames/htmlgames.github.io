@@ -7,8 +7,12 @@
 <link rel=stylesheet href=touch.css>
 <span style="font-family: 'Scratch#1font-family', Scratch;"></span>
 <div class=mobile style='border-left: 12px solid transparent'>
-<div class=area id=title-area>
-<h1 class=title></h1>
+<div class=area id=title-area style='display: none'>
+<h1 class=title>phosphorus++</h1>
+<p>
+phosphorus++ runs your Scratch projects really fast by compiling them to JavaScript.
+<a class=dropdown>htmlgames.github.io<select id=examples><option value></select></a>.
+</p>
 </div>
 <div class=area id=player-area>
 <div class=controls>
@@ -48,7 +52,7 @@
 
 <div class=area id=project-area>
 <section class=package>
-
+Package
 </section>
 <section class=package>
     <input readonly id=embed-code>
@@ -63,7 +67,7 @@
 
 </div>
 <div class=area id=credits-area>
-
+Credits:
 </div>
 </div>
 
@@ -78,9 +82,9 @@
 <!-- file below is versioned -->
 <script src='apk_v0-01.js'></script>
 <script>
-	
+
 (function() {
-  'use strict'; 
+  'use strict';
 
   var prefix = '';
 
@@ -92,7 +96,7 @@
   var projectArea = document.querySelector('#project-area');
   var creditsArea = document.querySelector('#credits-area');
   creditsArea.style.display = 'none';
-  projectArea.style.display = 'none';	
+  projectArea.style.display = 'none';
 
   playerArea.style.height = projectArea.style.height = 'auto';
   var titleAreaHeight = titleArea.offsetHeight;
@@ -122,7 +126,7 @@
   var timeout;
 
   if (!!window.location.search.match("turbo=true")) packageTurbo.checked = true;
-	
+
   urlInput.addEventListener('input', function() {
     var ss = urlInput.selectionStart;
     var se = urlInput.selectionEnd;
@@ -247,19 +251,19 @@
 
       byteArrays.push(byteArray);
     }
-    
+
     var blob = new Blob(byteArrays, {type: 'application/sb2'});
     return blob;
   }
 
   // pf here we autoload a project if exists as a base64 var...
   var o_id = window.location.hash.substr(1) + "e0";
-  if (typeof sb2Data64 != "undefined" && isNaN(o_id)) { // pf f -  
+  if (typeof sb2Data64 != "undefined" && isNaN(o_id)) { // pf f -
     //e.preventDefault();
     location.hash = '#zip';
     show('zip');
     var blob = b64toBlob(sb2Data64);
-    var request = P.IO.loadSB2File(blob); 
+    var request = P.IO.loadSB2File(blob);
     if (request) {
       console.log("Local project detected");
       P.player.showProgress(request, function(stage) {
@@ -271,8 +275,8 @@
   // PF TODO:improve touch controls...
   //document.body.addEventListener('touchmove',function(event){event.preventDefault();});
   //document.body.addEventListener('touchstart',function(event){event.preventDefault();});
-  //setTimeout(function(){window.scrollTo(0, 1);}, 1);	
-	
+  //setTimeout(function(){window.scrollTo(0, 1);}, 1);
+
 }());
 
 </script>
