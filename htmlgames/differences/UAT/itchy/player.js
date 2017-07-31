@@ -236,6 +236,7 @@ P.player = (function() {
     });
     request.onload = function(s) {
       progressBar.style.width = '100%';
+      document.getElementById("player-area").style.backgroundImage = ""; // pf
       setTimeout(function() {
         progressBar.style.opacity = 0;
         setTimeout(function() {
