@@ -1,6 +1,6 @@
 Creating Base64 version of apk...
 
-Create apk using android studio and rename .zip
+Create main.apk using android studio and rename .zip
 
 Within the zip root (where AndroidManifest.xml is) ctrl+A all files and create new zip file - call it main.zip
 
