@@ -236,11 +236,11 @@ P.player = (function() {
     });
     request.onload = function(s) {
       progressBar.style.width = '100%';
+      document.getElementById("player-area").style.backgroundImage = ""; // pf hide splash screen
       setTimeout(function() {
         progressBar.style.opacity = 0;
         setTimeout(function() {
           progressBar.style.display = 'none';
-          document.getElementById("player-area").style.backgroundImage = ""; // pf
         }, 300);
       }, 100);
 
