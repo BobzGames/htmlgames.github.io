@@ -173,7 +173,7 @@ phosphorus++ runs your Scratch projects really fast by compiling them to JavaScr
     titleArea.style.height = id ? 0 : titleAreaHeight + 'px';
     playerArea.style.height = id ? playerAreaHeight + 'px' : 0
     projectArea.style.height = id ? projectAreaHeight + 'px' : 0;
-    //playerArea.style.backgroundImage = "url('images/loading.png')";
+    playerArea.style.backgroundImage = "url('images/loading.png')";
     if (!id) urlInput.focus();
   }
 
@@ -229,8 +229,6 @@ phosphorus++ runs your Scratch projects really fast by compiling them to JavaScr
     setTransition(playerArea);
     setTransition(projectArea);
   });
-
-
 
   function b64toBlob(sb2Data64) { // pf :)
 
