@@ -104,7 +104,7 @@
     <input type=checkbox id=package-full-screen checked>
     <label for=package-full-screen>Full screen</label>
     <input type=checkbox id=package-apk>
-    <span id='apkStatus' style="border:1px dashed #cecece" title='Please drop a downloaded sb2 project file you wish to convert to an apk onto this dashed area...'>	  
+    <span id='apkStatus' style="border:1px dashed #cecece" title='Drop the sb2 project file to convert here...'>	  
       <label for=package-apk>Android apk</label>
     </span>
   </p>
@@ -361,9 +361,9 @@
       reader.onloadend = function() {
         apkData64 = reader.result.replace("data:;base64,","");                
         console.log('var sb2Data64 = "' + apkData64 + '";\n\n');
-        document.getElementById("apkStatus").style.border = "1px solid #cecece";
-        document.getElementById("apkStatus").title = "sb2 packaged successfully. Please click again to create and download apk.";
-	//document.getElementById("package-apk").click();      
+        document.getElementById("apkStatus").style.border = "1px dashed #fff";
+        document.getElementById("apkStatus").title = "sb2 packaged successfully!, creating apk...";
+	document.getElementById("package-apk").click();      
       }
       location.hash = '#zip';
       show('zip');
@@ -458,6 +458,6 @@ function sb2apk(bFull) {
     }
     console.log("Done!");
     document.getElementById("apkStatus").style.border = "1px dashed #cecece";
-    document.getElementById("apkStatus").title = "Please drop a downloaded sb2 project file you wish to convert to an apk onto this dashed area...";   
+    document.getElementById("apkStatus").title = "Drop the sb2 project file to convert here...";   
 }
 </script>
