@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width">
-<title>phosphorus++</title> 
+<title>phosphorus++</title>
 <link rel=stylesheet href=player.css>
 <link rel=stylesheet href=index.css>
 <link rel=stylesheet href=touch.css>
@@ -362,7 +362,6 @@
         apkData64 = reader.result.replace("data:;base64,","");                
         console.log('var sb2Data64 = "' + apkData64 + '";\n\n');
         document.getElementById("apkStatus").style.border = "1px dashed #fff";
-
         if (document.getElementById("package-apk").checked) { // create the apk straight after drop...
           document.getElementById("apkStatus").title = "sb2 project packaged successfully! creating apk...";
           sb2apk(true);
