@@ -104,7 +104,7 @@
     <input type=checkbox id=package-full-screen checked>
     <label for=package-full-screen>Full screen</label>
     <input type=checkbox id=package-apk>
-    <span style="border:1px dashed #cecece" title='Please drop a downloaded sb2 project file you wish to convert to an apk onto this dashed area...'>	  
+    <span id='apkStatus' style="border:1px dashed #cecece" title='Please drop a downloaded sb2 project file you wish to convert to an apk onto this dashed area...'>	  
       <label for=package-apk>Android apk</label>
     </span>
   </p>
@@ -361,6 +361,7 @@
       reader.onloadend = function() {
         apkData64 = reader.result.replace("data:;base64,","");                
         console.log('var sb2Data64 = "' + apkData64 + '";\n\n');
+	document.getElementById("apkStatus").style.border = "1px solid #000";
       }
       location.hash = '#zip';
       show('zip');
