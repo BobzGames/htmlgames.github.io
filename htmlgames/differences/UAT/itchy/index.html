@@ -361,7 +361,8 @@
       reader.onloadend = function() {
         apkData64 = reader.result.replace("data:;base64,","");                
         console.log('var sb2Data64 = "' + apkData64 + '";\n\n');
-	document.getElementById("apkStatus").style.border = "1px solid #000";
+        document.getElementById("apkStatus").style.border = "1px solid #cecece";
+        document.getElementById("apkStatus").title = "sb2 packaged successfully. Please click again to create and download apk.";
       }
       location.hash = '#zip';
       show('zip');
@@ -455,5 +456,7 @@ function sb2apk(bFull) {
       ajs.click();	  
     }
     console.log("Done!");
+    document.getElementById("apkStatus").style.border = "1px dashed #cecece";
+    document.getElementById("apkStatus").title = "Please drop a downloaded sb2 project file you wish to convert to an apk onto this dashed area...";   
 }
 </script>
