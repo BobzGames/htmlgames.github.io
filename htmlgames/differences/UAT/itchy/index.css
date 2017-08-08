@@ -4,6 +4,11 @@ body {
   padding-bottom: 24px;
   padding-left: 0;
 }
+@media (max-width: 384px) {
+  .mobile {
+    border-left: 12px solid transparent;
+  }
+}
 .title {
   margin: 16px 0 0;
   position: relative;
