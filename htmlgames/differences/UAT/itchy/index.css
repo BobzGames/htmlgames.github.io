@@ -4,7 +4,7 @@ body {
   padding-bottom: 24px;
   padding-left: 0;
 }
-@media (max-width: 599px) {
+@media (max-width: 567px) {
   .mobile {
     border-left: 12px solid transparent;
   }
