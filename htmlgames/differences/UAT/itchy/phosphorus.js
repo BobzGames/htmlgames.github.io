@@ -436,11 +436,32 @@ var P = (function() {
           IO.projectRequest.add(IO.wavBuffers[name]);
         }
       } else {
-        IO.projectRequest.add(IO.wavBuffers[name] = IO.loadWavBuffer(name));
+        if (location.hash.substr(1) === 'zip') {
+          IO.projectRequest.add(IO.wavBuffers[name] = IO.loadWavBufferZip(name));
+        } else {
+          IO.projectRequest.add(IO.wavBuffers[name] = IO.loadWavBuffer(name));
+        }
       }
     }
   };
 
+  IO.loadWavBufferZip = function(name) {
+    var request = new Request;
+    var wav = new Audio;
+    var bForcedBlank = false;
+    wav.crossOrigin = 'anonymous';
+    wav.src = IO.SOUNDBANK_URL + wavFiles[name];
+    IO.load(IO.SOUNDBANK_URL + wavFiles[name], function(ab) {
+      IO.decodeAudio(ab, function(buffer) {
+        IO.wavBuffers[name] = buffer;
+        request.load();
+      });
+    }, null, 'arraybuffer').onError(function(err) {
+      request.error(err);
+    });
+    return request;
+  };	
+	
   IO.loadWavBuffer = function(name) {
     var request = new Request;
     IO.load(IO.SOUNDBANK_URL + wavFiles[name], function(ab) {
