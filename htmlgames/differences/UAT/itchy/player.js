@@ -236,7 +236,9 @@ P.player = (function() {
     });
     request.onload = function(s) {
       progressBar.style.width = '100%';
-      document.getElementById("player-area").style.backgroundImage = ""; // pf hide splash screen
+      if (document.getElementById("player-area")) {
+        document.getElementById("player-area").style.backgroundImage = ""; // pf hide splash screen
+      }
       setTimeout(function() {
         progressBar.style.opacity = 0;
         setTimeout(function() {
