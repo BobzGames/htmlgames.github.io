@@ -1676,7 +1676,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
   
-  
+  // pf new way - works with scaling via em's (was px)
   Stage.prototype.showList = function(name) {
     console.log("Show List:" + name);
     var o_div_test = document.getElementById(name);
@@ -1711,21 +1711,20 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	// display list using divs. Thanks to Dogtopius for the CSS colours!
 	var info = o_listInfo.split(",");    
 	var show = !!(o_listInfo.match("true"));
-	    
 	var divContainer = document.createElement('div');
 	divContainer.id = name;
-	divContainer.style.border = "solid #949191 2px";
-	divContainer.style.margin = "5px";
+	divContainer.style.border = "solid #949191 2em"; // 
+	divContainer.style.margin = "5em";
 	divContainer.style.padding = "0";
-	divContainer.style.borderRadius = "7px";
+	divContainer.style.borderRadius = "7em";
         divContainer.style.backgroundColor = "#c1c4c7";
 	divContainer.style.position = 'absolute';
 	divContainer.style.overflow = 'hidden';
-	divContainer.style.left = info[0] + 'px';
-	divContainer.style.top = info[1] + 'px';
-	divContainer.style.width = info[2] + 'px';	    
-	if (o_list.length) divContainer.style.height = info[3] + 'px';
-	divContainer.innerHTML = "<div style='margin: 2px'><span style='font-size: 12px; text-align: center; font-weight: bold;'><center>" + name + "</center></span></div>";
+	divContainer.style.left = info[0] + 'em';
+	divContainer.style.top = info[1] + 'em';
+	divContainer.style.width = info[2] + 'em';	    
+	if (o_list.length) divContainer.style.height = info[3] + 'em';
+	divContainer.innerHTML = "<div style='margin: 2em'><span style='font-size: 12em; text-align: center; font-weight: bold;'><center>" + name + "</center></span></div>";
 	    
 	var divHolder = this.stage.root.appendChild(divContainer); // or this.stage.canvas.parentNode;
 	var divInner = document.createElement('div');
@@ -1738,22 +1737,22 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	for (var i = 0; i < o_list.length; i++) { // test
 	  divItem = document.createElement('div');
 	  divItem.style.backgroundColor = "#c1c4c7";
-	  divItem.innerHTML = "<input readonly value=' " + (i + 1) + "' style='color: #000; border: 0; background-color: #c1c4c7; width: 10%; font-size: 11px; margin: 1px'/> <input readonly value='" + o_list[i].replace(/'/g, "&#39;") + "' style='font-size: 12px; background-color: #cc5b22; color: white; width: 75%; height: 12px; border: 1px solid #fff; border-radius: 3px; padding: 3px; margin: 0px;' />";
+	  divItem.innerHTML = "<input readonly value=' " + (i + 1) + "' style='color: #000; border: 0; background-color: #c1c4c7; width: 10%; font-size: 11em; margin: 1px'/> <input readonly value='" + o_list[i].replace(/'/g, "&#39;") + "' style='font-size: 12em; background-color: #cc5b22; color: white; width: 75%; height: 1em; border: 1px solid #fff; border-radius: 3px; padding: 3px; margin: 0px;' />";
 	  divInner.appendChild(divItem);	
 	}
 	    
 	var divItem2 = document.createElement('div');
 	//divItem2.style.position = 'relative';
 	if (o_list.length) {
-	  divItem2.innerHTML = "<div style='font-size: 11px; text-align: center; bottom: 2px; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div>";
+	  divItem2.innerHTML = "<div style='font-size: 11em; text-align: center; bottom: 2em; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div>";
 	} else {
-	  divItem2.innerHTML = "<p><p style='font-size: 11px; text-align: center;'>(empty)</p></p><div style='font-size: 11px; text-align: center; padding-bottom: 2px'>length: 0</div>";
+	  divItem2.innerHTML = "<p><p style='font-size: 11em; text-align: center;'>(empty)</p></p><div style='font-size: 11em; text-align: center; padding-bottom: 2em'>length: 0</div>";
 	}
 	divHolder.appendChild(divInner);
         divHolder.appendChild(divItem2);
     }
   };
-
+	
   Stage.prototype.hideList = function(name) {
      console.log("Hide List:" + name);
      var o_div = document.getElementById(name);
