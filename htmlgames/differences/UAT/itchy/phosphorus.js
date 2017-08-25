@@ -1304,7 +1304,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           // PF: TODO improve 172233660
           for (var i = 0; i < effect.data.length; i += 4) {
 	    if (effect.data[i + 0] + effect.data[i + 1] + effect.data[i + 2]) { // ignore black #000
-	      if (effect.data[i + 0] + effect.data[i + 1] + effect.data[i + 2] < brightnessVal) {
+	      if (effect.data[i + 0] + effect.data[i + 1] + effect.data[i + 2] > brightnessVal) {
                 effect.data[i + 0] = (effect.data[i + 0] + brightnessVal);
                 effect.data[i + 1] = (effect.data[i + 1] + brightnessVal);
                 effect.data[i + 2] = (effect.data[i + 2] + brightnessVal);
