@@ -1295,7 +1295,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.brightness !== 0) {
-	  var brightnessVal = (this.filters.brightness / 100 * 255);
+	  var brightnessVal = (this.filters.brightness % 100 / 100 * 255);
 		
 	  effectsCanvas.width = ciw;
 	  effectsCanvas.height = cih;		
@@ -1303,7 +1303,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
           // PF: TODO improve 172233660
           for (var i = 0; i < effect.data.length; i += 4) {
-	    if (effect.data[i + 0] + effect.data[i + 1] + effect.data[i + 2]) { // ignore black #000
+	    if (effect.data[i + 0] + effect.data[i + 1] + effect.data[i + 2] < brightnessVal) { // ignore black #000
 	      if ((effect.data[i + 0] = 255) && (effect.data[i + 1] = 255) && (effect.data[i + 2] = 255)) { // only white #fff
                 effect.data[i + 0] = (effect.data[i + 0] - brightnessVal);
                 effect.data[i + 1] = (effect.data[i + 1] - brightnessVal);
