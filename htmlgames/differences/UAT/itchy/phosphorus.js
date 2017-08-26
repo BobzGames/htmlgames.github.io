@@ -1302,10 +1302,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  effectsCanvas.height = cih;		
 	  effectsContext.drawImage(costume.image, 0, 0, ciw, cih);
 	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
-          // PF: TODO improve 172233660
+          // PF: TODO
           for (var i = 0; i < effect.data.length; i += 4) {
 	    if (effect.data[i + 0] + effect.data[i + 1] + effect.data[i + 2]) { // ignore black #000
-	      if (isStage && (brightnessVal > 25.5)) { // 
+	      if (isStage) { // improve 172233660 
 		if ((effect.data[i + 0] = 255) && (effect.data[i + 1] = 255) && (effect.data[i + 2] = 255)) { // only white #fff
                   effect.data[i + 0] = (effect.data[i + 0] - brightnessVal);
                   effect.data[i + 1] = (effect.data[i + 1] - brightnessVal);
