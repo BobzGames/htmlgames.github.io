@@ -1162,6 +1162,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
      if (costume && (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {
 
+	if (costume.image.width + costume.image.height < 1) return // PF nothing to do!
+	     
 	var ciw = (isStage) ? 480 : (costume.image.width < 1) ? 1 : costume.image.width;
 	var cih = (isStage) ? 360 : (costume.image.height < 1) ? 1 : costume.image.height;
 	     
