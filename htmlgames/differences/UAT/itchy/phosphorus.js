@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.299) < insert random number here...
+// (v0.301) < insert random number here...
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
@@ -1162,8 +1162,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
      if (costume && (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {
 
-	var ciw = (isStage) ? 480 : costume.image.width;
-	var cih = (isStage) ? 360 : costume.image.height;
+	var ciw = (isStage) ? 480 : (costume.image.width < 1) ? 1 : costume.image.width;
+	var cih = (isStage) ? 360 : (costume.image.height < 1) ? 1 : costume.image.height;
 	     
         if (this.filters.color !== 0) {
 	  var colorVal = (this.filters.color * 2.55) & 0xff;
