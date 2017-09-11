@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.302) < insert random number here...
+// (v0.302) < insert random number here... 
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
@@ -1643,8 +1643,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   inherits(Stage, Base);
 
   Stage.prototype.isStage = true;
-  
-  
+
   Stage.prototype.initLists = function () {
     var show = false; // init show / hide of all stage and childrens lists
     var name = false;
@@ -1692,6 +1691,32 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
   
+  Stage.prototype.updateList = function (name) {
+    var show = false; // init show / hide of all stage and childrens lists
+    var name = false;
+    var o_list = this.lists;
+    var o_listInfo = this.listsInfo; // may need to loop this?
+  
+    if (o_list && o_listInfo) {
+      for (var key in o_listInfo) {
+        var obj = o_listInfo[key];
+	for (var prop in obj) {
+	 // skip loop if the property is from prototype //console.log(prop + " = " + obj[prop]);
+	  if (!obj.hasOwnProperty(prop)) {
+	    continue;
+	  }
+	  if (obj[prop].toString() == "t") {
+	    console.log("List: " + key + " = true");
+	    //if (key == name) {
+	      this.showList(key);
+	      break;	      
+	    //}
+	  }
+	}
+      }	     
+    }
+  };
+
   // pf new way - works with scaling via em's (was px)
   Stage.prototype.showList = function(name) {
     console.log("Show List:" + name);
@@ -3958,19 +3983,22 @@ P.compile = (function() {
       } else if (block[0] === 'append:toList:') {
 
         source += 'appendToList(' + listRef(block[2]) + ', ' + val(block[1]) + ');\n';
-	//source += 'self.showList(' + listRef(block[2]) + ');\n'; // pf update list test only
+	source += 'self.updateList(' + listRef(block[2]) + ');\n'; // pf update list test only
 
       } else if (block[0] === 'deleteLine:ofList:') {
 
         source += 'deleteLineOfList(' + listRef(block[2]) + ', ' + val(block[1]) + ');\n';
+        source += 'self.updateList(' + listRef(block[2]) + ');\n'; // pf update list test only
 
       } else if (block[0] === 'insert:at:ofList:') {
 
         source += 'insertInList(' + listRef(block[3]) + ', ' + val(block[2]) + ', '+ val(block[1]) + ');\n';
+        source += 'self.updateList(' + listRef(block[2]) + ');\n'; // pf update list test only
 
       } else if (block[0] === 'setLine:ofList:to:') {
 
         source += 'setLineOfList(' + listRef(block[2]) + ', ' + val(block[1]) + ', '+ val(block[3]) + ');\n';
+        source += 'self.updateList(' + listRef(block[2]) + ');\n'; // pf update list test only
 
       } else if (block[0] === 'showVariable:' || block[0] === 'hideVariable:') {
 
