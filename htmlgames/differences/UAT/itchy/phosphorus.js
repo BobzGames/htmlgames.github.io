@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.302) < insert random number here... 
+// (v0.303) < insert random number here... 
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
@@ -3983,22 +3983,22 @@ P.compile = (function() {
       } else if (block[0] === 'append:toList:') {
 
         source += 'appendToList(' + listRef(block[2]) + ', ' + val(block[1]) + ');\n';
-	source += 'self.updateList(' + listRef(block[2]) + ');\n'; // pf update list test only
+	source += 'self.updateList(' + val(block[1]) + ');\n'; // pf update list test only
 
       } else if (block[0] === 'deleteLine:ofList:') {
 
         source += 'deleteLineOfList(' + listRef(block[2]) + ', ' + val(block[1]) + ');\n';
-        source += 'self.updateList(' + listRef(block[2]) + ');\n'; // pf update list test only
+        source += 'self.updateList(' + val(block[1]) + ');\n'; // pf update list test only
 
       } else if (block[0] === 'insert:at:ofList:') {
 
         source += 'insertInList(' + listRef(block[3]) + ', ' + val(block[2]) + ', '+ val(block[1]) + ');\n';
-        source += 'self.updateList(' + listRef(block[2]) + ');\n'; // pf update list test only
+        source += 'self.updateList(' + val(block[1]) + ');\n'; // pf update list test only
 
       } else if (block[0] === 'setLine:ofList:to:') {
 
         source += 'setLineOfList(' + listRef(block[2]) + ', ' + val(block[1]) + ', '+ val(block[3]) + ');\n';
-        source += 'self.updateList(' + listRef(block[2]) + ');\n'; // pf update list test only
+        source += 'self.updateList(' + val(block[1]) + ');\n'; // pf update list test only
 
       } else if (block[0] === 'showVariable:' || block[0] === 'hideVariable:') {
 
