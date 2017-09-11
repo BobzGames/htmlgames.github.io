@@ -1693,7 +1693,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   
   Stage.prototype.updateList = function (name) {
     var show = false; // init show / hide of all stage and childrens lists
-    var name = false;
+    //var name = false;
     var o_list = this.lists;
     var o_listInfo = this.listsInfo; // may need to loop this?
   
@@ -1707,10 +1707,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  }
 	  if (obj[prop].toString() == "t") {
 	    console.log("List: " + key + " = true");
-	    //if (key == name) {
+	    if (key == name) {
 	      this.showList(key);
 	      break;	      
-	    //}
+	    }
 	  }
 	}
       }	     
