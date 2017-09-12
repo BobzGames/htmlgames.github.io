@@ -1692,28 +1692,31 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
   
   Stage.prototype.updateList = function (name) {
-    var show = false; // init show / hide of all stage and childrens lists
-    //var name = false;
-    var o_list = this.lists;
-    var o_listInfo = this.listsInfo; // may need to loop this?
+    // this function is a potential performance killer, so only invoke if 'name' list is showing...
+    if (document.getElementById(name)) {
+      var show = false; // init show / hide of all stage and childrens lists
+      //var name = false;
+      var o_list = this.lists;
+      var o_listInfo = this.listsInfo; // may need to loop this?
   
-    if (o_list && o_listInfo) {
-      for (var key in o_listInfo) {
-        var obj = o_listInfo[key];
-	for (var prop in obj) {
-	 // skip loop if the property is from prototype //console.log(prop + " = " + obj[prop]);
-	  if (!obj.hasOwnProperty(prop)) {
-	    continue;
-	  }
-	  if (obj[prop].toString() == "t") {
-	    console.log("List: " + key + " = true");
-	    if (key == name) {
-	      this.showList(key);
-	      break;	      
+      if (o_list && o_listInfo) {
+        for (var key in o_listInfo) {
+          var obj = o_listInfo[key];
+	  for (var prop in obj) {
+	   // skip loop if the property is from prototype //console.log(prop + " = " + obj[prop]);
+	    if (!obj.hasOwnProperty(prop)) {
+	      continue;
 	    }
-	  }
-	}
-      }	     
+	    if (obj[prop].toString() == "t") {
+	      console.log("List: " + key + " = true");
+	      if (key == name) {
+	        this.showList(key);
+	        break;	      
+              }
+            }
+          }
+        }	     
+      }
     }
   };
 
