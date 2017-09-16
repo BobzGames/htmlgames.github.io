@@ -4,7 +4,7 @@ P.player = (function() {
   var stage;
   var frameId = null;
   var isFullScreen = false;
-  var touchOverlay = false;
+  var touchOverlay = false; 
 	
   var progressBar = document.querySelector('.progress-bar');
   var player = document.querySelector('.player');
