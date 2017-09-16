@@ -86,6 +86,10 @@ P.player = (function() {
     if (that && !that.isRunning && (document.getElementById("touchscreen").style.display == 'block' || touchOverlay)) {
 	touchOverlay = !touchOverlay;
 	document.getElementById("touchscreen").style.display = (document.getElementById("touchscreen").style.display == 'block') ? '' : 'block';
+	try {
+	    stage.start();
+	    document.querySelector('.play').className = 'pause';
+	} catch(e){}	    
 	return;    
     }
     document.documentElement.classList.toggle('fs');
