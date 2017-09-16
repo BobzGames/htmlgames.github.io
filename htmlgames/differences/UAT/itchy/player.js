@@ -4,7 +4,7 @@ P.player = (function() {
   var stage;
   var frameId = null;
   var isFullScreen = false;
-  var touchOverlay = false; 
+  var touchOverlay = false;
 	
   var progressBar = document.querySelector('.progress-bar');
   var player = document.querySelector('.player');
@@ -86,7 +86,7 @@ P.player = (function() {
     if (that && !that.isRunning && (document.getElementById("touchscreen").style.display == 'block' || touchOverlay)) {
 	touchOverlay = !touchOverlay;
 	document.getElementById("touchscreen").style.display = (document.getElementById("touchscreen").style.display == 'block') ? '' : 'block';
-	return    
+	return;    
     }
     document.documentElement.classList.toggle('fs');
     isFullScreen = !isFullScreen;
