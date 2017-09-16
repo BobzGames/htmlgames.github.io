@@ -83,7 +83,7 @@ P.player = (function() {
     if (e) e.preventDefault();
     if (!stage) return;
     // pf - if stage is paused then fullscreen icon becomes hide / show touch overlay
-    if (that && !that.isRunning && (document.getElementById("touchscreen").style.display == 'block' || touchOverlay) {
+    if (that && !that.isRunning && (document.getElementById("touchscreen").style.display == 'block' || touchOverlay)) {
 	touchOverlay = !touchOverlay;
 	document.getElementById("touchscreen").style.display = (document.getElementById("touchscreen").style.display == 'block') ? '' : 'block';
 	return    
