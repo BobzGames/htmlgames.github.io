@@ -4,7 +4,8 @@ P.player = (function() {
   var stage;
   var frameId = null;
   var isFullScreen = false;
-
+  var touchOverlay = false;
+	
   var progressBar = document.querySelector('.progress-bar');
   var player = document.querySelector('.player');
   var projectLink = document.querySelector('.project-link');
@@ -81,6 +82,12 @@ P.player = (function() {
   function fullScreenClick(e) {
     if (e) e.preventDefault();
     if (!stage) return;
+    // pf - if stage is paused then fullscreen icon becomes hide / show touch overlay
+    if (that && !that.isRunning && (document.getElementById("touchscreen").style.display == 'block' || touchOverlay) {
+	touchOverlay = !touchOverlay;
+	document.getElementById("touchscreen").style.display = (document.getElementById("touchscreen").style.display == 'block') ? '' : 'block';
+	return    
+    }
     document.documentElement.classList.toggle('fs');
     isFullScreen = !isFullScreen;
     if (!e || !e.shiftKey) {
