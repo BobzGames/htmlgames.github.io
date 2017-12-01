@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.304) < insert random number here... 
+// (v0.305) < insert random number here... 
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
@@ -3726,8 +3726,10 @@ P.compile = (function() {
       } else if (block[0] === 'showBackground:' ||
                  block[0] === 'startScene') {
 
+        source += 'var bgname = self.getCostumeName();\n'; // sulfurous
         source += 'self.setCostume(' + val(block[1]) + ');\n';
-        source += 'var threads = sceneChange();\n';
+        //source += 'var threads = sceneChange();\n';
+        source += 'var threads = (self.getCostumeName()!= bgname)? sceneChange(): "";\n'; // sulfurous	      
         source += 'if (threads.indexOf(BASE) !== -1) return;\n';
 
       } else if (block[0] === 'nextBackground' ||
