@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.315) < insert random number here...
+// (v0.317) < insert random number here...
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
@@ -3288,8 +3288,13 @@ P.compile = (function() {
     };
 
     var param = function(name, usenum, usebool) {
-      if (typeof name !== 'string') {
-        throw new Error('Dynamic parameters are not supported');
+      if (typeof name !== 'string' && typeof block[1] === 'object') {
+	// try to see if hacked block
+	if (block[1].length === 3 && block[1][0] === 'getParam' && block[1][1] === 'Var' && typeof block[1][2] === 'string') {
+	   block[1] = block[1][2]; // danger! assumes...
+	} else {
+              throw new Error('[Hacked Block] Dynamic parameters unknown');
+	}
       }
 
       if (!inputs) return '0';
