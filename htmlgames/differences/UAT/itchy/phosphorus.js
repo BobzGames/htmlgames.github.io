@@ -1066,7 +1066,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       if (costume > 0.4) costume += 0.5;
     }
     var i = (Math.floor(costume) - 1 || 0) % this.costumes.length;
-    if (i < 0) i += this.costumes.length + 1; // pf fix +1
+    if (i < 0) {
+	    i += (this.costumes.length + 1) % this.costumes.length; // pf fix +1
+	    console.log("### i = " + i);
+    }
     if (!isNaN(costume)) this.currentCostumeIndex = i;
     if (this.isStage) this.updateBackdrop();
     if (this.saying) this.updateBubble();
