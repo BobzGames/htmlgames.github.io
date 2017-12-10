@@ -1355,7 +1355,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.timerStart = 0;
     this.cloneCount = 0;
 
-    this.keys = {};
+    this.keys = []; // pf fix any {};
+    this.keys.any = 0; // pf fix any
     this.rawMouseX = 0;
     this.rawMouseY = 0;
     this.mouseX = 0;
@@ -1472,12 +1473,15 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           }
 	
       } else {
+	var c = e.keyCode; // pf any fix
+	if (!this.keys[c]) this.keys.any++; // pf any fix
         // TODO: as before    
         if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
           return; // PF allow e.ctrlKey || 
         }
         //console.log(e.keyCode)+"\n";
-        this.keys[e.keyCode] = true;
+        //this.keys[e.keyCode] = true;
+	this.keys[c] = true; // pf any fix
         e.stopPropagation();
         if (e.target === this.canvas) {
           e.preventDefault();
@@ -1506,8 +1510,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           }
 
       } else {
+	var c = e.keyCode; // pf any fix
+	if (!this.keys[c]) this.keys.any--; // pf any fix	      
 	// TODO: as before   
-        this.keys[e.keyCode] = false;
+        //this.keys[e.keyCode] = false;
+        this.keys[c] = false; // pf any fix
         e.stopPropagation();
         if (e.target === this.canvas) {
           e.preventDefault();
@@ -2124,7 +2131,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     'left arrow': 37,
     'up arrow': 38,
     'right arrow': 39,
-    'down arrow': 40
+    'down arrow': 40,
+    any: 'any'
   };
 
   var getKeyCode = function(keyName) {
