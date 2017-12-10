@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.305) < insert random number here...
+// (v0.307) < insert random number here... 
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
@@ -4343,7 +4343,7 @@ P.compile = (function() {
     } else if (script[0][0] === 'whenKeyPressed') { // any
       if (script[0][1] == "") script[0][1] = "ctrl"; // PF ctrl hack!
       if (script[0][1] == 'any') {
-        for (var any = 127;any--;) {  // pf db x
+        for (var any = 128;any--;) {  // pf db x fix 128
 	  object.listeners.whenKeyPressed[any].push(f);
 	}
       } else {
