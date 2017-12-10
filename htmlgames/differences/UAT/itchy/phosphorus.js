@@ -1,10 +1,10 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.309) < insert random number here...
+// (v0.311) < insert random number here...
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
-// Regarding any code here: pillage 'till you puke! (aka take what you want!)
+// Regarding all code here: pillage 'till you puke! (aka take what you want!)
 //   
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia... 
@@ -1355,8 +1355,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.timerStart = 0;
     this.cloneCount = 0;
 
-    this.keys = []; // pf fix any {};
-    this.keys.any = 0; // pf fix any
+    this.keys = []; // pf fix was {};
+    this.keys.any = 0; // pf fix enkee
     this.rawMouseX = 0;
     this.rawMouseY = 0;
     this.mouseX = 0;
@@ -1473,15 +1473,15 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           }
 	
       } else {
-	var c = e.keyCode; // pf any fix
-	if (!this.keys[c]) this.keys.any++; // pf any fix
+	//var c = e.keyCode; // pf enkee fix
+	//if (!this.keys[c]) this.keys.any++; // pf enkee fix
         // TODO: as before    
         if (e.altKey || e.metaKey || e.keyCode === 27) { // tjvr
           return; // PF allow e.ctrlKey || 
         }
         //console.log(e.keyCode)+"\n";
-        //this.keys[e.keyCode] = true;
-	this.keys[c] = true; // pf any fix
+        this.keys[e.keyCode] = true;
+	//this.keys[c] = true; // pf enkee fix
         e.stopPropagation();
         if (e.target === this.canvas) {
           e.preventDefault();
@@ -1510,11 +1510,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           }
 
       } else {
-	var c = e.keyCode; // pf any fix
-	if (!this.keys[c]) this.keys.any--; // pf any fix	      
+	//var c = e.keyCode; // pf enkee fix
+	//if (!this.keys[c]) this.keys.any--; // pf enkee fix	      
 	// TODO: as before   
-        //this.keys[e.keyCode] = false;
-        this.keys[c] = false; // pf any fix
+        this.keys[e.keyCode] = false;
+        //this.keys[c] = false; // pf enkee fix
         e.stopPropagation();
         if (e.target === this.canvas) {
           e.preventDefault();
@@ -4351,7 +4351,7 @@ P.compile = (function() {
     } else if (script[0][0] === 'whenKeyPressed') { // any
       if (script[0][1] == "") script[0][1] = "ctrl"; // PF ctrl hack!
       if (script[0][1] == 'any') {
-        for (var any = 127;any--;) {  // pf db x fix 128
+        for (var any = 127;any--;) {  // pf db x fix 128 (4 enkee ?)
 	  object.listeners.whenKeyPressed[any].push(f);
 	}
       } else {
