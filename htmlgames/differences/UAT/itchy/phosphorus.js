@@ -2141,13 +2141,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   var getKeyCode = function(keyName) {
     //if (keyName && keyName.length > 0) { // pf temp - old code but tested 
        if (ASCII) {
-
+	   //if (typeof keyName !== 'string') keyName = "" + keyName; // pf fix numbers (untested)
 	   if (keyName && keyName.length > 0) {
 	     if (ShiftKey) {
 	       if( (keyName.charCodeAt(0) > 64) && (keyName.charCodeAt(0) < 90) ) return -1; //block uppercase sensing
 	       return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0); // *
 	     } else {
-	       if (typeof keyName !== 'string') keyName = "" + keyName; // pf fix numbers
 	       return KEY_CODES[keyName.toLowerCase()] || keyName.charCodeAt(0); // *      
 	     }
 	   } else {
@@ -2155,6 +2154,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	   }
 
        } else {
+	  if (typeof keyName !== 'string') keyName = "" + keyName; // pf fix numbers
           if (keyName && keyName.length > 0) return KEY_CODES[keyName.toLowerCase()] || keyName.toUpperCase().charCodeAt(0);
        }
     //} // pf temp - old code but tested 
