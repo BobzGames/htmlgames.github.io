@@ -56,7 +56,7 @@
 					document.getElementById("s9").style.display == "inline"){
 					// ugly XSS 'FIX' 
 					clearTimeout(fnt1);
-					if(!document.location.href.match(FINISH_HTML))fnt1=setTimeout('document.location.href=FINISH_HTML + "?"  + user + "&" + points.toString() + "&" + bSound;',xt);
+					fnt1=setTimeout('if(!document.location.href.match(FINISH_HTML))document.location.href=FINISH_HTML + "?"  + user + "&" + points.toString() + "&" + bSound;',xt);
 				}
 			}
 
