@@ -54,7 +54,7 @@
 					document.getElementById("s7").style.display == "inline" &&
 					document.getElementById("s8").style.display == "inline" &&
 					document.getElementById("s9").style.display == "inline"){
-					// ugly XSS 'FIX' 
+					// ugly XSS 'FIX'
 					clearTimeout(fnt1);
 					fnt1=setTimeout('if(!document.location.href.match(FINISH_HTML))document.location.href=FINISH_HTML + "?"  + user + "&" + points.toString() + "&" + bSound;',xt);
 				}
