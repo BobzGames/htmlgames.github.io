@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.323) < insert random number here...
+// (v0.324) < insert random number here...
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
@@ -1769,6 +1769,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var info = o_listInfo.split(",");    
 	var show = !!(o_listInfo.match("true"));
 	var divContainer = document.createElement('div');
+	var overflow = (2 + 5 + 7 + info[0] + info[2]) - 480; // border + margin + borderRadius + left + width needs to be - 480px
 	divContainer.id = name;
 	divContainer.style.border = "solid #949191 2em"; // 
 	divContainer.style.margin = "5em";
@@ -1779,7 +1780,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	divContainer.style.overflow = 'hidden';
 	divContainer.style.left = info[0] + 'em';
 	divContainer.style.top = info[1] + 'em';
-	divContainer.style.width = info[2] + 'em'; // TODO: if left + width > 480 then adjust to be < 480	    
+	if (overflow > 0) {
+		divContainer.style.width = (info[2] - overflow) + 'em'; // if left + width > 480 then adjust to be < 480	    
+	} else {
+		divContainer.style.width = info[2] + 'em';
+	}
 	if (o_list.length) divContainer.style.height = info[3] + 'em';
 	divContainer.innerHTML = "<div style='margin: 2em'><span style='font-size: 12em; text-align: center; font-weight: bold;'><center>" + name + "</center></span></div>";
 	    
