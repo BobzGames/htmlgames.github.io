@@ -1769,7 +1769,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var info = o_listInfo.split(",");    
 	var show = !!(o_listInfo.match("true"));
 	var divContainer = document.createElement('div');
-	var overflow = (2 + 5 + 7 + info[0] + info[2]) - 480; // border + margin + borderRadius + left + width needs to be - 480px
+	var overflow = (2 + 5 + 7 + parseInt(info[0], 10) + parseInt(info[2], 10)) - 480; // border + margin + borderRadius + left + width needs to be - 480px
 	divContainer.id = name;
 	divContainer.style.border = "solid #949191 2em"; // 
 	divContainer.style.margin = "5em";
