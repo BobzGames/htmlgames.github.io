@@ -1769,7 +1769,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var info = o_listInfo.split(",");    
 	var show = !!(o_listInfo.match("true"));
 	var divContainer = document.createElement('div');
-	var overflow = (2 + 5 + 7 + parseInt(info[0], 10) + parseInt(info[2], 10)) - 480; // border + margin + borderRadius + left + width needs to be - 480px
+	var overflow = (0 + 0 + 7 + parseInt(info[0], 10) + parseInt(info[2], 10)) - 480; // border + margin + borderRadius + left + width needs to be - 480px
 	divContainer.id = name;
 	divContainer.style.border = "solid #949191 2em"; // 
 	divContainer.style.margin = "5em";
@@ -1778,7 +1778,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         divContainer.style.backgroundColor = "#c1c4c7";
 	divContainer.style.position = 'absolute';
 	divContainer.style.overflow = 'hidden';
-	divContainer.style.left = info[0] + 'em';
+	divContainer.style.left = (info[0] - 7) + 'em'; // border + margin
 	divContainer.style.top = (info[1] - 7) + 'em'; // border + margin 
 	if (overflow > 0) {
 		divContainer.style.width = (info[2] - overflow) + 'em'; // if left + width > 480 then adjust to be < 480	    
