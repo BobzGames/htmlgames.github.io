@@ -1,12 +1,12 @@
 body {
-    color: dark-gray;
-    background-color: white;
+    color: dimgray;
+    background-color: snow;
     text-align: center;
     font-family: 'Segoe UI Light', normal;
 }
 
 h1 {
-	color: dark-gray; 
+	color: dimgray; 
 	padding-top: 20px;
 }
 
