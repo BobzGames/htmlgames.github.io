@@ -1,12 +1,12 @@
 body {
     color: white;
-    background-color: gray;
+    background-color: white;
     text-align: center;
-    font-family: 'Segoe UI', normal;
+    font-family: 'Segoe UI Light', normal;
 }
 
 h1 {
-	color: black; 
+	color: dark-gray; 
 	padding-top: 20px;
 }
 
@@ -26,12 +26,12 @@ a {
 
 /* unvisited link */
 a:link {
-    color: gold;
+    color: white;
 }
 
 /* visited link */
 a:visited {
-    color: gold;
+    color: white;
 }
 
 /* mouse over link */
