@@ -26,17 +26,17 @@ a {
 
 /* unvisited link */
 a:link {
-    color: white;
+    color: royalblue;
 }
 
 /* visited link */
 a:visited {
-    color: white;
+    color: royalblue;
 }
 
 /* mouse over link */
 a:hover {
-    color: gold;
+    color: blue;
 }
 
 /* selected link */
