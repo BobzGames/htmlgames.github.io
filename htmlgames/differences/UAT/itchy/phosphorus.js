@@ -1808,6 +1808,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	if (o_list.length) {
 	  divItem2.innerHTML = "<div style='font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div>";
 	} else {
+		divItem = document.createElement('div'); // qtest
+		//divItem.innerHTML = "*"; // qtest
+		divInner.appendChild(divItem); // qtest
 	  divItem2.innerHTML = "<p><p style='font-size: 11em; text-align: center;'>(empty)</p></p><div style='font-size: 11em; text-align: center; padding-bottom: 2em'>length: 0</div>";
 	}
 	divHolder.appendChild(divInner);
