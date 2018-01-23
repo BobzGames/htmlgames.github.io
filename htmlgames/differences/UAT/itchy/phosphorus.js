@@ -1808,11 +1808,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	if (o_list.length) {
 	  divItem2.innerHTML = "<div style='font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div>";
 	} else {
-	  //console.log("HEIGHT="+info[3]);
 	  var pem = ( (info[3] / 100) * 89 ) + 0; // qtest 
+	  console.log("HEIGHT="+info[3]+ " pem="+pem);
 	  divItem = document.createElement('div');
 	  divItem.style.height = pem + 'em';
-	  divItem.innerHTML = "<div style='padding-top: " + (pem / 2) + "em'><div style='font-size: 11em; text-align: center;'>(empty)</div></div>"; // 
+	  divItem.innerHTML = "<div style='padding-top: " + (pem / 2.2) + "em'><div style='font-size: 11em; text-align: center;'>(empty)</div></div>"; // 
 	  divInner.appendChild(divItem);
 	  divItem2.innerHTML = "<div style='font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 100%;'>length: 0</div>";
 	  // old way...	
