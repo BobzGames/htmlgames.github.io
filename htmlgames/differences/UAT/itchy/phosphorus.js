@@ -1812,7 +1812,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 		console.log("HEIGHT="+info[3]);
 		divItem = document.createElement('div');
 		divItem.innerHTML = "<p style='font-size: 11em; text-align: center;'>(empty)</p>"; // 
-		divItem.style.height = ( (info[3] / 100) * 93 ) + 0 + 'em'; // em%
+		divItem.style.height = ( (info[3] / 100) * 90 ) + 0 + 'em'; // em%
 		divInner.appendChild(divItem);
 		divItem2.innerHTML = ""; //"<div style='font-size: 11em; text-align: center; padding-bottom: 2em'>length: 0</div>";
 		
