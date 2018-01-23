@@ -1811,7 +1811,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 // qtest
 		divItem = document.createElement('div');
 		divItem.innerHTML = " ";
-		divItem.style.height = info[3] + 0 + 'em';
+		divItem.style.height = info[3] + 0 + 'px';
 		divInner.appendChild(divItem);
 	  divItem2.innerHTML = "<p><p style='font-size: 11em; text-align: center;'>(empty)</p></p><div style='font-size: 11em; text-align: center; padding-bottom: 2em'>length: 0</div>";
 	}
