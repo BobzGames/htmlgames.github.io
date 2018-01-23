@@ -1811,7 +1811,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 // qtest
 		console.log("HEIGHT="+info[3]);
 		divItem = document.createElement('div');
-		divItem.innerHTML = "<p style='padding-top: 50%'><p style='font-size: 11em; text-align: center;'>(empty)</p></p><div style='padding-top: 50%; font-size: 11em; text-align: center; padding-bottom: 2em'>length: 0</div>"; // 
+		divItem.innerHTML = "<p style='padding-top: 70%'><p style='font-size: 11em; text-align: center;'>(empty)</p></p><div style='padding-top: 70%; font-size: 11em; text-align: center; padding-bottom: 2em'>length: 0</div>"; // 
 		divItem.style.height = ( (info[3] / 100) * 93 ) + 0 + 'em'; // em%
 		divInner.appendChild(divItem);
 	  //divItem2.innerHTML = "<p><p style='font-size: 11em; text-align: center;'>(empty)</p></p><div style='font-size: 11em; text-align: center; padding-bottom: 2em'>length: 0</div>";
