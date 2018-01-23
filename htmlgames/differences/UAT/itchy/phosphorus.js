@@ -1808,12 +1808,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	if (o_list.length) {
 	  divItem2.innerHTML = "<div style='font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div>";
 	} else {
-		// qtest
-	  divItem = document.createElement('div');
-	  divItem.style.backgroundColor = "#c1c4c7";
-	  divItem.innerHTML = "<input readonly value=' " + "1" + "' style='color: #000; border: 0; background-color: #c1c4c7; width: 10%; font-size: 11em; margin: 1px'/> <input readonly value='" + " " + "' style='font-size: 12em; background-color: #cc5b22; color: white; width: 75%; height: 1em; border: 1px solid #fff; border-radius: 3px; padding: 3px; margin: 0px;' />"; // TODO: rid 75% width and calc instead!
-	  divInner.appendChild(divItem);		
-		// end qtest
+// qtest
+		divItem = document.createElement('div');
+		divItem.innerHTML = " ";
+		divItem.style.height = info[3] + 0 + 'em';
+		divInner.appendChild(divItem);
 	  divItem2.innerHTML = "<p><p style='font-size: 11em; text-align: center;'>(empty)</p></p><div style='font-size: 11em; text-align: center; padding-bottom: 2em'>length: 0</div>";
 	}
 	divHolder.appendChild(divInner);
