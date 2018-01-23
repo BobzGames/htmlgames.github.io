@@ -1808,7 +1808,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	if (o_list.length) {
 	  divItem2.innerHTML = "<div style='font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div>";
 	} else {
-// qtest
+// qtest 
 		console.log("HEIGHT="+info[3]);
 		divItem = document.createElement('div');
 		divItem.innerHTML = "<div style='padding-top: 50%'><div style='font-size: 11em; text-align: center;'>(empty)</div></div>"; // 
