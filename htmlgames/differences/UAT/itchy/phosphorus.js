@@ -1808,14 +1808,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	if (o_list.length) {
 	  divItem2.innerHTML = "<div style='font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div>";
 	} else {
-// qtest 
-		//console.log("HEIGHT="+info[3]);
-		var pem = ( (info[3] / 100) * 89 ) + 0; // em%
-		divItem = document.createElement('div');
-		divItem.style.height = pem + 'em';
-		divItem.innerHTML = "<div style='padding-top: " + (pem / 2) + "em'><div style='font-size: 11em; text-align: center;'>(empty)</div></div>"; // 
-		divInner.appendChild(divItem);
-		
+	  //console.log("HEIGHT="+info[3]);
+	  var pem = ( (info[3] / 100) * 89 ) + 0; // qtest 
+	  divItem = document.createElement('div');
+	  divItem.style.height = pem + 'em';
+	  divItem.innerHTML = "<div style='padding-top: " + (pem / 2) + "em'><div style='font-size: 11em; text-align: center;'>(empty)</div></div>"; // 
+	  divInner.appendChild(divItem);
+	  divItem2.innerHTML = "<div style='font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 100%;'>length: 0</div>";
+	  // old way...	
 	  //divItem2.innerHTML = "<p><p style='font-size: 11em; text-align: center;'>(empty)</p></p><div style='font-size: 11em; text-align: center; padding-bottom: 2em'>length: 0</div>";
 	}
 	divHolder.appendChild(divInner);
