@@ -143,8 +143,8 @@ P.player = (function() {
       h = w * .75 + controls.offsetHeight;
       document.body.style.width = w + 'px';
       document.body.style.height = h + 'px';
-      if (w == window.screen.width) {
-	document.body.style.marginLeft = 0;
+      if (w == window.screen.width) { // pf mobile fix
+        document.body.style.marginLeft = 0;
       } else {
         document.body.style.marginLeft = (window.innerWidth - w) / 2 + 'px';
       }
