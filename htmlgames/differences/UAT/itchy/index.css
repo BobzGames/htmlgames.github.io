@@ -12,7 +12,7 @@ body {
 @media (display-mode: fullscreen) { 
   .mobile {
     border-left: 0 solid transparent;
-    width:-webkit-fill-available;
+    width: -webkit-fill-available;
   }
 }
 .title {
