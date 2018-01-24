@@ -1811,7 +1811,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var hem = info[3] > 270 ? 93 : 89; // help!
 	  var pem = ( (info[3] / 100) * hem ) + 0; // qtest 
 	  console.log("HEIGHT="+info[3]+ " pem="+pem);
-	  if (parseInt(info[1],10) + parseInt(info[3],10) < 360) { // !offscreen
+	  if (parseInt(info[1], 10) + parseInt(info[3], 10) < 360) { // !offscreen
 	    divItem = document.createElement('div');
 	    divItem.style.height = pem + 'em';
 	    divItem.innerHTML = "<div style='padding-top: " + (pem / 2.4) + "em'><div style='font-size: 11em; text-align: center;'>(empty)</div></div>"; // 
