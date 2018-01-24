@@ -142,7 +142,7 @@ P.player = (function() {
       h = w * .75 + controls.offsetHeight;
       document.body.style.width = w + 'px';
       document.body.style.height = h + 'px';
-      document.body.style.marginLeft = (window.innerWidth - w) / 2 + 'px';
+      //document.body.style.marginLeft = (window.innerWidth - w) / 2 + 'px';
       if ('ontouchstart' in document) {
         document.body.style.marginTop = (window.innerHeight - h - padding) / 4 + 'px';
       } else {
