@@ -40,4 +40,4 @@ Warp Framework and Turbo mode fully optimised<br>
 <br>
 ** to get back to the examples list, remove the word zip from the url and press enter.
 <br><br>
-10/12/2017 (latest bugfix)
+24/01/2018 (latest bugfixes + tweaks)
