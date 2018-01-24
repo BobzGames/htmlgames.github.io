@@ -9,9 +9,9 @@ body {
     border-left: 12px solid transparent; 
   }
 }
-@media (max-width: 567px) and (display-mode: fullscreen) {
+@media (display-mode: fullscreen) {
   .mobile {
-    border-left: 0;
+    border-left: 0 solid transparent;
   }
 }
 .title {
