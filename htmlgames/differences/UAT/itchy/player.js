@@ -138,12 +138,12 @@ P.player = (function() {
       var padding = 8; // 8 
       var w = window.innerWidth - padding * 2;
       var h = window.innerHeight - padding - controls.offsetHeight;
-      if (w > window.screen.width) w = window.screen.width; // pf mobile fix	    
+      //if (w > window.screen.width) w = window.screen.width; // pf mobile fix	    
       w = Math.min(w, h / .75);
       h = w * .75 + controls.offsetHeight;
       document.body.style.width = w + 'px';
       document.body.style.height = h + 'px';
-      if (w == window.screen.width) { // pf mobile fix
+      if (w > window.screen.width) { // pf mobile fix
         document.body.style.marginLeft = 0;
       } else {
         document.body.style.marginLeft = (window.innerWidth - w) / 2 + 'px';
