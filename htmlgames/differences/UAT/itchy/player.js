@@ -148,6 +148,7 @@ P.player = (function() {
       } else {
         document.body.style.marginTop = (window.innerHeight - h - padding) / 2 + 'px';
       }
+      if (w > window.screen.width) w = window.screen.width; // pf mobile fix
       stage.setZoom(w / 480);
     } else {
       stage.setZoom(1);
