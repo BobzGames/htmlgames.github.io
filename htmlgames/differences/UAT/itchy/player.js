@@ -1,5 +1,5 @@
 P.player = (function() {
-  'use strict'; 
+  'use strict';
 
   var stage;
   var frameId = null;
