@@ -138,7 +138,7 @@ P.player = (function() {
       var padding = 0; // 8 
       var w = window.innerWidth - padding * 2;
       var h = window.innerHeight - padding - controls.offsetHeight;
-      //if (w > window.screen.width) w = window.screen.width; // pf mobile fix	    
+      if (w > window.screen.width) w = window.screen.width; // pf mobile fix	    
       w = Math.min(w, h / .75);
       h = w * .75 + controls.offsetHeight;
       document.body.style.width = w + 'px';
@@ -149,7 +149,7 @@ P.player = (function() {
       } else {
         document.body.style.marginTop = (window.innerHeight - h - padding) / 2 + 'px';
       }
-      if (w > 480) w = 480; // pf mobile fix
+
       stage.setZoom(w / 480);
     } else {
       stage.setZoom(1);
