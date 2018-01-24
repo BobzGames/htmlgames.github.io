@@ -6,12 +6,12 @@ body {
 }
 @media (max-width: 567px) {
   .mobile {
-    border-left: 12px solid red;
+    border-left: 12px solid transparent;
   }
 }
 @media (max-width: 567px) and (display-mode: fullscreen) {
   .mobile {
-    border-left: 0 solid red;
+    border-left: 0;
   }
 }
 .title {
