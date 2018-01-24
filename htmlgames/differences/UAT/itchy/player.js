@@ -135,7 +135,7 @@ P.player = (function() {
     if (!stage) return;
     if (isFullScreen) {
       window.scrollTo(0, 0);
-      var padding = 0; // 8
+      var padding = 0; // 8 
       var w = window.innerWidth - padding * 2;
       var h = window.innerHeight - padding - controls.offsetHeight;
       w = Math.min(w, h / .75);
