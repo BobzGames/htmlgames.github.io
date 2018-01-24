@@ -1819,7 +1819,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    divItem2.innerHTML = "<div style='font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 100%;'>length: 0</div>";
 	  } else {
 	    // old way...	
-	    divItem2.innerHTML = "<div style='font-size: 11em; text-align: center;'><br><br>(empty)</div><div style='font-size: 11em; text-align: center; padding-bottom: 1em'><br><br>length: 0</div>"; 
+	    divItem2.innerHTML = "<div style='font-size: 11em; text-align: center;'><br><br>(empty)</div><div style='font-size: 11em; text-align: center; padding-bottom: 0.1em'><br><br>length: 0</div>"; 
 	  }
 	}
 	divHolder.appendChild(divInner);
