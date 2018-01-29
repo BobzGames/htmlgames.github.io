@@ -2616,13 +2616,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var targetg = parseInt(rgb.substr(2,2), 16);
 	var targetb = parseInt(rgb.substr(4,2), 16);	  
 	  
-    rgb1 = targetr + targetg + targetb;
+    //rgb1 = targetr + targetg + targetb;
     rgb2 = (rgb2 & 0xffffff);
 
     var length = w * h * 4; // must be > 0
     for (var i = 0; i < length; i += 4) {
       //if ((data1[i] << 16 | data1[i + 1] << 8 | data1[i + 2]) === rgb1 && 255) { // ignore alfred
-	if ( (data2[i] << 16 | data2[i + 1] << 8 | data2[i + 2]) == rgb1 ) {
+	if ( (data2[i] << 16 == targetr) && (data2[i + 1] << 8 == targetg) && (data2[i + 2] == targetb) ) {
           return true;
 	}
       //}
