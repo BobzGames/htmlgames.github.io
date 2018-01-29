@@ -2611,7 +2611,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     } else {
       collisionContext.save();
       //collisionContext.translate(-(240 + b.left), -(180 - b.top));
-	    collisionContext.translate(-(240), -(180));
+	    collisionContext.translate(-(b.left), -(b.top));
       this.stage.drawAllOn(collisionContext, this);
       collisionContext.globalCompositeOperation = 'destination-in';
       this.draw(collisionContext, true);	  
