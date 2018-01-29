@@ -2612,9 +2612,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 		rgb = "0"+rgb;
 	}
 
-	var targetr = parseInt(target.substr(0,2), 16)
-	var targetg = parseInt(target.substr(2,2), 16)
-	var targetb = parseInt(target.substr(4,2), 16)	  
+	var targetr = parseInt(target.substr(0,2), 16);
+	var targetg = parseInt(target.substr(2,2), 16);
+	var targetb = parseInt(target.substr(4,2), 16);	  
 	  
     rgb1 = targetr + targetg + targetb;
     rgb2 = (rgb2 & 0xffffff);
@@ -2622,7 +2622,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var length = w * h * 4; // must be > 0
     for (var i = 0; i < length; i += 4) {
       //if ((data1[i] << 16 | data1[i + 1] << 8 | data1[i + 2]) === rgb1 && 255) { // ignore alfred
-	if ((data2[i] << 16 | data2[i + 1] << 8 | data2[i + 2]) == rgb1) {
+	if ( (data2[i] << 16 | data2[i + 1] << 8 | data2[i + 2]) == rgb1 ) {
           return true;
 	}
       //}
