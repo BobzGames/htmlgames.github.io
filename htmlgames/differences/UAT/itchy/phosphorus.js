@@ -2617,7 +2617,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var targetb = parseInt(rgb.substr(4,2), 16);	  
 	  
     //rgb1 = targetr + targetg + targetb;
-    rgb2 = (rgb2 & 0xffffff);
+   // rgb2 = (rgb2 & 0xffffff);
 
     var length = w * h * 4; // must be > 0
     for (var i = 0; i < length; i += 4) {
