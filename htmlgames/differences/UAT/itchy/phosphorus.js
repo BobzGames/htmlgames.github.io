@@ -2583,7 +2583,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
 	
-  Sprite.prototype.touchingColor = function(target) { // temp test
+  Sprite.prototype.touchingColor = function(target) { // tempest
 
  	target = (16777216 + target).toString(16);
 	while (0<(6-target.length)) {
@@ -2611,6 +2611,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     } else {
       collisionContext.save();
       //collisionContext.translate(-(240 + b.left), -(180 - b.top));
+	    collisionContext.translate(-(240), -(180));
       this.stage.drawAllOn(collisionContext, this);
       collisionContext.globalCompositeOperation = 'destination-in';
       this.draw(collisionContext, true);	  
