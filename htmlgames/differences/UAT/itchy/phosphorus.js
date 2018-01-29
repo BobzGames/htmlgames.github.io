@@ -2817,7 +2817,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.thinking = thinking;
     if (!this.bubble) {
       this.bubble = document.createElement('div');
-      //this.bubble.style.zIndex = '1'; // pf over lists fix?
+      this.bubble.style.zIndex = '1'; // pf say over lists fix
       this.bubble.style.maxWidth = ''+(127/14)+'em';
       this.bubble.style.minWidth = ''+(48/14)+'em';
       this.bubble.style.padding = ''+(8/14)+'em '+(10/14)+'em';
