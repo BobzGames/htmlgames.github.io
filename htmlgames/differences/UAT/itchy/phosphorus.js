@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.327) < insert random number here... 
+// (v0.327x) < insert random number here... 
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
@@ -2582,7 +2582,68 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
 
-  Sprite.prototype.touchingColor = function(rgb) {
+	
+  Sprite.prototype.touchingColor = function(target) { // temp test
+
+ 	target = (16777216 + target).toString(16);
+	while (0<(6-target.length)) {
+		target = "0"+target;
+	}
+
+	var targetr = parseInt(target.substr(0,2), 16)
+	var targetg = parseInt(target.substr(2,2), 16)
+	var targetb = parseInt(target.substr(4,2), 16)	  
+	  
+    var b = this.rotatedBounds();
+
+    var w = b.right - b.left;
+    var h = b.top - b.bottom;
+  
+    collisionCanvas.width = (w < 1) ? 1 : w; // pf w < 1 ?
+    collisionCanvas.height = (h < 1) ? 1 : h; // pf h < 1?
+
+    // pf - fast match test (hack - watch out!)
+    var bFast = ((w == h && h < 8)) ? true : false; // && (w + h > 2)
+	  
+    if (bFast) {
+      collisionContext.translate(-(240 + b.left), -(180 - b.top));
+      this.stage.drawOn(collisionContext, this);	    
+    } else {
+      collisionContext.save();
+      collisionContext.translate(-(240 + b.left), -(180 - b.top));
+      this.stage.drawAllOn(collisionContext, this);
+      collisionContext.globalCompositeOperation = 'destination-in';
+      this.draw(collisionContext, true);	  
+      collisionContext.restore();
+    }
+	  
+    var wt = (w < 1) ? 1 : w;
+    var ht = (h < 1) ? 1 : h;
+    var data = collisionContext.getImageData(0, 0, wt, ht).data;
+  
+    ////rgb = (rgb & 0xffffff);
+    //var RGB = new hsvToRgb(data[0], data[1] ,data[2]); // pf test only
+
+    // pf - fast match test
+    ////if (!rgb && !data.join("").replace("000255","").length) return true;
+
+    //if (rgb > 255) {
+      var length = w * h * 4; // must be > 0
+      for (var i = 0; i < length; i += 4) {
+	if ((data[i+3] != 0) && (data[i] == targetr) && (data[i+1] == targetg) && (data[i+2] == targetb))
+        ///if ((data[i] << 16 | data[i + 1] << 8 | data[i + 2]) === rgb && data[i + 3]) {
+        //if (data[i] == RGB.r && data[i + 1] == RGB.g && data[i + 2] == RGB.b) { // pf test only
+          return true;
+        }
+      }
+    //} else {
+	// pf - fast match test
+    //  if (data.join("").match("25500"+rgb.toString()+"255")) return true;
+    //}
+  };
+	
+	
+  Sprite.prototype.touchingColor__ = function(rgb) {
     var b = this.rotatedBounds();
 
     var w = b.right - b.left;
