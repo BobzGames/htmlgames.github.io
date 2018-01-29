@@ -2582,55 +2582,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
 
-	
   Sprite.prototype.touchingColor = function(rgb) {
-    var b = this.rotatedBounds();
-
-    var w = b.right - b.left;
-    var h = b.top - b.bottom;
-  
-    collisionCanvas.width = (w < 1) ? 1 : w;
-    collisionCanvas.height = (h < 1) ? 1 : h;
-	   
-    collisionContext.translate(-(240 + b.left), -(180 - b.top));
-    this.stage.drawAllOn(collisionContext, this);
-	  
-    var wt = (w < 1) ? 1 : w;
-    var ht = (h < 1) ? 1 : h;
-    var data2 = collisionContext.getImageData(0, 0, wt, ht).data; // rgb2 'over'	   
-/*	  
-    collisionCanvas2.width = (w < 1) ? 1 :w;
-    collisionCanvas2.height = (h < 1) ? 1 : h;
-    collisionContext2.translate(-(240 + b.left), -(180 - b.top));
-    this.draw(collisionContext2, true); // true ???
-
-    var data1 = collisionContext2.getImageData(0, 0, wt, ht).data; // rgb1 'sprite'
-*/
-	  
- 	rgb = (16777216 + rgb).toString(16);
-	while (0<(6-rgb.length)) {
-		rgb = "0"+rgb;
-	}
-
-	var targetr = parseInt(rgb.substr(0,2), 16);
-	var targetg = parseInt(rgb.substr(2,2), 16);
-	var targetb = parseInt(rgb.substr(4,2), 16);	  
-	  
-    //rgb1 = targetr + targetg + targetb;
-   // rgb2 = (rgb2 & 0xffffff);
-
-    var length = w * h * 4; // must be > 0
-    for (var i = 0; i < length; i += 4) {
-      //if ((data1[i] << 16 | data1[i + 1] << 8 | data1[i + 2]) === rgb1 && 255) { // ignore alfred
-	if ( (data2[i] << 16 == targetr) && (data2[i + 1] << 8 == targetg) && (data2[i + 2] == targetb) ) {
-          return true;
-	}
-      //}
-    }	  
-  };	
-	
-	
-  Sprite.prototype.touchingColor__ = function(rgb) {
     var b = this.rotatedBounds();
 
     var w = b.right - b.left;
@@ -2642,7 +2594,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // pf - fast match test (hack - watch out!)
     var bFast = ((w == h && h < 8)) ? true : false; // && (w + h > 2)
 	  
-    if (bFast) {
+    if (!bFast) { // @a@
       collisionContext.translate(-(240 + b.left), -(180 - b.top));
       this.stage.drawOn(collisionContext, this);	    
     } else {
