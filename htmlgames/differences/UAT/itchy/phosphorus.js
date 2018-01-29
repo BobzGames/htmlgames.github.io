@@ -2594,7 +2594,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // pf - fast match test (hack - watch out!)
     var bFast = ((w == h && h < 8)) ? true : false; // && (w + h > 2)
 	  
-    if (!bFast) { // @a@
+    if (bFast) { // @a@
       collisionContext.translate(-(240 + b.left), -(180 - b.top));
       this.stage.drawOn(collisionContext, this);	    
     } else {
