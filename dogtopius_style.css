@@ -15,6 +15,14 @@ h2 {
         font-family: 'Merriweather', bold;
 }
 
+
+#rectangle{
+    width:200px;
+    height:100px;
+    background:blue;
+}
+
+
 div {
 	text-align; center;
 }
