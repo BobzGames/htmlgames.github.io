@@ -1,17 +1,10 @@
 body {
     color: dimgray;
-    background-color: #F8F8F8;
+    background-color: white;
     text-align: center;
-    font-family: 'Lato', normal;
+    font-family: 'Open Sans', normal;
 }
 
-#rcorners1 { 
-border-radius: 25px;
-    background: #73AD21;
-    padding: 20px; 
-    width: 200px;
-    height: 150px;
-}
 
 h2 {
 	color: black; 
