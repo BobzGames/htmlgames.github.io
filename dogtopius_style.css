@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');
 
 body {
     color: dimgray;
@@ -11,6 +12,7 @@ body {
 h2 {
 	color: black; 
 	padding-top: 20px;
+        font-family: 'Merriweather', bold;
 }
 
 div {
