@@ -17,10 +17,10 @@ h2 {
 
 
 #rectangle{
-    width:1000px;
+    width:1500px;
     height:100px;
     background:blue;
-    padding-top: 20px;
+    padding-top: 0px;
 }
 
 
