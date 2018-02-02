@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.328x) < insert random number here...
+// (v0.329x) < insert random number here...
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
@@ -1735,7 +1735,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   // pf new way - works with scaling via em's (was px)
   Stage.prototype.showList = function(name) {
-    console.log("Show List:" + name);
+    console.log("Show List:" + name + " isTurbo:" + this.isTurbo); // if turbo mode then only draw list every 4 ticks?
     var o_div_test = document.getElementById(name);
     if (o_div_test) {
       console.log("List already rendered. DOM");
