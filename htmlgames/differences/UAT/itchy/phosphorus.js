@@ -1800,7 +1800,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	for (var i = 0; i < o_list.length; i++) { // test
 	  divItem = document.createElement('div');
 	  divItem.style.backgroundColor = "#c1c4c7";
-	  replaced = (o_list && o_list[i]) ? o_list[i].replace(/'/g, "&#39;") : ""; // pf fix replace
+	  try {replaced = o_list[i].replace(/'/g, "&#39;");} catch {replaced = "";} // pf fix replace
 	  divItem.innerHTML = "<input readonly value=' " + (i + 1) + "' style='color: #000; border: 0; background-color: #c1c4c7; width: 10%; font-size: 11em; margin: 1px'/> <input readonly value='" + replaced + "' style='font-size: 12em; background-color: #cc5b22; color: white; width: 75%; height: 1em; border: 1px solid #fff; border-radius: 3px; padding: 3px; margin: 0px;' />"; // TODO: rid 75% width and calc instead!
 	  divInner.appendChild(divItem);	
 	}
