@@ -1736,7 +1736,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   // pf new way - works with scaling via em's (was px)
   Stage.prototype.showList = function(name) {
     console.log("Show List:" + name + " isTurbo:" + this.isTurbo); // if turbo mode then only draw list every 4 ticks?
-    if (Date.now()%1024 > 1000) console.log("### RENDER ###");
+    if (this.isTurbo && (Date.now()%1024) <= 1000) return; //console.log("### RENDER ###");
     var o_div_test = document.getElementById(name);
     if (o_div_test) {
       console.log("List already rendered. DOM");
