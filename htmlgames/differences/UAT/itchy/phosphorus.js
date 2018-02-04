@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.331x) < insert random number here...  
+// (v0.229x) < insert random number here...  
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
@@ -2592,8 +2592,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   Sprite.prototype.touchingColor = function(rgb) {
     var b = this.rotatedBounds();
 
-    var w = ~~(b.right - b.left);
-    var h = ~~(b.top - b.bottom);
+    var w = b.right - b.left;
+    var h = b.top - b.bottom;
   
     collisionCanvas.width = (w < 1) ? 1 : w; // pf w < 1 ?
     collisionCanvas.height = (h < 1) ? 1 : h; // pf h < 1?
