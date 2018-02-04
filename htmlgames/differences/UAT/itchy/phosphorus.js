@@ -2617,7 +2617,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var ht = (h < 1) ? 1 : h;
     var data = collisionContext.getImageData(0, 0, wt, ht).data;
   
-    rgb = (rgb & 0xffffff);
+    rgb = (rgb & 0xffffffff);
     //var RGB = new hsvToRgb(data[0], data[1] ,data[2]); // pf test only
 
     // pf - fast match test
