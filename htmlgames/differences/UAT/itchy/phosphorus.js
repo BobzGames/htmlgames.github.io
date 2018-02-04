@@ -2605,12 +2605,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       collisionContext.translate(-(240 + b.left), -(180 - b.top));
       this.stage.drawOn(collisionContext, this);	    
     } else {
-      //collisionContext.save();
+      collisionContext.save(); // ! needed?
       collisionContext.translate(-(240 + b.left), -(180 - b.top));
       this.stage.drawAllOn(collisionContext, this);
       collisionContext.globalCompositeOperation = 'destination-in';
       this.draw(collisionContext, true);	  
-      //collisionContext.restore();
+      collisionContext.restore(); // ! needed?
     }
 	  
     var wt = (w < 1) ? 1 : w;
