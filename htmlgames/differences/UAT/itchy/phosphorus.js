@@ -1833,24 +1833,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	// TODO: if divInner touches divItem2 then reduce the height of divInner by divItem.height - ?
 	divHolder.appendChild(divInner);
         divHolder.appendChild(divItem2);
-	    
-	// Div 1 data
-	var d1_offset             = divInner.offset();
-	var d1_height             = divInner.outerHeight( true );
-	var d1_width              = divInner.outerWidth( true );
-	var d1_distance_from_top  = d1_offset.top + d1_height;
-	var d1_distance_from_left = d1_offset.left + d1_width;
 
-	// Div 2 data
-	var d2_offset             = divItem2.offset();
-	var d2_height             = divItem2.outerHeight( true );
-	var d2_width              = divItem2.outerWidth( true );
-	var d2_distance_from_top  = d2_offset.top + d2_height;
-	var d2_distance_from_left = d2_offset.left + d2_width;
-
-	var not_colliding = ( d1_distance_from_top < d2_offset.top || d1_offset.top > d2_distance_from_top || d1_distance_from_left < d2_offset.left || d1_offset.left > d2_distance_from_left );
-        console.log(not_colliding);
-	   
+        console.log(divInner.style.height + " :: " + o_list.length);
     }
 	if (this.saying) this.updateBubble();	  
   };
