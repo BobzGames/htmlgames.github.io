@@ -1798,7 +1798,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	divInner.style.overflow = 'auto';
         
 	if ( o_list.length > (parseInt(info[3],10) / 22) ) { // magic number!    
-	    divInner.style.height = '74%'; // long lists 74%=scratch, 75%=looks better
+	    divInner.style.height = '75%'; // long lists 74%=scratch, 75%=looks better 
 	} else {
 	    divInner.style.height = '86%'; // as before		
 	}
