@@ -1834,11 +1834,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	divHolder.appendChild(divInner);
         divHolder.appendChild(divItem2);
 	    
-	o_c0 = divInner.getBoundingClientRect();
-	o_c1 = divItem2.getBoundingClientRect();
+	var o_c0 = divInner.getBoundingClientRect();
+	var o_c1 = divItem2.getBoundingClientRect();
 
 	var c0 = (o_c0.bottom > o_c1.top);
 	var c1 = (o_c0.top < o_c1.top || o_c0.bottom > o_c1.bottom); // && (o_c0.left > o_c1.left && o_c0.right < o_c1.right);
+
 	if (c0) console.log("Long List c0!");
 	if (c1) console.log("Long List c1!");
 	   
