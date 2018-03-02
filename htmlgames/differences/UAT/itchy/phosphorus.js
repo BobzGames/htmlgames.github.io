@@ -1796,8 +1796,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var divInner = document.createElement('div');
 	divInner.style.position = 'relative';
 	divInner.style.overflow = 'auto';
-        divInner.style.height = '86%'; // long lists 74%=scratch, 75%=looks better
-
+        
+	if ( o_list.length > (parseInt(info[3],10) / 22) ) { // magic number!    
+	    divInner.style.height = '74%'; // long lists 74%=scratch, 75%=looks better
+	} else {
+	    divInner.style.height = '86%'; // as before		
+	}
         var divItem;
 	var replaced;
 	var divItemHeight;
@@ -1830,11 +1834,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    divItem2.innerHTML = "<div style='font-size: 11em; text-align: center;'><br><br>(empty)</div><div style='font-size: 11em; text-align: center; padding-bottom: 0.1em'><br><br>length: 0</div>"; 
 	  }
 	}
-	// TODO: if divInner touches divItem2 then reduce the height of divInner by divItem.height - ?
+
 	divHolder.appendChild(divInner);
         divHolder.appendChild(divItem2);
-
-        console.log( o_list.length > (parseInt(info[3],10) / 22) ); // magic number!
     }
 	if (this.saying) this.updateBubble();	  
   };
