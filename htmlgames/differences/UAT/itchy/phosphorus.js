@@ -1834,7 +1834,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	divHolder.appendChild(divInner);
         divHolder.appendChild(divItem2);
 
-        console.log(o_list.length > (parseInt(info[3]),10) / 22)); // magic number!
+        console.log( o_list.length > (parseInt(info[3],10) / 22) ); // magic number!
     }
 	if (this.saying) this.updateBubble();	  
   };
