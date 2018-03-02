@@ -1796,10 +1796,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var divInner = document.createElement('div');
 	divInner.style.position = 'relative';
 	divInner.style.overflow = 'auto';
-        divInner.style.height = '86%';
+        divInner.style.height = '86%'; // long lists 74%=scratch, 75%=looks better
 
         var divItem;
 	var replaced;
+	var divItemHeight;
 	
 	for (var i = 0; i < o_list.length; i++) { // test
 	  divItem = document.createElement('div');
@@ -1829,8 +1830,18 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    divItem2.innerHTML = "<div style='font-size: 11em; text-align: center;'><br><br>(empty)</div><div style='font-size: 11em; text-align: center; padding-bottom: 0.1em'><br><br>length: 0</div>"; 
 	  }
 	}
+	// TODO: if divInner touches divItem2 then reduce the height of divInner by divItem.height - ?
 	divHolder.appendChild(divInner);
         divHolder.appendChild(divItem2);
+	    
+	o_c0 = divInner.getBoundingClientRect();
+	o_c1 = divItem2.getBoundingClientRect();
+
+	var c0 = (o_c0.bottom > o_c1.top);
+	var c1 = (o_c0.top < o_c1.top || o_c0.bottom > o_c1.bottom); // && (o_c0.left > o_c1.left && o_c0.right < o_c1.right);
+	if (c0) console.log("Long List c0!");
+	if (c1) console.log("Long List c1!");
+	   
     }
 	if (this.saying) this.updateBubble();	  
   };
