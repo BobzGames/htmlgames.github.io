@@ -1834,14 +1834,22 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	divHolder.appendChild(divInner);
         divHolder.appendChild(divItem2);
 	    
-	var o_c0 = divInner.getBoundingClientRect();
-	var o_c1 = divItem2.getBoundingClientRect();
+	// Div 1 data
+	var d1_offset             = divInner.offset();
+	var d1_height             = divInner.outerHeight( true );
+	var d1_width              = divInner.outerWidth( true );
+	var d1_distance_from_top  = d1_offset.top + d1_height;
+	var d1_distance_from_left = d1_offset.left + d1_width;
 
-	var c0 = (o_c0.bottom > o_c1.top);
-	var c1 = (o_c0.top < o_c1.top || o_c0.bottom > o_c1.bottom); // && (o_c0.left > o_c1.left && o_c0.right < o_c1.right);
+	// Div 2 data
+	var d2_offset             = divItem2.offset();
+	var d2_height             = divItem2.outerHeight( true );
+	var d2_width              = divItem2.outerWidth( true );
+	var d2_distance_from_top  = d2_offset.top + d2_height;
+	var d2_distance_from_left = d2_offset.left + d2_width;
 
-	if (c0) console.log("Long List c0!");
-	if (c1) console.log("Long List c1!");
+	var not_colliding = ( d1_distance_from_top < d2_offset.top || d1_offset.top > d2_distance_from_top || d1_distance_from_left < d2_offset.left || d1_offset.left > d2_distance_from_left );
+        console.log(not_colliding);
 	   
     }
 	if (this.saying) this.updateBubble();	  
