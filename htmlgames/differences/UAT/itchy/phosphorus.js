@@ -1813,22 +1813,15 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var divItem2 = document.createElement('div');
 	//divItem2.style.position = 'relative';
 	if (o_list.length) {
-          
-	  if ( o_list.length > (parseInt(info[3],10) / 22) ) { // magic number!    
+	  if ( o_list.length > (parseInt(info[3],10) / 22) ) { // magic number! 'calc text px size as ~ number of elements'    
 		console.log("Long List!"); 
-		divInner.style.height = (parseInt(info[3],10) - 40) + "em"; // magic number!
-	        // will list clash into length counter, so add empty item at bottom of list and set background css of length counter to grey?
-                //divItem.innerHTML = "<input readonly value=' ' style='color: #c1c4c7; border: 0; background-color: #c1c4c7; width: 10%; font-size: 11em; margin: 1px'/> <input readonly value=' ' style='font-size: 12em; background-color: #c1c4c7; color: c1c4c7; width: 75%; height: 1em; border: 1px solid #c1c4c7; border-radius: 3px; padding: 3px; margin: 0px;' />"; // TODO: rid 75% width and calc instead!
-	        //divInner.appendChild(divItem);	
-	        //divItem2.innerHTML = "<div style='background-color: #c1c4c7; font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 93%;'>" +  "length: " + o_list.length + "</div>";	
-	  } else { // as before
-	    //divItem2.innerHTML = "<div style='font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div>";
+		divInner.style.height = (parseInt(info[3],10) - 40) + "em"; // magic number! 'px gap to remove to stop clash'
 	  }
 	  divItem2.innerHTML = "<div style='font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div>";
 	} else {
-	  var hem = info[3] > 270 ? 93 : 89; // help!
+	  var hem = info[3] > 270 ? 93 : 89; // help! (more magic tomfoolery)
 	  var pem = ( (info[3] / 100) * hem ) + 0; // qtest 
-	  console.log("HEIGHT="+info[3]+ " pem="+pem);
+	  console.log("HEIGHT=" + info[3] + " pem=" + pem);
 	  if (parseInt(info[1], 10) + parseInt(info[3], 10) < 360) { // !offscreen
 	    divItem = document.createElement('div');
 	    divItem.style.height = pem + 'em';
