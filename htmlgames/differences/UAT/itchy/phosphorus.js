@@ -1818,7 +1818,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 		console.log("Long List!"); 
                 divItem.innerHTML = "<input readonly value=' ' style='color: #c1c4c7; border: 0; background-color: #c1c4c7; width: 10%; font-size: 11em; margin: 1px'/> <input readonly value=' ' style='font-size: 12em; background-color: #c1c4c7; color: c1c4c7; width: 75%; height: 1em; border: 1px solid #c1c4c7; border-radius: 3px; padding: 3px; margin: 0px;' />"; // TODO: rid 75% width and calc instead!
 	        divInner.appendChild(divItem);	
-	        divItem2.innerHTML = "<div style='background-color: #c1c4c7; font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 90%;'>" +  "length: " + o_list.length + "</div>";	
+	        divItem2.innerHTML = "<div style='background-color: #c1c4c7; font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 91%;'>" +  "length: " + o_list.length + "</div>";	
 	  } else { // as before
 	    divItem2.innerHTML = "<div style='font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div>";
 	  }
