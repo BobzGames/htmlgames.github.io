@@ -1796,15 +1796,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var divInner = document.createElement('div');
 	divInner.style.position = 'relative';
 	divInner.style.overflow = 'auto';
-        
-	if ( o_list.length > (parseInt(info[3],10) / 22) ) { // magic number!    
-	    divInner.style.height = '75%'; // long lists 74%=scratch, 75%=looks better 
-	} else {
-	    divInner.style.height = '86%'; // as before		
-	}
+        divInner.style.height = '86%'; // as before
+
         var divItem;
 	var replaced;
-	var divItemHeight;
 	
 	for (var i = 0; i < o_list.length; i++) { // test
 	  divItem = document.createElement('div');
@@ -1835,6 +1830,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  }
 	}
 
+	if ( o_list.length > (parseInt(info[3],10) / 22) ) { // magic number!    
+	    divInner.style.height = '74%'; // long lists 74%=scratch, 75%=looks better 
+	} else {
+	    //divInner.style.height = '86%'; // as before		
+	}	    
 	divHolder.appendChild(divInner);
         divHolder.appendChild(divItem2);
     }
