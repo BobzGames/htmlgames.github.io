@@ -1797,10 +1797,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	divInner.style.position = 'relative';
 	divInner.style.overflow = 'auto';
 	divInner.style.height = '86%'; // as before (magic number!)
-        // will list clash into length counter, so add empty item at bottom of list and set background css of length counter to grey? 	    
-	if ( o_list.length > (parseInt(info[3],10) / 22) ) { // magic number!    
-		console.log("Long List!"); 
-	}
 
 	var divItem;
 	var replaced;
@@ -1817,7 +1813,15 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var divItem2 = document.createElement('div');
 	//divItem2.style.position = 'relative';
 	if (o_list.length) {
-	  divItem2.innerHTML = "<div style='font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div>";
+          // will list clash into length counter, so add empty item at bottom of list and set background css of length counter to grey? 	    
+	  if ( o_list.length > (parseInt(info[3],10) / 22) ) { // magic number!    
+		console.log("Long List!"); 
+                divItem.innerHTML = "<input readonly value=' ' style='color: #000; border: 0; background-color: #c1c4c7; width: 10%; font-size: 11em; margin: 1px'/> <input readonly value=' ' style='font-size: 12em; background-color: #cc5b22; color: white; width: 75%; height: 1em; border: 1px solid #fff; border-radius: 3px; padding: 3px; margin: 0px;' />"; // TODO: rid 75% width and calc instead!
+	        divInner.appendChild(divItem);	
+	        divItem2.innerHTML = "<div style='background-color: #c1c4c7; font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div>";	
+	  } else { // as before
+	    divItem2.innerHTML = "<div style='font-size: 11em; text-align: center; bottom: 2px; position: absolute; width: 100%;'>" +  "length: " + o_list.length + "</div>";
+	  }
 	} else {
 	  var hem = info[3] > 270 ? 93 : 89; // help!
 	  var pem = ( (info[3] / 100) * hem ) + 0; // qtest 
