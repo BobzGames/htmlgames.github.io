@@ -1796,9 +1796,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var divInner = document.createElement('div');
 	divInner.style.position = 'relative';
 	divInner.style.overflow = 'auto';
-        divInner.style.height = '86%'; // as before
+	divInner.style.height = '86%'; // as before (magic number!)
+        // will list clash into length counter, so add empty item at bottom of list and set background css of length counter to grey? 	    
+	if ( o_list.length > (parseInt(info[3],10) / 22) ) { // magic number!    
+		console.log("Long List!"); 
+	}
 
-        var divItem;
+	var divItem;
 	var replaced;
 	
 	for (var i = 0; i < o_list.length; i++) { // test
@@ -1829,12 +1833,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    divItem2.innerHTML = "<div style='font-size: 11em; text-align: center;'><br><br>(empty)</div><div style='font-size: 11em; text-align: center; padding-bottom: 0.1em'><br><br>length: 0</div>"; 
 	  }
 	}
-
-	if ( o_list.length > (parseInt(info[3],10) / 22) ) { // magic number!    
-	    divInner.style.height = '74%'; // long lists 74%=scratch, 75%=looks better 
-	} else {
-	    //divInner.style.height = '86%'; // as before		
-	}	    
 	divHolder.appendChild(divInner);
         divHolder.appendChild(divItem2);
     }
