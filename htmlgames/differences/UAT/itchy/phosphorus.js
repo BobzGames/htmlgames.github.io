@@ -914,16 +914,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
 
-  var Cloud = function(stage) { return
+  var Cloud = function(stage) {
     this.stage = stage;
     this.autostart = false;
     this.connected = false;
     this.variables = Object.create(null);
-    try {
-    this.ws = new WebSocket(location.protocol === 'https:' ? 'wss://' : 'ws://' + window.location.host + '/cloud/' + stage.id);
-    } catch(e) {
-      this.ws = {}; 
-    }
+    // TODO: replace with webrtc datachannels
+    this.ws = new WebSocket(location.protocol === 'https:' ? 'wss://' : 'ws://' + 'scratch.mit.edu' + '/varserver/' + stage.id);
     this.ws.onmessage = function(msg) {
       var data = JSON.parse(msg.data);
       switch (data.$) {
