@@ -1051,7 +1051,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     for (var i = 0; i < lists.length; i++) {
       if (lists[i].isPersistent) {
         //throw new Error('Cloud lists are not supported');
-	consoloe.log("Cloud List Detected");
+	console.log("Cloud List Detected");
       }
       this.lists[lists[i].listName] = lists[i].contents;
       // TODO list watchers, PF lazy hack below :)
