@@ -312,11 +312,11 @@ var P = (function() {
         IO.loadProject(json);
         if (callback) request.onLoad(callback.bind(self));
         if (request.isDone) {
-          request.load(new Stage().fromJSON(json));
+          request.load(new Stage(id).fromJSON(json));
         } else {
           request.defer = false;
           request.getResult = function() {
-            return new Stage().fromJSON(json);
+            return new Stage(id).fromJSON(json);
           };
         }
       } catch (e) {
