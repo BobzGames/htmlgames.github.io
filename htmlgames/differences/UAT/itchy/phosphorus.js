@@ -919,7 +919,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.autostart = false;
     this.connected = false;
     this.variables = Object.create(null);
-    this.ws = new WebSocket(location.protocol === 'https:' ? 'wss://' : 'ws://' + window.location.host + '/cloud/' + stage.id);
+    this.ws = new WebSocket(location.protocol === 'https:' ? 'wss://' : 'ws://' + "phosphate.herokuapp.com" + '/cloud/' + stage.id);
     this.ws.onmessage = function(msg) {
       var data = JSON.parse(msg.data);
       switch (data.$) {
