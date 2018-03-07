@@ -1392,7 +1392,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
      }
   };
 	  
-  var Stage = function() {
+  var Stage = function(id) {
     that = this; // PF global!
     this.stage = this;
 
