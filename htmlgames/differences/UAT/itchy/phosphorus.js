@@ -1026,6 +1026,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   Base.prototype.addVariables = function(variables) {
     for (var i = 0; i < variables.length; i++) {
       if (variables[i].isPersistent) {
+	console.log("Cloud Variable Detected");
         var cloud = this.stage.connectToCloud();
 	try {
           cloud.watchVariable(variables[i].name, variables[i].value);
