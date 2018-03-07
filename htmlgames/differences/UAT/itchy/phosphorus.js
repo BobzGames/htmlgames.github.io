@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.235C) < insert random number here... C = Cloud variables / lists test 
+// (v0.235C) < insert random number here... C = Cloud variables / lists test
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
