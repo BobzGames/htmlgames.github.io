@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.234) < insert random number here... 
+// (v0.235C) < insert random number here... 
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
@@ -914,6 +914,49 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
 
+  var Cloud = function(stage) {
+    this.stage = stage;
+    this.autostart = false;
+    this.connected = false;
+    this.variables = Object.create(null);
+    this.ws = new WebSocket(location.protocol === 'https:' ? 'wss://' : 'ws://' + window.location.host + '/cloud/' + stage.id);
+    this.ws.onmessage = function(msg) {
+      var data = JSON.parse(msg.data);
+      switch (data.$) {
+        case 'name':
+          stage.username = data.name;
+          this.connected = true;
+          if (this.autostart) {
+            stage.start();
+            this.autostate = false;
+          }
+          break;
+        case 'update':
+          for (var key in data.data) {
+            if (!(key in this.variables)) this.watchVariable(key);
+            this.variables[key] = data.data[key];
+          }
+          break;
+      }
+    }.bind(this);
+  };
+  Cloud.prototype.watchVariable = function(name, value) {
+    this.variables[name] = value;
+    Object.defineProperty(this.stage.vars, name, {
+      get: function() { return this.variables[name]; }.bind(this),
+      set: function(value) { this.setVariable(name, value); }.bind(this)
+    });
+  };
+  Cloud.prototype.setVariable = function(name, value) {
+    if (this.variables[name] === value) return;
+    this.variables[name] = value;
+    this.ws.send(JSON.stringify({
+      $: 'update',
+      key: name,
+      value: value
+    }));
+  };
+
   var Base = function() {
     this.isClone = false;
     this.costumes = [];
@@ -982,17 +1025,31 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   Base.prototype.addVariables = function(variables) {
     for (var i = 0; i < variables.length; i++) {
-      if (variables[i].isPeristent) {
-        throw new Error('Cloud variables are not supported');
+      if (variables[i].isPersistent) {
+        var cloud = this.stage.connectToCloud();
+        cloud.watchVariable(variables[i].name, variables[i].value);
+      } else {
+        this.vars[variables[i].name] = variables[i].value;
       }
-      this.vars[variables[i].name] = variables[i].value;
     }
   };
 
+  // older
+  //Base.prototype.addVariables_OLD = function(variables) {
+  //  for (var i = 0; i < variables.length; i++) {
+  //    if (variables[i].isPeristent) {
+  //      throw new Error('Cloud variables are not supported');
+  //    }
+  //    this.vars[variables[i].name] = variables[i].value;
+  //  }
+  //};
+
+  // updated
   Base.prototype.addLists = function(lists) {
     for (var i = 0; i < lists.length; i++) {
       if (lists[i].isPeristent) {
-        throw new Error('Cloud lists are not supported');
+        //throw new Error('Cloud lists are not supported');
+	consoloe.log("Cloud List Detected");
       }
       this.lists[lists[i].listName] = lists[i].contents;
       // TODO list watchers, PF lazy hack below :)
@@ -1340,6 +1397,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.stage = this;
 
     Stage.parent.call(this);
+
+    // update
+    this.id = id;
+    this.username = '';
+    this.cloud = null;
 
     this.children = [];
     this.defaultWatcherX = 10;
@@ -2070,6 +2132,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         this.hidePrompt = true;
       }
     }
+  };
+
+  // new
+  Stage.prototype.connectToCloud = function() {
+    if (this.id && !this.cloud) {
+      this.cloud = new Cloud(this);
+    }
+    return this.cloud;
   };
 
   Stage.prototype.touchingColor = function(rgb) {
@@ -4990,6 +5060,12 @@ P.runtime = (function() {
     };
 
     P.Stage.prototype.start = function() {
+
+      // update
+      if (this.cloud && !this.cloud.connected) {
+        return this.cloud.autostart = true;
+      }
+
       this.isRunning = true;
       if (this.interval) return;
       addEventListener('error', this.onError);
