@@ -1037,7 +1037,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   // older
   //Base.prototype.addVariables_OLD = function(variables) {
   //  for (var i = 0; i < variables.length; i++) {
-  //    if (variables[i].isPeristent) {
+  //    if (variables[i].isPersistent) {
   //      throw new Error('Cloud variables are not supported');
   //    }
   //    this.vars[variables[i].name] = variables[i].value;
@@ -2291,7 +2291,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 /*
   Base.prototype.addLists = function(lists) {
     for (var i = 0; i < lists.length; i++) {
-      if (lists[i].isPeristent) {
+      if (lists[i].isPersistent) {
         throw new Error('Cloud lists are not supported');
       }
       this.lists[lists[i].listName] = lists[i].contents;
