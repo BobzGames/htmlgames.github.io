@@ -914,7 +914,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };
 
-  var Cloud = function(stage) {
+  var Cloud = function(stage) { return
     this.stage = stage;
     this.autostart = false;
     this.connected = false;
