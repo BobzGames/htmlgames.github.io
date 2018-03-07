@@ -1027,7 +1027,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     for (var i = 0; i < variables.length; i++) {
       if (variables[i].isPersistent) {
         var cloud = this.stage.connectToCloud();
-        cloud.watchVariable(variables[i].name, variables[i].value);
+	try {
+          cloud.watchVariable(variables[i].name, variables[i].value);
+	} catch(e){} // pf cloud hack
       } else {
         this.vars[variables[i].name] = variables[i].value;
       }
