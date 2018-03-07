@@ -2140,7 +2140,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   // new
   Stage.prototype.connectToCloud = function() {
-    if (this.id && !this.cloud) {
+    if (false && this.id && !this.cloud) { // DISABLED
       this.cloud = new Cloud(this);
     }
     return this.cloud;
