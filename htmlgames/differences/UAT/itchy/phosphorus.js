@@ -1047,7 +1047,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   // updated
   Base.prototype.addLists = function(lists) {
     for (var i = 0; i < lists.length; i++) {
-      if (lists[i].isPeristent) {
+      if (lists[i].isPersistent) {
         //throw new Error('Cloud lists are not supported');
 	consoloe.log("Cloud List Detected");
       }
