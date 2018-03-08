@@ -1,6 +1,7 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
 // (v0.235C) < insert random number here... C = Cloud variables / lists test
+var LAKITU = false;
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
@@ -2139,7 +2140,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   // new
   Stage.prototype.connectToCloud = function() {
-    if (false && this.id && !this.cloud) { // DISABLED
+    if (LAKITU && this.id && !this.cloud) { // DISABLED
       this.cloud = new Cloud(this);
     }
     return this.cloud;
