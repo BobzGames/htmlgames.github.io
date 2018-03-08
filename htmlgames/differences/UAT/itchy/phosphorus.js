@@ -920,8 +920,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.connected = false;
     this.variables = Object.create(null);
     // TODO: replace with webrtc datachannels
-    this.ws = new WebSocket(location.protocol === 'https:' ? 'wss://' : 'ws://' + 'scratch.mit.edu' + '/varserver/' + stage.id);
-    this.ws.onmessage = function(msg) {
+    this.channel = new DataChannel(stage.id); // Session Unique Identifier
+    this.channel.onmessage = function(msg) {
       var data = JSON.parse(msg.data);
       switch (data.$) {
         case 'name':
@@ -951,7 +951,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   Cloud.prototype.setVariable = function(name, value) {
     if (this.variables[name] === value) return;
     this.variables[name] = value;
-    this.ws.send(JSON.stringify({
+    this.channel.send(JSON.stringify({
       $: 'update',
       key: name,
       value: value
