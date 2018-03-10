@@ -934,9 +934,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           }
           break;
         case 'update':
-          for (var key in data.data) {
+          for (var key in data) { // .data
             if (!(key in this.variables)) this.watchVariable(key);
-            this.variables[key] = data.data[key];
+            this.variables[key] = data[key]; // data.
           }
           break;
       }
