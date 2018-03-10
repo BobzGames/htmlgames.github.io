@@ -923,8 +923,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // TODO: replace with webrtc datachannels
     this.channel = new DataChannel(stage.id); // Session Unique Identifier
     this.channel.onmessage = function(msg) {
-      // TODO: correct msg format...
-      console.log(msg);
+      console.log("orig = " + msg);
+      msg = msg.replace('"key":','"data":{').replace(',"value":',':"').replace('}','"}}'); // PF correct msg format... hack!
+      console.log("data = " + msg);
       var data = JSON.parse(msg.data); // .data
       switch (data.$) {
         case 'name':
