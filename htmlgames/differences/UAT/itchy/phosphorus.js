@@ -923,7 +923,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // TODO: replace with webrtc datachannels
     this.channel = new DataChannel(stage.id); // Session Unique Identifier
     this.channel.onmessage = function(msg) {
-      var data = JSON.parse(msg.data);
+      var data = JSON.parse(msg); // .data
       switch (data.$) {
         case 'name':
           stage.username = data.name;
