@@ -5067,7 +5067,7 @@ P.runtime = (function() {
 
       // update
       if (this.cloud && !this.cloud.connected) {
-        return this.cloud.autostart = true;
+        //return this.cloud.autostart = true;
       }
 
       this.isRunning = true;
