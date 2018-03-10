@@ -923,7 +923,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // TODO: replace with webrtc datachannels
     this.channel = new DataChannel(stage.id); // Session Unique Identifier
     this.channel.onmessage = function(msg) {
-      var data = JSON.parse(msg); // .data
+      // TODO: correct msg format...
+      var data = JSON.parse(msg.data); // .data
       switch (data.$) {
         case 'name':
           stage.username = data.name;
@@ -934,9 +935,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           }
           break;
         case 'update':
-          for (var key in data) { // .data
+          for (var key in data.data) { // .data
             if (!(key in this.variables)) this.watchVariable(key);
-            this.variables[key] = data[key]; // data.
+            this.variables[key] = data.data[key]; // data.
           }
           break;
       }
