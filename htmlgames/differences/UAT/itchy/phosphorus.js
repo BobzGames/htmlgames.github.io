@@ -924,6 +924,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.channel = new DataChannel(stage.id); // Session Unique Identifier
     this.channel.onmessage = function(msg) {
       // TODO: correct msg format...
+      console.log(msg);
       var data = JSON.parse(msg.data); // .data
       switch (data.$) {
         case 'name':
@@ -1054,7 +1055,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     for (var i = 0; i < lists.length; i++) {
       if (lists[i].isPersistent) {
         //throw new Error('Cloud lists are not supported');
-	console.log("Cloud List Detected");
+	console.log("Cloud List Detected - TODO!");
       }
       this.lists[lists[i].listName] = lists[i].contents;
       // TODO list watchers, PF lazy hack below :)
