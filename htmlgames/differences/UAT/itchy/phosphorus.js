@@ -924,9 +924,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.channel = new DataChannel(stage.id); // Session Unique Identifier
     this.channel.onmessage = function(msg) {
       console.log("orig = " + msg);
-      msg = msg.replace('"key":','"data":{').replace(',"value":',':"').replace('}','"}}'); // PF correct msg format... hack!
-      console.log("data = " + msg);
-      var data = JSON.parse(msg.data); // .data
+      var msgdata = msg.replace('"key":','"data":{').replace(',"value":',':"').replace('}','"}}'); // PF correct msg format... hack!
+      console.log("data = " + msgdata);
+      var data = JSON.parse(msgdata); // .data
       switch (data.$) {
         case 'name':
           stage.username = data.name;
