@@ -3503,7 +3503,7 @@ P.compile = (function() {
 
       } else if (e && e[0] === 'getUserName') {
 
-        return '"scratch2apk"'; // PF test only!
+        return '"Scratch2APK' + parseInt(Math.random(10)*10) + '"'; // PF test only!
 
       } else {
 
