@@ -29,8 +29,8 @@ apk generation for sb2 files is back on! but signing of the apk will not be poss
 Updates (tested in Chrome + Chrome Webview)
 -------------------------------------------
 
-Cloud vars - currently being tested.
-Scratch2apk - another requested feature.
+Cloud vars - currently being tested.<br>
+Scratch2apk - another requested feature.<br>
 Display lists (via DOM) - A long awaited request!<br>
 Experimental Touch controls (for mobile devices) Working<br>
 ASCII list hack method emulated<br>
