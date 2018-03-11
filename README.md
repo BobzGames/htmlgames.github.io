@@ -9,6 +9,7 @@ NEWS
 ====
 
 I've been messing around with webRTC datachannels for cloud vars with some sucess. Project page may be in various states during testing.
+Note: for username I have to make a random one up so that the project thinks your logged in.
 
 Compiled apk zip projects are now completely offline. This means you can create a scratch game, package and run it on your phone / tablet without occurring any data charges! - good for where there's no internet or data is unavailable. (dessert island?)
 
@@ -29,7 +30,7 @@ apk generation for sb2 files is back on! but signing of the apk will not be poss
 Updates (tested in Chrome + Chrome Webview)
 -------------------------------------------
 
-Cloud vars - currently being tested.<br>
+Cloud vars - currently being tested and are working ok.<br>
 Scratch2apk - another requested feature.<br>
 Display lists (via DOM) - A long awaited request!<br>
 Experimental Touch controls (for mobile devices) Working<br>
