@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.235C) < insert random number here... C = Cloud variables inspired by http://phosphate.herokuapp.com/
+// (v0.235xC) < insert random number here... C = Cloud variables inspired by http://phosphate.herokuapp.com/
 var LAKITU = !false; 
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
@@ -2787,10 +2787,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (b.bottom < -180) y += -180 - b.top;
   };
 
-  Sprite.prototype.rotatedBounds = function() {
+  Sprite.prototype.rotatedBounds = function() { // PF late fix!
     var costume = this.costumes[this.currentCostumeIndex];
-
-    var s = costume.scale * this.scale;
+    try {var scale = this.scale;} catch(e){var scale = 1;} // urh!
+	  
+    var s = costume.scale * scale;
     var left = -costume.rotationCenterX * s; // ---
     var top = costume.rotationCenterY * s;
     var right = left + costume.image.width * s;
@@ -2799,7 +2800,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (this.rotationStyle !== 'normal') {
       if (this.rotationStyle === 'leftRight' && this.direction < 0) {
         right = -left;
-        left = right - costume.image.width * costume.scale * this.scale;
+        left = right - costume.image.width * costume.scale * scale;
       }
       return {
         left: this.scratchX + left,
