@@ -2792,7 +2792,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     try {var scale = this.scale;} catch(e){var scale = 1;} // urh!
 
     if (typeof costume == "undefined") {
-      return; // nothing to do? 
+      return { // nothing to do?
+        left: this.scratchX + 0,
+        right: this.scratchX + 0,
+        top: this.scratchY + 0,
+        bottom: this.scratchY + 0
+      };	    
     }
 	  
     var s = costume.scale * scale;
