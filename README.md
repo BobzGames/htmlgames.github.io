@@ -8,6 +8,8 @@ APK_V10 = (V0.234)
 NEWS
 ====
 
+I've been messing around with webRTC datachannels for cloud vars with some sucess. Project page may be in various states during testing.
+
 Compiled apk zip projects are now completely offline. This means you can create a scratch game, package and run it on your phone / tablet without occurring any data charges! - good for where there's no internet or data is unavailable. (dessert island?)
 
 Scratch2apk v1 has now been released! Thanks to Dogtopius for the App's logo.
