@@ -8,7 +8,7 @@ APK_V10 = (V0.234)
 NEWS
 ====
 
-I've been messing around with webRTC datachannels for cloud vars with some sucess. Project page may be in various states during testing.
+I've been messing around with webRTC datachannels for cloud vars with some success. Project page may be in various states during testing.
 Note: for username I have to make a random one up so that the project thinks your logged in.
 
 Compiled apk zip projects are now completely offline. This means you can create a scratch game, package and run it on your phone / tablet without occurring any data charges! - good for where there's no internet or data is unavailable. (dessert island?)
