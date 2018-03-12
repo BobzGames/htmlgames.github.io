@@ -2789,7 +2789,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   Sprite.prototype.rotatedBounds = function() { // PF late fix!
     var costume = this.costumes[this.currentCostumeIndex];
-    try {var scale = this.scale;} catch(e){var scale = 1;} // urh!
 
     if (typeof costume == "undefined") {
       return { // nothing to do?
@@ -2799,7 +2798,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         bottom: this.scratchY + 0
       };	    
     }
-	  
+
+    try {var scale = this.scale;} catch(e){var scale = 1;} // urh!	  
     var s = costume.scale * scale;
     var left = -costume.rotationCenterX * s; // ---
     var top = costume.rotationCenterY * s;
