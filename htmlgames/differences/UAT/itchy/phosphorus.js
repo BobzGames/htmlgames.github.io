@@ -1107,7 +1107,34 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     return this.costumes[this.currentCostumeIndex] ? this.costumes[this.currentCostumeIndex].costumeName : '';
   };
 
-  Base.prototype.setCostume = function(costume) {
+  Base.prototype.setCostume = function(costume) { // SEE ONE BELOW!
+    if (typeof costume !== 'number') {
+      costume = '' + costume;
+      for (var i = 0; i < this.costumes.length; i++) {
+        if (this.costumes[i].costumeName === costume) {
+          this.currentCostumeIndex = i;
+          if (this.isStage) this.updateBackdrop();
+          if (this.saying) this.updateBubble();
+          return;
+        }
+      }
+      if (costume === (this.isSprite ? 'next costume' : 'next backdrop')) {
+        this.showNextCostume();
+        return;
+      }
+      if (costume === (this.isSprite ? 'previous costume' : 'previous backdrop')) {
+        this.showPreviousCostume();
+        return;
+      }
+    }
+    var i = (Math.floor(costume) - 1 || 0) % this.costumes.length;
+    if (i < 0) i += this.costumes.length;
+    this.currentCostumeIndex = i;
+    if (this.isStage) this.updateBackdrop();
+    if (this.saying) this.updateBubble();
+  };	
+	
+  Base.prototype.setCostumeLAST = function(costume) {
     if (typeof costume !== 'number') {
       costume = '' + costume;
       for (var i = 0; i < this.costumes.length; i++) {
