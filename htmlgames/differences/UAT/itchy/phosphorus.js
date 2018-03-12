@@ -2263,7 +2263,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
   Stage.prototype.say = function(text, thinking) { // another hacked block! move to base?
     text = '' + text;
-    if (!text) {
+    if (!thinking) { // was text
       this.saying = false;
       if (!this.bubble) return;
       this.bubble.style.display = 'none';
