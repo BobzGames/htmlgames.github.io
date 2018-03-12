@@ -1127,7 +1127,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       }
     }
     if (!isNaN(parseInt(costume))) {
-      if (costume > 0.4) costume += 0.3; // pf fix costume rounding 173248374
+      if (costume > 0.4) costume += 0.2; // pf fix costume rounding 173248374
       var i = (Math.floor(parseInt(costume)) - 1) % this.costumes.length;
       if (i < 0) i += this.costumes.length;
       this.currentCostumeIndex = i;
