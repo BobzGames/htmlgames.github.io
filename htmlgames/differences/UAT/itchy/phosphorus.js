@@ -1127,6 +1127,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         return;
       }
     } else { // pf round up
+      costume = Math.abs(costume); // pf -ve fix
       if (costume > 0.4) costume += 0.5;
     }
     var i = (Math.floor(costume) - 1 || 0) % this.costumes.length;
