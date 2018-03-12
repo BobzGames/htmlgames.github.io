@@ -1255,6 +1255,50 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     stage.prompt.focus();
   };
 
+  Base.prototype.say = function(text, thinking) { // moved to base
+    text = '' + text;
+    if (!text) {
+      this.saying = false;
+      if (!this.bubble) return;
+      this.bubble.style.display = 'none';
+      return ++this.sayId;
+    }
+    this.saying = true;
+    this.thinking = thinking;
+    if (!this.bubble) {
+      this.bubble = document.createElement('div');
+      this.bubble.style.zIndex = '1'; // pf say over lists fix
+      this.bubble.style.maxWidth = ''+(127/14)+'em';
+      this.bubble.style.minWidth = ''+(48/14)+'em';
+      this.bubble.style.padding = ''+(8/14)+'em '+(10/14)+'em';
+      this.bubble.style.border = ''+(3/14)+'em solid rgb(160, 160, 160)';
+      this.bubble.style.borderRadius = ''+(10/14)+'em';
+      this.bubble.style.background = '#fff';
+      this.bubble.style.position = 'absolute';
+      this.bubble.style.font = 'bold 14em sans-serif';
+      this.bubble.style.whiteSpace = 'pre-wrap';
+      this.bubble.style.wordWrap = 'break-word';
+      this.bubble.style.textAlign = 'center';
+      this.bubble.style.cursor = 'default';
+      this.bubble.appendChild(this.bubbleText = document.createTextNode(''));
+      this.bubble.appendChild(this.bubblePointer = document.createElement('div'));
+      this.bubblePointer.style.position = 'absolute';
+      this.bubblePointer.style.height = ''+(21/14)+'em';
+      this.bubblePointer.style.width = ''+(44/14)+'em';
+      this.bubblePointer.style.background = 'url(icons.svg) '+(-195/14)+'em '+(-4/14)+'em';
+      this.bubblePointer.style.backgroundSize = ''+(320/14)+'em '+(96/14)+'em';
+      this.stage.root.appendChild(this.bubble);
+    } else { // tjvr
+      this.stage.root.removeChild(this.bubble); 
+      this.stage.root.appendChild(this.bubble);
+    }
+    this.bubblePointer.style.backgroundPositionX = ((thinking ? -259 : -195)/14)+'em';
+    this.bubble.style.display = 'block';
+    this.bubbleText.nodeValue = text;
+    this.updateBubble();
+    return ++this.sayId;
+  };		
+	
   var effectsCanvas = document.createElement('canvas');
   var effectsContext = effectsCanvas.getContext('2d');	
 	
@@ -2261,50 +2305,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }	  
   };	
 
-  Stage.prototype.say = function(text, thinking) { // another hacked block! move to base?
-    text = '' + text;
-    if (!thinking) { // was text
-      this.saying = false;
-      if (!this.bubble) return;
-      this.bubble.style.display = 'none';
-      return ++this.sayId;
-    }
-    this.saying = true;
-    this.thinking = thinking;
-    if (!this.bubble) {
-      this.bubble = document.createElement('div');
-      this.bubble.style.zIndex = '1'; // pf say over lists fix
-      this.bubble.style.maxWidth = ''+(127/14)+'em';
-      this.bubble.style.minWidth = ''+(48/14)+'em';
-      this.bubble.style.padding = ''+(8/14)+'em '+(10/14)+'em';
-      this.bubble.style.border = ''+(3/14)+'em solid rgb(160, 160, 160)';
-      this.bubble.style.borderRadius = ''+(10/14)+'em';
-      this.bubble.style.background = '#fff';
-      this.bubble.style.position = 'absolute';
-      this.bubble.style.font = 'bold 14em sans-serif';
-      this.bubble.style.whiteSpace = 'pre-wrap';
-      this.bubble.style.wordWrap = 'break-word';
-      this.bubble.style.textAlign = 'center';
-      this.bubble.style.cursor = 'default';
-      this.bubble.appendChild(this.bubbleText = document.createTextNode(''));
-      this.bubble.appendChild(this.bubblePointer = document.createElement('div'));
-      this.bubblePointer.style.position = 'absolute';
-      this.bubblePointer.style.height = ''+(21/14)+'em';
-      this.bubblePointer.style.width = ''+(44/14)+'em';
-      this.bubblePointer.style.background = 'url(icons.svg) '+(-195/14)+'em '+(-4/14)+'em';
-      this.bubblePointer.style.backgroundSize = ''+(320/14)+'em '+(96/14)+'em';
-      this.stage.root.appendChild(this.bubble);
-    } else { // tjvr
-      this.stage.root.removeChild(this.bubble); 
-      this.stage.root.appendChild(this.bubble);
-    }
-    this.bubblePointer.style.backgroundPositionX = ((thinking ? -259 : -195)/14)+'em';
-    this.bubble.style.display = 'block';
-    this.bubbleText.nodeValue = text;
-    this.updateBubble();
-    return ++this.sayId;
-  };	
-	
   // TODO: add others (like effects etc...) // NOW COVERED BY Base.
 	
   var KEY_CODES = {
@@ -2976,7 +2976,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (this.saying) this.updateBubble();
   };
 
-  Sprite.prototype.say = function(text, thinking) {
+  Sprite.prototype.sayOLD = function(text, thinking) {
     text = '' + text;
     if (!text) {
       this.saying = false;
