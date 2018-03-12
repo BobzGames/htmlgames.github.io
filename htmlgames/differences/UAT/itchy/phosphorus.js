@@ -1107,38 +1107,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     return this.costumes[this.currentCostumeIndex] ? this.costumes[this.currentCostumeIndex].costumeName : '';
   };
 
-	Base.prototype.setCostume = function(costume) { // SULF
-	    if (typeof costume == 'string') {
-		for (var i = 0; i < this.costumes.length; i++) {
-		    if (this.costumes[i].costumeName === costume) {
-			this.currentCostumeIndex = i;
-			if (this.isStage) this.updateBackdrop();
-			if (this.saying) this.updateBubble();
-			return;
-		    }
-		}
-		if (costume === (this.isSprite ? 'next costume' : 'next backdrop')) {
-		    this.showNextCostume();
-		    return;
-		}
-		if (costume === (this.isSprite ? 'previous costume' : 'previous backdrop')) {
-		    this.showPreviousCostume();
-		    return;
-		}
-	    }
-	    if (!isNaN(parseInt(costume))) {
-		if (costume > 0.4) costume += 0.5; // pf fix costume rounding 173248374
-		var i = (Math.floor(parseInt(costume)) - 1) % this.costumes.length;
-		if (i < 0) i += this.costumes.length;
-		this.currentCostumeIndex = i;
-		if (this.isStage) this.updateBackdrop();
-		if (this.saying) this.updateBubble();
-	    }
-	};	
-	
-  Base.prototype.setCostumePHOS = function(costume) { // SEE ONE BELOW!
-    if (typeof costume !== 'number') {
-      costume = '' + costume;
+  Base.prototype.setCostume = function(costume) { // SULF way
+    if (typeof costume == 'string') {
       for (var i = 0; i < this.costumes.length; i++) {
         if (this.costumes[i].costumeName === costume) {
           this.currentCostumeIndex = i;
@@ -1156,14 +1126,17 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         return;
       }
     }
-    var i = (Math.floor(costume) - 1 || 0) % this.costumes.length;
-    if (i < 0) i += this.costumes.length;
-    this.currentCostumeIndex = i;
-    if (this.isStage) this.updateBackdrop();
-    if (this.saying) this.updateBubble();
+    if (!isNaN(parseInt(costume))) {
+      if (costume > 0.4) costume += 0.5; // pf fix costume rounding 173248374
+      var i = (Math.floor(parseInt(costume)) - 1) % this.costumes.length;
+      if (i < 0) i += this.costumes.length;
+      this.currentCostumeIndex = i;
+      if (this.isStage) this.updateBackdrop();
+      if (this.saying) this.updateBubble();
+    }
   };	
 	
-  Base.prototype.setCostumeLAST = function(costume) {
+  Base.prototype.setCostumeOLD = function(costume) {
     if (typeof costume !== 'number') {
       costume = '' + costume;
       for (var i = 0; i < this.costumes.length; i++) {
