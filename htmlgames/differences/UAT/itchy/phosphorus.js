@@ -2799,8 +2799,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       };	    
     }
 
-    try {var scale = this.scale;} catch(e){var scale = 1;} // urh!	  
-    var s = costume.scale * scale;
+    //try {var scale = this.scale;} catch(e){var scale = 1;} // urh!	  
+    var s = costume.scale * this.scale;
     var left = -costume.rotationCenterX * s; // ---
     var top = costume.rotationCenterY * s;
     var right = left + costume.image.width * s;
@@ -2809,7 +2809,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (this.rotationStyle !== 'normal') {
       if (this.rotationStyle === 'leftRight' && this.direction < 0) {
         right = -left;
-        left = right - costume.image.width * costume.scale * scale;
+        left = right - costume.image.width * costume.scale * this.scale;
       }
       return {
         left: this.scratchX + left,
