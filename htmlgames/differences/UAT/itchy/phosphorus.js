@@ -1127,7 +1127,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       }
     }
     if (!isNaN(parseInt(costume))) {
-      //if (costume > 0.4) costume += 0.5; // pf fix costume rounding 173248374
+      if (costume > 0.4) costume += 0.4; // pf fix costume rounding 173248374
       var i = (Math.floor(parseInt(costume)) - 1) % this.costumes.length;
       if (i < 0) i += this.costumes.length;
       this.currentCostumeIndex = i;
@@ -1157,7 +1157,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       }
     } else { // pf round up
       if (costume > 0.4) costume += 0.5;
-      costume = Math.abs(costume); // pf -ve fix	    
     }
     var i = (Math.floor(costume) - 1 || 0) % this.costumes.length;
     if (i < 0) {
