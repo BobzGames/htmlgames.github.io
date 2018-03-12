@@ -1127,6 +1127,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       }
     }
     if (!isNaN(parseInt(costume))) {
+      if (!Number.isInteger(costume)) {
+        var r = costume-~~(costume); // todo -ve costumes!
+	if (r > 0.4) costume += 0.5;
+      }
       var i = (Math.floor(parseInt(costume)) - 1) % this.costumes.length;
       if (i < 0) i += this.costumes.length;
       this.currentCostumeIndex = i;
