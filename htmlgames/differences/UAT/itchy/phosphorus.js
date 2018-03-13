@@ -1524,7 +1524,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.root.style.width = '480px';
     this.root.style.height = '360px';
     this.root.style.fontSize = '1px';
-    this.root.style.background = '#000'; // pf fix issue 17 (or transparent?)
+    this.root.style.background = 'transparent'; // pf fix issue 17 (or transparent?)
     this.root.style.WebkitUserSelect =
     this.root.style.MozUserSelect =
     this.root.style.MSUserSelect =
