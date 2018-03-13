@@ -226,13 +226,14 @@ var P = (function() {
 
   IO.parseJSONish = function(json) {
     if (!/^\s*\{/.test(json)) {
-      console.log("Warning: JSON not in UTF-8 format");
+      console.log("Bad JSON"); // Warning: JSON not in UTF-8 format
       throw new SyntaxError('Bad JSON');
     }
     try {
       return JSON.parse(json);
     } catch (e) {}
     if (/[^,:{}\[\]0-9\.\-+EINaefilnr-uy \n\r\t]/.test(json.replace(/"(\\.|[^"\\])*"/g, ''))) {
+      console.log("Bad JSON."); // Warning: JSON not in UTF-8 format
       throw new SyntaxError('Bad JSON');
     }
     return (1, eval)('(' + json + ')');
