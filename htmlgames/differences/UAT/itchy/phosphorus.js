@@ -1462,7 +1462,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           // PF: TODO
           for (var i = 0; i < effect.data.length; i += 4) {
 	    if (effect.data[i + 0] + effect.data[i + 1] + effect.data[i + 2]) { // ignore black #000
-	      if (1||isStage) { // improve 172233660 
+	      if (isStage) { // improve 172233660 
 		if ((effect.data[i + 0] == 255) && (effect.data[i + 1] == 255) && (effect.data[i + 2] == 255)) { // only white #fff
                   effect.data[i + 0] = (effect.data[i + 0] - brightnessVal);
                   effect.data[i + 1] = (effect.data[i + 1] - brightnessVal);
@@ -1473,7 +1473,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
                 effect.data[i + 0] = (effect.data[i + 0] + brightnessVal); // else as you were...
                 effect.data[i + 1] = (effect.data[i + 1] + brightnessVal);
                 effect.data[i + 2] = (effect.data[i + 2] + brightnessVal);
-                effect.data[i + 3] = effect.data[i + 3]; // alpha			
+                effect.data[i + 3] = (this.filters.brightness !== -100) ? effect.data[i + 3] : 0; // alpha			
 	      }
 	    }	  
 	  }
