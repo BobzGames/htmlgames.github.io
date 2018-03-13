@@ -253,7 +253,11 @@ var P = (function() {
       if (location.hash.substr(1) === 'zip') { // pf: branch local / dragdrop zip stuff here...
           request.load(xhr.response);
       } else {	      
-        if (xhr.status === 200 && that != "BAD JSON") { 
+        if (xhr.status === 200) {
+	  if (that == "Bad JSON") {
+	    that = undefined;
+	    request.error(new Error("Bad JSON")
+	  }
           request.load(xhr.response);
         } else {
           request.error(new Error('HTTPS ' + xhr.status + ': ' + xhr.statusText)); //
