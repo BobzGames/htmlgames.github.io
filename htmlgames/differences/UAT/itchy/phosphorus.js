@@ -1474,7 +1474,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
                 effect.data[i + 0] = (effect.data[i + 0] + brightnessVal); // else as you were...
                 effect.data[i + 1] = (effect.data[i + 1] + brightnessVal);
                 effect.data[i + 2] = (effect.data[i + 2] + brightnessVal);
-                effect.data[i + 3] = (this.filters.brightness !== 100) ? effect.data[i + 3] : 0; // alpha			
+                effect.data[i + 3] = (this.filters.brightness !== -100) ? effect.data[i + 3] : 0; // alpha			
 	      }
 	    }	  
 	  }
