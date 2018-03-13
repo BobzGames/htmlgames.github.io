@@ -226,16 +226,13 @@ var P = (function() {
 
   IO.parseJSONish = function(json) {
     if (!/^\s*\{/.test(json)) {
-      that = "Bad JSON";
-      console.log(that); // Warning: JSON not in UTF-8 format
-      throw new SyntaxError(that);
+      that = false; // JSON not in UTF-8 format
+      throw new SyntaxError('Bad JSON');
     }
     try {
       return JSON.parse(json);
     } catch (e) {}
     if (/[^,:{}\[\]0-9\.\-+EINaefilnr-uy \n\r\t]/.test(json.replace(/"(\\.|[^"\\])*"/g, ''))) {
-      
-      console.log("Bad JSON."); // Warning: JSON not in UTF-8 format
       throw new SyntaxError('Bad JSON');
     }
     return (1, eval)('(' + json + ')');
@@ -254,10 +251,10 @@ var P = (function() {
           request.load(xhr.response);
       } else {	      
         if (xhr.status === 200) {
-	  if (that == "Bad JSON") {
-	    that = undefined;
-	    request.error(new Error("Bad JSON"));
-	  }
+          if (that === false) {
+            that = undefined; // reset
+            request.error(new Error("Bad JSON"));
+          }
           request.load(xhr.response);
         } else {
           request.error(new Error('HTTPS ' + xhr.status + ': ' + xhr.statusText)); //
