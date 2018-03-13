@@ -225,7 +225,10 @@ var P = (function() {
   };
 
   IO.parseJSONish = function(json) {
-    if (!/^\s*\{/.test(json)) throw new SyntaxError('Bad JSON');
+    if (!/^\s*\{/.test(json)) {
+      console.log("Warning: JSON not in UTF-8 format");
+      throw new SyntaxError('Bad JSON');
+    }
     try {
       return JSON.parse(json);
     } catch (e) {}
