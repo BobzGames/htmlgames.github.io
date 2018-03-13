@@ -228,7 +228,6 @@ var P = (function() {
     if (!/^\s*\{/.test(json)) {
       console.log("Bad JSON"); // Warning: JSON not in UTF-8 format
       throw new SyntaxError('Bad JSON');
-      return "";
     }
     try {
       return JSON.parse(json);
@@ -299,7 +298,7 @@ var P = (function() {
     var url = IO.PROJECT_URL + id + '/get/';
     request.add(IO.load(url).onLoad(function(contents) {
       try {
-        var json = IO.parseJSONish(contents);
+        var json = IO.parseJSONish(contents.asText());
       } catch (e) {
         request.add(IO.load(url, null, null, 'arraybuffer').onLoad(function(ab) {
           var request2 = new Request;
