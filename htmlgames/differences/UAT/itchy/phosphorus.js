@@ -226,13 +226,15 @@ var P = (function() {
 
   IO.parseJSONish = function(json) {
     if (!/^\s*\{/.test(json)) {
-      console.log("Bad JSON"); // Warning: JSON not in UTF-8 format
-      throw new SyntaxError('Bad JSON');
+      that = "Bad JSON";
+      console.log(that); // Warning: JSON not in UTF-8 format
+      throw new SyntaxError(that);
     }
     try {
       return JSON.parse(json);
     } catch (e) {}
     if (/[^,:{}\[\]0-9\.\-+EINaefilnr-uy \n\r\t]/.test(json.replace(/"(\\.|[^"\\])*"/g, ''))) {
+      
       console.log("Bad JSON."); // Warning: JSON not in UTF-8 format
       throw new SyntaxError('Bad JSON');
     }
@@ -251,7 +253,7 @@ var P = (function() {
       if (location.hash.substr(1) === 'zip') { // pf: branch local / dragdrop zip stuff here...
           request.load(xhr.response);
       } else {	      
-        if (xhr.status === 200) { 
+        if (xhr.status === 200 && that != "BAD JSON") { 
           request.load(xhr.response);
         } else {
           request.error(new Error('HTTPS ' + xhr.status + ': ' + xhr.statusText)); //
@@ -298,7 +300,7 @@ var P = (function() {
     var url = IO.PROJECT_URL + id + '/get/';
     request.add(IO.load(url).onLoad(function(contents) {
       try {
-        var json = IO.parseJSONish(contents.asText());
+        var json = IO.parseJSONish(contents);
       } catch (e) {
         request.add(IO.load(url, null, null, 'arraybuffer').onLoad(function(ab) {
           var request2 = new Request;
