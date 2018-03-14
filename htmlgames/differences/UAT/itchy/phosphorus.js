@@ -1184,7 +1184,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     switch (name) {
       case 'whirl':
       case 'fisheye':
-      case 'bxrightness':
+      case 'brightness':
       case 'pixelate': // absolute value
       case 'mosaic': // absolute value
         min = -Infinity;
