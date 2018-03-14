@@ -35,7 +35,7 @@ Scratch2apk - another requested feature.<br>
 Display lists (via DOM) - A long awaited request!<br>
 Experimental Touch controls (for mobile devices) Working<br>
 ASCII list hack method emulated<br>
-Effect blocks (now also working on stage)<br>
+Effect blocks (now also working on stage) * NOW v2 *<br>
 Full Sound when wav > 30 secs<br>
 SVG graphics and text now working<br>
 ColorTouchingColor Block coded<br>
@@ -46,4 +46,4 @@ Warp Framework and Turbo mode fully optimised<br>
 <br>
 ** to get back to the examples list, remove the word zip from the url and press enter.
 <br><br>
-05/03/2018 (latest bugfixes)
+14/03/2018 (latest bugfixes)
