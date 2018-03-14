@@ -1330,11 +1330,16 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
           // PF: TODO improve
           for (var i = 0; i < effect.data.length; i += 4) {
-	    // cheap 'n' nasty way...
+	    // cheap 'n' nasty way... v2
 	    if (effect.data[i + 0] + effect.data[i + 1] + effect.data[i + 2]) { // ignore black #000
               effect.data[i + 0] = (effect.data[i + 0] + colorVal) & 0xff;
               effect.data[i + 1] = (effect.data[i + 1] + colorVal) & 0xff;
               effect.data[i + 2] = (effect.data[i + 2] + colorVal) & 0xff;
+              effect.data[i + 3] = effect.data[i + 3]; // alpha
+	    } else {
+              effect.data[i + 0] = (effect.data[i + 0] );
+              effect.data[i + 1] = (effect.data[i + 1] );
+              effect.data[i + 2] = (effect.data[i + 2] );
               effect.data[i + 3] = effect.data[i + 3]; // alpha
 	    }  
 	    // (offical) sulfurous way...
@@ -1348,7 +1353,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  }
 	  effectsContext.putImageData(effect, 0, 0);	
         }
-
+	     
         if (this.filters.fisheye !== 0) {
           var fisheyeVal = (this.filters.fisheye);
 
@@ -1457,7 +1462,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 		return val < 0 ? 0 : (val > 255 ? 255 : val);
 	}
 	    
-        if (this.filters.brightness !== 0) {
+        if (this.filters.brightness !== 0) { // v2
 
 	  var brightnessVal = (this.filters.brightness %100.5) * 2.5;
 		
