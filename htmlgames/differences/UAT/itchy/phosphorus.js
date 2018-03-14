@@ -1454,7 +1454,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 	    
         if (this.filters.brightness !== 0) {
-	  //var brightnessVal = isStage ? (Math.abs(this.filters.brightness) % 100 / 100 * 255) : (this.filters.brightness % 100 / 100 * 255);
+	  var brightnessVal = isStage ? (Math.abs(this.filters.brightness) % 100 / 100 * 255) : (this.filters.brightness % 100 / 100 * 255);
 		
 	  effectsCanvas.width = ciw;
 	  effectsCanvas.height = cih;		
@@ -1462,13 +1462,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
           // PF: TODO
           for (var i = 0; i < effect.data.length; i += 4) {
-		  
-                  effect.data[i + 0] = (effect.data[i + 0] % 100.5 * 2.55);
-                  effect.data[i + 1] = (effect.data[i + 1] % 100.5 * 2.55);
-                  effect.data[i + 2] = (effect.data[i + 2] % 100.5 * 2.55);
-                  effect.data[i + 3] = effect.data[i + 3]; // alpha		  
-		  
-/*
+///*
             if (effect.data[i + 0] + effect.data[i + 1] + effect.data[i + 2]) { // ignore black #000
 	      if (isStage) { // improve 172233660 
 		if ((effect.data[i + 0] == 255) && (effect.data[i + 1] == 255) && (effect.data[i + 2] == 255)) { // only white #fff
@@ -1484,7 +1478,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
                 effect.data[i + 3] = (this.filters.brightness !== -100) ? effect.data[i + 3] : 0; // alpha			
 	      }
 	    }
-*/		  
+//*/		  
 	  }
 	  effectsContext.putImageData(effect, 0, 0);  
         }
