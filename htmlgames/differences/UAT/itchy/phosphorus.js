@@ -2495,10 +2495,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   Sprite.prototype.moveTo = function(x, y) {
-    if (x < -480) x = -480 - (x - -480);
-    if (x > 480) x = 480 - (x - 480);
-    if (y < -360) y = -360 - (y - -360);
-    if (y > 360) y = 360 - (y - 360);	  
+    //if (x < -480) x = -480 - (x - -480);
+    //if (x > 480) x = 480 - (x - 480);
+    //if (y < -360) y = -360 - (y - -360);
+    //if (y > 360) y = 360 - (y - 360);	  
     var ox = this.scratchX;
     var oy = this.scratchY;
     if (ox === x && oy === y && !this.isPenDown) return;
@@ -2524,7 +2524,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }
   };	
 	
-  Sprite.prototype.moveTo_ = function(x, y) { // old
+  Sprite.prototype.moveTo_ = function(x, y) { // OLD FUNCTION!
     var ox = this.scratchX;
     var oy = this.scratchY;
     if (ox === x && oy === y && !this.isPenDown) return;
