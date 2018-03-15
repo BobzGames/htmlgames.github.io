@@ -2643,6 +2643,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       context.msImageSmoothingEnabled = false;
 
       var z = this.stage.zoom * SCALE;
+	    
+      if (this.scratchX < -480) this.scratchX = -480;
+      if (this.scratchX > 480) this.scratchX = 480;	    
+      if (this.scratchY < -360) this.scratchX = -360;
+      if (this.scratchY > 360) this.scratchX = 360;	    
+   
       context.translate(((this.scratchX + 240) * z | 0) / z, ((180 - this.scratchY) * z | 0) / z);
       if (this.rotationStyle === 'normal') {
         context.rotate((this.direction - 90) * Math.PI / 180);
