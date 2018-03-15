@@ -2498,8 +2498,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var ox = this.scratchX;
     var oy = this.scratchY;
     if (ox === x && oy === y && !this.isPenDown) return;
-    this.scratchX = x;
-    this.scratchY = y;
+    this.scratchX = ox; // ###
+    this.scratchY = oy; // ###
     if (this.isPenDown && !this.isDragging) {
       var context = this.stage.penContext;
       if (this.penSize % 2 > .5 && this.penSize % 2 < 1.5) {
