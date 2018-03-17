@@ -1500,7 +1500,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
     // update
     this.id = id;
-    this.username = '';
+    this.username = '"' + ["Mario","Zelda","Luigi","Scratch","Player","Bert","WiiU","Link","Acer","Peach"][parseInt(Math.random(10)*10)]+parseInt(Math.random(10)*10) + '"';
     this.cloud = null;
 
     this.children = [];
@@ -3605,9 +3605,8 @@ P.compile = (function() {
 
       } else if (e && e[0] === 'getUserName') {
 
-        //return '"Scratch2APK' + parseInt(Math.random(10)*10) + '"'; // PF test only!
-	return '"' + ["Mario","Zelda","Luigi","Scratch","Player","Bert","WiiU","Link","Acer","Peach"][parseInt(Math.random(10)*10)]+parseInt(Math.random(10)*10) + '"';
-
+        return self.username;
+	      
       } else {
 
         warn('Undefined val');
