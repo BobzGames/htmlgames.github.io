@@ -3605,7 +3605,7 @@ P.compile = (function() {
 
       } else if (e && e[0] === 'getUserName') {
 
-        return self.username;
+        return that.username; // pf
 	      
       } else {
 
