@@ -282,10 +282,10 @@
     document.title = 'phosphorus++';
     P.player.load(id, function(stage) {
       stage.triggerGreenFlag();
-    }, function(title) {
+    }, function(title) { // NOTE: fn is defered, could take about 9 secs before being called!
       document.title = title ? title + ' \xb7 phosphorus++' : 'phosphorus++';
       updateBugLink();
-      // PF auto define touch keys B,A if the SHARED project title contains use keys B and A
+      // PF auto define touch keys B,A if the SHARED! project title contains use keys B and A
       if (title.match("use keys ")) {
 	 var Bkey = title.split("use keys ")[1].split(" and ")[0];
 	 var Akey = title.split("use keys ")[1].split(" and ")[1];
