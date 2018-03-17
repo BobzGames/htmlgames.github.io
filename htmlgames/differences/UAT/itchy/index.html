@@ -285,7 +285,7 @@
     }, function(title) {
       document.title = title ? title + ' \xb7 phosphorus++' : 'phosphorus++';
       updateBugLink();
-      // PF auto define touch keys B,A if the PUBLISHED project title contains use keys B and A
+      // PF auto define touch keys B,A if the SHARED project title contains use keys B and A
       if (title.match("use keys ")) {
 	 var Bkey = title.split("use keys ")[1].split(" and ")[0];
 	 var Akey = title.split("use keys ")[1].split(" and ")[1];
