@@ -281,7 +281,10 @@
 
     document.title = 'phosphorus++';
     P.player.load(id, function(stage) {
-      var title = document.title;    
+      stage.triggerGreenFlag();
+    }, function(title) {
+      document.title = title ? title + ' \xb7 phosphorus++' : 'phosphorus++';
+      updateBugLink();
       // PF auto define touch keys B,A if the PUBLISHED project title contains use keys B and A
       if (title.match("use keys ")) {
 	 var Bkey = title.split("use keys ")[1].split(" and ")[0];
@@ -302,13 +305,8 @@
 	    if (Akey.match("enter")) document.getElementById("touch_A").value = 13;
 	 }
 	 console.log(document.getElementById("touch_B").value + ":" + document.getElementById("touch_A").value);
-      }	    
-	    
-      stage.triggerGreenFlag();
-    }, function(title) {
-      document.title = title ? title + ' \xb7 phosphorus++' : 'phosphorus++';
-      updateBugLink();
-      //
+      }	
+      //	    
     });
 
     projectLink.href = P.player.projectURL;
