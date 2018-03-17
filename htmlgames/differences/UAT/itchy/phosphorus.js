@@ -1467,7 +1467,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    
         if (this.filters.brightness !== 0) { // v2
 
-	  var brightnessVal = (this.filters.brightness %100.5) * 2.5;
+	  var brightnessVal = (this.filters.brightness %100.5) * 2.55;
 		
 	  effectsCanvas.width = ciw;
 	  effectsCanvas.height = cih;		
