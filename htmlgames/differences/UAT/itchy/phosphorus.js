@@ -3605,7 +3605,7 @@ P.compile = (function() {
 
       } else if (e && e[0] === 'getUserName') {
 
-        return '"Scratch2APK' + parseInt(Math.random(10)*10) + '"'; // PF test only!
+        return '"Scratch2APK' + "_" + parseInt(Math.random(10)*10) + parseInt(Math.random(10)*10) + '"'; // PF test only!
 
       } else {
 
