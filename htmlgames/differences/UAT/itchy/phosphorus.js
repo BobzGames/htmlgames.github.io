@@ -3605,7 +3605,7 @@ P.compile = (function() {
 
       } else if (e && e[0] === 'getUserName') {
 
-        //return '"Scratch2APK"'; // PF test only!
+        //return '"Scratch2APK' + parseInt(Math.random(10)*10) + '"'; // PF test only!
 	return '"' + ["Mario","Zelda","Luigi","Scratch","Player","Bert","WiiU","Link","Acer","Peach"][parseInt(Math.random(10)*10)]+parseInt(Math.random(10)*10) + '"';
 
       } else {
