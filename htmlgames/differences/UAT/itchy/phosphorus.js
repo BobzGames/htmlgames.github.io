@@ -1475,13 +1475,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
 
 	  for (var i = 0; i < effect.data.length; i += 4) {
-	    if (!(effect.data[i + 0] + effect.data[i + 1] + effect.data[i + 2])) {
+	    if ((effect.data[i + 0] + effect.data[i + 1] + effect.data[i + 2])) {
                 effect.data[i + 0] = limit(effect.data[i + 0] ); // else as you were...
                 effect.data[i + 1] = limit(effect.data[i + 1] );
                 effect.data[i + 2] = limit(effect.data[i + 2] );
                 effect.data[i + 3] = effect.data[i + 3]; // alpha
 	    } else {
-                effect.data[i + 0] = limit(effect.data[i + 0] + brightnessVal); // else as you were...
+                effect.data[i + 0] = limit(effect.data[i + 0] + brightnessVal);
                 effect.data[i + 1] = limit(effect.data[i + 1] + brightnessVal);
                 effect.data[i + 2] = limit(effect.data[i + 2] + brightnessVal);
                 effect.data[i + 3] = effect.data[i + 3]; // alpha
