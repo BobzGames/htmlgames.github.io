@@ -1467,7 +1467,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    
         if (this.filters.brightness !== 0) { // v2
 
-	  var brightnessVal = (this.filters.brightness %100.5) * 2.55;
+	  var brightnessVal = (this.filters.brightness %100.5) * 2.5;  // 2.55?
 		
 	  effectsCanvas.width = ciw;
 	  effectsCanvas.height = cih;		
@@ -1475,15 +1475,15 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
 
 	  for (var i = 0; i < effect.data.length; i += 4) {
-	    if ((effect.data[i + 0] + effect.data[i + 1] + effect.data[i + 2])) {
-                effect.data[i + 0] = limit(effect.data[i + 0] ); // else as you were...
-                effect.data[i + 1] = limit(effect.data[i + 1] );
-                effect.data[i + 2] = limit(effect.data[i + 2] );
-                effect.data[i + 3] = effect.data[i + 3]; // alpha
-	    } else {
+	    if ((effect.data[i + 0] + effect.data[i + 1] + effect.data[i + 2]) && this.filters.brightness == 100) {
                 effect.data[i + 0] = limit(effect.data[i + 0] + brightnessVal);
                 effect.data[i + 1] = limit(effect.data[i + 1] + brightnessVal);
                 effect.data[i + 2] = limit(effect.data[i + 2] + brightnessVal);
+                effect.data[i + 3] = effect.data[i + 3]; // alpha		    
+	    } else {
+                effect.data[i + 0] = limit(effect.data[i + 0] ); // else as you were...
+                effect.data[i + 1] = limit(effect.data[i + 1] );
+                effect.data[i + 2] = limit(effect.data[i + 2] );
                 effect.data[i + 3] = effect.data[i + 3]; // alpha
 	   }
 	  }
