@@ -1,7 +1,7 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
 // (v0.241C) < insert random number here... C = Cloud variables inspired by http://phosphate.herokuapp.com/
-var LAKITU = !false; 
+var LAKITU = true; // allow cloud data
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
@@ -1500,7 +1500,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
     // update
     this.id = id;
-    this.username = '"' + ["Mario","Zelda","Luigi","Scratch","Player","Bert","WiiU","Link","Acer","Peach"][parseInt(Math.random(10)*10)]+parseInt(Math.random(10)*10) + '"';
+    this.username = (LAKITU) ? '' + ["Mario","Zelda","Luigi","Scratch","Player","Bert","WiiU","Link","Acer","Peach"][parseInt(Math.random(10)*10)]+parseInt(Math.random(10)*10) + '' : '';
     this.cloud = null;
 
     this.children = [];
