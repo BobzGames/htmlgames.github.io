@@ -1501,7 +1501,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // update
     this.id = id;
     this.username = (LAKITU) ? '' + ["Mario","Zelda","Luigi","Scratch","Player","Bert","WiiU","Link","Acer","Peach"][parseInt(Math.random(10)*10)]+parseInt(Math.random(10)*10) + '' : '';
-    if (document.getElementsByClassName('username')[0]) document.getElementsByClassName('username')[0].innerHTML = " "; // reset
     this.cloud = null;
 	  
     this.children = [];
@@ -2240,7 +2239,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (LAKITU && this.id && !this.cloud) { // DISABLED
       this.cloud = new Cloud(this);
       // also show user cloud vars are being used in the project
-      if (document.getElementsByClassName('username')[0]) document.getElementsByClassName('username')[0].innerHTML = "☁ ";
+      document.getElementsByClassName('username')[0].innerHTML = "☁ ";
     }
     return this.cloud;
   };
@@ -3608,7 +3607,7 @@ P.compile = (function() {
 
       } else if (e && e[0] === 'getUserName') {
         // also show user project is requesting a username...
-        if (document.getElementsByClassName('username')[0]) document.getElementsByClassName('username')[0].innerHTML = "☁ " + that.username;	      
+        document.getElementsByClassName('username')[0].innerHTML = "☁ " + that.username;	      
         return '"' + that.username + '"'; // pf
 	      
       } else {
