@@ -1322,6 +1322,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var ciw = (isStage) ? 480 : (costume.image.width < 1) ? 1 : costume.image.width;
 	var cih = (isStage) ? 360 : (costume.image.height < 1) ? 1 : costume.image.height;
 	     
+	// Performance: if isStage then kill suttle effects... sorry :(
+	if (isStage && Math.abs(this.filters.color + this.filters.fisheye + this.filters.whirl + this.filters.pixelate + this.filters.mosaic + this.filters.brightness) < 10 ) return         
+	     
         if (this.filters.color !== 0) {
 	  //var colorVal = (this.filters.color * 2.55) & 0xff;
           var colorOld;
