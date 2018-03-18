@@ -1501,7 +1501,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // update
     this.id = id;
     this.username = (LAKITU) ? '' + ["Mario","Zelda","Luigi","Scratch","Player","Bert","WiiU","Link","Acer","Peach"][parseInt(Math.random(10)*10)]+parseInt(Math.random(10)*10) + '' : '';
-    //if (document.getElementsByClassName('username')[0]) document.getElementsByClassName('username')[0].innerHTML = "☁ " + this.username;
+    if (document.getElementsByClassName('username')[0]) document.getElementsByClassName('username')[0].innerHTML = " "; // reset
     this.cloud = null;
 	  
     this.children = [];
