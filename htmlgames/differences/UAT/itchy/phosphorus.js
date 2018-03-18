@@ -3606,7 +3606,7 @@ P.compile = (function() {
 
       } else if (e && e[0] === 'getUserName') {
 
-        return '"' + that.username + '"'; // pf
+        return '"' + this.username + '"'; // pf
 	      
       } else {
 
