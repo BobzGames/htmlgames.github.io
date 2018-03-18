@@ -63,8 +63,8 @@
   padding: 0 8px;
 }
 .controls .username {
-  float: right;
-  display: none;
+  float: left;
+  display: block;
   cursor: default;
   color: rgba(0, 0, 0, .4);
   font: 500 12px/32px Helvetica Neue, Helvetica, Arial, sans-serif;
