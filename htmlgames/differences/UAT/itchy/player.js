@@ -224,7 +224,7 @@ P.player = (function() {
     error.style.display = 'none';
     pause.className = 'pause';
     progressBar.style.display = 'none';
-    if(user) user.innerHTML = ''; // reset username
+    user.innerHTML = ''; // reset username
 
     if (id) {
       showProgress(P.IO.loadScratchr2Project(id), cb);
