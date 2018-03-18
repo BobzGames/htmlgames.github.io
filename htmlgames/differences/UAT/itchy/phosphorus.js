@@ -1367,6 +1367,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           var h = cih;
           w = h = (w < h ) ? w : h; // must be a sqr
 	  
+          // performance fix sorry...
+	  if (!isStage && w > 127) return
+		
 	  effectsCanvas.width = w;
 	  effectsCanvas.height = h;		
 	  effectsContext.drawImage(costume.image, 0, 0, w, h);
