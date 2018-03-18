@@ -16,6 +16,7 @@ P.player = (function() {
   var turbo = document.querySelector('.turbo');
   var pause = document.querySelector('.pause');
   var stop = document.querySelector('.stop');
+  var user = document.querySelector('.username');
   var fullScreen = document.querySelector('.full-screen');
 
   var error = document.querySelector('.internal-error');
@@ -223,6 +224,7 @@ P.player = (function() {
     error.style.display = 'none';
     pause.className = 'pause';
     progressBar.style.display = 'none';
+    user.innerHTML = ''; // reset
 
     if (id) {
       showProgress(P.IO.loadScratchr2Project(id), cb);
