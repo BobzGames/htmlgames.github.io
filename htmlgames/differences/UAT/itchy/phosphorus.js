@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.243C) < insert random number here... C = Cloud variables inspired by http://phosphate.herokuapp.com/
+// (v0.245C) < insert random number here... C = Cloud variables inspired by http://phosphate.herokuapp.com/
 var LAKITU = true; // allow cloud data (geddit?) 
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
@@ -1324,7 +1324,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	     
 	// Performance: if isStage then kill suttle effects... sorry :(
 	if (isStage && Math.abs(this.filters.color + this.filters.fisheye + this.filters.whirl + this.filters.pixelate + this.filters.mosaic + this.filters.brightness) < 10 ) return         
-	     
+
+	// COLOR
         if (this.filters.color !== 0) {
 	  //var colorVal = (this.filters.color * 2.55) & 0xff;
           var colorOld;
@@ -1359,7 +1360,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  }
 	  effectsContext.putImageData(effect, 0, 0);	
         }
-	     
+
+	// FISHEYE
         if (this.filters.fisheye !== 0) {
           var fisheyeVal = (this.filters.fisheye);
 
@@ -1398,6 +1400,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           effectsContext.putImageData(effect, 0, 0);
 	}
 
+	// WHIRL
         if (this.filters.whirl !== 0) {
           var whirlVal = (this.filters.whirl / 255);
 
@@ -1444,55 +1447,41 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
           effectsContext.putImageData(effect, 0, 0);
         }
 	      
+        // PIXELATE     
         if (this.filters.pixelate !== 0) {
-          effectsCanvas.width = 10 * ciw / (this.filters.pixelate + ciw / 10);
-          effectsCanvas.height = 10 * cih / (this.filters.pixelate + cih / 10);
-    	  effectsContext.imageSmoothingEnabled = false; // PF
-    	  effectsContext.msImageSmoothingEnabled = false;
-          // draw the original image at a fraction of the final size
+          effectsCanvas.width = 16 * ciw / (this.filters.pixelate + ciw / 16);
+          effectsCanvas.height = 16 * cih / (this.filters.pixelate + cih / 16);
+    	  effectsContext.imageSmoothingEnabled = false;
           effectsContext.drawImage(costume.image, 0, 0, effectsCanvas.width, effectsCanvas.height);
-          // ready to enlarge the minimized image to full size - see * below
         }
-	    
+	 
+        // MOSAIC   
         if (this.filters.mosaic !== 0) {
-	  var mosaicVal = Math.floor((Math.abs(this.filters.mosaic) + 5) / 10) + 1;
-		
+	  var mosaicVal = ~~ ( (Math.abs(this.filters.mosaic) + 5) / 10) + 1;
 	  effectsCanvas.width = ciw;
 	  effectsCanvas.height = cih;
-          // PF TODO: effectsContext.createPattern may offer a speed increase here ?
           for (var o = 0; o < mosaicVal; o++) {
             for (var i = 0; i < mosaicVal; i++) { 
-              effectsContext.drawImage(costume.image, o * ciw / mosaicVal, i * cih / mosaicVal, ciw / mosaicVal, cih / mosaicVal);
+              effectsContext.drawImage(costume.image, o * ciw / mosaicVal, i * cih / mosaicVal, ciw / mosaicVal, cih / mosaicVal); // or effectsContext.createPattern
             }
 	  }
         }
 
-	function limit(val) {
-		return val < 0 ? 0 : (val > 255 ? 255 : val);
-	}
-	    
-        if (this.filters.brightness !== 0) { // v2
-
-	  var brightnessVal = (this.filters.brightness %100.5) * 2.5;  // 2.55?
-		
+        // BRIGHTNESS	    
+        if (this.filters.brightness !== 0) {
+	  var brightnessVal = ~~ (this.filters.brightness %100.1) * 2.555;
 	  effectsCanvas.width = ciw;
 	  effectsCanvas.height = cih;		
 	  effectsContext.drawImage(costume.image, 0, 0, ciw, cih);
 	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
-
 	  for (var i = 0; i < effect.data.length; i += 4) {
-	    if ((effect.data[i + 0] + effect.data[i + 1] + effect.data[i + 2]) || this.filters.brightness == 100) {
-                effect.data[i + 0] = limit(effect.data[i + 0] + brightnessVal);
-                effect.data[i + 1] = limit(effect.data[i + 1] + brightnessVal);
-                effect.data[i + 2] = limit(effect.data[i + 2] + brightnessVal);
-                effect.data[i + 3] = effect.data[i + 3]; // alpha		    
-	    } else {
-                effect.data[i + 0] = limit(effect.data[i + 0] ); // else as you were...
-                effect.data[i + 1] = limit(effect.data[i + 1] );
-                effect.data[i + 2] = limit(effect.data[i + 2] );
+                effect.data[i + 0] = ((effect.data[i + 0] + brightnessVal) << 0x00f) >> 0x00f;
+                effect.data[i + 1] = ((effect.data[i + 1] + brightnessVal) << 0x00f) >> 0x00f;
+                effect.data[i + 2] = ((effect.data[i + 2] + brightnessVal) << 0x00f) >> 0x00f;
                 effect.data[i + 3] = effect.data[i + 3]; // alpha
-	   }
 	  }
+	  effectsContext.putImageData(effect, 0, 0);  
+        }
 	  effectsContext.putImageData(effect, 0, 0);  
         }
      }
