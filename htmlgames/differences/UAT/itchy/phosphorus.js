@@ -1482,8 +1482,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  }
 	  effectsContext.putImageData(effect, 0, 0);  
         }
-	  effectsContext.putImageData(effect, 0, 0);  
-        }
+
      }
   };	     
 	  
