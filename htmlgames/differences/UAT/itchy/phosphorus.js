@@ -1395,7 +1395,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             effect.data[i + 0] = source.data[(ny * h * 4 + nx * 4) + 0];
             effect.data[i + 1] = source.data[(ny * h * 4 + nx * 4) + 1];
             effect.data[i + 2] = source.data[(ny * h * 4 + nx * 4) + 2];
-            //effect.data[i + 3] = source.data[(ny * h * 4 + nx * 4) + 3]; // alpha 255?
+            effect.data[i + 3] = source.data[(ny * h * 4 + nx * 4) + 3]; // alpha 255?
           }
           effectsContext.putImageData(effect, 0, 0);
 	}
@@ -1440,7 +1440,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
                 effect.data[destPosition + 0] = source.data[sourcePosition + 0];
                 effect.data[destPosition + 1] = source.data[sourcePosition + 1];
                 effect.data[destPosition + 2] = source.data[sourcePosition + 2];
-                //effect.data[destPosition + 3] = source.data[sourcePosition + 3];
+                effect.data[destPosition + 3] = source.data[sourcePosition + 3];
 	      }
             }
           }
