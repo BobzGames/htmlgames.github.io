@@ -1475,9 +1475,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  effectsContext.drawImage(costume.image, 0, 0, ciw, cih);
 	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
 	  for (var i = 0; i < effect.data.length; i += 4) {
-                effect.data[i + 0] = 0xff & ((effect.data[i + 0] + brightnessVal) << 0x00f) >> 0x00f;
-                effect.data[i + 1] = 0xff & ((effect.data[i + 1] + brightnessVal) << 0x00f) >> 0x00f;
-                effect.data[i + 2] = 0xff & ((effect.data[i + 2] + brightnessVal) << 0x00f) >> 0x00f;
+                effect.data[i + 0] = ((effect.data[i + 0] + brightnessVal) << 0x00f) >> 0x00f;
+                effect.data[i + 1] = ((effect.data[i + 1] + brightnessVal) << 0x00f) >> 0x00f;
+                effect.data[i + 2] = ((effect.data[i + 2] + brightnessVal) << 0x00f) >> 0x00f;
                 //effect.data[i + 3] = effect.data[i + 3]; // alpha
 	  }
 	  effectsContext.putImageData(effect, 0, 0);  
