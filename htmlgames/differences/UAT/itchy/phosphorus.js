@@ -1356,7 +1356,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	    effect.data[i + 0] = (colorNew.r) & 0xff;	// red
 	    effect.data[i + 1] = (colorNew.g) & 0xff;	//green
 	    effect.data[i + 2] = (colorNew.b) & 0xff;	//blue
-	    effect.data[i + 3] = effect.data[i + 3];	// alpha		  
+	    //effect.data[i + 3] = effect.data[i + 3];	// alpha		  
 	  }
 	  effectsContext.putImageData(effect, 0, 0);	
         }
@@ -1395,7 +1395,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
             effect.data[i + 0] = source.data[(ny * h * 4 + nx * 4) + 0];
             effect.data[i + 1] = source.data[(ny * h * 4 + nx * 4) + 1];
             effect.data[i + 2] = source.data[(ny * h * 4 + nx * 4) + 2];
-            effect.data[i + 3] = source.data[(ny * h * 4 + nx * 4) + 3]; // alpha 255?
+            //effect.data[i + 3] = source.data[(ny * h * 4 + nx * 4) + 3]; // alpha 255?
           }
           effectsContext.putImageData(effect, 0, 0);
 	}
@@ -1440,7 +1440,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
                 effect.data[destPosition + 0] = source.data[sourcePosition + 0];
                 effect.data[destPosition + 1] = source.data[sourcePosition + 1];
                 effect.data[destPosition + 2] = source.data[sourcePosition + 2];
-                effect.data[destPosition + 3] = source.data[sourcePosition + 3];
+                //effect.data[destPosition + 3] = source.data[sourcePosition + 3];
 	      }
             }
           }
@@ -1475,10 +1475,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  effectsContext.drawImage(costume.image, 0, 0, ciw, cih);
 	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
 	  for (var i = 0; i < effect.data.length; i += 4) {
-                effect.data[i + 0] = ((effect.data[i + 0] + brightnessVal) << 0x00f) >> 0x00f;
-                effect.data[i + 1] = ((effect.data[i + 1] + brightnessVal) << 0x00f) >> 0x00f;
-                effect.data[i + 2] = ((effect.data[i + 2] + brightnessVal) << 0x00f) >> 0x00f;
-                effect.data[i + 3] = effect.data[i + 3]; // alpha
+                effect.data[i + 0] = 0xff & ((effect.data[i + 0] + brightnessVal) << 0x00f) >> 0x00f;
+                effect.data[i + 1] = 0xff & ((effect.data[i + 1] + brightnessVal) << 0x00f) >> 0x00f;
+                effect.data[i + 2] = 0xff & ((effect.data[i + 2] + brightnessVal) << 0x00f) >> 0x00f;
+                //effect.data[i + 3] = effect.data[i + 3]; // alpha
 	  }
 	  effectsContext.putImageData(effect, 0, 0);  
         }
