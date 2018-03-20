@@ -19,6 +19,7 @@ var TurboMode = true; // !!window.location.search.match("turbo=true"); // false 
 //console.log("TurboMode: " + TurboMode); // after extensive testing this can be hardcoded true (it not the same turbo btw as when you shift click the green flag)
 var ASCII = false; // pf for ASCII hack
 var ShiftKey = true; // pf for ASCII hack
+var greenFlag = 1; // returns -ve if project contains more than one green flag event
 
 var P = (function() {
   'use strict';
@@ -222,6 +223,7 @@ var P = (function() {
     IO.projectRequest = request;
     IO.zip = null;
     ASCII = false; // pf ASCII hack reset
+    greenFlag = 1; // and this as well...
   };
 
   IO.parseJSONish = function(json) {
@@ -4567,6 +4569,7 @@ P.compile = (function() {
       object.listeners.whenClicked.push(f);
     } else if (script[0][0] === 'whenGreenFlag') {
       object.listeners.whenGreenFlag.push(f);
+      greenFlag--; // ugly hack
     } else if (script[0][0] === 'whenCloned') {
       object.listeners.whenCloned.push(f);
     } else if (script[0][0] === 'whenIReceive') {
