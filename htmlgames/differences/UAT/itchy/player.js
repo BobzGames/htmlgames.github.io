@@ -268,7 +268,7 @@ P.player = (function() {
       var zoom = stage ? stage.zoom : 1;
       window.stage = stage = s;   
       stage.start();
-      setTimeout("stage.stopAll();stage.triggerGreenFlag()",100); // hack for projects with multiple start flags!
+      setTimeout("stage.stopAll();stage.triggerGreenFlag();stage.setZoom(zoom)",100); // hack for projects with multiple start flags!
       stage.setZoom(zoom);	    
 
       stage.root.addEventListener('keydown', exitFullScreen);
