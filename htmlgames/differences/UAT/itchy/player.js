@@ -268,7 +268,9 @@ P.player = (function() {
       var zoom = stage ? stage.zoom : 1;
       window.stage = stage = s;   
       stage.start();
-      if (!/Mobi/.test(navigator.userAgent)) setTimeout("stage.stopAll();stage.triggerGreenFlag();", 100); // hack for projects with multiple start flags! messes up mobile :(
+      if (!/Mobi/.test(navigator.userAgent) && greenFlag) {
+        setTimeout("stage.stopAll();stage.triggerGreenFlag();", 100); // hack for projects with multiple start flags! messes up mobile :(
+      }
       stage.setZoom(zoom);	    
 
       stage.root.addEventListener('keydown', exitFullScreen);
