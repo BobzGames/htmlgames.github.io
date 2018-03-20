@@ -1312,11 +1312,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	
   var effectsCanvas = document.createElement('canvas');
   var effectsContext = effectsCanvas.getContext('2d');	
+  effectsCanvas.style.display = "none"; // mobi3
 	
   Base.prototype.effects = function(costume, isStage) {
 
      if (costume && (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {
-return // mobi2
+
 	//if (costume.image.width + costume.image.height < 1) return // PF nothing to do!
 	     
 	var ciw = (isStage) ? 480 : (costume.image.width < 1) ? 1 : costume.image.width;
