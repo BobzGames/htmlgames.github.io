@@ -266,9 +266,9 @@ P.player = (function() {
       }, 100);
 
       var zoom = stage ? stage.zoom : 1;
-      window.stage = stage = s;
-      stage.setZoom(zoom); // PF move up 1 line    
+      window.stage = stage = s;   
       stage.start();
+      stage.setZoom(zoom);	    
 
       stage.root.addEventListener('keydown', exitFullScreen);
       stage.handleError = showError;
