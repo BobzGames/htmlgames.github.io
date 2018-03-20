@@ -2053,6 +2053,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   Stage.prototype.clearFilters = function() {
+    return // pf mobi
     this.backdropCanvas.style.opacity = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
     var costume = this.costumes[this.currentCostumeIndex];
     this.backdropContext.drawImage(costume.image, 0, 0, 480, 360); // reset      	  
