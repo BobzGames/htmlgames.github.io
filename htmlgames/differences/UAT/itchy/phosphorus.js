@@ -1322,8 +1322,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
 	//if (costume.image.width + costume.image.height < 1) return // PF nothing to do!
 	     
-	var ciw = (isStage) ? 480 * window.devicePixelRatio : (costume.image.width < 1) ? 1 : costume.image.width;
-	var cih = (isStage) ? 360 * window.devicePixelRatio : (costume.image.height < 1) ? 1 : costume.image.height;
+	var ciw = (isStage) ? 480 * SCALE : (costume.image.width < 1) ? 1 : costume.image.width;
+	var cih = (isStage) ? 360 * SCALE : (costume.image.height < 1) ? 1 : costume.image.height;
 	     
 	// Performance: if isStage then kill suttle effects... sorry :(
 	//if (isStage && Math.abs(this.filters.color + this.filters.fisheye + this.filters.whirl + this.filters.pixelate + this.filters.mosaic + this.filters.brightness) < 10 ) return         
