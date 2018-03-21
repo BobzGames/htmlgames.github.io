@@ -2209,7 +2209,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if ((this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {	  
       var costume = this.costumes[this.currentCostumeIndex];
       this.effects(costume, true);    
-      context.drawImage(effectsCanvas, 0, 0, 480 * SCALE, 360 * SCALE); //, 0, 0, 480 * SCALE, 360 * SCALE); // was this.backdropContext  
+      context.drawImage(effectsCanvas, 0, 0, 480 * SCALE, 360 * SCALE, 0, 0, 480 * SCALE, 360 * SCALE); // EFFECT was this.backdropContext  
     } else {		  
       context.drawImage(costume.image, 0, 0);
     }
