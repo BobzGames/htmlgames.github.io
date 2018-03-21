@@ -1322,8 +1322,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
 	//if (costume.image.width + costume.image.height < 1) return // PF nothing to do!
 	     
-	var ciw = (isStage) ? 480 : (costume.image.width < 1) ? 1 : costume.image.width;
-	var cih = (isStage) ? 360 : (costume.image.height < 1) ? 1 : costume.image.height;
+	var ciw = (isStage) ? 480 * window.devicePixelRatio : (costume.image.width < 1) ? 1 : costume.image.width;
+	var cih = (isStage) ? 360 * window.devicePixelRatio : (costume.image.height < 1) ? 1 : costume.image.height;
 	     
 	// Performance: if isStage then kill suttle effects... sorry :(
 	//if (isStage && Math.abs(this.filters.color + this.filters.fisheye + this.filters.whirl + this.filters.pixelate + this.filters.mosaic + this.filters.brightness) < 10 ) return         
@@ -1475,11 +1475,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var brightnessVal = ~~ (this.filters.brightness %100.1) * 2.555;
 	  effectsCanvas.width = ciw;
 	  effectsCanvas.height = cih;		
-	  if (P.hasTouchEvents) {
-	    effectsContext.drawImage(costume.image, 0, 0, ciw, cih, 0, 0, ciw, cih); // pf fix android mobile
-	  } else {
+	  //if (P.hasTouchEvents) {
+	  //  effectsContext.drawImage(costume.image, 0, 0, ciw, cih, 0, 0, ciw, cih); // pf fix android mobile
+	  //} else {
 	    effectsContext.drawImage(costume.image, 0, 0, ciw, cih); // desktop
-	  }
+	  //}
 	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
 	  for (var i = 0; i < effect.data.length; i += 4) {
                 effect.data[i + 0] = ((effect.data[i + 0] + brightnessVal) << 0x00f) >> 0x00f;
