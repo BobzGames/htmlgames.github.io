@@ -1315,11 +1315,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   var effectsCanvas = document.createElement('canvas');
   var effectsContext = effectsCanvas.getContext('2d');	
   effectsCanvas.style.display = "none"; // mobi3
-var d=true;	
-  Base.prototype.effects = function(costume, isStage) {
+	
+  Base.prototype.effects = function(costume, isStage) { // note: SCALE = 2 for android phones / tablets (1 for Chrome desktop)
 
      if (costume && (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {
-if (d) {alert(SCALE);d=!d}
+
 	//if (costume.image.width + costume.image.height < 1) return // PF nothing to do!
 	     
 	var ciw = (isStage) ? 480 * SCALE : (costume.image.width < 1) ? 1 : costume.image.width;
@@ -2062,7 +2062,7 @@ if (d) {alert(SCALE);d=!d}
   Stage.prototype.clearFilters = function() {
     this.backdropCanvas.style.opacity = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
     var costume = this.costumes[this.currentCostumeIndex];
-    this.backdropContext.drawImage(costume.image, 0, 0, 480, 360); // reset      	  
+    this.backdropContext.drawImage(costume.image, 0, 0, 480 * SCALE, 360 * SCALE); // reset      	  
   };	
 	
   Stage.prototype.updateFilters = function() {
@@ -2071,7 +2071,7 @@ if (d) {alert(SCALE);d=!d}
     if ((this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {	  
       var costume = this.costumes[this.currentCostumeIndex];
       this.effects(costume, true);    
-      this.backdropContext.drawImage(effectsCanvas, 0, 0, 480, 360); // was context       
+      this.backdropContext.drawImage(effectsCanvas, 0, 0, 480 * SCALE, 360 * SCALE); // was context       
     }	  
   };
 
@@ -2209,7 +2209,7 @@ if (d) {alert(SCALE);d=!d}
     if ((this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {	  
       var costume = this.costumes[this.currentCostumeIndex];
       this.effects(costume, true);    
-      context.drawImage(effectsCanvas, 0, 0, 480, 360); // was this.backdropContext       
+      context.drawImage(effectsCanvas, 0, 0, 480 * SCALE, 360 * SCALE); // was this.backdropContext       
     } else {		  
       context.drawImage(costume.image, 0, 0);
     }
