@@ -1,6 +1,6 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
-// (v0.245C) < insert random number here... C = Cloud variables inspired by http://phosphate.herokuapp.com/
+// (v0.247C) < insert random number here... C = Cloud variables inspired by http://phosphate.herokuapp.com/
 var LAKITU = true; // allow cloud data (geddit?) 
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
@@ -1322,8 +1322,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 
 	//if (costume.image.width + costume.image.height < 1) return // PF nothing to do!
 	     
-	var ciw = (isStage) ? 480 * SCALE : (costume.image.width < 1) ? 1 : costume.image.width;
-	var cih = (isStage) ? 360 * SCALE : (costume.image.height < 1) ? 1 : costume.image.height;
+	var ciw = (isStage) ? 480 : (costume.image.width < 1) ? 1 : costume.image.width;
+	var cih = (isStage) ? 360 : (costume.image.height < 1) ? 1 : costume.image.height;
 	     
 	// Performance: if isStage then kill suttle effects... sorry :(
 	//if (isStage && Math.abs(this.filters.color + this.filters.fisheye + this.filters.whirl + this.filters.pixelate + this.filters.mosaic + this.filters.brightness) < 10 ) return         
@@ -2062,7 +2062,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   Stage.prototype.clearFilters = function() {
     this.backdropCanvas.style.opacity = Math.max(0, Math.min(1, 1 - this.filters.ghost / 100));
     var costume = this.costumes[this.currentCostumeIndex];
-    this.backdropContext.drawImage(costume.image, 0, 0, 480 * 1, 360 * 1); // reset      	  
+    this.backdropContext.drawImage(costume.image, 0, 0, 480, 360); // reset      	  
   };	
 	
   Stage.prototype.updateFilters = function() {
@@ -2071,7 +2071,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if ((this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {	  
       var costume = this.costumes[this.currentCostumeIndex];
       this.effects(costume, true);    
-      this.backdropContext.drawImage(effectsCanvas, 0, 0, 480 * 1, 360 * 1); // was context       
+      this.backdropContext.drawImage(effectsCanvas, 0, 0, 480, 360); // was context       
     }	  
   };
 
@@ -2209,7 +2209,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if ((this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {	  
       var costume = this.costumes[this.currentCostumeIndex];
       this.effects(costume, true);    
-      context.drawImage(effectsCanvas, 0, 0, 480 * SCALE, 360 * SCALE); // was this.backdropContext       
+      context.drawImage(effectsCanvas, 0, 0, 480 * 1, 360 * 1, 0, 0, 480, 360); // was this.backdropContext  
     } else {		  
       context.drawImage(costume.image, 0, 0);
     }
