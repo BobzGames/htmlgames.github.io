@@ -1315,11 +1315,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   var effectsCanvas = document.createElement('canvas');
   var effectsContext = effectsCanvas.getContext('2d');	
   effectsCanvas.style.display = "none"; // mobi3
-	
+var d=true;	
   Base.prototype.effects = function(costume, isStage) {
 
      if (costume && (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {
-
+if (d) {alert(SCALE);d=!d}
 	//if (costume.image.width + costume.image.height < 1) return // PF nothing to do!
 	     
 	var ciw = (isStage) ? 480 * SCALE : (costume.image.width < 1) ? 1 : costume.image.width;
@@ -1475,11 +1475,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var brightnessVal = ~~ (this.filters.brightness %100.1) * 2.555;
 	  effectsCanvas.width = ciw;
 	  effectsCanvas.height = cih;		
-	  //if (P.hasTouchEvents) {
-	  //  effectsContext.drawImage(costume.image, 0, 0, ciw, cih, 0, 0, ciw, cih); // pf fix android mobile
-	  //} else {
+	  if (P.hasTouchEvents) {
+	    effectsContext.drawImage(costume.image, 0, 0, ciw, cih, 0, 0, ciw, cih); // pf fix android mobile
+	  } else {
 	    effectsContext.drawImage(costume.image, 0, 0, ciw, cih); // desktop
-	  //}
+	  }
 	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
 	  for (var i = 0; i < effect.data.length; i += 4) {
                 effect.data[i + 0] = ((effect.data[i + 0] + brightnessVal) << 0x00f) >> 0x00f;
