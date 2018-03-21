@@ -1475,7 +1475,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  var brightnessVal = ~~ (this.filters.brightness %100.1) * 2.555;
 	  effectsCanvas.width = ciw;
 	  effectsCanvas.height = cih;		
-	  effectsContext.drawImage(costume.image, 0, 0, ciw, cih);
+	  //effectsContext.drawImage(costume.image, 0, 0, ciw, cih);
+	  effectsContext.drawImage(costume.image, 0, 0, ciw, cih, 0, 0, ciw, cih); // pf fix mobile
 	  var effect = effectsContext.getImageData(0, 0, ciw, cih);
 	  for (var i = 0; i < effect.data.length; i += 4) {
                 effect.data[i + 0] = ((effect.data[i + 0] + brightnessVal) << 0x00f) >> 0x00f;
