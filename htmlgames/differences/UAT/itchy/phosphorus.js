@@ -1326,8 +1326,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var cih = (isStage) ? 360 * 1 : (costume.image.height < 1) ? 1 : costume.image.height;
 	     
 	// Performance: if isStage then kill suttle effects... (for mobile) sorry :(
-	//if (isStage && Math.abs(this.filters.color + this.filters.fisheye + this.filters.whirl + this.filters.pixelate + this.filters.mosaic + this.filters.brightness) < 10 ) return
-	if (P.hasTouchEvents && isStage) return // TODO: oops! touchscreen PC's   
+	var absVal = Math.abs(this.filters.color + this.filters.fisheye + this.filters.whirl + this.filters.pixelate + this.filters.mosaic + this.filters.brightness);
+	if (P.hasTouchEvents && isStage) {
+	  if (!(absVal == -100 || absVal == 100 || absVal == -50 || absVal == 50)) {
+		return // TODO: oops! touchscreen PC's
+	  }
+	}
 
 	// COLOR
         if (this.filters.color !== 0) {
