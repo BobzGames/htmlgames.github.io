@@ -268,8 +268,8 @@ P.player = (function() {
       var zoom = stage ? stage.zoom : 1;
       window.stage = stage = s;   
       stage.start();
-      if (!/Mobix/.test(navigator.userAgent) && greenFlag) {
-        setTimeout("stage.stopAll();stage.triggerGreenFlag();", 100); // hack for projects with multiple start flags! messes up mobile :(
+      if (!/Mobix/.test(navigator.userAgent) && greenFlag) { // used to mess up mobile so disabled text  :)
+        setTimeout("stage.stopAll();stage.triggerGreenFlag();", 100); // hack for projects with multiple start flags! 
       }
       stage.setZoom(zoom);	    
 
