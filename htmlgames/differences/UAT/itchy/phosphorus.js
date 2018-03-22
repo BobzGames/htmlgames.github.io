@@ -1325,8 +1325,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	var ciw = (isStage) ? 480 * SCALE : (costume.image.width < 1) ? 1 : costume.image.width;
 	var cih = (isStage) ? 360 * SCALE : (costume.image.height < 1) ? 1 : costume.image.height;
 	     
-	// Performance: if isStage then kill suttle effects... sorry :(
-	//if (isStage && Math.abs(this.filters.color + this.filters.fisheye + this.filters.whirl + this.filters.pixelate + this.filters.mosaic + this.filters.brightness) < 10 ) return         
+	// Performance: if isStage then kill suttle effects... (for mobile) sorry :(
+	//if (isStage && Math.abs(this.filters.color + this.filters.fisheye + this.filters.whirl + this.filters.pixelate + this.filters.mosaic + this.filters.brightness) < 10 ) return
+	if (P.hasTouchEvents && isStage) return // TODO: oops! touchscreen PC's   
 
 	// COLOR
         if (this.filters.color !== 0) {
@@ -1476,7 +1477,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	  effectsCanvas.width = ciw;
 	  effectsCanvas.height = cih;		
 	  //if (P.hasTouchEvents) {
-	    //effectsContext.drawImage(costume.image, 0, 0, ciw, cih, 0, 0, ciw, cih); // pf fix android mobile
+	    //effectsContext.drawImage(costume.image, 0, 0, ciw, cih, 0, 0, ciw, cih); // fix android mobile (not needed if using SCALE)
 	  //} else {
 	    effectsContext.drawImage(costume.image, 0, 0, ciw, cih); // desktop
 	  //}
