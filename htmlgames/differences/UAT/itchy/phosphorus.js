@@ -1327,7 +1327,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	     
 	// Performance: if isStage then kill suttle effects... (for mobile) sorry :(
 	//if (isStage && Math.abs(this.filters.color + this.filters.fisheye + this.filters.whirl + this.filters.pixelate + this.filters.mosaic + this.filters.brightness) < 10 ) return
-	//if (P.hasTouchEvents && isStage) return // TODO: oops! touchscreen PC's   
+	if (P.hasTouchEvents && isStage) return // TODO: oops! touchscreen PC's   
 
 	// COLOR
         if (this.filters.color !== 0) {
