@@ -8,6 +8,10 @@ APK_V10 = (V0.234)
 NEWS
 ====
 
+Project is now considered completed. Thanks all that visited and used this Scratch 2 Emulator!
+It was both hard and fustrating at times, but ultimately fun and rewarding...
+
+
 I've been messing around with webRTC datachannels for cloud vars with some success. Project page may be in various states during testing.
 Note: for username I have to make a random one up so that the project thinks your logged in.
 
