@@ -34,3 +34,8 @@ body {
 .hide-ui .player {
   box-shadow: none;
 }
+
+@font-face {
+   font-family: Scratch; 
+   src: url('scr.ttf');
+} 
