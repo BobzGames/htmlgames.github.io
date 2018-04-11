@@ -2338,7 +2338,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (d <= -180) d += 360;
     this.direction = d;
     if (this.saying) this.updateBubble();
-  };	
+  };
+
+  Stage.prototype.forward = function(steps) { // hacked block ?
+    var d = (90 - this.direction) * Math.PI / 180;
+    this.moveTo(this.scratchX + steps * Math.cos(d), this.scratchY + steps * Math.sin(d));
+  };
 	
   // TODO: add others (like effects etc...) // NOW COVERED BY Base.
 	
