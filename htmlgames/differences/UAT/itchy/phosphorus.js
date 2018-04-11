@@ -2332,6 +2332,14 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     }	  
   };	
 
+  Stage.prototype.setDirection = function(degrees) { // hacked block ?
+    var d = degrees % 360;
+    if (d > 180) d -= 360;
+    if (d <= -180) d += 360;
+    this.direction = d;
+    if (this.saying) this.updateBubble();
+  };	
+	
   // TODO: add others (like effects etc...) // NOW COVERED BY Base.
 	
   var KEY_CODES = {
