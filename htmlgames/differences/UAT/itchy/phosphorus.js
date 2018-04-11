@@ -1476,8 +1476,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
         }
 
         // BRIGHTNESS	    
-        if (this.filters.brightness !== 0) {
-	  var brightnessVal = Math.abs(this.filters.brightness) < 200 ? ~~ (this.filters.brightness %100.1) * 2.555 : 0;
+        if (this.filters.brightness !== 0 && Math.abs(this.filters.brightness) < 200) {
+	  var brightnessVal = ~~ (this.filters.brightness %100.1) * 2.555;
 	  effectsCanvas.width = ciw;
 	  effectsCanvas.height = cih;		
 	  //if (P.hasTouchEvents) {
