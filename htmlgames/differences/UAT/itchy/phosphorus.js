@@ -2680,8 +2680,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
 	// pf  *# draw using the effectsCanvas instead (TODO: allow one effect at once)
 	context.drawImage(effectsCanvas, 0, 0, costume.image.width, costume.image.height);
       } else {
-        // pf  only when no effects required use the costume.image directly...    
-        context.drawImage(costume.image, 0, 0); // , costume.image.width / costume.resScale, costume.image.height / costume.resScale);	      
+        // pf  only when no effects required use the costume.image directly...
+        if (costume.image.width && costume.image.height) { // pf fix
+         context.drawImage(costume.image, 0, 0); // , costume.image.width / costume.resScale, costume.image.height / costume.resScale);
+        }
       }
       context.restore();
     }
