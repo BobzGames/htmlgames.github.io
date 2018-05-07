@@ -2060,7 +2060,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.backdropContext.save();
     var s = this.zoom * SCALE * costume.scale;
     this.backdropContext.scale(s, s);
-    this.backdropContext.drawImage(costume.image, 0, 0);
+    if (costume.image.width && costume.image.height) { // pf fix 0 0
+      this.backdropContext.drawImage(costume.image, 0, 0);
+    }
     this.backdropContext.restore();
   };
 
