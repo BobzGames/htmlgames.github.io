@@ -284,13 +284,11 @@
     }
 
   function start(stage) {
-    //alert("PLAY!");
     stage.triggerGreenFlag();
-    alert("PLAY!");
   }
     document.title = 'phosphorus++';
     P.player.load(id, function(stage) {
-      start(stage);
+      //start(stage);
     }, function(title) { // NOTE: fn is defered, could take about 9 secs before being called!
       document.title = title ? title + ' \xb7 phosphorus++' : 'phosphorus++';
       updateBugLink();
@@ -314,7 +312,8 @@
 	    if (Akey.match("enter")) document.getElementById("touch_A").value = 13;
 	 }
 	 console.log(document.getElementById("touch_B").value + ":" + document.getElementById("touch_A").value);
-      }	
+      }
+      stage.triggerGreenFlag();
       //	    
     });
 
