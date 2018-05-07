@@ -455,7 +455,8 @@
     if (request) {
       console.log("Local project detected");
       P.player.showProgress(request, function(stage) {
-        start(stage);
+        //start(stage);
+	stage.triggerGreenFlag();
       });
     }
   } else {console.log("Ready!");}
