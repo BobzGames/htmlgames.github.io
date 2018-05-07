@@ -3,7 +3,7 @@
 <meta name=viewport content="width=device-width">
 <title>phosphorus++</title>
 <link rel=stylesheet href=player.css>
-<link rel=stylesheet href=index.css>
+<link rel=stylesheet href=index.css>s
 <link rel=stylesheet href=touch.css>
 <span style="font-family: 'Scratch#1font-family', Scratch;"></span>
 <div class=mobile>
@@ -284,11 +284,11 @@
     }
 
   function start(stage) {
-    stage.triggerGreenFlag();
+    //stage.triggerGreenFlag();
   }
     document.title = 'phosphorus++';
     P.player.load(id, function(stage) {
-      //start(stage);
+      start(stage);
     }, function(title) { // NOTE: fn is defered, could take about 9 secs before being called!
       document.title = title ? title + ' \xb7 phosphorus++' : 'phosphorus++';
       updateBugLink();
