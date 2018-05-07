@@ -1,5 +1,5 @@
 P.player = (function() {
-  'use strict'; 
+  'use strict';
 
   var stage;
   var frameId = null;
@@ -269,7 +269,7 @@ P.player = (function() {
       window.stage = stage = s;   
       stage.start();
       if (!/Mobix/.test(navigator.userAgent) && greenFlag) { // used to mess up mobile so disabled text  :)
-        setTimeout("stage.stopAll();stage.triggerGreenFlag();", 31); // hack for projects with multiple start flags!
+        setTimeout("stage.stopAll();stage.triggerGreenFlag();", 33); // hack for projects with multiple start flags!
       }
       stage.setZoom(zoom);	    
 
