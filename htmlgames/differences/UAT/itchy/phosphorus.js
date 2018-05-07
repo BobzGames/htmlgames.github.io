@@ -3426,7 +3426,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   var AudioContext = window.AudioContext || window.webkitAudioContext;
-  var audioContext = AudioContext && new AudioContext;
+  var audioContext = AudioContext && new AudioContext; // causes issue with Chrome V66+
 
   return {
     hasTouchEvents: hasTouchEvents,
