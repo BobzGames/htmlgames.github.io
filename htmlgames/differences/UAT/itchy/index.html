@@ -283,9 +283,13 @@
       id = '';
     }
 
+  function start(stage) {
+    alert("PLAY!");
+    stage.triggerGreenFlag();
+  }
     document.title = 'phosphorus++';
     P.player.load(id, function(stage) {
-      alert("Play");//stage.triggerGreenFlag();
+      start(stage);
     }, function(title) { // NOTE: fn is defered, could take about 9 secs before being called!
       document.title = title ? title + ' \xb7 phosphorus++' : 'phosphorus++';
       updateBugLink();
@@ -412,7 +416,7 @@
       }
       if (request) {
         P.player.showProgress(request, function(stage) {
-          stage.triggerGreenFlag();
+          start(stage);
         });
       }
     }
@@ -452,7 +456,7 @@
     if (request) {
       console.log("Local project detected");
       P.player.showProgress(request, function(stage) {
-        stage.triggerGreenFlag();
+        start(stage);
       });
     }
   } else {console.log("Ready!");}
