@@ -1,7 +1,7 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
 // (v0.247Cx) < insert random number here... C = Cloud variables inspired by http://phosphate.herokuapp.com/ 
-var LAKITU = true; // allow cloud data (geddit?) 
+var LAKITU = true; // allow cloud data (geddit?)
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF
 //
@@ -1321,9 +1321,9 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
      if (costume && (this.filters.color !== 0 || this.filters.fisheye !== 0 || this.filters.whirl !== 0 || this.filters.pixelate !== 0 || this.filters.mosaic !== 0 || this.filters.brightness !== 0)) { // || this.filters.ghost !== 0) {
 
 	//if (costume.image.width + costume.image.height < 1) return // PF nothing to do!
-	     
-	var ciw = (isStage) ? 480 * this.zoom : (costume.image.width < 1) ? 1 : costume.image.width; // this.zoom was 1
-	var cih = (isStage) ? 360 * this.zoom : (costume.image.height < 1) ? 1 : costume.image.height; // this.zoom was 1
+	// NOTE: issues with scaling here (ok if 1)     
+	var ciw = (isStage) ? 480 * 1 : (costume.image.width < 1) ? 1 : costume.image.width; 
+	var cih = (isStage) ? 360 * 1 : (costume.image.height < 1) ? 1 : costume.image.height; 
 	     
 	// Performance: if isStage then kill suttle effects... (for mobile) sorry :(
 	var absVal = Math.abs(this.filters.color + this.filters.fisheye + this.filters.whirl + this.filters.pixelate + this.filters.mosaic + this.filters.brightness);
