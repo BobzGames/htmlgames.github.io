@@ -182,8 +182,8 @@
 				this.SetCurrent = function(width, height) { this.viewPorts.push({ width: width, height: height }); }
 				this.RemoveCurrent = function() { this.viewPorts.pop(); }
 				this.Current = function() { return this.viewPorts[this.viewPorts.length - 1]; }
-				this.width = function() { return this.Current().width; }
-				this.height = function() { return this.Current().height; }
+				this.width = function() { return ? (this.Current() && this.Current().width) this.Current().width : 480; } // pf
+				this.height = function() { return ? (this.Current() && this.Current().height) this.Current().height : 360; } // pf
 				this.ComputeSize = function(d) {
 					if (d != null && typeof(d) == 'number') return d;
 					if (d == 'x') return this.width();
