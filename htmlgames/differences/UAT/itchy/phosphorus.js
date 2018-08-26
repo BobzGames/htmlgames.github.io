@@ -255,14 +255,10 @@ var P = (function() {
         if (xhr.status === 200) {
           if (that === false) {
             that = undefined; // reset
-            //request.error(new Error("Bad JSON"));
-	    console.log("Possible resource issue...");
+            request.error(new Error("Bad JSON"));
+	    console.log("...Possible resource issue!");
           }
-          try {
-	    request.load(xhr.response);
-	  } catch (e) {
-	    request.error(new Error("Bad JSON"));	  
-	  }
+	  request.load(xhr.response);
         } else {
           request.error(new Error('HTTPS ' + xhr.status + ': ' + xhr.statusText)); //
         }
