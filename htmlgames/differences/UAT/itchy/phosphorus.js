@@ -256,7 +256,7 @@ var P = (function() {
           if (that === false) {
             that = undefined; // reset
             //request.error(new Error("Bad JSON"));
-	    console.log("Bad JSON ?"));
+	    console.log("Bad JSON ?");
           }
           request.load(xhr.response);
         } else {
