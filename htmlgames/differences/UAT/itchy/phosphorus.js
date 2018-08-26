@@ -255,8 +255,7 @@ var P = (function() {
         if (xhr.status === 200) {
           if (that === false) {
             that = undefined; // reset
-            request.error(new Error("Bad JSON"));
-	    console.log("...Possible resource issue!");
+            //request.error(new Error("Bad JSON")); // Possible resource issue? (code here needs more checks!)
           }
 	  request.load(xhr.response);
         } else {
