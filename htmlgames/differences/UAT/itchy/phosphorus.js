@@ -256,9 +256,13 @@ var P = (function() {
           if (that === false) {
             that = undefined; // reset
             //request.error(new Error("Bad JSON"));
-	    console.log("Bad JSON ?");
+	    console.log("Possible resource issue...");
           }
-          request.load(xhr.response);
+          try {
+	    request.load(xhr.response);
+	  } catch (e) {
+	    request.error(new Error("Bad JSON"));	  
+	  }
         } else {
           request.error(new Error('HTTPS ' + xhr.status + ': ' + xhr.statusText)); //
         }
