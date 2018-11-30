@@ -2522,10 +2522,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var ox = this.scratchX;
     var oy = this.scratchY;
     if (ox === x && oy === y && !this.isPenDown) return;
-    if (Math.abs(x) <= 480) {
+    if (Math.abs(x) < 960) {
       this.scratchX = x; // ### pft2
     }
-    if (Math.abs(y) <= 360) {	  
+    if (Math.abs(y) < 720) {	  
       this.scratchY = y; // ###
     }  
     if (this.isPenDown && !this.isDragging) {
