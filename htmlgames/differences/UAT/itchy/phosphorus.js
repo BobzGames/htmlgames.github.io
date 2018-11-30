@@ -2653,10 +2653,10 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var costume = this.costumes[this.currentCostumeIndex];
 
     if (this.isDragging) {
-      this.moveTo(this.dragOffsetX + this.stage.mouseX, this.dragOffsetY + this.stage.mouseY);
+      //this.moveTo(this.dragOffsetX + this.stage.mouseX, this.dragOffsetY + this.stage.mouseY);
     }
 
-    if (costume) {
+    if (costume && this.visible) { // pf123
       context.save();
 
       context.imageSmoothingEnabled = false;
