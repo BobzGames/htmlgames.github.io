@@ -2656,7 +2656,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       //this.moveTo(this.dragOffsetX + this.stage.mouseX, this.dragOffsetY + this.stage.mouseY);
     }
 
-    if (costume && this.visible) { // pf123
+    if (costume && this.visible) { // pf123 
       context.save();
 
       context.imageSmoothingEnabled = false;
