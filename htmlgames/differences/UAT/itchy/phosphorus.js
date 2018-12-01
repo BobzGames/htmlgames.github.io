@@ -2527,7 +2527,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       this.scratchX = x; // ### pft2
     } else {
       //console.log(x);
-      //if (gwiz > 480) gwiz--;
+      if (gwiz > 480) gwiz--;
     }
     //if (Math.abs(y) < 360) {
       //var oy = this.scratchY;	    
