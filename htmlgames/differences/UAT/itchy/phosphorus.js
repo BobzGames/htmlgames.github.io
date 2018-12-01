@@ -1,7 +1,7 @@
 // Scratch2apk: An (almost complete) scratch emulator written in javascript - includes support for (some) hacked blocks 
 //
 // (v0.248Cx) < insert random number here... C = Cloud variables inspired by http://phosphate.herokuapp.com/ 
-var LAKITU = true; // allow cloud data (geddit?)
+var LAKITU = true; // allow cloud data (geddit?) 
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
