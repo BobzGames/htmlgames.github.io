@@ -2521,10 +2521,6 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   Sprite.prototype.moveTo = function(x, y) {
     var ox = this.scratchX;
     var oy = this.scratchY;
-    if (ox === x && oy === y && !this.isPenDown) {
-      console.log("!!!");
-      return;
-    }
     // new below:
     if (Math.abs(x) < 480) {
       //var ox = this.scratchX;
@@ -2536,7 +2532,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
       //var oy = this.scratchY;	    
       this.scratchY = y; // ###
     //}  
-    //if (ox === x && oy === y && !this.isPenDown) return;
+    if (ox === x && oy === y && !this.isPenDown) return;
     if (this.isPenDown && !this.isDragging) {
       var context = this.stage.penContext;
       if (this.penSize % 2 > .5 && this.penSize % 2 < 1.5) {
