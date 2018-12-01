@@ -2517,7 +2517,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var d = (90 - this.direction) * Math.PI / 180;
     this.moveTo(this.scratchX + steps * Math.cos(d), this.scratchY + steps * Math.sin(d));
   };
-  var gwiz = 480 * 8;
+  var gwiz = 480 * 4;
   Sprite.prototype.moveTo = function(x, y) {
     var ox = this.scratchX;
     var oy = this.scratchY;
