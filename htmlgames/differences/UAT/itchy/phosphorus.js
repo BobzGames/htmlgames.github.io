@@ -5,7 +5,7 @@ var LAKITU = true; // allow cloud data (geddit?)
 //
 // Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF
 //
-// Regarding all code here: pillage 'till you puke! (aka take what you want!) 
+// Regarding all code here: pillage 'till you puke! (aka take what you want!)
 //   
 // Sometimes, if this file is a certain size, Chrome 64bit on Windows 10 compiles it so it gives an extra, noticable speed boost (x2!)
 // But I don't know why? UPDATE: possible Chrome is switching gfx card from intel to nvidia... 
