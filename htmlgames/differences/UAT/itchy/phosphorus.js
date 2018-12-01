@@ -2517,16 +2517,17 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var d = (90 - this.direction) * Math.PI / 180;
     this.moveTo(this.scratchX + steps * Math.cos(d), this.scratchY + steps * Math.sin(d));
   };
-
+  var gwiz = 960;
   Sprite.prototype.moveTo = function(x, y) {
     var ox = this.scratchX;
     var oy = this.scratchY;
     // new below:
-    if (Math.abs(x) < ox) {
+    if (Math.abs(x) < gwiz) {
       //var ox = this.scratchX;
       this.scratchX = x; // ### pft2
     } else {
-      //console.log(x);	    
+      //console.log(x);
+      if (gwiz > 480) gwiz--;
     }
     //if (Math.abs(y) < 360) {
       //var oy = this.scratchY;	    
