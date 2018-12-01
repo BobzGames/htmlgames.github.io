@@ -3,7 +3,7 @@
 // (v0.247Cx) < insert random number here... C = Cloud variables inspired by http://phosphate.herokuapp.com/ 
 var LAKITU = true; // allow cloud data (geddit?)
 //
-// Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF
+// Based on phosphorus (phosphorus.github.io) with additional bugfixes and enhancements by PF 
 //
 // Regarding all code here: pillage 'till you puke! (aka take what you want!)
 //   
