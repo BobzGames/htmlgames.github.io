@@ -2519,15 +2519,18 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 
   Sprite.prototype.moveTo = function(x, y) {
-    var ox = this.scratchX;
-    var oy = this.scratchY;
-    if (ox === x && oy === y && !this.isPenDown) return;
-    if (Math.abs(ox) < 480) {
+    //var ox = this.scratchX;
+    //var oy = this.scratchY;
+    //if (ox === x && oy === y && !this.isPenDown) return;
+    if (Math.abs(x) < 480) {
+      var ox = this.scratchX;
       this.scratchX = x; // ### pft2
     }
-    if (Math.abs(oy) < 360) {	  
+    if (Math.abs(y) < 360) {
+      var oy = this.scratchY;	    
       this.scratchY = y; // ###
     }  
+    if (ox === x && oy === y && !this.isPenDown) return;
     if (this.isPenDown && !this.isDragging) {
       var context = this.stage.penContext;
       if (this.penSize % 2 > .5 && this.penSize % 2 < 1.5) {
