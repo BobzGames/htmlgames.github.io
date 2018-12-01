@@ -2522,6 +2522,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   Sprite.prototype.moveTo = function(x, y) {
     var ox = this.scratchX;
     var oy = this.scratchY;
+    if (ox === x && oy === y && !this.isPenDown) return;
     // new below:
     if (Math.abs(x) < gwix) {
       this.scratchX = x; // ### pft2
@@ -2533,7 +2534,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     } else {
       if (gwiy > 360) gwiy--;
     }
-    if (ox === x && oy === y && !this.isPenDown) return;
+    //if (ox === x && oy === y && !this.isPenDown) return;
     if (this.isPenDown && !this.isDragging) {
       var context = this.stage.penContext;
       if (this.penSize % 2 > .5 && this.penSize % 2 < 1.5) {
