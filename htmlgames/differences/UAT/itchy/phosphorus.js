@@ -2522,14 +2522,16 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     //var ox = this.scratchX;
     //var oy = this.scratchY;
     //if (ox === x && oy === y && !this.isPenDown) return;
-    if (Math.abs(x) < ox||1) {
+    // new below:
+    //if (Math.abs(x) < 480) {
+    if (x < 480) {
       var ox = this.scratchX;
       this.scratchX = x; // ### pft2
     }
-    if (Math.abs(y) < oy||1) {
+    //if (Math.abs(y) < 360) {
       var oy = this.scratchY;	    
       this.scratchY = y; // ###
-    }  
+    //}  
     if (ox === x && oy === y && !this.isPenDown) return;
     if (this.isPenDown && !this.isDragging) {
       var context = this.stage.penContext;
