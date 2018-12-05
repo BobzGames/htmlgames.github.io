@@ -2528,13 +2528,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // new condition block below - fixes:133622642
     if (Math.abs(x) < gwix) {
       this.scratchX = x; // ### pft2
-      gwix = x;
+      if (x > 480) gwix = x;
     } else {
       if (gwix > 480) gwix--;
     }
     if (Math.abs(y) < gwiy) {	    
       this.scratchY = y; // ###
-      gwiy = y;
+      if (y > 360) gwiy = y;
     } else {
       if (gwiy > 360) gwiy--;
     }
