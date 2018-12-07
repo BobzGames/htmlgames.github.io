@@ -2519,7 +2519,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   };
 	
   var gwix = 480 * 16; // adjusting these fixes projects that use moveTo in platformers for the blocks
-  var gwiy = 360 * 4; // +
+  var gwiy = 360 * 6; // +
   Sprite.prototype.moveTo = function(x, y) {
     var ox = this.scratchX;
     var oy = this.scratchY;
