@@ -2518,8 +2518,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.moveTo(this.scratchX + steps * Math.cos(d), this.scratchY + steps * Math.sin(d));
   };
 	
-  var gwix = 480 * 4;
-  var gwiy = 360 * 4;
+  var gwix = 480 * 8;
+  var gwiy = 360 * 8;
   Sprite.prototype.moveTo = function(x, y) {
     var ox = this.scratchX;
     var oy = this.scratchY;
@@ -2528,13 +2528,11 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // new condition block below - fixes:133622642
     if (Math.abs(x) < gwix) {
       this.scratchX = x; // ### pft2
-      //if (x > 480) gwix = x;
     } else {
       if (gwix > 480) gwix--;
     }
     if (Math.abs(y) < gwiy) {	    
       this.scratchY = y; // ###
-      //if (y > 360) gwiy = y;
     } else {
       if (gwiy > 360) gwiy--;
     }
