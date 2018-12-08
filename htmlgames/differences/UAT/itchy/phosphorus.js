@@ -2517,7 +2517,8 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     var d = (90 - this.direction) * Math.PI / 180;
     this.moveTo(this.scratchX + steps * Math.cos(d), this.scratchY + steps * Math.sin(d));
   };
-	
+
+  var gwiDisable = true;// Disable for now	
   var gwix = 480 * 12; // adjusting these fixes projects that use moveTo in platformers for the blocks
   var gwiy = 360 * 4; // +
   Sprite.prototype.moveTo = function(x, y) {
@@ -2526,12 +2527,12 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (ox === x && oy === y && !this.isPenDown) return;
 	  
     // new condition block below - fixes:133622642
-    if (Math.abs(x) < gwix) {
+    if (gwiDisable||Math.abs(x) < gwix) {
       this.scratchX = x; // ### pft2
     } else {
       if (gwix > 480) gwix--;
     }
-    if (Math.abs(y) < gwiy) {	    
+    if (gwiDisable||Math.abs(y) < gwiy) {	    
       this.scratchY = y; // ###
     } else {
       if (gwiy > 360) gwiy--;
