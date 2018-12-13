@@ -2518,7 +2518,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.moveTo(this.scratchX + steps * Math.cos(d), this.scratchY + steps * Math.sin(d));
   };
 
-  var gwiDisable = true;// Disable for now	
+  var gwiDisable = !true;// Disable for now	
   var gwix = 480 * 12; // adjusting these fixes projects that use moveTo in platformers for the blocks
   var gwiy = 360 * 4; // +
   Sprite.prototype.moveTo = function(x, y) {
