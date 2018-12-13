@@ -2527,16 +2527,16 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     if (ox === x && oy === y && !this.isPenDown) return;
 	  
     // new condition block below - fixes:133622642
-    gwiDisable = (x == -600) ? true : false; 
+    //gwiDisable = (1) ? true : false; 
     if (gwiDisable||Math.abs(x) < gwix) {
       this.scratchX = x; // ### pft2
     } else {
-      if (gwix > 480) gwix--;
+      if (Math.abs(gwix) > 480) gwix--;
     }
     if (gwiDisable||Math.abs(y) < gwiy) {	    
       this.scratchY = y; // ###
     } else {
-      if (gwiy > 360) gwiy--;
+      if (Math.abs(gwiy) > 360) gwiy--;
     }
     //
 	  
