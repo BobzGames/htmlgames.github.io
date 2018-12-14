@@ -2529,7 +2529,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     // new condition block below - fixes:133622642
     //gwiDisable = (1) ? true : false; 
     if (gwiDisable||Math.abs(x) < gwix) {
-      this.scratchX = x; // ### pft2
+      this.scratchX = x; // ### pft2 
     } else {
       if (gwix > 480) gwix--;
     }
