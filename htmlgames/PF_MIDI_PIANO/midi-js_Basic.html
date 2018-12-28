@@ -17,10 +17,54 @@
 	<!-- utils -->
 	<script src="./js/util/dom_request_xhr.js" type="text/javascript"></script>
 	<script src="./js/util/dom_request_script.js" type="text/javascript"></script>
+	
+<style type="text/css">
+
+body{
+margin: 40px auto;
+max-width: 650px;
+line-height: 1.6;
+font-size: 18px;
+color: #444;
+padding: 0 10px
+}
+
+h1,h2,h3{
+line-height:1.2
+}
+
+#midi-log{
+height: 400px;
+overflow: auto;
+border: 1px solid #CCC;
+padding: 20px;
+font-family: monospace;
+font-size: 16px;
+margin-bottom: 40px;
+}
+
+</style>
+	
+	
 </head>
 <body>
+<h1>Web MIDI piano Test Page</h1>
+
+<h2>MIDI Data Log</h2>
+	
+<div id="midi-log"></div>
+	
+	
 <script>
  
+	
+var midi;
+var log = document.getElementById("midi-log");
+init();
+var keys=[127];
+for (f = 0; f < keys.length; f++) {keys[f] = false}
+	
+	
 function start() {
 
 	MIDI.loadPlugin({
@@ -61,6 +105,73 @@ function start() {
 
 };
 
+	
+	
+//Bare minimum JS code to read midi input
+//Adapted from https://github.com/cwilso/WebMIDIAPIShim
+
+
+function init() {
+logText("Initializing MIDI...");
+navigator.requestMIDIAccess().then( onSuccess, onFailure ); //get midi access
+}
+
+function onSuccess( access ) {
+
+midi = access;
+var inputs = midi.inputs;
+
+logText("Found " + inputs.size + " MIDI input(s)");
+
+//connect to first device found
+if(inputs.size > 0) {
+var iterator = inputs.values(); // returns an iterator that loops over all inputs
+var input = iterator.next().value; // get the first input
+logText("Connected first input: " + input.name);
+input.onmidimessage = handleMIDIMessage;
+}
+}
+
+function onFailure( err ) {
+logText("MIDI Init Error. Error code: " + err.code);
+}
+
+function handleMIDIMessage(event){
+
+//event.data & event.receivedTime are populated
+//event.data has 3 components:
+//0) The device id
+//1) The controller id
+//2) The controller value (typically in the range 0 - 127)
+
+if (event.data.length === 3) {
+  if (event.data[0] == 144 && !keys[event.data[1]]) {
+   keys[event.data[1]] = true;
+   logText('controller id: NOTE ON ' + event.data[1] + ', value: ' + event.data[2]);
+  } else {
+   if (event.data[0] == 128) {
+    keys[event.data[1]] = false;
+    logText('controller id: NOTE OFF ' + event.data[1] + ', value: ' + event.data[2]);
+   } else { 
+     if (keys[event.data[1]]) {
+       keys[event.data[1]] = false;
+       logText('controller id: NOTE off ' + event.data[1] + ', value: ' + event.data[2]);
+     } else {
+       logText('???');
+     }
+   }
+  }
+}
+}
+
+function logText(str){
+log.innerHTML += str;
+log.innerHTML += "<br>";
+log.scrollTop = log.scrollHeight;
+}
+
+	
+	
 </script>
 
 <!-- START BUTTON -->
