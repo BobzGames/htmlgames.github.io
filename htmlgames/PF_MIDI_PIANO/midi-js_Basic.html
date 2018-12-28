@@ -20,8 +20,8 @@
 </head>
 <body>
 <script>
-
-window.onclick = function () {
+ 
+function start() {
 
 	MIDI.loadPlugin({
 		soundfontUrl: "./soundfont/",
@@ -61,8 +61,8 @@ window.onclick = function () {
 };
 
 </script>
-<a href=https://galactic.ink/midi-js/soundfont/acoustic_grand_piano-ogg.js>###</a> < !-- https://galactic.ink/midi-js/Basic.html -->
-<br>
-<textarea></textarea>
+
+<!-- START BUTTON -->
+<button onclick="start()" id="bnt1">PLAY</button>
 </body>
 </html>
