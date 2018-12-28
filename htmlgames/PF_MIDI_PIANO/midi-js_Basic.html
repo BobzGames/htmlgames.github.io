@@ -48,7 +48,7 @@ margin-bottom: 40px;
 	
 </head>
 <body>
-<h1>Web MIDI piano Test Page (v0.014)</h1>
+<h1>Web MIDI piano Test Page (v0.015)</h1>
 
 <h2>MIDI Data Log</h2>
 	
@@ -78,7 +78,7 @@ function start() {
 			var note = 50; // the MIDI note
 			var velocity = 127; // how hard the note hits
 			// play the note
-			MIDI.setVolume(0, 127);
+			MIDI.setVolume(0, 31);
 			MIDI.noteOn(0, note, velocity, delay);
 			MIDI.noteOff(0, note, delay + 0.75);
 		}
