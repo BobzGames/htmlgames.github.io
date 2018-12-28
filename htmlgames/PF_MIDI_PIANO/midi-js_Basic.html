@@ -133,35 +133,35 @@ if (event.data.length === 3) {
    keys[event.data[1]] = true;
    logText('controller id: NOTE ON ' + event.data[1] + ', value: ' + event.data[2]);
 	  
-			var delay = 0; // play one note every quarter second
-			var note = event.data[1]; // the MIDI note
-			var velocity = event.data[2]; // how hard the note hits
+			var delayON = 0; // play one note every quarter second
+			var noteON = event.data[1]; // the MIDI note
+			var velocityON = event.data[2]; // how hard the note hits
 			// play the note
 			MIDI.setVolume(0, 127);
-			MIDI.noteOn(0, note, velocity, delay);
+			MIDI.noteOn(0, noteON, velocityON, delayON);
 				  
   } else {
    if (event.data[0] == 128) {
     keys[event.data[1]] = false;
     logText('controller id: NOTE OFF ' + event.data[1] + ', value: ' + event.data[2]);
 	   
-			var delay = 0; // play one note every quarter second
-			var note = event.data[1]; // the MIDI note
-			var velocity = 0; //event.data[2]; // how hard the note hits
+			var delayOFF = 0; // play one note every quarter second
+			var noteOFF = event.data[1]; // the MIDI note
+			var velocityOFF = 0; //event.data[2]; // how hard the note hits
 			// unplay the note
 			MIDI.setVolume(0, 127);	   
-			MIDI.noteOff(0, note, delay + 0.75); // SIM SUSTAIN
+			MIDI.noteOff(0, noteOFF, delayOFF + 0.75); // SIM SUSTAIN
    } else { 
      if (keys[event.data[1]]) {
        keys[event.data[1]] = false;
        logText('controller id: NOTE off ' + event.data[1] + ', value: ' + event.data[2]);
 	     
-			var delay = 0; // play one note every quarter second
-			var note = event.data[1]; // the MIDI note
-			var velocity = 0; //event.data[2]; // how hard the note hits
+			var delayoff = 0; // play one note every quarter second
+			var noteoff = event.data[1]; // the MIDI note
+			var velocityoff = 0; //event.data[2]; // how hard the note hits
 			// unplay the note
 			MIDI.setVolume(0, 127);	   
-			MIDI.noteOff(0, note, delay + 0.75); // SIM SUSTAIN	     
+			MIDI.noteOff(0, noteoff, delayoff + 0.75); // SIM SUSTAIN	     
 	     
      } else {
        logText('???');
