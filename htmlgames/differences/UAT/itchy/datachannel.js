@@ -25,7 +25,6 @@
 
         var self = this;
         var dataConnector;
-        var fileReceiver;
         var textReceiver;
 
         this.onmessage = function(message, userid) {
@@ -45,20 +44,6 @@
             console.error('data channel error:', event);
         };
 
-        // by default; received file will be auto-saved to disk
-        this.autoSaveToDisk = true;
-        this.onFileReceived = function(fileName) {
-            console.debug('File <', fileName, '> received successfully.');
-        };
-
-        this.onFileSent = function(file) {
-            console.debug('File <', file.name, '> sent successfully.');
-        };
-
-        this.onFileProgress = function(packets) {
-            console.debug('<', packets.remaining, '> items remaining.');
-        };
-
         function prepareInit(callback) {
             for (var extra in extras) {
                 self[extra] = extras[extra];
@@ -66,54 +51,6 @@
             self.direction = self.direction || 'many-to-many';
             if (self.userid) {
                 window.userid = self.userid;
-            }
-
-            if (!self.openSignalingChannel) {
-                if (typeof self.transmitRoomOnce === 'undefined') {
-                    self.transmitRoomOnce = true;
-                }
-
-                // socket.io over node.js: https://github.com/muaz-khan/WebRTC-Experiment/blob/master/Signaling.md
-                self.openSignalingChannel = function(config) {
-                    config = config || {};
-
-                    channel = config.channel || self.channel || 'default-channel';
-                    var socket = new window.Firebase('https://' + (self.firebase || 'webrtc-experiment') + '.firebaseIO.com/' + channel);
-                    socket.channel = channel;
-
-                    socket.on('child_added', function(data) {
-                        config.onmessage(data.val());
-                    });
-
-                    socket.send = function(data) {
-                        this.push(data);
-                    };
-
-                    if (!self.socket) {
-                        self.socket = socket;
-                    }
-
-                    if (channel !== self.channel || (self.isInitiator && channel === self.channel)) {
-                        socket.onDisconnect().remove();
-                    }
-
-                    if (config.onopen) {
-                        setTimeout(config.onopen, 1);
-                    }
-
-                    return socket;
-                };
-
-                //if (!window.Firebase) {
-                //    var script = document.createElement('script');
-                //    script.src = 'https://cdn.webrtc-experiment.com/firebase.js';
-                //    script.onload = callback;
-                //    document.documentElement.appendChild(script);
-                //} else {
-                //    callback();
-                //}
-            } else {
-                callback();
             }
         }
 
@@ -170,8 +107,6 @@
 
                     if (data.type === 'text') {
                         textReceiver.receive(data, self.onmessage, userid);
-                    } else if (typeof data.maxChunks !== 'undefined') {
-                        fileReceiver.receive(data, self);
                     } else {
                         self.onmessage(data, userid);
                     }
@@ -195,7 +130,6 @@
                 new DataConnector(self, self.config) :
                 new SocketConnector(self.channel, self.config);
 
-            fileReceiver = new FileReceiver(self);
             textReceiver = new TextReceiver(self);
 
             if (self.room) {
@@ -257,23 +191,6 @@
                 throw 'No file, data or text message to share.';
             }
 
-            if (typeof data.size !== 'undefined' && typeof data.type !== 'undefined') {
-                FileSender.send({
-                    file: data,
-                    channel: dataConnector,
-                    onFileSent: function(file) {
-                        self.onFileSent(file);
-                    },
-                    onFileProgress: function(packets, uuid) {
-                        self.onFileProgress(packets, uuid);
-                    },
-
-                    _channel: _channel,
-                    root: self
-                });
-
-                return;
-            }
             TextSender.send({
                 text: data,
                 channel: dataConnector,
@@ -652,7 +569,7 @@
         }, false);
 
         window.addEventListener('keydown', function(e) {
-            if (e.keyCode === 116) {
+            if (e.keyCode === 116) { // F5 key
                 leaveChannels();
             }
         }, false);
@@ -1020,231 +937,6 @@
             }
         };
     }
-
-    var FileConverter = {
-        DataURLToBlob: function(dataURL, fileType, callback) {
-
-            function processInWebWorker() {
-                var blob = URL.createObjectURL(new Blob(['function getBlob(_dataURL, _fileType) {var binary = atob(_dataURL.substr(_dataURL.indexOf(",") + 1)),i = binary.length,view = new Uint8Array(i);while (i--) {view[i] = binary.charCodeAt(i);};postMessage(new Blob([view], {type: _fileType}));};this.onmessage =  function (e) {var data = JSON.parse(e.data); getBlob(data.dataURL, data.fileType);}'], {
-                    type: 'application/javascript'
-                }));
-
-                var worker = new Worker(blob);
-                URL.revokeObjectURL(blob);
-                return worker;
-            }
-
-            if (!!window.Worker && !isMobileDevice) {
-                var webWorker = processInWebWorker();
-
-                webWorker.onmessage = function(event) {
-                    callback(event.data);
-                };
-
-                webWorker.postMessage(JSON.stringify({
-                    dataURL: dataURL,
-                    fileType: fileType
-                }));
-            } else {
-                var binary = atob(dataURL.substr(dataURL.indexOf(',') + 1)),
-                    i = binary.length,
-                    view = new Uint8Array(i);
-
-                while (i--) {
-                    view[i] = binary.charCodeAt(i);
-                }
-
-                callback(new Blob([view]));
-            }
-        }
-    };
-
-    function FileReceiver(root) {
-        var content = {};
-        var packets = {};
-        var numberOfPackets = {};
-
-        function receive(data) {
-            var uuid = data.uuid;
-
-            if (typeof data.packets !== 'undefined') {
-                numberOfPackets[uuid] = packets[uuid] = parseInt(data.packets);
-            }
-
-            if (root.onFileProgress) {
-                root.onFileProgress({
-                    remaining: packets[uuid]--,
-                    length: numberOfPackets[uuid],
-                    received: numberOfPackets[uuid] - packets[uuid],
-
-                    maxChunks: numberOfPackets[uuid],
-                    uuid: uuid,
-                    currentPosition: numberOfPackets[uuid] - packets[uuid]
-                }, uuid);
-            }
-
-            if (!content[uuid]) {
-                content[uuid] = [];
-            }
-
-            content[uuid].push(data.message);
-
-            if (data.last) {
-                var dataURL = content[uuid].join('');
-
-                FileConverter.DataURLToBlob(dataURL, data.fileType, function(blob) {
-                    blob.uuid = uuid;
-                    blob.name = data.name;
-                    // blob.type = data.fileType;
-                    blob.extra = data.extra || {};
-
-                    blob.url = (window.URL || window.webkitURL).createObjectURL(blob);
-
-                    if (root.autoSaveToDisk) {
-                        FileSaver.SaveToDisk(blob.url, data.name);
-                    }
-
-                    if (root.onFileReceived) {
-                        root.onFileReceived(blob);
-                    }
-
-                    delete content[uuid];
-                });
-            }
-        }
-
-        return {
-            receive: receive
-        };
-    }
-
-    var FileSaver = {
-        SaveToDisk: function(fileUrl, fileName) {
-            var hyperlink = document.createElement('a');
-            hyperlink.href = fileUrl;
-            hyperlink.target = '_blank';
-            hyperlink.download = fileName || fileUrl;
-
-            var mouseEvent = new MouseEvent('click', {
-                view: window,
-                bubbles: true,
-                cancelable: true
-            });
-
-            hyperlink.dispatchEvent(mouseEvent);
-            (window.URL || window.webkitURL).revokeObjectURL(hyperlink.href);
-        }
-    };
-
-    var FileSender = {
-        send: function(config) {
-            var root = config.root;
-            var channel = config.channel;
-            var privateChannel = config._channel;
-            var file = config.file;
-
-            if (!config.file) {
-                console.error('You must attach/select a file.');
-                return;
-            }
-
-            // max chunk sending limit on chrome is 64k
-            // max chunk receiving limit on firefox is 16k
-            var packetSize = 15 * 1000;
-
-            if (root.chunkSize) {
-                packetSize = root.chunkSize;
-            }
-
-            var textToTransfer = '';
-            var numberOfPackets = 0;
-            var packets = 0;
-
-            file.uuid = getRandomString();
-
-            function processInWebWorker() {
-                var blob = URL.createObjectURL(new Blob(['function readFile(_file) {postMessage(new FileReaderSync().readAsDataURL(_file));};this.onmessage =  function (e) {readFile(e.data);}'], {
-                    type: 'application/javascript'
-                }));
-
-                var worker = new Worker(blob);
-                URL.revokeObjectURL(blob);
-                return worker;
-            }
-
-            if (!!window.Worker && !isMobileDevice) {
-                var webWorker = processInWebWorker();
-
-                webWorker.onmessage = function(event) {
-                    onReadAsDataURL(event.data);
-                };
-
-                webWorker.postMessage(file);
-            } else {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    onReadAsDataURL(e.target.result);
-                };
-                reader.readAsDataURL(file);
-            }
-
-            function onReadAsDataURL(dataURL, text) {
-                var data = {
-                    type: 'file',
-                    uuid: file.uuid,
-                    maxChunks: numberOfPackets,
-                    currentPosition: numberOfPackets - packets,
-                    name: file.name,
-                    fileType: file.type,
-                    size: file.size
-                };
-
-                if (dataURL) {
-                    text = dataURL;
-                    numberOfPackets = packets = data.packets = parseInt(text.length / packetSize);
-
-                    file.maxChunks = data.maxChunks = numberOfPackets;
-                    data.currentPosition = numberOfPackets - packets;
-
-                    if (root.onFileSent) {
-                        root.onFileSent(file);
-                    }
-                }
-
-                if (root.onFileProgress) {
-                    root.onFileProgress({
-                        remaining: packets--,
-                        length: numberOfPackets,
-                        sent: numberOfPackets - packets,
-
-                        maxChunks: numberOfPackets,
-                        uuid: file.uuid,
-                        currentPosition: numberOfPackets - packets
-                    }, file.uuid);
-                }
-
-                if (text.length > packetSize) {
-                    data.message = text.slice(0, packetSize);
-                } else {
-                    data.message = text;
-                    data.last = true;
-                    data.name = file.name;
-
-                    file.url = URL.createObjectURL(file);
-                    root.onFileSent(file, file.uuid);
-                }
-
-                channel.send(data, privateChannel);
-
-                textToTransfer = text.slice(data.message.length);
-                if (textToTransfer.length) {
-                    setTimeout(function() {
-                        onReadAsDataURL(null, textToTransfer);
-                    }, root.chunkInterval || 100);
-                }
-            }
-        }
-    };
 
     function SocketConnector(_channel, config) {
         var socket = config.openSignalingChannel({
