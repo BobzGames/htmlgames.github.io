@@ -1036,8 +1036,10 @@
                     data.isobject = isobject;
                 }
 
-                channel.send(data, _channel);
-
+                if (channel && channel.send) {
+                    channel.send(data, _channel);
+                }
+                
                 textToTransfer = text.slice(data.message.length);
 
                 if (textToTransfer.length) {
