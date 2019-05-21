@@ -5,7 +5,7 @@
 // __________________
 // DataChannel v1.0.0
 
-// Open-Sourced: https://github.com/muaz-khan/DataChannel 
+// Open-Sourced: https://github.com/muaz-khan/DataChannel
 
 // --------------------------------------------------
 // Muaz Khan     - www.MuazKhan.com
