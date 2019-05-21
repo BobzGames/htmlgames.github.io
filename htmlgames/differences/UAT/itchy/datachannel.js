@@ -230,7 +230,7 @@
             // for non-firebase clients - could cause stutter?
 
             setTimeout(function() {
-                self.openNewSession(true);
+                //self.openNewSession(true);
             }, 5000);
         };
 
