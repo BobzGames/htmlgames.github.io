@@ -230,8 +230,8 @@
             // for non-firebase clients - could cause stutter?
 
             setTimeout(function() {
-                //self.openNewSession(true);
-            }, 5000);
+                self.openNewSession(true);
+            }, 1234); // 5000
         };
 
         if (typeof this.preferSCTP === 'undefined') {
@@ -997,8 +997,8 @@
     var TextSender = {
         send: function(config) {
             var root = config.root;
-
-            var channel = config._channel = config.root.channel; // pf
+            var channel = config.channel;
+            //var channel = config._channel = config.root.channel; // pf
             var _channel = config._channel;
             var initialText = config.text;
             var packetSize = 1024; // current scratch limit ?
