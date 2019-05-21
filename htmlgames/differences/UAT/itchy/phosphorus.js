@@ -256,9 +256,9 @@ var P = (function() {
           if (that === false) {
             that = undefined; // reset
             //request.error(new Error("Bad JSON")); // Possible resource issue? (code here needs more checks!)
-	    console.log("Possible resource issue ...Please try remixing this project!");
+            console.log("Possible resource issue ...Please try remixing this project!");
           }
-	  request.load(xhr.response);
+          request.load(xhr.response);
         } else {
           console.log("Possible unsupported Scratch 3 Project...");
           request.error(new Error('HTTPS ' + xhr.status + ': ' + xhr.statusText)); //
