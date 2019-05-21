@@ -104,14 +104,14 @@
                     return socket;
                 };
 
-                if (!window.Firebase) {
-                    var script = document.createElement('script');
-                    script.src = 'https://cdn.webrtc-experiment.com/firebase.js';
-                    script.onload = callback;
-                    document.documentElement.appendChild(script);
-                } else {
-                    callback();
-                }
+                //if (!window.Firebase) {
+                //    var script = document.createElement('script');
+                //    script.src = 'https://cdn.webrtc-experiment.com/firebase.js';
+                //    script.onload = callback;
+                //    document.documentElement.appendChild(script);
+                //} else {
+                //    callback();
+                //}
             } else {
                 callback();
             }
