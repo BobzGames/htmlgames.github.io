@@ -967,11 +967,13 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
   Cloud.prototype.setVariable = function(name, value) {
     if (this.variables[name] === value) return;
     this.variables[name] = value;
-    this.channel.send(JSON.stringify({
-      $: 'update',
-      key: name,
-      value: value
-    }));
+    if (this.channel) {
+      this.channel.send(JSON.stringify({
+        $: 'update',
+        key: name,
+        value: value
+      }));
+    }
   };
 
   var Base = function() {
