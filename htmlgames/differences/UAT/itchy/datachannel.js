@@ -227,7 +227,7 @@
                 return;
             }
 
-            // for non-firebase clients
+            // for non-firebase clients - could cause stutter?
 
             setTimeout(function() {
                 self.openNewSession(true);
@@ -301,7 +301,7 @@
             var peerConfig = {
                 onICE: function(candidate) {
                     if (!socket) {
-                        return setTimeout(function() {
+                        return setTimeout(function() { // stutter?
                             peerConfig.onICE(candidate);
                         }, 2000);
                     }
@@ -415,7 +415,7 @@
 
                 if (response.candidate && !gotstream && peer) {
                     if (!inner.firstPart || !inner.secondPart || !inner.thirdPart) {
-                        return setTimeout(function() {
+                        return setTimeout(function() { // stutter?
                             socketResponse(response);
                         }, 400);
                     }
@@ -448,7 +448,7 @@
                 }
 
                 if (response.playRoleOfBroadcaster) {
-                    setTimeout(function() {
+                    setTimeout(function() { // stutter?
                         self.roomToken = response.roomToken;
                         root.open(self.roomToken);
                         self.sockets = swap(self.sockets);
@@ -619,7 +619,7 @@
                         });
                     }
 
-                    if (!root.transmitRoomOnce && !that.leaving) {
+                    if (!root.transmitRoomOnce && !that.leaving) { // stutter?
                         if (root.direction === 'one-to-one') {
                             if (!window.isFirstConnectionOpened) {
                                 setTimeout(transmit, 3000);
@@ -1001,7 +1001,7 @@
             var channel = config._channel = config.root.channel; // pf
             var _channel = config._channel;
             var initialText = config.text;
-            var packetSize = root.chunkSize || 1000;
+            var packetSize = 1024; // current scratch limit ?
             var textToTransfer = '';
             var isobject = false;
 
@@ -1040,13 +1040,13 @@
                     channel.send(data, _channel);
                 }
                 
-                textToTransfer = text.slice(data.message.length);
+                //textToTransfer = text.slice(data.message.length); // causes stuttering
 
-                if (textToTransfer.length) {
-                    setTimeout(function() {
-                        sendText(null, textToTransfer);
-                    }, root.chunkInterval || 100);
-                }
+                //if (textToTransfer.length) {
+                //    setTimeout(function() {
+                //        sendText(null, textToTransfer);
+                //    }, root.chunkInterval || 100);
+                //}
             }
         }
     };
