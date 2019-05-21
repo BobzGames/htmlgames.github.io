@@ -932,6 +932,7 @@ function encodeAudio16bit(soundData, sampleRate, soundBuf) {
     this.connected = false;
     this.variables = Object.create(null);
     // TODO: replace with webrtc datachannels
+    if (typeof DataChannel == "undefined") return
     this.channel = new DataChannel(stage.id); // Session Unique Identifier
     this.channel.onmessage = function(msg) {
       console.log("orig = " + msg);
