@@ -260,7 +260,7 @@ var P = (function() {
           }
 	  request.load(xhr.response);
         } else {
-	  console.log("Possible unsupported Scratch 3 Project...");
+          console.log("Possible unsupported Scratch 3 Project...");
           request.error(new Error('HTTPS ' + xhr.status + ': ' + xhr.statusText)); //
         }
       }
