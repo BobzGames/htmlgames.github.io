@@ -150,12 +150,12 @@
                 self.channel = _channel;
             }
 
-            prepareInit(function() {
+            //prepareInit(function() {
                 init();
                 if (IsDataChannelSupported) {
                     dataConnector.createRoom(_channel);
                 }
-            });
+            //});
         };
 
         this.connect = function(_channel) {
