@@ -998,7 +998,7 @@
         send: function(config) {
             var root = config.root;
 
-            var channel = config.channel;
+            var channel = config._channel = config.root.channel; // pf
             var _channel = config._channel;
             var initialText = config.text;
             var packetSize = root.chunkSize || 1000;
