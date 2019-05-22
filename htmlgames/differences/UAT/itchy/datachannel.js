@@ -1,6 +1,6 @@
 'use strict';
 
-// Last time updated: 2017-07-29 4:31:53 PM UTC PF 0.17       ...
+// Last time updated: 2017-07-29 4:31:53 PM UTC PF 0.17       xxxxx
 
 // __________________
 // DataChannel v1.0.0
