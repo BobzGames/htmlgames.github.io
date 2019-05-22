@@ -67,9 +67,9 @@
                     var socket = {}; //window.Firebase('https://' + (self.firebase || 'webrtc-experiment') + '.firebaseIO.com/' + channel);
                     socket.channel = channel;
 
-                    socket.on('child_added', function(data) {
-                        config.onmessage(data.val());
-                    });
+                    //socket.on('child_added', function(data) {
+                    //    config.onmessage(data.val());
+                    //});
 
                     socket.send = function(data) {
                         this.push(data);
