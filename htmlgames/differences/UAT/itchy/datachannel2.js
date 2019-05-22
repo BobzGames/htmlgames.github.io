@@ -106,8 +106,7 @@
 
                 if (!window.Firebase) {
                     var script = document.createElement('script');
-                    //script.src = 'https://cdn.webrtc-experiment.com/firebase.js';
-                    script.src = 'https://webrtc.github.io/adapter/adapter-latest.js';
+                    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/js-data-firebase/3.0.0/js-data-firebase.js'; // https://cdn.webrtc-experiment.com/firebase.js
                     script.onload = callback;
                     document.documentElement.appendChild(script);
                 } else {
