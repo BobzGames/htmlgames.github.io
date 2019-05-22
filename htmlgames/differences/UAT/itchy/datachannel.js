@@ -54,6 +54,55 @@
             }
         }
 
+            if (!self.openSignalingChannel) {
+                if (typeof self.transmitRoomOnce === 'undefined') {
+                    self.transmitRoomOnce = true;
+                }
+
+                // socket.io over node.js: https://github.com/muaz-khan/WebRTC-Experiment/blob/master/Signaling.md
+                self.openSignalingChannel = function(config) {
+                    config = config || {};
+
+                    channel = config.channel || self.channel || 'default-channel';
+                    var socket = new window.Firebase('https://' + (self.firebase || 'webrtc-experiment') + '.firebaseIO.com/' + channel);
+                    socket.channel = channel;
+
+                    socket.on('child_added', function(data) {
+                        config.onmessage(data.val());
+                    });
+
+                    socket.send = function(data) {
+                        this.push(data);
+                    };
+
+                    if (!self.socket) {
+                        self.socket = socket;
+                    }
+
+                    if (channel !== self.channel || (self.isInitiator && channel === self.channel)) {
+                        socket.onDisconnect().remove();
+                    }
+
+                    if (config.onopen) {
+                        setTimeout(config.onopen, 1);
+                    }
+
+                    return socket;
+                };
+
+                //if (!window.Firebase) {
+                //    var script = document.createElement('script');
+                //    script.src = 'https://cdn.webrtc-experiment.com/firebase.js';
+                //    script.onload = callback;
+                //    document.documentElement.appendChild(script);
+                //} else {
+                    callback();
+                //}
+            } else {
+                callback();
+            }
+        }        
+        
         function init() {
             if (self.config) {
                 return;
@@ -574,6 +623,36 @@
             }
         }, false);
 
+        var defaultSocket = root.openSignalingChannel({
+            onmessage: function(response) {
+                if (response.userToken === self.userToken) {
+                    return;
+                }
+
+                if (isGetNewRoom && response.roomToken && response.broadcaster) {
+                    config.ondatachannel(response);
+                }
+
+                if (response.newParticipant) {
+                    onNewParticipant(response.newParticipant);
+                }
+
+                if (response.userToken && response.joinUser === self.userToken && response.participant && channels.indexOf(response.userToken) === -1) {
+                    channels += response.userToken + '--';
+
+                    console.debug('Data connection is being opened between you and', response.userToken || response.channel);
+                    newPrivateSocket({
+                        isofferer: true,
+                        channel: response.channel || response.userToken,
+                        closeSocket: true
+                    });
+                }
+            },
+            callback: function(socket) {
+                defaultSocket = socket;
+            }
+        });        
+        
         return {
             createRoom: function(roomToken) {
                 self.roomToken = (roomToken || uniqueToken()).toString();
