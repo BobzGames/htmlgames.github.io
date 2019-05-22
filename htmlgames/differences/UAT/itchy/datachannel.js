@@ -79,9 +79,9 @@
                         self.socket = socket;
                     }
 
-                    if (channel !== self.channel || (self.isInitiator && channel === self.channel)) {
-                        socket.onDisconnect().remove();
-                    }
+                    //if (channel !== self.channel || (self.isInitiator && channel === self.channel)) {
+                        //socket.onDisconnect().remove();
+                    //}
 
                     if (config.onopen) {
                         setTimeout(config.onopen, 1);
