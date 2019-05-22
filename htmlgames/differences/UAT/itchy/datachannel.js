@@ -574,36 +574,6 @@
             }
         }, false);
 
-        var defaultSocket = root.openSignalingChannel({
-            onmessage: function(response) {
-                if (response.userToken === self.userToken) {
-                    return;
-                }
-
-                if (isGetNewRoom && response.roomToken && response.broadcaster) {
-                    config.ondatachannel(response);
-                }
-
-                if (response.newParticipant) {
-                    onNewParticipant(response.newParticipant);
-                }
-
-                if (response.userToken && response.joinUser === self.userToken && response.participant && channels.indexOf(response.userToken) === -1) {
-                    channels += response.userToken + '--';
-
-                    console.debug('Data connection is being opened between you and', response.userToken || response.channel);
-                    newPrivateSocket({
-                        isofferer: true,
-                        channel: response.channel || response.userToken,
-                        closeSocket: true
-                    });
-                }
-            },
-            callback: function(socket) {
-                defaultSocket = socket;
-            }
-        });
-
         return {
             createRoom: function(roomToken) {
                 self.roomToken = (roomToken || uniqueToken()).toString();
