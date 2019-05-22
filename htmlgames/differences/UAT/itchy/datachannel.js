@@ -101,7 +101,7 @@
             } else {
                 callback();
             }
-        }        
+        //}        
         
         function init() {
             if (self.config) {
