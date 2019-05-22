@@ -72,7 +72,7 @@
                     //});
 
                     socket.send = function(data) {
-                        this.push(data);
+                        //this.push(data);
                     };
 
                     if (!self.socket) {
