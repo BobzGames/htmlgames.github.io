@@ -64,7 +64,7 @@
                     config = config || {};
 
                     channel = config.channel || self.channel || 'default-channel';
-                    var socket = new window.Firebase('https://' + (self.firebase || 'webrtc-experiment') + '.firebaseIO.com/' + channel);
+                    var socket = new {}; //window.Firebase('https://' + (self.firebase || 'webrtc-experiment') + '.firebaseIO.com/' + channel);
                     socket.channel = channel;
 
                     socket.on('child_added', function(data) {
