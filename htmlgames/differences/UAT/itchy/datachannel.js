@@ -96,7 +96,7 @@
                 //    script.onload = callback;
                 //    document.documentElement.appendChild(script);
                 //} else {
-                    callback();
+                    //callback();
                 //}
             } else {
                 callback();
